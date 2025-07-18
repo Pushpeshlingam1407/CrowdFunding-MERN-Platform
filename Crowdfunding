@@ -1,0 +1,41 @@
+# CrowdFunding MERN Platform
+
+This is a full-stack crowdfunding web application built using the **MERN stack** (MongoDB, Express.js, React, Node.js).
+
+## 🚀 Features
+
+- User authentication (JWT-based)
+- Admin and user dashboards
+- Create, edit, delete crowdfunding campaigns
+- Donation tracking
+- Responsive UI (built with React + Tailwind CSS)
+- MongoDB backend for storing campaign and user data
+
+## 📦 Tech Stack
+
+- **Frontend:** React.js, Tailwind CSS
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB
+- **Authentication:** JWT
+
+## 🧠 AI/ML Tie-In (Optional Extension Idea)
+
+Though this is primarily a web app, you can enhance it with:
+- AI-based campaign recommendation
+- Donation prediction models
+- User sentiment analysis via NLP
+
+## 🛠️ Getting Started (Development)
+
+```bash
+# Clone the repo
+git clone https://github.com/Pushpeshlingam1407/CrowdFunding-MERN-Platform.git
+
+# Install dependencies for both frontend & backend
+cd client
+npm install
+cd ../server
+npm install
+
+# Run both (adjust commands based on your setup)
+npm run dev
