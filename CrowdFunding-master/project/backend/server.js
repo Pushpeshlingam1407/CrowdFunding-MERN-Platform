@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import helmet from "helmet";
 import dotenv from "dotenv";
+import { startMemoryDb } from "./utils/devDb.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import bcrypt from "bcryptjs";
@@ -34,7 +35,9 @@ const ensureAdminUser = async () => {
   try {
     const { ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME } = process.env;
     if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
-      console.warn("⚠️  ADMIN_EMAIL / ADMIN_PASSWORD not set — skipping admin seed.");
+      console.warn(
+        "⚠️  ADMIN_EMAIL / ADMIN_PASSWORD not set — skipping admin seed.",
+      );
       return;
     }
 
@@ -43,7 +46,10 @@ const ensureAdminUser = async () => {
     if (existing) {
       // Ensure role is admin even if someone manually changed it
       if (existing.role !== "admin") {
-        await User.findByIdAndUpdate(existing._id, { role: "admin", isVerified: true });
+        await User.findByIdAndUpdate(existing._id, {
+          role: "admin",
+          isVerified: true,
+        });
         console.log("✅ Admin role corrected for:", ADMIN_EMAIL);
       } else {
         console.log("✅ Admin user exists:", ADMIN_EMAIL);
@@ -69,10 +75,11 @@ const startServer = async () => {
   try {
     const app = express();
     const httpServer = createServer(app);
+    global._httpServer = httpServer; // expose for graceful shutdown
 
-    const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",").map((o) => o.trim()) || [
-      "http://localhost:5173",
-    ];
+    const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",").map((o) =>
+      o.trim(),
+    ) || ["http://localhost:5173"];
 
     // Configure Socket.IO — use env-driven origins
     const io = new Server(httpServer, {
@@ -82,9 +89,12 @@ const startServer = async () => {
             callback(null, true);
           } else {
             // Also allow LAN IPs dynamically (any 192.168.x.x:5173)
-            const isLanOrigin = /^http:\/\/192\.168\.\d+\.\d+(:\d+)?$/.test(origin) ||
-                                /^http:\/\/10\.\d+\.\d+\.\d+(:\d+)?$/.test(origin) ||
-                                /^http:\/\/172\.(1[6-9]|2\d|3[0-1])\.\d+\.\d+(:\d+)?$/.test(origin);
+            const isLanOrigin =
+              /^http:\/\/192\.168\.\d+\.\d+(:\d+)?$/.test(origin) ||
+              /^http:\/\/10\.\d+\.\d+\.\d+(:\d+)?$/.test(origin) ||
+              /^http:\/\/172\.(1[6-9]|2\d|3[0-1])\.\d+\.\d+(:\d+)?$/.test(
+                origin,
+              );
             if (isLanOrigin) {
               callback(null, true);
             } else {
@@ -116,7 +126,9 @@ const startServer = async () => {
             const isLanOrigin =
               /^http:\/\/192\.168\.\d+\.\d+(:\d+)?$/.test(origin) ||
               /^http:\/\/10\.\d+\.\d+\.\d+(:\d+)?$/.test(origin) ||
-              /^http:\/\/172\.(1[6-9]|2\d|3[0-1])\.\d+\.\d+(:\d+)?$/.test(origin);
+              /^http:\/\/172\.(1[6-9]|2\d|3[0-1])\.\d+\.\d+(:\d+)?$/.test(
+                origin,
+              );
             if (isLanOrigin) {
               callback(null, true);
             } else {
@@ -203,15 +215,34 @@ const startServer = async () => {
     // Error Handler
     app.use(errorHandler);
 
-    // Connect to MongoDB first
+    // Use in-memory MongoDB if USE_MEMORY_DB=true (no install needed)
+    if (process.env.USE_MEMORY_DB === "true") {
+      await startMemoryDb();
+    }
+
+    // Connect to MongoDB
     await mongoose.connect(process.env.MONGODB_URI);
-    console.log("MongoDB Connected Successfully");
+    console.log("✅ MongoDB Connected Successfully");
 
     // Ensure admin user exists (auto-seed from .env — idempotent)
     await ensureAdminUser();
 
     // Start the server
     const PORT = process.env.PORT || 5000;
+
+    httpServer.on("error", (err) => {
+      if (err.code === "EADDRINUSE") {
+        console.error(
+          `❌ Port ${PORT} is already in use. Kill the process holding it and restart.`,
+        );
+        console.error(
+          `   Run: netstat -ano | findstr :${PORT}  then  taskkill /PID <pid> /F`,
+        );
+      } else {
+        console.error("❌ Server error:", err.message);
+      }
+      process.exit(1);
+    });
 
     httpServer.listen(PORT, "0.0.0.0", () => {
       console.log(`🚀 Server running on port ${PORT} (all interfaces)`);
@@ -230,6 +261,29 @@ startServer().catch((error) => {
   console.error("Server startup error:", error);
   process.exit(1);
 });
+
+// ─── Graceful Shutdown ────────────────────────────────────────────────────────
+// Nodemon sends SIGTERM on restart. We close the HTTP server and mongoose first
+// so port 5000 is fully released before the new process tries to bind it.
+const gracefulShutdown = (signal) => {
+  console.log(`\n🛑 ${signal} received — shutting down gracefully...`);
+  // httpServer may not exist if startup failed early, guard against that
+  if (global._httpServer) {
+    global._httpServer.close(() => {
+      mongoose.connection.close(false).then(() => {
+        console.log("✅ Connections closed. Exiting.");
+        process.exit(0);
+      });
+    });
+    // Force exit after 5s if something hangs
+    setTimeout(() => process.exit(0), 5000).unref();
+  } else {
+    process.exit(0);
+  }
+};
+
+process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
+process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 
 // Handle unhandled promise rejections
 process.on("unhandledRejection", (err) => {

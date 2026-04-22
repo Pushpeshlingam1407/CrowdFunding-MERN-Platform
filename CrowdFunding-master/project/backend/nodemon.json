@@ -1,0 +1,12 @@
+{
+  "watch": ["."],
+  "ext": "js,mjs,json,.env",
+  "ignore": [
+    "node_modules",
+    "uploads/*",
+    "scripts/*",
+    "package-lock.json",
+    ".git"
+  ],
+  "delay": "2000"
+}
