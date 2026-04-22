@@ -1,0 +1,23 @@
+nodemodules
+/frontend/nodemodules
+/backend/nodemodules
+
+/backend/.env
+
+.env
+env
+
+
+# Node modules
+project/frontend/node_modules/
+project/backend/node_modules/
+
+# Environment files
+project/backend/.env
+
+# Logs
+*.log
+
+# OS junk
+.DS_Store
+Thumbs.db
