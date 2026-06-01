@@ -5,11 +5,9 @@ import { motion } from "framer-motion";
 import {
   Users as UsersIcon,
   Search,
-  Filter,
   Trash2,
   ShieldCheck,
   ShieldAlert,
-  ArrowLeft,
   Settings,
   MoreVertical,
   Mail,
@@ -17,28 +15,16 @@ import {
   RefreshCw,
 } from "lucide-react";
 import { toast } from "react-toastify";
-import {
-  Button,
-  Card,
-  Container,
-  Flex,
-  Grid,
-  Input,
-} from "../../components/ui";
-import useAuthStore from "../../store/authStore";
-
-const AdminWrapper = styled.div`
-  min-height: 100vh;
-  background: #0f172a;
-  padding: 3rem 0;
-`;
+import { Flex } from "../../components/ui";
+import AdminLayout from "../../components/AdminLayout";
 
 const TableWrapper = styled.div`
-  background: #1e293b;
+  background: #ffffff;
   border-radius: 20px;
   overflow: hidden;
-  border: 1px solid #334155;
-  margin-top: 2rem;
+  border: none;
+  margin-top: 1.5rem;
+  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
 
   table {
     width: 100%;
@@ -46,32 +32,34 @@ const TableWrapper = styled.div`
   }
 
   th {
-    padding: 1rem 1.5rem;
+    padding: 1.25rem 1.5rem;
     text-align: left;
-    font-size: 0.72rem;
-    font-weight: 800;
+    font-size: 0.75rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: #64748b;
-    background: #0f172a;
-    border-bottom: 1px solid #334155;
+    letter-spacing: 0.05em;
+    color: #A3AED0;
+    background: #ffffff;
+    border-bottom: 1px solid #f1f5f9;
   }
 
   td {
-    padding: 1.1rem 1.5rem;
-    border-bottom: 1px solid #1e293b;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
     font-size: 0.9rem;
-    color: #cbd5e1;
+    color: #475569;
     vertical-align: middle;
   }
 
   tbody tr {
-    background: #1e293b;
-    transition: background 0.15s;
+    background: #ffffff;
+    transition: all 0.2s;
   }
 
   tbody tr:hover {
-    background: #263349;
+    background: #F4F7FE;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(112, 144, 176, 0.08);
   }
 
   tr:last-child td {
@@ -89,34 +77,14 @@ const RoleBadge = styled.span`
 
   ${(props) =>
     props.role === "startup"
-      ? `
-    background: rgba(56,189,248,0.12);
-    color: #38bdf8;
-    border: 1px solid rgba(56,189,248,0.25);
-  `
+      ? `background: rgba(67, 24, 255, 0.1); color: #4318FF;`
       : props.role === "investor"
-        ? `
-    background: rgba(34,197,94,0.12);
-    color: #4ade80;
-    border: 1px solid rgba(34,197,94,0.25);
-  `
+        ? `background: rgba(5, 205, 153, 0.1); color: #05CD99;`
         : props.role === "mnc"
-          ? `
-    background: rgba(168,85,247,0.12);
-    color: #c084fc;
-    border: 1px solid rgba(168,85,247,0.25);
-  `
+          ? `background: rgba(168, 85, 247, 0.1); color: #A855F7;`
           : props.role === "admin"
-            ? `
-    background: rgba(251,191,36,0.12);
-    color: #fbbf24;
-    border: 1px solid rgba(251,191,36,0.25);
-  `
-            : `
-    background: rgba(148,163,184,0.12);
-    color: #94a3b8;
-    border: 1px solid rgba(148,163,184,0.25);
-  `}
+            ? `background: rgba(255, 181, 71, 0.1); color: #FFB547;`
+            : `background: rgba(163, 174, 208, 0.1); color: #A3AED0;`}
 `;
 
 const VerifiedBadge = styled.span`
@@ -129,55 +97,31 @@ const VerifiedBadge = styled.span`
 
   ${(props) =>
     props.$verified
-      ? `
-    background: rgba(34,197,94,0.12);
-    color: #4ade80;
-    border: 1px solid rgba(34,197,94,0.25);
-  `
-      : `
-    background: rgba(239,68,68,0.12);
-    color: #f87171;
-    border: 1px solid rgba(239,68,68,0.25);
-  `}
+      ? `background: rgba(5, 205, 153, 0.1); color: #05CD99;`
+      : `background: rgba(227, 26, 26, 0.1); color: #E31A1A;`}
 `;
 
 const ActionBtn = styled.button`
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.4rem 0.75rem;
+  padding: 0.4rem 0.85rem;
   border-radius: 8px;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 0.8rem;
+  font-weight: 600;
   cursor: pointer;
   border: 1px solid;
   transition: all 0.15s;
-  background: transparent;
+  background: #ffffff;
 
   ${(props) =>
     props.$variant === "verify"
-      ? `
-    color: #4ade80;
-    border-color: rgba(34,197,94,0.35);
-    &:hover { background: rgba(34,197,94,0.1); }
-  `
+      ? `color: #05CD99; border-color: rgba(5,205,153,0.3); &:hover { background: rgba(5,205,153,0.1); }`
       : props.$variant === "ban"
-        ? `
-    color: #fbbf24;
-    border-color: rgba(251,191,36,0.35);
-    &:hover { background: rgba(251,191,36,0.1); }
-  `
+        ? `color: #FFB547; border-color: rgba(255,181,71,0.3); &:hover { background: rgba(255,181,71,0.1); }`
         : props.$variant === "delete"
-          ? `
-    color: #f87171;
-    border-color: rgba(239,68,68,0.25);
-    &:hover { background: rgba(239,68,68,0.1); }
-  `
-          : `
-    color: #94a3b8;
-    border-color: #334155;
-    &:hover { background: #263349; }
-  `}
+          ? `color: #E31A1A; border-color: rgba(227,26,26,0.3); &:hover { background: rgba(227,26,26,0.1); }`
+          : `color: #4318FF; border-color: rgba(67,24,255,0.3); &:hover { background: rgba(67,24,255,0.1); }`}
 `;
 
 const RoleSelect = styled.select`
@@ -185,15 +129,16 @@ const RoleSelect = styled.select`
   border-radius: 8px;
   font-size: 0.78rem;
   font-weight: 600;
-  background: #0f172a;
-  color: #e2e8f0;
-  border: 1px solid #334155;
+  background: #ffffff;
+  color: #2B3674;
+  border: 1px solid #E2E8F0;
   cursor: pointer;
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
 
   &:focus {
-    border-color: #38bdf8;
+    border-color: #4318FF;
+    box-shadow: 0 0 0 3px rgba(67, 24, 255, 0.1);
   }
 `;
 
@@ -203,46 +148,57 @@ const SearchBar = styled.div`
 
   svg {
     position: absolute;
-    left: 1.1rem;
+    left: 1.25rem;
     top: 50%;
     transform: translateY(-50%);
-    color: #475569;
+    color: #A3AED0;
     pointer-events: none;
   }
 
   input {
     width: 100%;
-    padding: 0.75rem 1rem 0.75rem 3rem;
-    background: #0f172a;
-    border: 1px solid #334155;
-    border-radius: 10px;
-    color: #f8fafc;
+    padding: 0.85rem 1rem 0.85rem 3rem;
+    background: #ffffff;
+    border: none;
+    border-radius: 20px;
+    color: #2B3674;
     font-size: 0.9rem;
+    font-weight: 500;
     outline: none;
-    transition: border-color 0.2s;
+    transition: all 0.2s;
+    box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
 
-    &::placeholder {
-      color: #475569;
-    }
-    &:focus {
-      border-color: #38bdf8;
-    }
+    &::placeholder { color: #A3AED0; }
+    &:focus { box-shadow: 0px 18px 40px rgba(67, 24, 255, 0.2); }
   }
 `;
 
 const EmptyState = styled.div`
   padding: 5rem 2rem;
   text-align: center;
-  color: #475569;
+  color: #A3AED0;
 
   svg {
     margin: 0 auto 1rem;
     display: block;
     opacity: 0.4;
   }
-  p {
-    font-size: 0.95rem;
-  }
+  p { font-size: 0.95rem; font-weight: 500; }
+`;
+
+const Avatar = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4318FF 0%, #868CFF 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(67, 24, 255, 0.2);
 `;
 
 const BASE = "http://localhost:5000";
@@ -257,19 +213,16 @@ const AdminUsers = () => {
     fetchUsers();
   }, []);
 
-  const getToken = () =>
-    localStorage.getItem("adminToken") || localStorage.getItem("token");
+  const getToken = () => localStorage.getItem("adminToken") || localStorage.getItem("token");
 
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const token = getToken();
       const response = await fetch(`${BASE}/api/admin/users`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${getToken()}` },
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Failed to load");
-      // API returns { success, users } — extract the users array
       setUsers(Array.isArray(data.users) ? data.users : []);
     } catch (error) {
       toast.error("Failed to load user ecosystem");
@@ -280,18 +233,11 @@ const AdminUsers = () => {
 
   const handleRoleChange = async (userId, newRole) => {
     try {
-      const token = getToken();
-      const response = await fetch(
-        `${BASE}/api/admin/users/${userId}/role`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ role: newRole }),
-        },
-      );
+      const response = await fetch(`${BASE}/api/admin/users/${userId}/role`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${getToken()}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ role: newRole }),
+      });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Update failed");
       toast.success(`Role updated to ${newRole}`);
@@ -303,25 +249,14 @@ const AdminUsers = () => {
 
   const handleVerifyToggle = async (userId, currentStatus) => {
     try {
-      const token = getToken();
-      const response = await fetch(
-        `${BASE}/api/admin/users/${userId}/status`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ isVerified: !currentStatus }),
-        },
-      );
+      const response = await fetch(`${BASE}/api/admin/users/${userId}/status`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${getToken()}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ isVerified: !currentStatus }),
+      });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Update failed");
-      toast.success(
-        !currentStatus
-          ? "User verified successfully"
-          : "Verification revoked",
-      );
+      toast.success(!currentStatus ? "User verified successfully" : "Verification revoked");
       fetchUsers();
     } catch (error) {
       toast.error(error.message || "Verification update failed");
@@ -331,90 +266,46 @@ const AdminUsers = () => {
   const handleDeleteUser = async (userId, userName) => {
     if (!window.confirm(`Permanently delete user "${userName}"? This action cannot be undone.`)) return;
     try {
-      const token = getToken();
       const response = await fetch(`${BASE}/api/admin/users/${userId}`, {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${getToken()}` },
       });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Delete failed");
+      if (!response.ok) throw new Error("Delete failed");
       toast.success("User deleted successfully");
       fetchUsers();
     } catch (error) {
-      toast.error(error.message || "Delete failed");
+      toast.error("Delete failed");
     }
   };
 
-  const filtered = users.filter(
-    (u) =>
-      u.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      u.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      u.companyName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      u.role?.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filtered = users.filter((u) =>
+    u.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    u.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    u.companyName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    u.role?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <AdminWrapper>
-      <Container>
-        <header style={{ marginBottom: "2.5rem" }}>
-          <button
-            onClick={() => navigate("/admin/dashboard")}
-            style={{
-              background: "none",
-              border: "1px solid #334155",
-              borderRadius: 8,
-              color: "#94a3b8",
-              padding: "0.4rem 1rem",
-              fontSize: "0.85rem",
-              cursor: "pointer",
-              marginBottom: "1.5rem",
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-            }}
-          >
-            <ArrowLeft size={15} /> Back to Overview
-          </button>
-          <Flex justify="space-between">
-            <div>
-              <h1
-                style={{
-                  fontSize: "2.25rem",
-                  fontWeight: 800,
-                  letterSpacing: "-1.5px",
-                  color: "#f8fafc",
-                  marginBottom: "0.5rem",
-                }}
-              >
-                Ecosystem Management
-              </h1>
-              <p style={{ color: "#64748b" }}>
-                Moderating professional accounts, startups, and enterprise
-                entities.
-              </p>
-            </div>
-            <ActionBtn onClick={fetchUsers} style={{ whiteSpace: "nowrap" }}>
-              <RefreshCw size={14} /> Refresh
-            </ActionBtn>
-          </Flex>
-        </header>
-
-        {/* Search bar */}
-        <Flex gap="1rem" style={{ marginBottom: "1.5rem" }}>
+    <AdminLayout title="Ecosystem Management" subtitle="Moderating professional accounts">
+      <div>
+        <Flex gap="1rem" style={{ marginBottom: "2rem" }}>
           <SearchBar>
-            <Search size={16} />
+            <Search size={18} />
             <input
               placeholder="Refine by name, email, company, or role..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </SearchBar>
+          <ActionBtn onClick={fetchUsers} style={{ whiteSpace: "nowrap", padding: '0 1.5rem', borderRadius: 20, border: 'none', background: '#ffffff', boxShadow: '0px 18px 40px rgba(112, 144, 176, 0.12)' }}>
+            <RefreshCw size={16} className={loading ? "spin" : ""} /> Refresh
+          </ActionBtn>
         </Flex>
 
         <TableWrapper>
           {loading ? (
             <EmptyState>
-              <RefreshCw size={32} />
+              <RefreshCw size={32} className="spin" />
               <p>Loading ecosystem...</p>
             </EmptyState>
           ) : filtered.length === 0 ? (
@@ -437,39 +328,18 @@ const AdminUsers = () => {
                 {filtered.map((user, i) => (
                   <motion.tr
                     key={user._id}
-                    initial={{ opacity: 0, y: 8 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.03 }}
+                    transition={{ delay: i * 0.04 }}
                   >
                     <td style={{ maxWidth: "300px" }}>
                       <Flex gap="1rem">
-                        <div
-                          style={{
-                            width: 40,
-                            height: 40,
-                            borderRadius: "12px",
-                            background: "rgba(56,189,248,0.1)",
-                            color: "#38bdf8",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            fontWeight: 800,
-                            flexShrink: 0,
-                          }}
-                        >
-                          {user.name?.charAt(0) || "?"}
-                        </div>
+                        <Avatar>{user.name?.charAt(0) || "?"}</Avatar>
                         <div>
-                          <h4
-                            style={{
-                              fontWeight: 700,
-                              marginBottom: "0.15rem",
-                              color: "#f1f5f9",
-                            }}
-                          >
+                          <h4 style={{ fontWeight: 700, marginBottom: "0.15rem", color: "#2B3674" }}>
                             {user.name}
                           </h4>
-                          <p style={{ fontSize: "0.78rem", color: "#64748b" }}>
+                          <p style={{ fontSize: "0.8rem", color: "#A3AED0", fontWeight: 500 }}>
                             {user.companyName || user.email}
                           </p>
                         </div>
@@ -481,9 +351,7 @@ const AdminUsers = () => {
                         {user.role !== "admin" && (
                           <RoleSelect
                             value={user.role}
-                            onChange={(e) =>
-                              handleRoleChange(user._id, e.target.value)
-                            }
+                            onChange={(e) => handleRoleChange(user._id, e.target.value)}
                           >
                             <option value="startup">Startup</option>
                             <option value="investor">Investor</option>
@@ -494,51 +362,42 @@ const AdminUsers = () => {
                       </Flex>
                     </td>
                     <td>
-                      <VerifiedBadge $verified={user.isVerified}>
-                        {user.isVerified ? "✓ Verified" : "Unverified"}
-                      </VerifiedBadge>
+                      <Flex gap="0.75rem" align="center">
+                        <VerifiedBadge $verified={user.isVerified}>
+                          {user.isVerified ? "Verified User" : "Unverified"}
+                        </VerifiedBadge>
+                        <button
+                          onClick={() => handleVerifyToggle(user._id, user.isVerified)}
+                          style={{
+                            background: "none",
+                            border: "none",
+                            color: "#A3AED0",
+                            cursor: "pointer",
+                            padding: "0.2rem",
+                          }}
+                          title={user.isVerified ? "Revoke Verification" : "Verify User"}
+                        >
+                          {user.isVerified ? <ShieldAlert size={16} /> : <ShieldCheck size={16} />}
+                        </button>
+                      </Flex>
                     </td>
                     <td>
-                      <p style={{ fontSize: "0.85rem", color: "#64748b" }}>
-                        {new Date(user.createdAt).toLocaleDateString("en-IN")}
+                      <p style={{ fontWeight: 600, color: "#2B3674" }}>
+                        {new Date(user.createdAt).toLocaleDateString("en-IN", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
                       </p>
                     </td>
                     <td>
                       <Flex gap="0.5rem">
-                        <ActionBtn
-                          onClick={() => navigate(`/company/${user._id}`)}
-                          title="View Profile"
-                        >
-                          <UserCheck size={14} />
+                        <ActionBtn title="Email User">
+                          <Mail size={14} />
                         </ActionBtn>
-                        <ActionBtn
-                          $variant={user.isVerified ? "ban" : "verify"}
-                          onClick={() =>
-                            handleVerifyToggle(user._id, user.isVerified)
-                          }
-                          title={
-                            user.isVerified
-                              ? "Revoke Verification"
-                              : "Verify User"
-                          }
-                        >
-                          {user.isVerified ? (
-                            <ShieldAlert size={14} />
-                          ) : (
-                            <ShieldCheck size={14} />
-                          )}
+                        <ActionBtn $variant="delete" onClick={() => handleDeleteUser(user._id, user.name)}>
+                          <Trash2 size={14} />
                         </ActionBtn>
-                        {user.role !== "admin" && (
-                          <ActionBtn
-                            $variant="delete"
-                            onClick={() =>
-                              handleDeleteUser(user._id, user.name)
-                            }
-                            title="Delete User"
-                          >
-                            <Trash2 size={14} />
-                          </ActionBtn>
-                        )}
                       </Flex>
                     </td>
                   </motion.tr>
@@ -547,8 +406,8 @@ const AdminUsers = () => {
             </table>
           )}
         </TableWrapper>
-      </Container>
-    </AdminWrapper>
+      </div>
+    </AdminLayout>
   );
 };
 

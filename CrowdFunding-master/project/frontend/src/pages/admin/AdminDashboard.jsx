@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'react-toastify';
 import useAuthStore from '../../store/authStore';
+import AdminLayout from '../../components/AdminLayout';
 
 // ─── Animations ──────────────────────────────────────────────────────────────
 const shimmer = keyframes`
@@ -32,55 +33,7 @@ const pulse = keyframes`
 `;
 // ─────────────────────────────────────────────────────────────────────────────
 
-const Wrapper = styled.div`
-  min-height: 100vh;
-  background: #080e1a;
-  padding: 0;
-`;
 
-const TopBar = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.25rem 2.5rem;
-  background: rgba(15, 23, 42, 0.85);
-  border-bottom: 1px solid #1e293b;
-  backdrop-filter: blur(12px);
-  position: sticky;
-  top: 0;
-  z-index: 50;
-`;
-
-const Brand = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: #f8fafc;
-  font-size: 1.2rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-`;
-
-const LogoutBtn = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1.25rem;
-  border-radius: 9px;
-  border: 1px solid #334155;
-  background: transparent;
-  color: #94a3b8;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    background: #1e293b;
-    color: #f87171;
-    border-color: #f87171;
-  }
-`;
 
 const PageBody = styled.div`
   max-width: 1280px;
@@ -93,21 +46,19 @@ const WelcomeSection = styled.div`
 `;
 
 const WelcomeTitle = styled.h1`
-  font-size: 2.5rem;
-  font-weight: 800;
-  letter-spacing: -2px;
-  color: #f8fafc;
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: #0f172a;
   margin-bottom: 0.5rem;
 
   span {
-    background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #2563eb;
   }
 `;
 
 const WelcomeSub = styled.p`
-  color: #475569;
+  color: #64748b;
   font-size: 1rem;
 `;
 
@@ -115,84 +66,78 @@ const WelcomeSub = styled.p`
 const StatsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
-  margin-bottom: 3rem;
+  gap: 1.5rem;
+  margin-bottom: 3.5rem;
 
   @media (max-width: 900px) { grid-template-columns: repeat(2, 1fr); }
   @media (max-width: 500px) { grid-template-columns: 1fr; }
 `;
 
 const StatCard = styled(motion.div)`
-  background: linear-gradient(135deg, ${p => p.$from} 0%, ${p => p.$to} 100%);
-  border-radius: 18px;
-  padding: 1.75rem;
+  background: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 1.5rem;
   position: relative;
   overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -40%;
-    right: -20%;
-    width: 120px;
-    height: 120px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 50%;
-  }
+  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+  transition: transform 0.2s;
+  &:hover { transform: translateY(-4px); }
 `;
 
 const StatLabel = styled.p`
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: 0.75rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: rgba(255,255,255,0.55);
-  margin-bottom: 0.75rem;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  margin-bottom: 0.5rem;
 `;
 
 const StatValue = styled.h2`
   font-size: 2.25rem;
-  font-weight: 900;
-  letter-spacing: -1.5px;
-  color: #fff;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: #0f172a;
   margin-bottom: 0.25rem;
 `;
 
 const StatSub = styled.p`
-  font-size: 0.78rem;
-  color: rgba(255,255,255,0.45);
+  font-size: 0.8rem;
+  color: #94a3b8;
+  font-weight: 500;
 `;
 
 // Nav Modules Grid
 const ModulesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
-  margin-bottom: 3rem;
+  gap: 1.5rem;
+  margin-bottom: 3.5rem;
 
   @media (max-width: 900px) { grid-template-columns: repeat(2, 1fr); }
   @media (max-width: 560px) { grid-template-columns: 1fr; }
 `;
 
 const ModuleCard = styled(motion.div)`
-  background: #111827;
-  border: 1px solid #1e293b;
-  border-radius: 18px;
+  background: #ffffff;
+  border: none;
+  border-radius: 20px;
   padding: 1.75rem;
   cursor: pointer;
-  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
 
   &:hover {
-    border-color: ${p => p.$accent};
-    transform: translateY(-4px);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    transform: translateY(-5px);
+    box-shadow: 0px 22px 48px rgba(112, 144, 176, 0.18);
   }
 `;
 
 const ModuleIcon = styled.div`
   width: 50px;
   height: 50px;
-  border-radius: 13px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -202,16 +147,16 @@ const ModuleIcon = styled.div`
 `;
 
 const ModuleTitle = styled.h3`
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: #e2e8f0;
-  margin-bottom: 0.4rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
 `;
 
 const ModuleDesc = styled.p`
-  font-size: 0.82rem;
-  color: #475569;
-  line-height: 1.6;
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.5;
   margin-bottom: 1.25rem;
 `;
 
@@ -219,23 +164,23 @@ const ModuleLink = styled.div`
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  font-size: 0.78rem;
-  font-weight: 700;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: ${p => p.$color};
 `;
 
-// Recent Activity Bar
 const ActivityBar = styled.div`
-  background: #111827;
-  border: 1px solid #1e293b;
-  border-radius: 18px;
+  background: #ffffff;
+  border: none;
+  border-radius: 20px;
   padding: 2rem;
+  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
 `;
 
 const ActivityTitle = styled.h3`
   font-size: 1.1rem;
-  font-weight: 800;
-  color: #e2e8f0;
+  font-weight: 700;
+  color: #0f172a;
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
@@ -243,7 +188,7 @@ const ActivityTitle = styled.h3`
 `;
 
 const Skeleton = styled.div`
-  background: linear-gradient(90deg, #1e293b 25%, #263349 50%, #1e293b 75%);
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
   background-size: 400px 100%;
   animation: ${shimmer} 1.5s infinite;
   border-radius: 8px;
@@ -369,25 +314,8 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <Wrapper>
-      {/* Sticky top bar */}
-      <TopBar>
-        <Brand>
-          <ShieldCheck size={24} style={{ color: '#38bdf8' }} />
-          Terminal Admin
-        </Brand>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-          <span style={{ fontSize: '0.82rem', color: '#475569' }}>
-            Signed in as&nbsp;
-            <strong style={{ color: '#94a3b8' }}>{adminUser?.email || 'admin'}</strong>
-          </span>
-          <LogoutBtn onClick={handleLogout}>
-            <LogOut size={15} /> Logout
-          </LogoutBtn>
-        </div>
-      </TopBar>
-
-      <PageBody>
+    <AdminLayout title="Dashboard">
+      <div>
         {/* Welcome */}
         <WelcomeSection>
           <WelcomeTitle>
@@ -423,7 +351,7 @@ const AdminDashboard = () => {
         </StatsGrid>
 
         {/* Module Cards */}
-        <h2 style={{ fontSize: '1rem', fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '1.25rem' }}>
+        <h2 style={{ fontSize: '0.85rem', fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '1.25rem' }}>
           Admin Modules
         </h2>
         <ModulesGrid>
@@ -451,29 +379,29 @@ const AdminDashboard = () => {
         {/* Activity Summary */}
         <ActivityBar>
           <ActivityTitle>
-            <TrendingUp size={18} style={{ color: '#38bdf8' }} />
+            <TrendingUp size={20} style={{ color: '#2563eb' }} />
             Platform Summary
           </ActivityTitle>
           {loadingStats ? (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1rem' }}>
-              {Array(4).fill(0).map((_, i) => <Skeleton key={i} $h="70px" />)}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1.5rem' }}>
+              {Array(4).fill(0).map((_, i) => <Skeleton key={i} $h="80px" />)}
             </div>
           ) : stats && (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1.25rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1.5rem' }}>
               {[
-                { label: 'Approved Ventures', value: stats.approvedProjects, color: '#4ade80' },
-                { label: 'Pending KYC Docs', value: stats.pendingDocuments, color: '#fbbf24' },
-                { label: 'Total Investments', value: stats.totalInvestments, color: '#38bdf8' },
-                { label: 'Total Raised', value: `₹${(stats.totalInvestedAmount/100000).toFixed(1)}L`, color: '#a78bfa' },
+                { label: 'Approved Ventures', value: stats.approvedProjects, color: '#059669' },
+                { label: 'Pending KYC Docs', value: stats.pendingDocuments, color: '#d97706' },
+                { label: 'Total Investments', value: stats.totalInvestments, color: '#2563eb' },
+                { label: 'Total Raised', value: `₹${(stats.totalInvestedAmount/100000).toFixed(1)}L`, color: '#7c3aed' },
               ].map((item, i) => (
                 <div key={i} style={{
-                  background: '#0f172a', borderRadius: 14, padding: '1.25rem',
-                  border: '1px solid #1e293b',
+                  background: '#f8fafc', borderRadius: 12, padding: '1.5rem',
+                  border: '1px solid #e2e8f0',
                 }}>
-                  <p style={{ fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#475569', marginBottom: 6 }}>
+                  <p style={{ fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', color: '#64748b', marginBottom: 8 }}>
                     {item.label}
                   </p>
-                  <p style={{ fontSize: '1.85rem', fontWeight: 900, color: item.color, letterSpacing: '-1px' }}>
+                  <p style={{ fontSize: '2rem', fontWeight: 700, color: item.color, letterSpacing: '-0.5px' }}>
                     {item.value}
                   </p>
                 </div>
@@ -481,8 +409,8 @@ const AdminDashboard = () => {
             </div>
           )}
         </ActivityBar>
-      </PageBody>
-    </Wrapper>
+      </div>
+    </AdminLayout>
   );
 };
 

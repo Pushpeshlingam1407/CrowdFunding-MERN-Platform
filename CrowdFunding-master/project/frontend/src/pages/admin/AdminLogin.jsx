@@ -12,8 +12,9 @@ const AdminLoginWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0f172a; /* Dark slate for professional admin feel */
+  background: #f8fafc;
   padding: 2rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 `;
 
 const AdminLogo = styled.div`
@@ -21,32 +22,34 @@ const AdminLogo = styled.div`
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 2rem;
-  color: white;
+  color: #0f172a;
   justify-content: center;
 `;
 
 const AdminCard = styled(Card)`
-  background: #1e293b;
-  border-color: #334155;
+  background: #ffffff;
+  border-color: #e2e8f0;
   width: 100%;
   max-width: 450px;
   padding: 3rem;
-  color: white;
+  color: #0f172a;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
 `;
 
 const FormTitle = styled.h2`
   font-size: 1.75rem;
-  font-weight: 800;
+  font-weight: 700;
   margin-bottom: 0.5rem;
   text-align: center;
   letter-spacing: -1px;
 `;
 
 const FormSubtitle = styled.p`
-  color: #94a3b8;
+  color: #64748b;
   text-align: center;
   margin-bottom: 2.5rem;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 `;
 
 const FormGroup = styled.div`
@@ -58,22 +61,23 @@ const Label = styled.label`
   display: block;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #cbd5e1;
+  color: #475569;
   margin-bottom: 0.5rem;
 `;
 
-const DarkInput = styled(Input)`
-  background: #0f172a;
-  border-color: ${({ $hasError }) => $hasError ? '#f87171' : '#334155'};
-  color: white;
+const LightInput = styled(Input)`
+  background: #ffffff;
+  border-color: ${({ $hasError }) => $hasError ? '#ef4444' : '#cbd5e1'};
+  color: #0f172a;
   padding-left: 3rem;
+  border-radius: 8px;
 
   &:focus {
-    background: #0f172a;
-    border-color: ${({ $hasError }) => $hasError ? '#f87171' : '#38bdf8'};
+    background: #ffffff;
+    border-color: ${({ $hasError }) => $hasError ? '#ef4444' : '#2563eb'};
     box-shadow: ${({ $hasError }) => $hasError
-      ? '0 0 0 4px rgba(248,113,113,0.15)'
-      : '0 0 0 4px rgba(56, 189, 248, 0.1)'};
+      ? '0 0 0 4px rgba(239, 68, 68, 0.15)'
+      : '0 0 0 4px rgba(37, 99, 235, 0.1)'};
   }
 `;
 
@@ -127,31 +131,31 @@ const AdminLogin = () => {
         style={{ width: "100%", maxWidth: "450px" }}
       >
         <AdminLogo>
-          <ShieldCheck size={32} style={{ color: "#38bdf8" }} />
+          <ShieldCheck size={32} style={{ color: "#2563eb" }} />
           <h1
             style={{
               fontSize: "1.75rem",
-              fontWeight: 800,
-              letterSpacing: "-1.5px",
+              fontWeight: 700,
+              letterSpacing: "-1px",
             }}
           >
-            Terminal Admin
+            Admin Portal
           </h1>
         </AdminLogo>
 
         <AdminCard>
-          <FormTitle>Executive Login</FormTitle>
+          <FormTitle>Admin Sign In</FormTitle>
           <FormSubtitle>
-            Access the StartupFund oversight terminal.
+            Sign in to access the administrator dashboard.
           </FormSubtitle>
 
           <form onSubmit={handleSubmit}>
             <FormGroup>
-              <Label>Secure ID (Email)</Label>
+              <Label>Email Address</Label>
               <FormIcon>
                 <Mail size={18} />
               </FormIcon>
-              <DarkInput
+              <LightInput
                 type="email"
                 placeholder="admin@crowdfunding.com"
                 value={formData.email}
@@ -169,11 +173,11 @@ const AdminLogin = () => {
             </FormGroup>
 
             <FormGroup>
-              <Label>Passphrase</Label>
+              <Label>Password</Label>
               <FormIcon>
                 <Lock size={18} />
               </FormIcon>
-              <DarkInput
+              <LightInput
                 type="password"
                 placeholder="••••••••"
                 value={formData.password}
@@ -196,12 +200,16 @@ const AdminLogin = () => {
               style={{
                 width: "100%",
                 marginTop: "1rem",
-                background: "#38bdf8",
-                color: "#0f172a",
+                background: "#2563eb",
+                color: "#ffffff",
+                border: "none",
+                padding: "0.75rem",
+                borderRadius: "8px",
+                fontWeight: 600,
               }}
             >
               <LogIn size={18} style={{ marginRight: 8 }} />
-              {loading ? "Authenticating..." : "Enter Oversight Module"}
+              {loading ? "Authenticating..." : "Sign In"}
             </Button>
           </form>
 
@@ -210,13 +218,16 @@ const AdminLogin = () => {
             style={{
               width: "100%",
               marginTop: "1.5rem",
-              borderColor: "#334155",
-              color: "#94a3b8",
+              borderColor: "#cbd5e1",
+              color: "#64748b",
+              background: "transparent",
+              padding: "0.75rem",
+              borderRadius: "8px",
+              fontWeight: 600,
             }}
             onClick={() => navigate("/")}
           >
-            <ArrowLeft size={16} style={{ marginRight: 8 }} /> Return to Main
-            Ecosystem
+            <ArrowLeft size={16} style={{ marginRight: 8 }} /> Return to Website
           </Button>
         </AdminCard>
       </motion.div>

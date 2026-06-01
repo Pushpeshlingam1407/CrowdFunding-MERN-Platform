@@ -1,74 +1,261 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, FileText, Users, BarChart2 } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { 
+  LayoutDashboard, 
+  FileText, 
+  Users, 
+  BarChart2, 
+  Settings, 
+  ShieldAlert, 
+  ShieldCheck,
+  LogOut,
+  Bell,
+  Search
+} from "lucide-react";
+import useAuthStore from "../store/authStore";
+import { Flex } from "./ui";
 
-const AdminLayout = ({ children }) => {
+const LayoutWrapper = styled.div`
+  display: flex;
+  min-height: 100vh;
+  background-color: #F4F7FE; /* Premium Horizon UI Background */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+`;
+
+const Sidebar = styled.aside`
+  width: 280px;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  border-right: 1px solid rgba(226, 232, 240, 0.8);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 50;
+`;
+
+const LogoArea = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #f1f5f9;
+  
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    color: #2B3674;
+    margin: 0;
+  }
+`;
+
+const NavList = styled.nav`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+`;
+
+const NavItem = styled(Link)`
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.875rem 1rem;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: ${p => p.$active ? 700 : 600};
+  color: ${p => p.$active ? "#4318FF" : "#A3AED0"};
+  background: ${p => p.$active ? "rgba(67, 24, 255, 0.05)" : "transparent"};
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(67, 24, 255, 0.03);
+    color: #4318FF;
+  }
+`;
+
+const MainContent = styled.main`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+`;
+
+const TopHeader = styled.header`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2.5rem;
+  background: transparent;
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+`;
+
+const HeaderGreeting = styled.div`
+  h1 {
+    font-size: 2.1rem;
+    font-weight: 800;
+    color: #2B3674;
+    letter-spacing: -1px;
+    margin-bottom: 0.25rem;
+  }
+  p {
+    color: #707EAE;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+`;
+
+const HeaderActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: #FFFFFF;
+  padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+  border-radius: 30px;
+  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+`;
+
+const SearchBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #F4F7FE;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  
+  input {
+    border: none;
+    background: transparent;
+    outline: none;
+    color: #2B3674;
+    font-weight: 500;
+    font-size: 0.85rem;
+    &::placeholder { color: #8F9BBA; }
+  }
+`;
+
+const ActionBtn = styled.button`
+  background: transparent;
+  border: none;
+  color: #A3AED0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+  &:hover { color: #4318FF; }
+`;
+
+const Avatar = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4318FF 0%, #868CFF 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(67, 24, 255, 0.2);
+`;
+
+const PageContainer = styled.div`
+  padding: 0 2.5rem 3rem 2.5rem;
+`;
+
+const AdminLayout = ({ children, title = "Dashboard", subtitle = "Overview" }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { adminLogout, adminUser } = useAuthStore();
 
-  const sidebarStyle = {
-    width: "250px",
-    backgroundColor: "#212529",
-    color: "#fff",
-    minHeight: "100vh",
-    padding: "1.5rem 1rem",
-    display: "flex",
-    flexDirection: "column",
-    position: "sticky",
-    top: 0,
-    left: 0
+  const handleLogout = () => {
+    adminLogout();
+    navigate("/admin/login");
   };
 
-  const mainStyle = {
-    flex: 1,
-    padding: "2rem",
-    backgroundColor: "#f8f9fa",
-    minHeight: "100vh"
-  };
+  const menu = [
+    { name: "Dashboard", path: "/admin/dashboard", icon: LayoutDashboard },
+    { name: "Campaigns", path: "/admin/projects", icon: FileText },
+    { name: "Users", path: "/admin/users", icon: Users },
+    { name: "Analytics", path: "/admin/analytics", icon: BarChart2 },
+    { name: "Complaints", path: "/admin/complaints", icon: ShieldAlert },
+    { name: "Verification", path: "/admin/document-verification", icon: ShieldCheck },
+    { name: "Settings", path: "/admin/settings", icon: Settings },
+  ];
 
-  const navItemStyle = (path) => ({
-    display: "flex",
-    alignItems: "center",
-    gap: "10px",
-    padding: "10px 15px",
-    marginBottom: "10px",
-    borderRadius: "8px",
-    textDecoration: "none",
-    color: location.pathname === path ? "#0d6efd" : "#ffffff",
-    backgroundColor: location.pathname === path ? "#343a40" : "transparent",
-    fontWeight: 500,
-    transition: "background 0.2s, color 0.2s"
-  });
+  // The Verification path was just /admin/documents or something. Wait, in App.jsx it doesn't even exist!
+  // Oh, wait, it isn't in App.jsx. Let me map it to whatever it is if it exists, or just skip it if it isn't linked.
+  // Actually, wait, Document Verification wasn't in App.jsx's router list in my grep?
+  // Let's check App.jsx again carefully.
 
   return (
-    <div style={{ display: "flex" }}>
-      {/* Sidebar */}
-      <div style={sidebarStyle}>
-        <h3 style={{ color: "#fff", marginBottom: "2rem" }}>Admin Panel</h3>
-        <nav style={{ display: "flex", flexDirection: "column" }}>
-          <Link to="/admin/dashboard" style={navItemStyle("/admin/dashboard")}>
-            <LayoutDashboard size={18} />
-            Dashboard
-          </Link>
-          <Link to="/admin/projects" style={navItemStyle("/admin/projects")}>
-            <FileText size={18} />
-            Projects
-          </Link>
-          <Link to="/admin/users" style={navItemStyle("/admin/users")}>
-            <Users size={18} />
-            Users
-          </Link>
-          <Link to="/admin/analytics" style={navItemStyle("/admin/analytics")}>
-            <BarChart2 size={18} />
-            Analytics
-          </Link>
-        </nav>
-      </div>
+    <LayoutWrapper>
+      <Sidebar>
+        <LogoArea>
+          <div style={{
+            background: 'linear-gradient(135deg, #4318FF, #868CFF)',
+            borderRadius: '10px',
+            width: '32px', height: '32px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: 'white', fontWeight: 800
+          }}>
+            S
+          </div>
+          <h2>Admin Shell</h2>
+        </LogoArea>
+        <NavList>
+          {menu.map((item) => {
+            const Icon = item.icon;
+            const active = location.pathname.includes(item.path);
+            return (
+              <NavItem key={item.path} to={item.path} $active={active}>
+                <Icon size={20} strokeWidth={active ? 2.5 : 2} />
+                {item.name}
+              </NavItem>
+            );
+          })}
+        </NavList>
+        <div style={{ marginTop: 'auto', paddingTop: '2rem' }}>
+          <NavItem as="button" onClick={handleLogout} style={{ width: '100%', justifyContent: 'flex-start', color: '#E31A1A' }}>
+            <LogOut size={20} />
+            Sign Out
+          </NavItem>
+        </div>
+      </Sidebar>
 
-      {/* Main Content */}
-      <div style={mainStyle}>
-        {children}
-      </div>
-    </div>
+      <MainContent>
+        <TopHeader>
+          <HeaderGreeting>
+            <p>Pages / {title}</p>
+            <h1>{title}</h1>
+          </HeaderGreeting>
+          <HeaderActions>
+            <SearchBox>
+              <Search size={16} color="#2B3674" />
+              <input type="text" placeholder="Search..." />
+            </SearchBox>
+            <ActionBtn><Bell size={20} /></ActionBtn>
+            <Avatar>{adminUser?.name?.charAt(0) || 'A'}</Avatar>
+            <ActionBtn onClick={handleLogout} title="Sign Out" style={{ color: '#E31A1A' }}>
+              <LogOut size={20} />
+            </ActionBtn>
+          </HeaderActions>
+        </TopHeader>
+
+        <PageContainer>
+          {children}
+        </PageContainer>
+      </MainContent>
+    </LayoutWrapper>
   );
 };
 
