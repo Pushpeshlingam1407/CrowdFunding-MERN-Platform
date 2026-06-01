@@ -184,8 +184,8 @@ const useAuthStore = create((set) => ({
         return;
       }
 
-      // Use /auth/me for verification
-      const response = await api.get('/auth/me');
+      // Use /auth/profile for verification
+      const response = await api.get('/auth/profile');
       const { success, user: userData } = response.data;
       
       if (!success) {

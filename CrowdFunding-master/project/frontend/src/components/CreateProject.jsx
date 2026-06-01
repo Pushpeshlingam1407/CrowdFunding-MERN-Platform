@@ -116,6 +116,20 @@ const CreateProject = () => {
     const { name, value, files } = e.target;
     if (name === 'image') {
       setFormData({ ...formData, image: files[0] });
+    } else if (name === 'startDate') {
+      const start = new Date(value);
+      if (!isNaN(start.getTime())) {
+        const futureDate = new Date(start);
+        futureDate.setDate(start.getDate() + 30);
+        const formattedEndDate = futureDate.toISOString().split('T')[0];
+        setFormData({ 
+          ...formData, 
+          startDate: value,
+          endDate: formattedEndDate
+        });
+      } else {
+        setFormData({ ...formData, startDate: value });
+      }
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -268,6 +282,7 @@ const CreateProject = () => {
                         name="startDate" 
                         value={formData.startDate} 
                         onChange={handleChange}
+                        min={new Date().toISOString().split('T')[0]}
                         required
                       />
                     </div>
@@ -278,6 +293,11 @@ const CreateProject = () => {
                         name="endDate" 
                         value={formData.endDate} 
                         onChange={handleChange}
+                        min={formData.startDate ? (() => {
+                          const start = new Date(formData.startDate);
+                          start.setDate(start.getDate() + 1);
+                          return start.toISOString().split('T')[0];
+                        })() : new Date().toISOString().split('T')[0]}
                         required
                       />
                     </div>
