@@ -121,7 +121,7 @@ const Profile = () => {
       const response = await userAPI.updateProfile(updateData);
 
       // Update Company Data (B2B SaaS specific)
-      await b2bAPI.updateCompany("", {
+      await b2bAPI.updateCompany(companyData?.id || user?.id, {
         branding: {
           logo: formData.logo,
           slogan: formData.slogan,

@@ -44,6 +44,7 @@ public class CompanyController {
     public ResponseEntity<?> getCompanyById(@PathVariable Long id) {
         try {
             Company company = companyRepository.findById(id)
+                    .or(() -> companyRepository.findByUserId(id))
                     .orElseThrow(() -> new RuntimeException("Company not found"));
             return ResponseEntity.ok(company);
         } catch (Exception e) {
@@ -62,10 +63,20 @@ public class CompanyController {
     ) {
         try {
             Company company = companyRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Company not found"));
+                    .or(() -> companyRepository.findByUserId(id))
+                    .or(() -> companyRepository.findByUserId(userDetails.getId()))
+                    .orElseGet(() -> {
+                        User user = userRepository.findById(userDetails.getId())
+                                .orElseThrow(() -> new RuntimeException("User not found"));
+                        return Company.builder()
+                                .user(user)
+                                .name(user.getCompanyName() != null && !user.getCompanyName().isBlank() ? user.getCompanyName() : user.getName() + "'s Company")
+                                .website(user.getCompanyWebsite())
+                                .build();
+                    });
 
             // Allow the company owner or admin to update
-            if (!company.getUser().getId().equals(userDetails.getId()) && !"admin".equalsIgnoreCase(userDetails.getUser().getRole())) {
+            if (company.getUser() != null && !company.getUser().getId().equals(userDetails.getId()) && !"admin".equalsIgnoreCase(userDetails.getUser().getRole())) {
                 Map<String, Object> error = new HashMap<>();
                 error.put("success", false);
                 error.put("message", "Not authorized to update this company profile");
