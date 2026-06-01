@@ -65,6 +65,21 @@ const FormIcon = styled.div`
 
 const StyledInput = styled(Input)`
   padding-left: 2.75rem;
+  border-color: ${({ $hasError }) => $hasError ? '#e53e3e' : undefined};
+  &:focus {
+    border-color: ${({ $hasError }) => $hasError ? '#e53e3e' : undefined};
+    box-shadow: ${({ $hasError }) => $hasError ? '0 0 0 3px rgba(229,62,62,0.15)' : undefined};
+  }
+`;
+
+const FieldError = styled.div`
+  color: #e53e3e;
+  font-size: 0.82rem;
+  margin-top: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 500;
 `;
 
 // Small "go to admin login" link at bottom
@@ -93,7 +108,7 @@ const Login = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || '/dashboard';
   
-  const { login, adminLogin, isAuthenticated, adminAuthenticated, error, isLoading } = useAuthStore();
+  const { login, adminLogin, isAuthenticated, adminAuthenticated, error, errorField, isLoading } = useAuthStore();
   const [formData, setFormData] = useState({ email: '', password: '' });
 
   useEffect(() => {
@@ -144,7 +159,7 @@ const Login = () => {
               <FormTitle>Welcome Back</FormTitle>
               <FormSubtitle>Log in to access the B2B SaaS network</FormSubtitle>
               
-              {error && (
+              {error && !errorField && (
                 <ErrorBox>
                   <AlertCircle size={18} />
                   {error}
@@ -161,8 +176,12 @@ const Login = () => {
                     placeholder="name@company.com"
                     value={formData.email}
                     onChange={handleChange}
+                    $hasError={errorField === 'email'}
                     required
                   />
+                  {errorField === 'email' && (
+                    <FieldError><AlertCircle size={13} />{error}</FieldError>
+                  )}
                 </FormGroup>
 
                 <FormGroup>
@@ -174,8 +193,12 @@ const Login = () => {
                     placeholder="Enter your password"
                     value={formData.password}
                     onChange={handleChange}
+                    $hasError={errorField === 'password'}
                     required
                   />
+                  {errorField === 'password' && (
+                    <FieldError><AlertCircle size={13} />{error}</FieldError>
+                  )}
                 </FormGroup>
 
                 <Button 

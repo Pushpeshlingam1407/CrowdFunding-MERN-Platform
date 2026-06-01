@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ShieldCheck, Mail, Lock, LogIn, ArrowLeft } from "lucide-react";
+import { ShieldCheck, Mail, Lock, LogIn, ArrowLeft, AlertCircle } from "lucide-react";
 import { toast } from "react-toastify";
 import { Button, Input, Card, Container, Flex } from "../../components/ui";
 import useAuthStore from "../../store/authStore";
@@ -64,15 +64,27 @@ const Label = styled.label`
 
 const DarkInput = styled(Input)`
   background: #0f172a;
-  border-color: #334155;
+  border-color: ${({ $hasError }) => $hasError ? '#f87171' : '#334155'};
   color: white;
   padding-left: 3rem;
 
   &:focus {
     background: #0f172a;
-    border-color: #38bdf8;
-    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1);
+    border-color: ${({ $hasError }) => $hasError ? '#f87171' : '#38bdf8'};
+    box-shadow: ${({ $hasError }) => $hasError
+      ? '0 0 0 4px rgba(248,113,113,0.15)'
+      : '0 0 0 4px rgba(56, 189, 248, 0.1)'};
   }
+`;
+
+const FieldError = styled.div`
+  color: #f87171;
+  font-size: 0.82rem;
+  margin-top: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 500;
 `;
 
 const FormIcon = styled.div`
@@ -85,7 +97,7 @@ const FormIcon = styled.div`
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const { adminLogin } = useAuthStore();
+  const { adminLogin, error, errorField } = useAuthStore();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
 
@@ -93,15 +105,13 @@ const AdminLogin = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Mocking admin login for now as per previous logic
       const success = await adminLogin(formData.email, formData.password);
       if (success) {
         toast.success("Admin authenticated successfully");
         navigate("/admin/dashboard");
-      } else {
-        toast.error("Invalid admin credentials");
       }
-    } catch (error) {
+      // errors are shown inline via errorField — no generic toast needed
+    } catch (err) {
       toast.error("Authentication Error");
     } finally {
       setLoading(false);
@@ -143,13 +153,19 @@ const AdminLogin = () => {
               </FormIcon>
               <DarkInput
                 type="email"
-                placeholder="admin@startupfund.saas"
+                placeholder="admin@crowdfunding.com"
                 value={formData.email}
                 onChange={(e) =>
                   setFormData({ ...formData, email: e.target.value })
                 }
+                $hasError={errorField === 'email'}
                 required
               />
+              {errorField === 'email' && (
+                <FieldError>
+                  <AlertCircle size={13} />{error}
+                </FieldError>
+              )}
             </FormGroup>
 
             <FormGroup>
@@ -164,8 +180,14 @@ const AdminLogin = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, password: e.target.value })
                 }
+                $hasError={errorField === 'password'}
                 required
               />
+              {errorField === 'password' && (
+                <FieldError>
+                  <AlertCircle size={13} />{error}
+                </FieldError>
+              )}
             </FormGroup>
 
             <Button
