@@ -126,18 +126,26 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // First try admin login — if credentials match admin account, go straight to admin dashboard
-    const adminSuccess = await adminLogin(formData.email, formData.password);
-    if (adminSuccess) {
-      toast.success('Welcome, Admin! Redirecting to Admin Dashboard…');
-      navigate('/admin/dashboard', { replace: true });
-      return;
-    }
-
-    // Otherwise do regular user login
     const success = await login(formData.email, formData.password);
     if (success) {
-      navigate(from, { replace: true });
+      const loggedInUser = useAuthStore.getState().user;
+      if (loggedInUser?.role === 'admin') {
+        // Automatically authorize admin session if logged in as admin
+        const token = localStorage.getItem('token');
+        localStorage.setItem('adminToken', token);
+        localStorage.setItem('adminUser', JSON.stringify(loggedInUser));
+        
+        useAuthStore.setState({
+          adminUser: loggedInUser,
+          adminAuthenticated: true,
+          isAdminMode: true
+        });
+        
+        toast.success('Welcome, Admin! Redirecting to Admin Dashboard…');
+        navigate('/admin/dashboard', { replace: true });
+      } else {
+        navigate(from, { replace: true });
+      }
     }
   };
 

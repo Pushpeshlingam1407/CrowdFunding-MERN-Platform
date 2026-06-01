@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { UserPlus, Mail, Lock, User, Building2, Briefcase, ShieldCheck } from 'lucide-react';
+import { UserPlus, Mail, Lock, User, Building2, Briefcase, ShieldCheck, Check, X, AlertCircle } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { Button, Input, Card, Container, Flex, Grid } from './ui';
 import api from "../services/api";
@@ -54,6 +54,7 @@ const FormIcon = styled.div`
 
 const StyledInput = styled(Input)`
   padding-left: 2.75rem;
+  border-color: ${({ $hasError, $isValid }) => $hasError ? '#e53e3e' : $isValid ? '#38a169' : undefined};
 `;
 
 const StyledSelect = styled.select`
@@ -89,6 +90,37 @@ const CheckboxContainer = styled.label`
   }
 `;
 
+const ValidationIndicator = styled.div`
+  color: ${props => props.$isValid ? '#38a169' : '#e53e3e'};
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.4rem;
+`;
+
+const CriteriaList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+`;
+
+const CriteriaItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.76rem;
+  color: ${props => props.$isValid ? '#38a169' : '#718096'};
+  font-weight: ${props => props.$isValid ? '600' : '400'};
+  transition: all 0.2s;
+`;
+
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -101,9 +133,24 @@ const Register = () => {
     agreeToTerms: false
   });
   const [loading, setLoading] = useState(false);
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
+
+  // Email validation regex check
+  const isEmailValid = /^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(formData.email.trim());
+
+  // Password criteria checks matching AuthController's complexity rule
+  const pass = formData.password;
+  const hasMinLength = pass.length >= 8;
+  const hasUppercase = /[A-Z]/.test(pass);
+  const hasNumber = /[0-9]/.test(pass);
+  const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':",.<>?]/.test(pass);
+  const isPasswordValid = hasMinLength && hasUppercase && hasNumber && hasSpecial;
 
   const handleChange = (e) => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    if (e.target.name === 'email') setEmailTouched(true);
+    if (e.target.name === 'password') setPasswordTouched(true);
     setFormData({ ...formData, [e.target.name]: value });
   };
 
@@ -112,6 +159,16 @@ const Register = () => {
 
     if (!formData.agreeToTerms) {
       toast.error('Please agree to the terms and conditions');
+      return;
+    }
+
+    if (!isEmailValid) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
+    if (!isPasswordValid) {
+      toast.error('Password must be at least 8 characters and include an uppercase letter, a number, and a special character');
       return;
     }
 
@@ -130,7 +187,8 @@ const Register = () => {
       toast.success('Registration successful! Please log in.');
       navigate('/login');
     } catch (error) {
-      console.error('Register Error:', error);
+      const message = error.response?.data?.message || 'Registration failed';
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -187,8 +245,19 @@ const Register = () => {
                     placeholder="jane@company.com"
                     value={formData.email}
                     onChange={handleChange}
+                    $isValid={emailTouched && isEmailValid}
+                    $hasError={emailTouched && !isEmailValid}
                     required
                   />
+                  {emailTouched && (
+                    <ValidationIndicator $isValid={isEmailValid}>
+                      {isEmailValid ? (
+                        <><Check size={14} /> Email address is valid</>
+                      ) : (
+                        <><AlertCircle size={14} /> Please enter a valid email format</>
+                      )}
+                    </ValidationIndicator>
+                  )}
                 </FormGroup>
 
                 <FormGroup>
@@ -200,9 +269,26 @@ const Register = () => {
                     placeholder="••••••••"
                     value={formData.password}
                     onChange={handleChange}
+                    $isValid={passwordTouched && isPasswordValid}
+                    $hasError={passwordTouched && !isPasswordValid}
                     required
-                    minLength="6"
                   />
+                  {passwordTouched && (
+                    <CriteriaList>
+                      <CriteriaItem $isValid={hasMinLength}>
+                        {hasMinLength ? <Check size={12} /> : <X size={12} />} At least 8 characters
+                      </CriteriaItem>
+                      <CriteriaItem $isValid={hasUppercase}>
+                        {hasUppercase ? <Check size={12} /> : <X size={12} />} One uppercase letter
+                      </CriteriaItem>
+                      <CriteriaItem $isValid={hasNumber}>
+                        {hasNumber ? <Check size={12} /> : <X size={12} />} One number
+                      </CriteriaItem>
+                      <CriteriaItem $isValid={hasSpecial}>
+                        {hasSpecial ? <Check size={12} /> : <X size={12} />} One special character (!@#$%^&*)
+                      </CriteriaItem>
+                    </CriteriaList>
+                  )}
                 </FormGroup>
 
                 <FormGroup>
@@ -214,9 +300,19 @@ const Register = () => {
                     placeholder="••••••••"
                     value={formData.confirmPassword}
                     onChange={handleChange}
+                    $isValid={formData.confirmPassword && formData.password === formData.confirmPassword}
+                    $hasError={formData.confirmPassword && formData.password !== formData.confirmPassword}
                     required
-                    minLength="6"
                   />
+                  {formData.confirmPassword && (
+                    <ValidationIndicator $isValid={formData.password === formData.confirmPassword}>
+                      {formData.password === formData.confirmPassword ? (
+                        <><Check size={14} /> Passwords match</>
+                      ) : (
+                        <><AlertCircle size={14} /> Passwords do not match</>
+                      )}
+                    </ValidationIndicator>
+                  )}
                 </FormGroup>
 
                 <FormGroup>
