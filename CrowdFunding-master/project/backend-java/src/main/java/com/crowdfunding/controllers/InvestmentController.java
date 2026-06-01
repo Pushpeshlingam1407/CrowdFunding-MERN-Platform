@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 public class InvestmentController {
@@ -34,9 +33,10 @@ public class InvestmentController {
     @Autowired
     private CompanyRepository companyRepository;
 
-    // ─── Payment Order Endpoints ──────────────────────────────────────────────────
+    // ─── Payment Order Endpoints
+    // ──────────────────────────────────────────────────
 
-    @PostMapping({"/api/payment/order", "/api/payment/create-order"})
+    @PostMapping({ "/api/payment/order", "/api/payment/create-order" })
     public ResponseEntity<?> createOrder(@RequestBody Map<String, Object> payload) {
         try {
             Object amtObj = payload.get("amount");
@@ -63,7 +63,8 @@ public class InvestmentController {
 
             // Generate a mock order
             Map<String, Object> mockOrder = new HashMap<>();
-            mockOrder.put("id", "order_" + System.currentTimeMillis() + "_" + UUID.randomUUID().toString().substring(0, 9));
+            mockOrder.put("id",
+                    "order_" + System.currentTimeMillis() + "_" + UUID.randomUUID().toString().substring(0, 9));
             mockOrder.put("amount", amount * 100); // Razorpay amount is in paise
             mockOrder.put("currency", "INR");
             mockOrder.put("receipt", "project_" + projectId + "_" + System.currentTimeMillis());
@@ -88,8 +89,7 @@ public class InvestmentController {
     @PostMapping("/api/payment/verify")
     public ResponseEntity<?> verifyPayment(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> payload
-    ) {
+            @RequestBody Map<String, Object> payload) {
         try {
             String razorpayOrderId = (String) payload.get("razorpayOrderId");
             String razorpayPaymentId = (String) payload.get("razorpayPaymentId");
@@ -116,7 +116,8 @@ public class InvestmentController {
             // Check if investment already recorded as completed
             List<Investment> existing = investmentRepository.findByInvestorIdOrderByCreatedAtDesc(userDetails.getId());
             Optional<Investment> duplicate = existing.stream()
-                    .filter(i -> i.getProject().getId().equals(projectId) && "completed".equalsIgnoreCase(i.getStatus()))
+                    .filter(i -> i.getProject().getId().equals(projectId)
+                            && "completed".equalsIgnoreCase(i.getStatus()))
                     .findFirst();
 
             if (duplicate.isPresent()) {
@@ -170,13 +171,13 @@ public class InvestmentController {
         }
     }
 
-    // ─── Direct Investment Endpoints ──────────────────────────────────────────────
+    // ─── Direct Investment Endpoints
+    // ──────────────────────────────────────────────
 
     @PostMapping("/api/investments")
     public ResponseEntity<?> createInvestment(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> payload
-    ) {
+            @RequestBody Map<String, Object> payload) {
         try {
             Object projIdObj = payload.get("projectId");
             Object amtObj = payload.get("amount");
@@ -243,7 +244,8 @@ public class InvestmentController {
     @GetMapping("/api/investments/user")
     public ResponseEntity<?> getUserInvestments(@AuthenticationPrincipal CustomUserDetails userDetails) {
         try {
-            List<Investment> investments = investmentRepository.findByInvestorIdOrderByCreatedAtDesc(userDetails.getId());
+            List<Investment> investments = investmentRepository
+                    .findByInvestorIdOrderByCreatedAtDesc(userDetails.getId());
 
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
@@ -285,9 +287,11 @@ public class InvestmentController {
                 List<Company.ActivityLogItem> newMilestones = new ArrayList<>();
 
                 // Check for first investment
-                List<Investment> allProjectInvestments = investmentRepository.findByProjectIdOrderByCreatedAtDesc(project.getId());
+                List<Investment> allProjectInvestments = investmentRepository
+                        .findByProjectIdOrderByCreatedAtDesc(project.getId());
                 long approvedCount = allProjectInvestments.stream()
-                        .filter(i -> "completed".equalsIgnoreCase(i.getStatus()) || "approved".equalsIgnoreCase(i.getStatus()))
+                        .filter(i -> "completed".equalsIgnoreCase(i.getStatus())
+                                || "approved".equalsIgnoreCase(i.getStatus()))
                         .count();
 
                 if (approvedCount == 1) {

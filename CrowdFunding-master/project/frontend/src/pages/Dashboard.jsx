@@ -127,12 +127,17 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const [projects, setProjects] = useState([]);
+  const [investments, setInvestments] = useState([]);
   const [activeTab, setActiveTab] = useState('overview');
   const [stats, setStats] = useState({ total: 0, active: 0, pending: 0 });
 
   useEffect(() => {
-    fetchProjects();
-  }, []);
+    if (user?.role === 'startup') {
+      fetchProjects();
+    } else if (user?.role === 'investor') {
+      fetchInvestments();
+    }
+  }, [user]);
 
   const fetchProjects = async () => {
     try {
@@ -144,6 +149,20 @@ const Dashboard = () => {
       setStats({ total, active, pending });
     } catch (error) {
       console.error('Error fetching projects:', error);
+    }
+  };
+
+  const fetchInvestments = async () => {
+    try {
+      const response = await investmentAPI.getUserInvestments();
+      const invs = Array.isArray(response.data.investments) ? response.data.investments : [];
+      setInvestments(invs);
+      
+      const total = invs.length;
+      const totalAmt = invs.reduce((sum, inv) => sum + (inv.amount || 0), 0);
+      setStats({ total, active: totalAmt, pending: 0 });
+    } catch (error) {
+      console.error('Error fetching investments:', error);
     }
   };
 
@@ -207,6 +226,59 @@ const Dashboard = () => {
                         </td>
                       </tr>
                     ))}
+                    {projects.length === 0 && (
+                      <tr>
+                        <td colSpan="5" style={{ textAlign: 'center', padding: '3rem', color: '#999' }}>
+                          No campaigns found. Start by creating one!
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </TableWrapper>
+          </Card>
+        );
+      case 'investments':
+        return (
+          <Card>
+            <Flex justify="space-between" style={{ marginBottom: '1.5rem' }}>
+                <h2 style={{ fontSize: '1.25rem', fontWeight: 700 }}>My Venture Backings</h2>
+                <Button size="sm" onClick={() => navigate('/marketplace')}>Explore Campaigns</Button>
+            </Flex>
+            <TableWrapper>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>CAMPAIGN NAME</th>
+                      <th>AMOUNT INVESTED</th>
+                      <th>DATE BACKED</th>
+                      <th>STATUS</th>
+                      <th>ACTIONS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {investments.map(inv => (
+                      <tr key={inv._id}>
+                        <td style={{ fontWeight: 600 }}>{inv.project?.title || '—'}</td>
+                        <td style={{ color: '#2f855a', fontWeight: 700 }}>₹{inv.amount?.toLocaleString()}</td>
+                        <td>{new Date(inv.completedAt || inv.createdAt).toLocaleDateString('en-IN')}</td>
+                        <td>
+                          <StatusBadge status={inv.status}>{inv.status}</StatusBadge>
+                        </td>
+                        <td>
+                          <Button variant="outline" size="sm" onClick={() => navigate(`/projects/${inv.project?.id || inv.project?._id}`)}>
+                            <ExternalLink size={14} />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                    {investments.length === 0 && (
+                      <tr>
+                        <td colSpan="5" style={{ textAlign: 'center', padding: '3rem', color: '#999' }}>
+                          You have not backed any campaigns yet. Explore the marketplace!
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </TableWrapper>
@@ -224,100 +296,168 @@ const Dashboard = () => {
           <Card style={{ padding: '3rem', textAlign: 'center' }}>
              <MessageSquare size={48} style={{ color: '#0077b6', marginBottom: '1.5rem', opacity: 0.3 }} />
              <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '1rem' }}>Secure Messaging Space</h3>
-             <p style={{ color: '#666', marginBottom: '2rem' }}>Connect with startups, professional investors and MNCS in a secure, isolated B2B environment.</p>
+             <p style={{ color: '#666', marginBottom: '2rem' }}>Connect with startups, professional investors and MNCs in a secure, isolated environment.</p>
              <Button onClick={() => navigate('/messages')}>Go to Private Space</Button>
           </Card>
         );
       default:
         return (
           <>
-            <Grid cols={3} gap="1.5rem" style={{ marginBottom: '2.5rem' }}>
-              <StatCard>
-                <div className="icon-box" style={{ background: '#0077b615', color: '#0077b6' }}>
-                  <TrendingUp size={24} />
-                </div>
-                <div>
-                  <h3 style={{ fontSize: '1.5rem', fontWeight: 800 }}>{stats.total}</h3>
-                  <p style={{ color: '#666', fontSize: '0.9rem' }}>Total Projects</p>
-                </div>
-              </StatCard>
-              <StatCard>
-                <div className="icon-box" style={{ background: '#c6f6d5', color: '#2f855a' }}>
-                  <CheckCircle2 size={24} />
-                </div>
-                <div>
-                  <h3 style={{ fontSize: '1.5rem', fontWeight: 800 }}>{stats.active}</h3>
-                  <p style={{ color: '#666', fontSize: '0.9rem' }}>Active Approved</p>
-                </div>
-              </StatCard>
-              <StatCard>
-                <div className="icon-box" style={{ background: '#feebc8', color: '#c05621' }}>
-                  <Clock size={24} />
-                </div>
-                <div>
-                  <h3 style={{ fontSize: '1.5rem', fontWeight: 800 }}>{stats.pending}</h3>
-                  <p style={{ color: '#666', fontSize: '0.9rem' }}>Pending Review</p>
-                </div>
-              </StatCard>
-            </Grid>
+            {user?.role === 'startup' ? (
+              <Grid cols={3} gap="1.5rem" style={{ marginBottom: '2.5rem' }}>
+                <StatCard>
+                  <div className="icon-box" style={{ background: '#0077b615', color: '#0077b6' }}>
+                    <TrendingUp size={24} />
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: '1.5rem', fontWeight: 800 }}>{stats.total}</h3>
+                    <p style={{ color: '#666', fontSize: '0.9rem' }}>Total Campaigns</p>
+                  </div>
+                </StatCard>
+                <StatCard>
+                  <div className="icon-box" style={{ background: '#c6f6d5', color: '#2f855a' }}>
+                    <CheckCircle2 size={24} />
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: '1.5rem', fontWeight: 800 }}>{stats.active}</h3>
+                    <p style={{ color: '#666', fontSize: '0.9rem' }}>Active Campaigns</p>
+                  </div>
+                </StatCard>
+                <StatCard>
+                  <div className="icon-box" style={{ background: '#feebc8', color: '#c05621' }}>
+                    <Clock size={24} />
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: '1.5rem', fontWeight: 800 }}>{stats.pending}</h3>
+                    <p style={{ color: '#666', fontSize: '0.9rem' }}>Pending Moderation</p>
+                  </div>
+                </StatCard>
+              </Grid>
+            ) : (
+              <Grid cols={2} gap="1.5rem" style={{ marginBottom: '2.5rem' }}>
+                <StatCard>
+                  <div className="icon-box" style={{ background: '#0077b615', color: '#0077b6' }}>
+                    <TrendingUp size={24} />
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: '1.5rem', fontWeight: 800 }}>{stats.total}</h3>
+                    <p style={{ color: '#666', fontSize: '0.9rem' }}>Campaigns Backed</p>
+                  </div>
+                </StatCard>
+                <StatCard>
+                  <div className="icon-box" style={{ background: '#c6f6d5', color: '#2f855a' }}>
+                    <CheckCircle2 size={24} />
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: '1.5rem', fontWeight: 800 }}>₹{stats.active.toLocaleString()}</h3>
+                    <p style={{ color: '#666', fontSize: '0.9rem' }}>Total Capital Invested</p>
+                  </div>
+                </StatCard>
+              </Grid>
+            )}
 
-            <Card>
-              <Flex justify="space-between" style={{ marginBottom: '1.5rem' }}>
-                <h2 style={{ fontSize: '1.25rem', fontWeight: 700 }}>Recent Campaigns</h2>
-                <Button variant="outline" size="sm" onClick={() => setActiveTab('campaigns')}>View All</Button>
-              </Flex>
-              
-              <TableWrapper>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>CAMPAIGN NAME</th>
-                      <th>CATEGORY</th>
-                      <th>TARGET</th>
-                      <th>STATUS</th>
-                      <th>ACTIONS</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {projects.slice(0, 5).map(project => (
-                      <tr key={project._id}>
-                        <td style={{ fontWeight: 600 }}>{project.title}</td>
-                        <td>{project.category}</td>
-                        <td>₹{project.targetAmount?.toLocaleString()}</td>
-                        <td>
-                          <StatusBadge status={project.status}>{project.status}</StatusBadge>
-                        </td>
-                        <td>
-                          <Flex gap="0.5rem">
-                            <Button variant="outline" size="sm" onClick={() => navigate(`/projects/${project._id}`)}>
+            {user?.role === 'startup' ? (
+              <Card>
+                <Flex justify="space-between" style={{ marginBottom: '1.5rem' }}>
+                  <h2 style={{ fontSize: '1.25rem', fontWeight: 700 }}>Recent Campaigns</h2>
+                  <Button variant="outline" size="sm" onClick={() => setActiveTab('campaigns')}>View All</Button>
+                </Flex>
+                <TableWrapper>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>CAMPAIGN NAME</th>
+                        <th>CATEGORY</th>
+                        <th>TARGET</th>
+                        <th>STATUS</th>
+                        <th>ACTIONS</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {projects.slice(0, 5).map(project => (
+                        <tr key={project._id}>
+                          <td style={{ fontWeight: 600 }}>{project.title}</td>
+                          <td>{project.category}</td>
+                          <td>₹{project.targetAmount?.toLocaleString()}</td>
+                          <td>
+                            <StatusBadge status={project.status}>{project.status}</StatusBadge>
+                          </td>
+                          <td>
+                            <Flex gap="0.5rem">
+                              <Button variant="outline" size="sm" onClick={() => navigate(`/projects/${project._id}`)}>
+                                <ExternalLink size={14} />
+                              </Button>
+                              <Button variant="outline" size="sm" onClick={() => navigate(`/projects/${project._id}/edit`)}>
+                                <Edit size={14} />
+                              </Button>
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                style={{ color: '#e53e3e', borderColor: '#fed7d7' }}
+                                onClick={() => handleDelete(project._id)}
+                              >
+                                <Trash2 size={14} />
+                              </Button>
+                            </Flex>
+                          </td>
+                        </tr>
+                      ))}
+                      {projects.length === 0 && (
+                        <tr>
+                          <td colSpan="5" style={{ textAlign: 'center', padding: '3rem', color: '#999' }}>
+                            No campaigns found. Start by creating one!
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </TableWrapper>
+              </Card>
+            ) : (
+              <Card>
+                <Flex justify="space-between" style={{ marginBottom: '1.5rem' }}>
+                  <h2 style={{ fontSize: '1.25rem', fontWeight: 700 }}>Recent Backings</h2>
+                  <Button variant="outline" size="sm" onClick={() => setActiveTab('investments')}>View All</Button>
+                </Flex>
+                <TableWrapper>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>CAMPAIGN NAME</th>
+                        <th>AMOUNT INVESTED</th>
+                        <th>DATE BACKED</th>
+                        <th>STATUS</th>
+                        <th>ACTIONS</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {investments.slice(0, 5).map(inv => (
+                        <tr key={inv._id}>
+                          <td style={{ fontWeight: 600 }}>{inv.project?.title || '—'}</td>
+                          <td style={{ color: '#2f855a', fontWeight: 700 }}>₹{inv.amount?.toLocaleString()}</td>
+                          <td>{new Date(inv.completedAt || inv.createdAt).toLocaleDateString('en-IN')}</td>
+                          <td>
+                            <StatusBadge status={inv.status}>{inv.status}</StatusBadge>
+                          </td>
+                          <td>
+                            <Button variant="outline" size="sm" onClick={() => navigate(`/projects/${inv.project?.id || inv.project?._id}`)}>
                               <ExternalLink size={14} />
                             </Button>
-                            <Button variant="outline" size="sm" onClick={() => navigate(`/projects/${project._id}/edit`)}>
-                              <Edit size={14} />
-                            </Button>
-                            <Button 
-                              variant="outline" 
-                              size="sm" 
-                              style={{ color: '#e53e3e', borderColor: '#fed7d7' }}
-                              onClick={() => handleDelete(project._id)}
-                            >
-                              <Trash2 size={14} />
-                            </Button>
-                          </Flex>
-                        </td>
-                      </tr>
-                    ))}
-                    {projects.length === 0 && (
-                      <tr>
-                        <td colSpan="5" style={{ textAlign: 'center', padding: '3rem', color: '#999' }}>
-                          No campaigns found. Start by creating one!
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </TableWrapper>
-            </Card>
+                          </td>
+                        </tr>
+                      ))}
+                      {investments.length === 0 && (
+                        <tr>
+                          <td colSpan="5" style={{ textAlign: 'center', padding: '3rem', color: '#999' }}>
+                            You have not backed any campaigns yet. Explore the marketplace!
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </TableWrapper>
+              </Card>
+            )}
           </>
         );
     }
@@ -332,9 +472,16 @@ const Dashboard = () => {
             <NavItem active={activeTab === 'overview'} onClick={() => setActiveTab('overview')}>
               <LayoutDashboard size={20} /> Overview
             </NavItem>
-            <NavItem active={activeTab === 'campaigns'} onClick={() => setActiveTab('campaigns')}>
-              <Briefcase size={20} /> My Campaigns
-            </NavItem>
+            {user?.role === 'startup' && (
+              <NavItem active={activeTab === 'campaigns'} onClick={() => setActiveTab('campaigns')}>
+                <Briefcase size={20} /> My Campaigns
+              </NavItem>
+            )}
+            {user?.role === 'investor' && (
+              <NavItem active={activeTab === 'investments'} onClick={() => setActiveTab('investments')}>
+                <TrendingUp size={20} /> My Investments
+              </NavItem>
+            )}
             <NavItem active={activeTab === 'messages'} onClick={() => setActiveTab('messages')}>
               <MessageSquare size={20} /> Private Space
             </NavItem>
@@ -353,11 +500,17 @@ const Dashboard = () => {
                   <h1 style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-1px' }}>
                     Welcome back, {user?.name.split(' ')[0]}!
                   </h1>
-                  <p style={{ color: '#666' }}>Here's an overview of your B2B activities.</p>
+                  <p style={{ color: '#666' }}>Here's an overview of your activities.</p>
                 </div>
-                <Button onClick={() => navigate('/projects/new')}>
-                  <Plus size={18} style={{ marginRight: 8 }} /> Create Campaign
-                </Button>
+                {user?.role === 'startup' ? (
+                  <Button onClick={() => navigate('/projects/new')}>
+                    <Plus size={18} style={{ marginRight: 8 }} /> Create Campaign
+                  </Button>
+                ) : (
+                  <Button onClick={() => navigate('/marketplace')}>
+                    Explore Campaigns
+                  </Button>
+                )}
               </Flex>
             </header>
 
