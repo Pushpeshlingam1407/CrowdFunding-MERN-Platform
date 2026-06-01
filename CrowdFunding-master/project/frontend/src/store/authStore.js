@@ -22,7 +22,7 @@ const useAuthStore = create((set) => ({
   },
 
   login: async (email, password) => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true, error: null, errorField: null });
     try {
       const response = await api.post('/auth/login', {
         email,
@@ -44,10 +44,13 @@ const useAuthStore = create((set) => ({
         isAuthenticated: true,
         isAdmin: user.role === 'admin',
         isLoading: false,
-        error: null
+        error: null,
+        errorField: null
       });
       return true;
     } catch (error) {
+      const message = error.response?.data?.message || 'Login failed';
+      const field   = error.response?.data?.field   || null;
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       set({
@@ -55,14 +58,15 @@ const useAuthStore = create((set) => ({
         isAuthenticated: false,
         isAdmin: false,
         isLoading: false,
-        error: error.response?.data?.message || 'Login failed'
+        error: message,
+        errorField: field
       });
       return false;
     }
   },
 
   adminLogin: async (email, password) => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true, error: null, errorField: null });
     try {
       const response = await api.post('/auth/login', {
         email,
@@ -88,10 +92,13 @@ const useAuthStore = create((set) => ({
         adminAuthenticated: true,
         isAdminMode: true,
         isLoading: false,
-        error: null
+        error: null,
+        errorField: null
       });
       return true;
     } catch (error) {
+      const message = error.response?.data?.message || error.message || 'Admin login failed';
+      const field   = error.response?.data?.field   || null;
       localStorage.removeItem('adminToken');
       localStorage.removeItem('adminUser');
       set({
@@ -99,7 +106,8 @@ const useAuthStore = create((set) => ({
         adminAuthenticated: false,
         isAdminMode: false,
         isLoading: false,
-        error: error.response?.data?.message || 'Admin login failed'
+        error: message,
+        errorField: field
       });
       return false;
     }
