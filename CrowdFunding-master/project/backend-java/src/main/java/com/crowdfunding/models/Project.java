@@ -65,6 +65,7 @@ public class Project {
     @Builder.Default
     private double currentAmount = 0.0;
 
+    @JsonProperty("isLocked")
     @Builder.Default
     private boolean isLocked = false;
 

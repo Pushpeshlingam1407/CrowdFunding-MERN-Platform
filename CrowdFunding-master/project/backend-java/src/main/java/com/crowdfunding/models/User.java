@@ -44,6 +44,7 @@ public class User {
 
     private String profileImage;
 
+    @JsonProperty("isVerified")
     @Builder.Default
     private boolean isVerified = false;
 

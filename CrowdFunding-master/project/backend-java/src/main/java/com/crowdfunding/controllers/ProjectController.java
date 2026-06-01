@@ -37,10 +37,23 @@ public class ProjectController {
 
     private LocalDateTime parseIsoDate(String dateStr) {
         try {
-            return Instant.parse(dateStr).atZone(ZoneId.systemDefault()).toLocalDateTime();
+            if (dateStr == null || dateStr.isBlank()) {
+                return null;
+            }
+            if (dateStr.length() == 10) {
+                return java.time.LocalDate.parse(dateStr).atStartOfDay();
+            }
+            try {
+                return Instant.parse(dateStr).atZone(ZoneId.systemDefault()).toLocalDateTime();
+            } catch (Exception e) {
+                try {
+                    return java.time.ZonedDateTime.parse(dateStr).toLocalDateTime();
+                } catch (Exception e2) {
+                    return LocalDateTime.parse(dateStr.substring(0, Math.min(dateStr.length(), 19)));
+                }
+            }
         } catch (Exception e) {
-            // Fallback for simple date formats
-            return LocalDateTime.parse(dateStr.substring(0, 19));
+            throw new RuntimeException("Failed to parse date '" + dateStr + "': " + e.getMessage());
         }
     }
 

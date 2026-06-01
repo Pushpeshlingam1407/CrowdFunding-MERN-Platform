@@ -36,7 +36,7 @@ public class InvestmentController {
 
     // ─── Payment Order Endpoints ──────────────────────────────────────────────────
 
-    @PostMapping("/api/payment/order")
+    @PostMapping({"/api/payment/order", "/api/payment/create-order"})
     public ResponseEntity<?> createOrder(@RequestBody Map<String, Object> payload) {
         try {
             Object amtObj = payload.get("amount");

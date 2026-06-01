@@ -75,6 +75,7 @@ public class Company {
     @Builder.Default
     private List<ActivityLogItem> activityLog = new ArrayList<>();
 
+    @JsonProperty("isVerified")
     @Builder.Default
     private boolean isVerified = false;
 

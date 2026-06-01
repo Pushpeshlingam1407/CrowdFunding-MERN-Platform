@@ -34,7 +34,13 @@ public class AdminController {
     @Autowired
     private ComplaintRepository complaintRepository;
 
-    @GetMapping("/stats")
+    @Autowired
+    private ReviewRepository reviewRepository;
+
+    @Autowired
+    private MessageRepository messageRepository;
+
+    @GetMapping({"/stats", "/dashboard"})
     public ResponseEntity<?> getDashboardStats() {
         try {
             long totalUsers = userRepository.count();
@@ -121,7 +127,7 @@ public class AdminController {
         }
     }
 
-    @PutMapping("/projects/{id}/status")
+    @PutMapping({"/projects/{id}/status", "/projects/{id}"})
     public ResponseEntity<?> updateProjectStatus(@PathVariable Long id, @RequestBody Map<String, String> payload) {
         try {
             String status = payload.get("status");
@@ -308,11 +314,47 @@ public class AdminController {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
             }
 
-            userRepository.delete(user);
+            // 1. Delete associated complaints (author or targeted user company)
+            complaintRepository.findAll().stream()
+                    .filter(c -> (c.getAuthor() != null && c.getAuthor().getId().equals(id)) || 
+                                 (c.getTargetCompany() != null && c.getTargetCompany().getId().equals(id)))
+                    .forEach(c -> complaintRepository.delete(c));
 
-            // Clean up associated company
+            // 2. Delete reviews (author or targeted user company)
+            reviewRepository.findAll().stream()
+                    .filter(r -> (r.getAuthor() != null && r.getAuthor().getId().equals(id)) || 
+                                 (r.getCompany() != null && r.getCompany().getId().equals(id)))
+                    .forEach(r -> reviewRepository.delete(r));
+
+            // 3. Delete messages (sent or received by the user)
+            messageRepository.findAll().stream()
+                    .filter(m -> (m.getSender() != null && m.getSender().getId().equals(id)) || 
+                                 (m.getReceiver() != null && m.getReceiver().getId().equals(id)))
+                    .forEach(m -> messageRepository.delete(m));
+
+            // 4. Delete investments (made by the user, or made in projects created by the user)
+            investmentRepository.findAll().stream()
+                    .filter(i -> (i.getInvestor() != null && i.getInvestor().getId().equals(id)) || 
+                                 (i.getProject() != null && i.getProject().getCreator() != null && i.getProject().getCreator().getId().equals(id)))
+                    .forEach(i -> investmentRepository.delete(i));
+
+            // 5. Delete documents (owned or verified by this user)
+            documentRepository.findAll().stream()
+                    .filter(d -> (d.getUser() != null && d.getUser().getId().equals(id)) ||
+                                 (d.getVerifiedBy() != null && d.getVerifiedBy().getId().equals(id)))
+                    .forEach(d -> documentRepository.delete(d));
+
+            // 6. Delete projects (created by the user)
+            projectRepository.findAll().stream()
+                    .filter(p -> p.getCreator() != null && p.getCreator().getId().equals(id))
+                    .forEach(p -> projectRepository.delete(p));
+
+            // 7. Clean up associated company
             Optional<Company> companyOpt = companyRepository.findByUserId(id);
             companyOpt.ifPresent(company -> companyRepository.delete(company));
+
+            // 8. Finally, delete the user record
+            userRepository.delete(user);
 
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
