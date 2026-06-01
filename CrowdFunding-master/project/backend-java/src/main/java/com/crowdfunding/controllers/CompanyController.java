@@ -92,80 +92,113 @@ public class CompanyController {
             if (payload.containsKey("teamSize")) company.setTeamSize((String) payload.get("teamSize"));
 
             if (payload.containsKey("industry")) {
-                company.setIndustry((List<String>) payload.get("industry"));
+                Object rawIndustry = payload.get("industry");
+                if (rawIndustry instanceof java.util.Collection<?>) {
+                    List<String> industryList = new ArrayList<>();
+                    for (Object obj : (java.util.Collection<?>) rawIndustry) {
+                        if (obj instanceof String) {
+                            industryList.add((String) obj);
+                        }
+                    }
+                    company.setIndustry(industryList);
+                }
             }
 
             if (payload.containsKey("branding")) {
-                Map<String, Object> brandingMap = (Map<String, Object>) payload.get("branding");
-                Company.Branding branding = company.getBranding();
-                if (branding == null) branding = new Company.Branding();
-                if (brandingMap.containsKey("logo")) branding.setBrandingLogo((String) brandingMap.get("logo"));
-                if (brandingMap.containsKey("primaryColor")) branding.setPrimaryColor((String) brandingMap.get("primaryColor"));
-                if (brandingMap.containsKey("slogan")) branding.setSlogan((String) brandingMap.get("slogan"));
-                company.setBranding(branding);
+                Object rawBranding = payload.get("branding");
+                if (rawBranding instanceof Map<?, ?>) {
+                    Map<?, ?> brandingMap = (Map<?, ?>) rawBranding;
+                    Company.Branding branding = company.getBranding();
+                    if (branding == null) branding = new Company.Branding();
+                    if (brandingMap.containsKey("logo")) branding.setBrandingLogo((String) brandingMap.get("logo"));
+                    if (brandingMap.containsKey("primaryColor")) branding.setPrimaryColor((String) brandingMap.get("primaryColor"));
+                    if (brandingMap.containsKey("slogan")) branding.setSlogan((String) brandingMap.get("slogan"));
+                    company.setBranding(branding);
+                }
             }
 
             if (payload.containsKey("visibilitySettings")) {
-                Map<String, Object> vsMap = (Map<String, Object>) payload.get("visibilitySettings");
-                Company.VisibilitySettings vs = company.getVisibilitySettings();
-                if (vs == null) vs = new Company.VisibilitySettings();
-                if (vsMap.containsKey("showPortfolio")) vs.setShowPortfolio((Boolean) vsMap.get("showPortfolio"));
-                if (vsMap.containsKey("showMetrics")) vs.setShowMetrics((Boolean) vsMap.get("showMetrics"));
-                if (vsMap.containsKey("showJourney")) vs.setShowJourney((Boolean) vsMap.get("showJourney"));
-                company.setVisibilitySettings(vs);
+                Object rawVS = payload.get("visibilitySettings");
+                if (rawVS instanceof Map<?, ?>) {
+                    Map<?, ?> vsMap = (Map<?, ?>) rawVS;
+                    Company.VisibilitySettings vs = company.getVisibilitySettings();
+                    if (vs == null) vs = new Company.VisibilitySettings();
+                    if (vsMap.containsKey("showPortfolio")) vs.setShowPortfolio((Boolean) vsMap.get("showPortfolio"));
+                    if (vsMap.containsKey("showMetrics")) vs.setShowMetrics((Boolean) vsMap.get("showMetrics"));
+                    if (vsMap.containsKey("showJourney")) vs.setShowJourney((Boolean) vsMap.get("showJourney"));
+                    company.setVisibilitySettings(vs);
+                }
             }
 
             if (payload.containsKey("socialLinks")) {
-                Map<String, Object> slMap = (Map<String, Object>) payload.get("socialLinks");
-                Company.SocialLinks sl = company.getSocialLinks();
-                if (sl == null) sl = new Company.SocialLinks();
-                if (slMap.containsKey("linkedin")) sl.setLinkedin((String) slMap.get("linkedin"));
-                if (slMap.containsKey("twitter")) sl.setTwitter((String) slMap.get("twitter"));
-                if (slMap.containsKey("github")) sl.setGithub((String) slMap.get("github"));
-                company.setSocialLinks(sl);
+                Object rawSL = payload.get("socialLinks");
+                if (rawSL instanceof Map<?, ?>) {
+                    Map<?, ?> slMap = (Map<?, ?>) rawSL;
+                    Company.SocialLinks sl = company.getSocialLinks();
+                    if (sl == null) sl = new Company.SocialLinks();
+                    if (slMap.containsKey("linkedin")) sl.setLinkedin((String) slMap.get("linkedin"));
+                    if (slMap.containsKey("twitter")) sl.setTwitter((String) slMap.get("twitter"));
+                    if (slMap.containsKey("github")) sl.setGithub((String) slMap.get("github"));
+                    company.setSocialLinks(sl);
+                }
             }
 
             if (payload.containsKey("portfolio")) {
-                List<Map<String, Object>> portfolioList = (List<Map<String, Object>>) payload.get("portfolio");
-                List<Company.PortfolioItem> items = new ArrayList<>();
-                for (Map<String, Object> p : portfolioList) {
-                    items.add(Company.PortfolioItem.builder()
-                            .title((String) p.get("title"))
-                            .description((String) p.get("description"))
-                            .link((String) p.get("link"))
-                            .image((String) p.get("image"))
-                            .clientName((String) p.get("clientName"))
-                            .date((String) p.get("date"))
-                            .build());
+                Object rawPortfolio = payload.get("portfolio");
+                if (rawPortfolio instanceof java.util.Collection<?>) {
+                    List<Company.PortfolioItem> items = new ArrayList<>();
+                    for (Object obj : (java.util.Collection<?>) rawPortfolio) {
+                        if (obj instanceof Map<?, ?>) {
+                            Map<?, ?> p = (Map<?, ?>) obj;
+                            items.add(Company.PortfolioItem.builder()
+                                    .title((String) p.get("title"))
+                                    .description((String) p.get("description"))
+                                    .link((String) p.get("link"))
+                                    .image((String) p.get("image"))
+                                    .clientName((String) p.get("clientName"))
+                                    .date((String) p.get("date"))
+                                    .build());
+                        }
+                    }
+                    company.setPortfolio(items);
                 }
-                company.setPortfolio(items);
             }
 
             if (payload.containsKey("partnerHistory")) {
-                List<Map<String, Object>> partnersList = (List<Map<String, Object>>) payload.get("partnerHistory");
-                List<Company.PartnerHistoryItem> items = new ArrayList<>();
-                for (Map<String, Object> p : partnersList) {
-                    Long profileId = p.get("profileId") != null ? Long.parseLong(p.get("profileId").toString()) : null;
-                    items.add(Company.PartnerHistoryItem.builder()
-                            .name((String) p.get("name"))
-                            .logo((String) p.get("logo"))
-                            .profileId(profileId)
-                            .build());
+                Object rawPartners = payload.get("partnerHistory");
+                if (rawPartners instanceof java.util.Collection<?>) {
+                    List<Company.PartnerHistoryItem> items = new ArrayList<>();
+                    for (Object obj : (java.util.Collection<?>) rawPartners) {
+                        if (obj instanceof Map<?, ?>) {
+                            Map<?, ?> p = (Map<?, ?>) obj;
+                            Long profileId = p.get("profileId") != null ? Long.parseLong(p.get("profileId").toString()) : null;
+                            items.add(Company.PartnerHistoryItem.builder()
+                                    .name((String) p.get("name"))
+                                    .logo((String) p.get("logo"))
+                                    .profileId(profileId)
+                                    .build());
+                        }
+                    }
+                    company.setPartnerHistory(items);
                 }
-                company.setPartnerHistory(items);
             }
 
             if (payload.containsKey("activityLog")) {
-                List<Map<String, Object>> logList = (List<Map<String, Object>>) payload.get("activityLog");
-                List<Company.ActivityLogItem> items = new ArrayList<>();
-                for (Map<String, Object> p : logList) {
-                    items.add(Company.ActivityLogItem.builder()
-                            .milestone((String) p.get("milestone"))
-                            .type((String) p.get("type"))
-                            .date((String) p.get("date"))
-                            .build());
+                Object rawLog = payload.get("activityLog");
+                if (rawLog instanceof java.util.Collection<?>) {
+                    List<Company.ActivityLogItem> items = new ArrayList<>();
+                    for (Object obj : (java.util.Collection<?>) rawLog) {
+                        if (obj instanceof Map<?, ?>) {
+                            Map<?, ?> p = (Map<?, ?>) obj;
+                            items.add(Company.ActivityLogItem.builder()
+                                    .milestone((String) p.get("milestone"))
+                                    .type((String) p.get("type"))
+                                    .date((String) p.get("date"))
+                                    .build());
+                        }
+                    }
+                    company.setActivityLog(items);
                 }
-                company.setActivityLog(items);
             }
 
             company = companyRepository.save(company);

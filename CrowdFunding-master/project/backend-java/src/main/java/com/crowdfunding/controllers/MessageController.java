@@ -64,13 +64,18 @@ public class MessageController {
 
             List<Message.Attachment> attachments = new ArrayList<>();
             if (payload.containsKey("attachments")) {
-                List<Map<String, Object>> attsList = (List<Map<String, Object>>) payload.get("attachments");
-                for (Map<String, Object> att : attsList) {
-                    attachments.add(Message.Attachment.builder()
-                            .url((String) att.get("url"))
-                            .name((String) att.get("name"))
-                            .type((String) att.get("type"))
-                            .build());
+                Object rawAttachments = payload.get("attachments");
+                if (rawAttachments instanceof java.util.Collection<?>) {
+                    for (Object obj : (java.util.Collection<?>) rawAttachments) {
+                        if (obj instanceof Map<?, ?>) {
+                            Map<?, ?> att = (Map<?, ?>) obj;
+                            attachments.add(Message.Attachment.builder()
+                                    .url((String) att.get("url"))
+                                    .name((String) att.get("name"))
+                                    .type((String) att.get("type"))
+                                    .build());
+                        }
+                    }
                 }
             }
 

@@ -243,36 +243,55 @@ public class AuthController {
             if (payload.containsKey("companyWebsite")) user.setCompanyWebsite((String) payload.get("companyWebsite"));
 
             if (payload.containsKey("services")) {
-                user.setServices((java.util.List<String>) payload.get("services"));
+                Object rawServices = payload.get("services");
+                if (rawServices instanceof java.util.Collection<?>) {
+                    java.util.List<String> servicesList = new java.util.ArrayList<>();
+                    for (Object obj : (java.util.Collection<?>) rawServices) {
+                        if (obj instanceof String) {
+                            servicesList.add((String) obj);
+                        }
+                    }
+                    user.setServices(servicesList);
+                }
             }
 
             if (payload.containsKey("personalPortfolio")) {
-                java.util.List<Map<String, Object>> portfolioList = (java.util.List<Map<String, Object>>) payload.get("personalPortfolio");
-                java.util.List<User.PortfolioItem> items = new java.util.ArrayList<>();
-                for (Map<String, Object> p : portfolioList) {
-                    items.add(User.PortfolioItem.builder()
-                            .title((String) p.get("title"))
-                            .description((String) p.get("description"))
-                            .link((String) p.get("link"))
-                            .image((String) p.get("image"))
-                            .date((String) p.get("date"))
-                            .build());
+                Object rawPortfolio = payload.get("personalPortfolio");
+                if (rawPortfolio instanceof java.util.Collection<?>) {
+                    java.util.List<User.PortfolioItem> items = new java.util.ArrayList<>();
+                    for (Object obj : (java.util.Collection<?>) rawPortfolio) {
+                        if (obj instanceof Map<?, ?>) {
+                            Map<?, ?> p = (Map<?, ?>) obj;
+                            items.add(User.PortfolioItem.builder()
+                                    .title((String) p.get("title"))
+                                    .description((String) p.get("description"))
+                                    .link((String) p.get("link"))
+                                    .image((String) p.get("image"))
+                                    .date((String) p.get("date"))
+                                    .build());
+                        }
+                    }
+                    user.setPersonalPortfolio(items);
                 }
-                user.setPersonalPortfolio(items);
             }
 
             if (payload.containsKey("partnerHistory")) {
-                java.util.List<Map<String, Object>> partnersList = (java.util.List<Map<String, Object>>) payload.get("partnerHistory");
-                java.util.List<User.PartnerHistoryItem> items = new java.util.ArrayList<>();
-                for (Map<String, Object> p : partnersList) {
-                    Long profileId = p.get("profileId") != null ? Long.parseLong(p.get("profileId").toString()) : null;
-                    items.add(User.PartnerHistoryItem.builder()
-                            .name((String) p.get("name"))
-                            .logo((String) p.get("logo"))
-                            .profileId(profileId)
-                            .build());
+                Object rawPartners = payload.get("partnerHistory");
+                if (rawPartners instanceof java.util.Collection<?>) {
+                    java.util.List<User.PartnerHistoryItem> items = new java.util.ArrayList<>();
+                    for (Object obj : (java.util.Collection<?>) rawPartners) {
+                        if (obj instanceof Map<?, ?>) {
+                            Map<?, ?> p = (Map<?, ?>) obj;
+                            Long profileId = p.get("profileId") != null ? Long.parseLong(p.get("profileId").toString()) : null;
+                            items.add(User.PartnerHistoryItem.builder()
+                                    .name((String) p.get("name"))
+                                    .logo((String) p.get("logo"))
+                                    .profileId(profileId)
+                                    .build());
+                        }
+                    }
+                    user.setPartnerHistory(items);
                 }
-                user.setPartnerHistory(items);
             }
 
             user = userRepository.save(user);
