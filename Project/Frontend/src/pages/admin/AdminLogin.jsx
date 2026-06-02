@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ShieldCheck, Mail, Lock, LogIn, ArrowLeft, AlertCircle } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { Button, Input, Card, Container, Flex } from "../../components/ui";
 import useAuthStore from "../../store/authStore";
 

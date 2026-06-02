@@ -11,7 +11,7 @@ import {
   Trash2,
   RefreshCw,
 } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
 

@@ -13,7 +13,7 @@ import {
   DollarSign,
   Bell,
 } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { Flex } from "../../components/ui";
 import useAuthStore from "../../store/authStore";
 import AdminLayout from "../../components/AdminLayout";

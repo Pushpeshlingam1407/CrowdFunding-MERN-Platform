@@ -15,7 +15,7 @@ import {
   ArrowLeft,
   MessageSquare
 } from 'lucide-react';
-import { toast } from 'react-toastify';
+import { toast } from "sonner";
 import { Button, Card, Container, Flex, Grid, Input } from '../components/ui';
 import { chatAPI, b2bAPI } from '../services/api';
 import useAuthStore from '../store/authStore';

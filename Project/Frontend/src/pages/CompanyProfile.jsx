@@ -22,7 +22,7 @@ import {
   Briefcase,
   ExternalLink
 } from 'lucide-react';
-import { toast } from 'react-toastify';
+import { toast } from "react-hot-toast";
 import { Button, Card, Container, Flex, Grid, Input } from '../components/ui';
 import StarRating from '../components/ui/StarRating';
 import ComplaintBox from '../components/ui/ComplaintBox';

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { TrendingUp, ArrowRight, Briefcase, DollarSign, Target } from 'lucide-react';
 import { Button, Card, Container, Flex, Grid } from './ui';
-import { toast } from 'react-toastify';
+import { toast } from "react-hot-toast";
 
 const PortfolioWrapper = styled.div`
   padding: 4rem 0;

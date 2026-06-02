@@ -11,7 +11,7 @@ import {
   AlertTriangle,
   Image as ImageIcon,
 } from 'lucide-react';
-import { toast } from 'react-toastify';
+import { toast } from "react-hot-toast";
 import { projectAPI } from '../services/api';
 
 // ─── Animations ───────────────────────────────────────────────────────────────

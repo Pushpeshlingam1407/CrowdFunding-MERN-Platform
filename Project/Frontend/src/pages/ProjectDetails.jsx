@@ -16,7 +16,7 @@ import {
   ZoomIn,
   Send
 } from 'lucide-react';
-import { toast } from 'react-toastify';
+import { toast } from "react-hot-toast";
 import { Button, Card, Container, Flex, Grid } from '../components/ui';
 import InvestmentModal from '../components/InvestmentModal';
 import PaymentModal from '../components/PaymentModal';

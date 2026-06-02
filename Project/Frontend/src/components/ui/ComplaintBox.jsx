@@ -11,7 +11,7 @@ import {
   ShieldClose,
   FileWarning
 } from 'lucide-react';
-import { toast } from 'react-toastify';
+import { toast } from "react-hot-toast";
 import { Button, Card, Flex, Input } from './index';
 import { b2bAPI } from '../../services/api';
 

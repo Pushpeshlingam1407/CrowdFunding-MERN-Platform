@@ -14,7 +14,7 @@ import {
   UserCheck,
   RefreshCw,
 } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
 
