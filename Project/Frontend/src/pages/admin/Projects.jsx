@@ -150,8 +150,6 @@ const EmptyState = styled.div`
   p { font-size: 0.95rem; font-weight: 500; }
 `;
 
-const BASE = "http://localhost:5000";
-
 const AdminProjects = () => {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
@@ -159,16 +157,17 @@ const AdminProjects = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("all");
 
+  const getToken = () => localStorage.getItem("adminToken") || localStorage.getItem("token");
+  const getBaseURL = () => import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
   useEffect(() => {
     fetchAdminProjects();
   }, []);
 
-  const getToken = () => localStorage.getItem("adminToken") || localStorage.getItem("token");
-
   const fetchAdminProjects = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${BASE}/api/admin/projects`, {
+      const res = await fetch(`${getBaseURL()}/admin/projects`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       const data = await res.json();
@@ -183,7 +182,7 @@ const AdminProjects = () => {
 
   const handleStatusChange = async (projectId, status) => {
     try {
-      const res = await fetch(`${BASE}/api/admin/projects/${projectId}`, {
+      const res = await fetch(`${getBaseURL()}/admin/projects/${projectId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -203,7 +202,7 @@ const AdminProjects = () => {
   const handleDelete = async (projectId) => {
     if (!window.confirm("Permanently delete this campaign?")) return;
     try {
-      const res = await fetch(`${BASE}/api/admin/projects/${projectId}`, {
+      const res = await fetch(`${getBaseURL()}/admin/projects/${projectId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${getToken()}` },
       });
@@ -372,3 +371,4 @@ const AdminProjects = () => {
 };
 
 export default AdminProjects;
+

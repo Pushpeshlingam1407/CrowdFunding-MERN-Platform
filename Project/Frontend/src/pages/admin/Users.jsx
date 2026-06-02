@@ -201,24 +201,23 @@ const Avatar = styled.div`
   box-shadow: 0 4px 12px rgba(67, 24, 255, 0.2);
 `;
 
-const BASE = "http://localhost:5000";
-
 const AdminUsers = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const getToken = () => localStorage.getItem("adminToken") || localStorage.getItem("token");
+  const getBaseURL = () => import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  const getToken = () => localStorage.getItem("adminToken") || localStorage.getItem("token");
-
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${BASE}/api/admin/users`, {
+      const response = await fetch(`${getBaseURL()}/admin/users`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       const data = await response.json();
@@ -233,7 +232,7 @@ const AdminUsers = () => {
 
   const handleRoleChange = async (userId, newRole) => {
     try {
-      const response = await fetch(`${BASE}/api/admin/users/${userId}/role`, {
+      const response = await fetch(`${getBaseURL()}/admin/users/${userId}/role`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${getToken()}`, "Content-Type": "application/json" },
         body: JSON.stringify({ role: newRole }),
@@ -249,7 +248,7 @@ const AdminUsers = () => {
 
   const handleVerifyToggle = async (userId, currentStatus) => {
     try {
-      const response = await fetch(`${BASE}/api/admin/users/${userId}/status`, {
+      const response = await fetch(`${getBaseURL()}/admin/users/${userId}/status`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${getToken()}`, "Content-Type": "application/json" },
         body: JSON.stringify({ isVerified: !currentStatus }),
@@ -266,7 +265,7 @@ const AdminUsers = () => {
   const handleDeleteUser = async (userId, userName) => {
     if (!window.confirm(`Permanently delete user "${userName}"? This action cannot be undone.`)) return;
     try {
-      const response = await fetch(`${BASE}/api/admin/users/${userId}`, {
+      const response = await fetch(`${getBaseURL()}/admin/users/${userId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${getToken()}` },
       });
@@ -412,3 +411,4 @@ const AdminUsers = () => {
 };
 
 export default AdminUsers;
+
