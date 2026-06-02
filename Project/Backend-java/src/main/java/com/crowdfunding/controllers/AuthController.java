@@ -43,6 +43,21 @@ public class AuthController {
             java.util.regex.Pattern.compile(
                     "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':,.<>?]).{8,}$");
 
+    @GetMapping("/check-email")
+    public ResponseEntity<?> checkEmail(@RequestParam String email) {
+        if (email == null || email.isBlank()) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", "Email is required");
+            return ResponseEntity.badRequest().body(error);
+        }
+        boolean exists = userRepository.existsByEmail(email.trim().toLowerCase());
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("exists", exists);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Map<String, Object> payload) {
         try {

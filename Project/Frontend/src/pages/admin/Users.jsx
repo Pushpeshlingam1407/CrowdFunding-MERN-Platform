@@ -38,7 +38,7 @@ const TableWrapper = styled.div`
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #A3AED0;
+    color: #a3aed0;
     background: #ffffff;
     border-bottom: 1px solid #f1f5f9;
   }
@@ -57,7 +57,7 @@ const TableWrapper = styled.div`
   }
 
   tbody tr:hover {
-    background: #F4F7FE;
+    background: #f4f7fe;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(112, 144, 176, 0.08);
   }
@@ -130,14 +130,14 @@ const RoleSelect = styled.select`
   font-size: 0.78rem;
   font-weight: 600;
   background: #ffffff;
-  color: #2B3674;
-  border: 1px solid #E2E8F0;
+  color: #2b3674;
+  border: 1px solid #e2e8f0;
   cursor: pointer;
   outline: none;
   transition: all 0.2s;
 
   &:focus {
-    border-color: #4318FF;
+    border-color: #4318ff;
     box-shadow: 0 0 0 3px rgba(67, 24, 255, 0.1);
   }
 `;
@@ -151,7 +151,7 @@ const SearchBar = styled.div`
     left: 1.25rem;
     top: 50%;
     transform: translateY(-50%);
-    color: #A3AED0;
+    color: #a3aed0;
     pointer-events: none;
   }
 
@@ -161,36 +161,43 @@ const SearchBar = styled.div`
     background: #ffffff;
     border: none;
     border-radius: 20px;
-    color: #2B3674;
+    color: #2b3674;
     font-size: 0.9rem;
     font-weight: 500;
     outline: none;
     transition: all 0.2s;
     box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
 
-    &::placeholder { color: #A3AED0; }
-    &:focus { box-shadow: 0px 18px 40px rgba(67, 24, 255, 0.2); }
+    &::placeholder {
+      color: #a3aed0;
+    }
+    &:focus {
+      box-shadow: 0px 18px 40px rgba(67, 24, 255, 0.2);
+    }
   }
 `;
 
 const EmptyState = styled.div`
   padding: 5rem 2rem;
   text-align: center;
-  color: #A3AED0;
+  color: #a3aed0;
 
   svg {
     margin: 0 auto 1rem;
     display: block;
     opacity: 0.4;
   }
-  p { font-size: 0.95rem; font-weight: 500; }
+  p {
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
 `;
 
 const Avatar = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #4318FF 0%, #868CFF 100%);
+  background: linear-gradient(135deg, #4318ff 0%, #868cff 100%);
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -213,7 +220,8 @@ const AdminUsers = () => {
     fetchUsers();
   }, []);
 
-  const getToken = () => localStorage.getItem("adminToken") || localStorage.getItem("token");
+  const getToken = () =>
+    localStorage.getItem("adminToken") || localStorage.getItem("token");
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -235,7 +243,10 @@ const AdminUsers = () => {
     try {
       const response = await fetch(`${BASE}/api/admin/users/${userId}/role`, {
         method: "PUT",
-        headers: { Authorization: `Bearer ${getToken()}`, "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ role: newRole }),
       });
       const data = await response.json();
@@ -251,12 +262,17 @@ const AdminUsers = () => {
     try {
       const response = await fetch(`${BASE}/api/admin/users/${userId}/status`, {
         method: "PUT",
-        headers: { Authorization: `Bearer ${getToken()}`, "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ isVerified: !currentStatus }),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Update failed");
-      toast.success(!currentStatus ? "User verified successfully" : "Verification revoked");
+      toast.success(
+        !currentStatus ? "User verified successfully" : "Verification revoked",
+      );
       fetchUsers();
     } catch (error) {
       toast.error(error.message || "Verification update failed");
@@ -264,7 +280,12 @@ const AdminUsers = () => {
   };
 
   const handleDeleteUser = async (userId, userName) => {
-    if (!window.confirm(`Permanently delete user "${userName}"? This action cannot be undone.`)) return;
+    if (
+      !window.confirm(
+        `Permanently delete user "${userName}"? This action cannot be undone.`,
+      )
+    )
+      return;
     try {
       const response = await fetch(`${BASE}/api/admin/users/${userId}`, {
         method: "DELETE",
@@ -278,15 +299,19 @@ const AdminUsers = () => {
     }
   };
 
-  const filtered = users.filter((u) =>
-    u.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    u.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    u.companyName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    u.role?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filtered = users.filter(
+    (u) =>
+      u.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      u.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      u.companyName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      u.role?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
-    <AdminLayout title="Ecosystem Management" subtitle="Moderating professional accounts">
+    <AdminLayout
+      title="Ecosystem Management"
+      subtitle="Moderating professional accounts"
+    >
       <div>
         <Flex gap="1rem" style={{ marginBottom: "2rem" }}>
           <SearchBar>
@@ -297,7 +322,17 @@ const AdminUsers = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </SearchBar>
-          <ActionBtn onClick={fetchUsers} style={{ whiteSpace: "nowrap", padding: '0 1.5rem', borderRadius: 20, border: 'none', background: '#ffffff', boxShadow: '0px 18px 40px rgba(112, 144, 176, 0.12)' }}>
+          <ActionBtn
+            onClick={fetchUsers}
+            style={{
+              whiteSpace: "nowrap",
+              padding: "0 1.5rem",
+              borderRadius: 20,
+              border: "none",
+              background: "#ffffff",
+              boxShadow: "0px 18px 40px rgba(112, 144, 176, 0.12)",
+            }}
+          >
             <RefreshCw size={16} className={loading ? "spin" : ""} /> Refresh
           </ActionBtn>
         </Flex>
@@ -336,10 +371,22 @@ const AdminUsers = () => {
                       <Flex gap="1rem">
                         <Avatar>{user.name?.charAt(0) || "?"}</Avatar>
                         <div>
-                          <h4 style={{ fontWeight: 700, marginBottom: "0.15rem", color: "#2B3674" }}>
+                          <h4
+                            style={{
+                              fontWeight: 700,
+                              marginBottom: "0.15rem",
+                              color: "#2B3674",
+                            }}
+                          >
                             {user.name}
                           </h4>
-                          <p style={{ fontSize: "0.8rem", color: "#A3AED0", fontWeight: 500 }}>
+                          <p
+                            style={{
+                              fontSize: "0.8rem",
+                              color: "#A3AED0",
+                              fontWeight: 500,
+                            }}
+                          >
                             {user.companyName || user.email}
                           </p>
                         </div>
@@ -351,7 +398,9 @@ const AdminUsers = () => {
                         {user.role !== "admin" && (
                           <RoleSelect
                             value={user.role}
-                            onChange={(e) => handleRoleChange(user._id, e.target.value)}
+                            onChange={(e) =>
+                              handleRoleChange(user._id, e.target.value)
+                            }
                           >
                             <option value="startup">Startup</option>
                             <option value="investor">Investor</option>
@@ -366,19 +415,6 @@ const AdminUsers = () => {
                         <VerifiedBadge $verified={user.isVerified}>
                           {user.isVerified ? "Verified User" : "Unverified"}
                         </VerifiedBadge>
-                        <button
-                          onClick={() => handleVerifyToggle(user._id, user.isVerified)}
-                          style={{
-                            background: "none",
-                            border: "none",
-                            color: "#A3AED0",
-                            cursor: "pointer",
-                            padding: "0.2rem",
-                          }}
-                          title={user.isVerified ? "Revoke Verification" : "Verify User"}
-                        >
-                          {user.isVerified ? <ShieldAlert size={16} /> : <ShieldCheck size={16} />}
-                        </button>
                       </Flex>
                     </td>
                     <td>
@@ -395,7 +431,27 @@ const AdminUsers = () => {
                         <ActionBtn title="Email User">
                           <Mail size={14} />
                         </ActionBtn>
-                        <ActionBtn $variant="delete" onClick={() => handleDeleteUser(user._id, user.name)}>
+                        <ActionBtn
+                          $variant={user.isVerified ? "ban" : "verify"}
+                          onClick={() =>
+                            handleVerifyToggle(user._id, user.isVerified)
+                          }
+                          title={
+                            user.isVerified
+                              ? "Revoke Verification"
+                              : "Verify User"
+                          }
+                        >
+                          {user.isVerified ? (
+                            <ShieldAlert size={14} />
+                          ) : (
+                            <ShieldCheck size={14} />
+                          )}
+                        </ActionBtn>
+                        <ActionBtn
+                          $variant="delete"
+                          onClick={() => handleDeleteUser(user._id, user.name)}
+                        >
                           <Trash2 size={14} />
                         </ActionBtn>
                       </Flex>
