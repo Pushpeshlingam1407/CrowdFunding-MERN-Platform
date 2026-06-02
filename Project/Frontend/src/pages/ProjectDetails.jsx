@@ -62,7 +62,7 @@ const StatusOverlay = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: ${props => props.locked ? '#e53e3e' : props.theme.colors.primary};
+  color: ${props => props.status === 'completed' ? '#05CD99' : props.locked ? '#e53e3e' : props.theme.colors.primary};
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 `;
 
@@ -440,9 +440,9 @@ const ProjectDetails = () => {
                   alt={project.title}
                   onError={(e) => { e.target.src = fallbackSrc; }}
                 />
-                <StatusOverlay locked={project.isLocked}>
-                  {project.isLocked ? <Lock size={16} /> : <ShieldCheck size={16} />}
-                  {project.isLocked ? 'EXPIRED' : 'ACTIVE'}
+                <StatusOverlay locked={project.isLocked} status={project.status}>
+                  {project.status === 'completed' ? <ShieldCheck size={16} /> : project.isLocked ? <Lock size={16} /> : <ShieldCheck size={16} />}
+                  {project.status === 'completed' ? 'SUCCESSFULLY FUNDED' : project.isLocked ? 'EXPIRED' : 'ACTIVE'}
                 </StatusOverlay>
               </ImageContainer>
 
@@ -575,10 +575,10 @@ const ProjectDetails = () => {
               <Button
                 size="lg"
                 style={{ width: '100%', padding: '1.25rem' }}
-                disabled={project.isLocked || isCreator}
+                disabled={project.isLocked || isCreator || project.status === 'completed'}
                 onClick={handleInvestClick}
               >
-                {project.isLocked ? 'Campaign Locked' : 'Invest in Startup'}
+                {project.status === 'completed' ? 'Campaign Fully Funded' : project.isLocked ? 'Campaign Locked' : 'Invest in Startup'}
               </Button>
 
               {isCreator && (

@@ -94,11 +94,12 @@ const CampaignsList = () => {
                       {project.category}
                     </Badge>
                     <Badge bg={
+                      project.status === 'completed' ? 'info' :
                       project.status === 'approved' ? 'success' :
                       project.status === 'pending' ? 'warning' :
                       'danger'
                     }>
-                      {project.status}
+                      {project.status === 'completed' ? 'Fully Funded' : project.status}
                     </Badge>
                   </div>
                   <Link 

@@ -144,6 +144,7 @@ const Login = () => {
         toast.success('Welcome, Admin! Redirecting to Admin Dashboard…');
         navigate('/admin/dashboard', { replace: true });
       } else {
+        toast.success('Welcome back! Successfully logged in.');
         navigate(from, { replace: true });
       }
     }

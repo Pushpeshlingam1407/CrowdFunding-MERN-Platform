@@ -113,9 +113,10 @@ const ProjectView = () => {
                 <Button 
                   variant="primary" 
                   size="lg"
+                  disabled={project.status === 'completed'}
                   onClick={() => navigate(`/projects/${id}/invest`)}
                 >
-                  Invest Now
+                  {project.status === 'completed' ? 'Fully Funded' : 'Invest Now'}
                 </Button>
                 <Button 
                   variant="outline-secondary"
