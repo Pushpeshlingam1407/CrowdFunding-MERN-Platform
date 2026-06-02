@@ -100,10 +100,10 @@ const Home = () => {
           >
             <Badge>Trusted by 10,000+ Startups & Investors</Badge>
             <Title>
-              Connecting the <span>Startup Ecosystem</span> <br /> for B2B Success
+              Connecting the <span>Startup Ecosystem</span> <br /> for Investment Success
             </Title>
             <Subtitle>
-              The premium B2B SaaS platform for startups, single investors, MNCs, and employees. 
+              The premium crowdfunding platform for startups, single investors, MNCs, and employees. 
               Find services, post jobs, and fund the next big thing.
             </Subtitle>
             <Flex justify="center" gap="1rem">
@@ -132,8 +132,8 @@ const Home = () => {
             </Card>
             <Card>
               <FeatureIcon><Briefcase size={24} /></FeatureIcon>
-              <FeatureTitle>B2B Services</FeatureTitle>
-              <FeatureText>Connect with MNCs and startups to provide or find specialized services in a secure marketplace.</FeatureText>
+              <FeatureTitle>Startup Services</FeatureTitle>
+              <FeatureText>Connect with investors and startups to provide or find specialized funding and opportunities.</FeatureText>
             </Card>
             <Card>
               <FeatureIcon><Users size={24} /></FeatureIcon>

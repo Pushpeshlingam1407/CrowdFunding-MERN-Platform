@@ -165,7 +165,7 @@ const Login = () => {
           >
             <Card>
               <FormTitle>Welcome Back</FormTitle>
-              <FormSubtitle>Log in to access the B2B SaaS network</FormSubtitle>
+              <FormSubtitle>Log in to access the crowdfunding network</FormSubtitle>
               
               {error && !errorField && (
                 <ErrorBox>

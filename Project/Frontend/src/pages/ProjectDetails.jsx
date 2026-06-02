@@ -461,7 +461,7 @@ const ProjectDetails = () => {
                     <span style={{ fontSize: '1.25rem', fontWeight: 700 }}>₹{project.targetAmount.toLocaleString()}</span>
                   </Flex>
                   <Flex direction="column" align="flex-start" gap="0.5rem">
-                    <span style={{ color: '#888', fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase' }}>B2B Tier</span>
+                    <span style={{ color: '#888', fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase' }}>Tier</span>
                     <span style={{ fontSize: '1.25rem', fontWeight: 700 }}>Enterprise</span>
                   </Flex>
                 </Grid>

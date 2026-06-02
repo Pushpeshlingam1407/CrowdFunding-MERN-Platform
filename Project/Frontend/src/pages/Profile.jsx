@@ -120,7 +120,7 @@ const Profile = () => {
 
       const response = await userAPI.updateProfile(updateData);
 
-      // Update Company Data (B2B SaaS specific)
+      // Update Company Data
       await b2bAPI.updateCompany(companyData?.id || user?.id, {
         branding: {
           logo: formData.logo,
@@ -206,7 +206,7 @@ const Profile = () => {
                 Professional Identity
               </h1>
               <p style={{ color: "#666" }}>
-                Manage your personal and company metadata for the B2B ecosystem.
+                Manage your personal and company metadata for the crowdfunding ecosystem.
               </p>
             </header>
 
@@ -438,7 +438,7 @@ const Profile = () => {
               <ShieldCheck size={20} style={{ color: "#2f855a" }} />
               <span style={{ fontSize: "0.85rem", color: "#666" }}>
                 Your information is verified and secured using industry-standard
-                B2B SaaS protocols.
+                crowdfunding protocols.
               </span>
             </Flex>
           </ProfileCard>

@@ -51,7 +51,7 @@ const Privacy = () => {
             <Card style={{ padding: '3rem', border: 'none', background: '#fafafa', borderRadius: '24px', marginBottom: '4rem' }}>
                <h2 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '1.5rem', letterSpacing: '-1.5px' }}>Our Commitment</h2>
                <p style={{ fontSize: '1.1rem', lineHeight: '1.7', color: '#555' }}>
-                  At StartupFund, we prioritize the confidentiality of professional ventures. Our infrastructure is designed for high-availability while maintaining absolute data isolation for each registered entity within the B2B SaaS ecosystem.
+                  At StartupFund, we prioritize the confidentiality of professional ventures. Our infrastructure is designed for high-availability while maintaining absolute data isolation for each registered entity within the crowdfunding ecosystem.
                </p>
             </Card>
 
@@ -76,12 +76,12 @@ const Privacy = () => {
 
             <h2 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '1.5rem' }}>Data Residency & Compliance</h2>
             <p style={{ fontSize: '1.1rem', lineHeight: '1.7', color: '#555' }}>
-               User profiles and campaign metadata are stored across redundant global clusters to ensure 99.9% uptime. For audit purposes, we retain specific KYC data as required by the regulatory frameworks of the jurisdictions in which our B2B SaaS platform operates.
+               User profiles and campaign metadata are stored across redundant global clusters to ensure 99.9% uptime. For audit purposes, we retain specific KYC data as required by the regulatory frameworks of the jurisdictions in which our crowdfunding platform operates.
             </p>
 
             <Card style={{ padding: '3rem', textAlign: 'center', marginTop: '6rem', borderRadius: '32px', background: '#0077b6', color: 'white' }}>
                <h3 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '1rem' }}>Your Identity, Secured.</h3>
-               <p style={{ opacity: 0.9, marginBottom: '2.5rem' }}>The StartupFund terminal is designed for trust at every layer of the B2B SaaS ecosystem.</p>
+               <p style={{ opacity: 0.9, marginBottom: '2.5rem' }}>The StartupFund terminal is designed for trust at every layer of the crowdfunding ecosystem.</p>
                <Button onClick={() => navigate('/register')} style={{ background: 'white', color: '#0077b6' }}>Join the Ecosystem</Button>
             </Card>
         </SectionContainer>

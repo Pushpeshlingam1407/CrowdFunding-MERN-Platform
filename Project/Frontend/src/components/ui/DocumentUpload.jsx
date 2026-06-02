@@ -208,7 +208,7 @@ const DocumentUpload = ({ onUploadSuccess }) => {
       <Flex gap="1rem" style={{ marginTop: '2rem', padding: '1rem', background: '#f8f9fa', borderRadius: '12px' }}>
         <ShieldCheck size={20} style={{ color: '#2f855a', flexShrink: 0 }} />
         <span style={{ fontSize: '0.85rem', color: '#666' }}>
-          Documents are encrypted and stored in compliance with our B2B SaaS data isolation policies.
+          Documents are encrypted and stored in compliance with our crowdfunding data isolation policies.
         </span>
       </Flex>
     </div>

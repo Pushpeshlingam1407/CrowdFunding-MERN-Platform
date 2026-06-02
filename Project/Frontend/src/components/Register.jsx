@@ -206,7 +206,7 @@ const Register = () => {
           >
             <Card>
               <FormTitle>Create Account</FormTitle>
-              <FormSubtitle>Join the premium B2B SaaS ecosystem</FormSubtitle>
+              <FormSubtitle>Join the premium crowdfunding ecosystem</FormSubtitle>
 
               <form onSubmit={handleSubmit}>
                 <Grid cols={2} gap="1rem">

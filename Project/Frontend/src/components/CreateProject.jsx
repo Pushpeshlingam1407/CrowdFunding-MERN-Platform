@@ -211,7 +211,7 @@ const CreateProject = () => {
               {currentStep === 1 && (
                 <>
                   <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '0.5rem', letterSpacing: '-1px' }}>Project Identity</h2>
-                  <p style={{ color: '#666', marginBottom: '2.5rem' }}>Define the core vision of your B2B venture.</p>
+                  <p style={{ color: '#666', marginBottom: '2.5rem' }}>Define the core vision of your venture.</p>
                   
                   <Label>Campaign Title</Label>
                   <Input 
@@ -425,7 +425,7 @@ const CreateProject = () => {
                   </Button>
                 ) : (
                   <Button type="submit" disabled={loading} style={{ flexGrow: 2 }}>
-                    {loading ? 'Launching...' : 'Launch B2B Campaign'} <Rocket size={18} style={{ marginLeft: 8 }} />
+                    {loading ? 'Launching...' : 'Launch Campaign'} <Rocket size={18} style={{ marginLeft: 8 }} />
                   </Button>
                 )}
               </Flex>

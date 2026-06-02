@@ -65,7 +65,7 @@ const Footer = () => {
           <div>
             <Logo to="/">Startup<span>Fund</span></Logo>
             <p style={{ lineHeight: '1.6', fontSize: '0.95rem', maxWidth: '240px', marginBottom: '2rem' }}>
-              The definitive B2B SaaS infrastructure for the global startup ecosystem.
+              The definitive crowdfunding infrastructure for the global startup ecosystem.
             </p>
             <Flex gap="1.5rem">
                <FooterLink to="/admin/login" style={{ fontSize: '0.8rem', opacity: 0.5 }}>Executive Terminal</FooterLink>

@@ -250,7 +250,7 @@ const CompanyProfile = () => {
                 <ShieldCheck size={24} style={{ color: '#2f855a' }} />
                 <div>
                    <h4 style={{ fontSize: '1.5rem', fontWeight: 800 }}>100%</h4>
-                   <p style={{ fontSize: '0.75rem', color: '#888', textTransform: 'uppercase', fontWeight: 700 }}>B2B Security Score</p>
+                   <p style={{ fontSize: '0.75rem', color: '#888', textTransform: 'uppercase', fontWeight: 700 }}>Security Score</p>
                 </div>
              </Flex>
           </Grid>
@@ -277,7 +277,7 @@ const CompanyProfile = () => {
                 style={{ width: '100%', maxWidth: '500px', padding: '2.5rem' }}
               >
                 <h2 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '0.5rem' }}>Professional Review</h2>
-                <p style={{ color: '#666', marginBottom: '2rem', fontSize: '0.9rem' }}>Your feedback helps maintain high standards in our B2B ecosystem.</p>
+                <p style={{ color: '#666', marginBottom: '2rem', fontSize: '0.9rem' }}>Your feedback helps maintain high standards in our crowdfunding ecosystem.</p>
                 
                 <form onSubmit={handlePostReview}>
                   <label style={{ fontSize: '0.85rem', fontWeight: 700, marginBottom: '0.5rem', display: 'block' }}>Rating</label>
@@ -445,7 +445,7 @@ const CompanyProfile = () => {
                  ))}
                </div>
                <div style={{ marginTop: '1.5rem' }}>
-                 <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '1.5rem' }}>Our operations are governed by verified B2B protocols.</p>
+                 <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '1.5rem' }}>Our operations are governed by verified crowdfunding protocols.</p>
                  <Button variant="outline" style={{ width: '100%' }} onClick={() => navigate('/terms')}>View Policies</Button>
                </div>
              </Card>

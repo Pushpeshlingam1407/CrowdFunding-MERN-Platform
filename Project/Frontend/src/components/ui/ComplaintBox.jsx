@@ -135,7 +135,7 @@ const ComplaintBox = ({ isOpen, onClose, targetCompanyId }) => {
             <header style={{ marginBottom: '2rem' }}>
               <Flex gap="0.75rem" style={{ marginBottom: '0.5rem' }}>
                 <ShieldAlert size={24} style={{ color: '#e53e3e' }} />
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 800 }}>B2B Compliance Report</h2>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 800 }}>Compliance Report</h2>
               </Flex>
               <p style={{ color: '#666', fontSize: '0.9rem' }}>
                 Flagging a company for fraud, bugs, or unpaid services ensures a safe community.

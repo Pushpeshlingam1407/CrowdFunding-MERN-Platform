@@ -179,7 +179,7 @@ const Campaigns = () => {
         <Container>
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
             <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '1rem', letterSpacing: '-1px' }}>
-              B2B Marketplace
+              Campaign Marketplace
             </h1>
             <p style={{ color: '#666', fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto' }}>
               Discover promising startups, connect with MNCS, and find the next big success story in the global ecosystem.

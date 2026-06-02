@@ -84,7 +84,7 @@ const About = () => {
 
         <HeroSection>
           <Badge>The Ecosystem Ledger</Badge>
-          <Title>Powering the next generation of B2B SaaS ventures.</Title>
+          <Title>Powering the next generation of crowdfunding ventures.</Title>
           <p style={{ fontSize: "1.25rem", color: "#666", lineHeight: "1.6" }}>
             StartupFund is the definitive infrastructure for startups,
             professional investors, MNCs, and enterprise employees to connect,
@@ -158,7 +158,7 @@ const About = () => {
                 }}
               >
                 Established in 2024, StartupFund was built by a team of
-                ecosystem architects who recognized the friction in B2B
+                ecosystem architects who recognized the friction in fundraising
                 collaboration. Our mission is to accelerate the global
                 transition to a decentralized, service-driven economy.
               </p>

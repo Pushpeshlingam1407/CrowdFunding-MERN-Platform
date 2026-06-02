@@ -70,7 +70,7 @@ const Terms = () => {
            <Section>
               <SectionTitle>1. Executive Summary</SectionTitle>
               <Paragraph>
-                 By accessing the StartupFund B2B SaaS platform, you acknowledge that you are entering a professional ecosystem designed for collaborative innovation and capital deployment. All entities must adhere to strict verification standards.
+                 By accessing the StartupFund crowdfunding platform, you acknowledge that you are entering a professional ecosystem designed for collaborative innovation and capital deployment. All entities must adhere to strict verification standards.
               </Paragraph>
            </Section>
 
