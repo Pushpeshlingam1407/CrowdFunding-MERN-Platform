@@ -221,12 +221,7 @@ const AdminUsers = () => {
     fetchUsers();
   }, []);
 
-<<<<<<< HEAD
-  const getToken = () =>
-    localStorage.getItem("adminToken") || localStorage.getItem("token");
 
-=======
->>>>>>> 015266521a56538db718c444cc396d77a3612bbc
   const fetchUsers = async () => {
     setLoading(true);
     try {

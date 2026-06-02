@@ -24,6 +24,7 @@ import Projects from "./pages/admin/Projects";
 import Users from "./pages/admin/Users";
 import Analytics from "./pages/admin/Analytics";
 import AdminSettings from "./pages/admin/Settings";
+import AdminDocumentVerification from "./pages/admin/DocumentVerification";
 import ProjectDetails from "./pages/ProjectDetails";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
@@ -192,6 +193,14 @@ const AppContent = () => {
             element={
               <AdminRoute>
                 <Users />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/document-verification"
+            element={
+              <AdminRoute>
+                <AdminDocumentVerification />
               </AdminRoute>
             }
           />
