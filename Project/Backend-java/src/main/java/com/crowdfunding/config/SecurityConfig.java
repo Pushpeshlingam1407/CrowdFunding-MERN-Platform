@@ -77,11 +77,12 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Allow common React development origins and localhost
+        // Allow local development and production Vercel frontend
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:5173",
                 "http://127.0.0.1:5173",
-                "http://localhost:3000"));
+                "http://localhost:3000",
+                "https://crowdfunding-plaform-java-git-main-thop3085-gmailcoms-projects.vercel.app"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization", "X-Requested-With"));
         configuration.setAllowCredentials(true);
@@ -92,3 +93,4 @@ public class SecurityConfig {
         return source;
     }
 }
+
