@@ -15,6 +15,8 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { toast } from "react-toastify";
+import { toast as hotToast } from "react-hot-toast";
+import { toast as sonnerToast } from "sonner";
 import { Button, Input, Card, Container, Flex, Grid } from "./ui";
 import api from "../services/api";
 
@@ -208,12 +210,12 @@ const Register = () => {
     e.preventDefault();
 
     if (!isFirstNameValid || !isLastNameValid) {
-      toast.error("First and last name must be at least 2 characters");
+      hotToast.error("First and last name must be at least 2 characters");
       return;
     }
 
     if (!formData.agreeToTerms) {
-      toast.error("Please agree to the terms and conditions");
+      sonnerToast.error("Please agree to the terms and conditions");
       return;
     }
 
@@ -223,12 +225,12 @@ const Register = () => {
     }
 
     if (emailExists) {
-      toast.error("An account with this email already exists");
+      sonnerToast.error("An account with this email already exists");
       return;
     }
 
     if (!isPasswordValid) {
-      toast.error(
+      hotToast.error(
         "Password must be at least 8 characters and include an uppercase letter, a number, and a special character",
       );
       return;
@@ -252,11 +254,11 @@ const Register = () => {
 
       await api.post("/auth/register", registerData);
 
-      toast.success("Registration successful! Please log in.");
+      sonnerToast.success("Registration successful! Please log in.");
       navigate("/login");
     } catch (error) {
       const message = error.response?.data?.message || "Registration failed";
-      toast.error(message);
+      hotToast.error(message);
     } finally {
       setLoading(false);
     }

@@ -197,8 +197,6 @@ const Skeleton = styled.div`
   width: ${p => p.$w || '100%'};
 `;
 
-const BASE = "http://localhost:5000";
-
 const AdminAnalytics = () => {
   const [stats, setStats] = useState(null);
   const [projects, setProjects] = useState([]);
@@ -206,6 +204,7 @@ const AdminAnalytics = () => {
   const [loading, setLoading] = useState(true);
 
   const getToken = () => localStorage.getItem("adminToken") || localStorage.getItem("token");
+  const getBaseURL = () => import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
   useEffect(() => { fetchAll(); }, []);
 
@@ -213,10 +212,11 @@ const AdminAnalytics = () => {
     setLoading(true);
     try {
       const headers = { Authorization: `Bearer ${getToken()}` };
+      const baseURL = getBaseURL();
       const [statsRes, projRes, usersRes] = await Promise.all([
-        fetch(`${BASE}/api/admin/dashboard`, { headers }),
-        fetch(`${BASE}/api/admin/projects`, { headers }),
-        fetch(`${BASE}/api/admin/users`, { headers }),
+        fetch(`${baseURL}/admin/dashboard`, { headers }),
+        fetch(`${baseURL}/admin/projects`, { headers }),
+        fetch(`${baseURL}/admin/users`, { headers }),
       ]);
 
       const statsData = await statsRes.json();
@@ -487,3 +487,4 @@ const AdminAnalytics = () => {
 };
 
 export default AdminAnalytics;
+

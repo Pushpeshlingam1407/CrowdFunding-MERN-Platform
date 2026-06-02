@@ -154,14 +154,17 @@ const AdminComplaints = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
+  const getToken = () => localStorage.getItem("adminToken");
+  const getBaseURL = () => import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
   useEffect(() => {
     fetchComplaints();
   }, []);
 
   const fetchComplaints = async () => {
     try {
-      const token = localStorage.getItem("adminToken");
-      const response = await fetch("http://localhost:5000/api/admin/complaints", {
+      const token = getToken();
+      const response = await fetch(`${getBaseURL()}/admin/complaints`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -179,8 +182,8 @@ const AdminComplaints = () => {
 
   const resolveComplaint = async (id) => {
     try {
-      const token = localStorage.getItem("adminToken");
-      const res = await fetch(`http://localhost:5000/api/admin/complaints/${id}/resolve`, {
+      const token = getToken();
+      const res = await fetch(`${getBaseURL()}/admin/complaints/${id}/resolve`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -347,3 +350,4 @@ const AdminComplaints = () => {
 };
 
 export default AdminComplaints;
+

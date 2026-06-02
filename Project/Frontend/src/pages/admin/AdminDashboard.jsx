@@ -196,8 +196,6 @@ const Skeleton = styled.div`
   width: ${p => p.$w || '100%'};
 `;
 
-const BASE = 'http://localhost:5000';
-
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const { adminLogout, adminUser } = useAuthStore();
@@ -207,6 +205,8 @@ const AdminDashboard = () => {
   const getToken = () =>
     localStorage.getItem('adminToken') || localStorage.getItem('token');
 
+  const getBaseURL = () => import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
   useEffect(() => {
     fetchStats();
   }, []);
@@ -214,7 +214,7 @@ const AdminDashboard = () => {
   const fetchStats = async () => {
     setLoadingStats(true);
     try {
-      const res = await fetch(`${BASE}/api/admin/dashboard`, {
+      const res = await fetch(`${getBaseURL()}/admin/dashboard`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       const data = await res.json();
@@ -347,8 +347,7 @@ const AdminDashboard = () => {
                   <StatValue>{card.value}</StatValue>
                   <StatSub>{card.sub}</StatSub>
                 </StatCard>
-              ))}
-        </StatsGrid>
+              ))}</StatsGrid>
 
         {/* Module Cards */}
         <h2 style={{ fontSize: '0.85rem', fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '1.25rem' }}>
@@ -415,3 +414,4 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+
