@@ -8,6 +8,8 @@ import {
 } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { ToastContainer } from "react-toastify";
+import { Toaster as HotToaster } from "react-hot-toast";
+import { Toaster as SonnerToaster } from "sonner";
 import { theme, GlobalStyle } from "./theme/theme";
 import Navbar from "./components/ui/Navbar";
 import Footer from "./components/ui/Footer";
@@ -227,6 +229,8 @@ const AppContent = () => {
       {/* Show footer everywhere except admin pages */}
       {!isAdminPage && <Footer />}
       <ToastContainer position="bottom-right" />
+      <HotToaster position="top-center" />
+      <SonnerToaster position="bottom-left" />
     </div>
   );
 };

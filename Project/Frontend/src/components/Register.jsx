@@ -329,7 +329,7 @@ const Register = () => {
                       <ValidationIndicator $isValid={isLastNameValid}>
                         {isLastNameValid ? (
                           <>
-                            <Check size={14} /> Last name looks good
+                            <Check size={14} /> Last name
                           </>
                         ) : (
                           <>
