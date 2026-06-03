@@ -35,7 +35,10 @@ const useAuthStore = create((set) => ({
         throw new Error("Login failed");
       }
 
-
+      // Prevent admins from logging in through the regular user portal
+      if (user.role === "admin") {
+        throw new Error("Access Denied. Please sign in through the Admin Portal.");
+      }
 
       // Store token and user data for regular users
       localStorage.setItem("token", token);
@@ -187,49 +190,53 @@ const useAuthStore = create((set) => ({
         return;
       }
 
-      // Use /auth/profile for verification
-      const response = await api.get("/auth/profile");
-      const { success, user: userData } = response.data;
-
-      if (!success) {
-        throw new Error("Auth check failed");
+      // Check Admin Token
+      if (adminToken) {
+        try {
+          const response = await api.get("/auth/profile", {
+            headers: { Authorization: `Bearer ${adminToken}` }
+          });
+          const { success, user: userData } = response.data;
+          
+          if (success && userData.role === "admin") {
+            localStorage.setItem("adminUser", JSON.stringify(userData));
+            set({
+              adminUser: userData,
+              adminAuthenticated: true,
+              isAdminMode: true,
+            });
+          }
+        } catch (error) {
+          localStorage.removeItem("adminToken");
+          localStorage.removeItem("adminUser");
+        }
       }
 
-      if (adminToken && userData.role === "admin") {
-        localStorage.setItem("adminUser", JSON.stringify(userData));
-        set({
-          adminUser: userData,
-          adminAuthenticated: true,
-          isAdminMode: true,
-          isLoading: false,
-        });
-      }
-
+      // Check User Token
       if (token) {
-        localStorage.setItem("user", JSON.stringify(userData));
-        set({
-          user: userData,
-          isAuthenticated: true,
-          isAdmin: userData.role === "admin",
-          isLoading: false,
-        });
+        try {
+          const response = await api.get("/auth/profile", {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          const { success, user: userData } = response.data;
+          
+          if (success) {
+            localStorage.setItem("user", JSON.stringify(userData));
+            set({
+              user: userData,
+              isAuthenticated: true,
+              isAdmin: userData.role === "admin",
+            });
+          }
+        } catch (error) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+        }
       }
+      
+      set({ isLoading: false });
     } catch (error) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      localStorage.removeItem("adminToken");
-      localStorage.removeItem("adminUser");
-
-      set({
-        user: null,
-        isAuthenticated: false,
-        isAdmin: false,
-        adminUser: null,
-        adminAuthenticated: false,
-        isAdminMode: false,
-        isLoading: false,
-        error: error.message,
-      });
+      set({ isLoading: false, error: error.message });
     }
   },
 }));

@@ -11,10 +11,17 @@ api.interceptors.request.use(
   (config) => {
     const adminToken = localStorage.getItem("adminToken");
     const token = localStorage.getItem("token");
-    const authToken = adminToken || token;
 
-    if (authToken) {
-      config.headers.Authorization = `Bearer ${authToken}`;
+    // Do not override if already set explicitly
+    if (!config.headers.Authorization) {
+      if (config.url?.startsWith("/admin") && adminToken) {
+        config.headers.Authorization = `Bearer ${adminToken}`;
+      } else if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      } else if (adminToken) {
+        // Fallback for general routes called while only admin is logged in
+        config.headers.Authorization = `Bearer ${adminToken}`;
+      }
     }
     return config;
   },
@@ -27,17 +34,26 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("adminToken");
-      localStorage.removeItem("user");
-      localStorage.removeItem("adminUser");
-      const isAdminPage = window.location.pathname.startsWith("/admin");
-      const isAuthPage =
-        window.location.pathname === "/login" ||
-        window.location.pathname === "/admin/login" ||
-        window.location.pathname === "/register";
-      if (!isAuthPage) {
-        window.location.href = isAdminPage ? "/admin/login" : "/login";
+      const authHeader = error.config?.headers?.Authorization || "";
+      const adminToken = localStorage.getItem("adminToken");
+      const userToken = localStorage.getItem("token");
+
+      if (adminToken && authHeader.includes(adminToken)) {
+        localStorage.removeItem("adminToken");
+        localStorage.removeItem("adminUser");
+        if (window.location.pathname.startsWith("/admin")) {
+          window.location.href = "/admin/login";
+        }
+      } else if (userToken && authHeader.includes(userToken)) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        const isAuthPage =
+          window.location.pathname === "/login" ||
+          window.location.pathname === "/admin/login" ||
+          window.location.pathname === "/register";
+        if (!isAuthPage && !window.location.pathname.startsWith("/admin")) {
+          window.location.href = "/login";
+        }
       }
     }
     return Promise.reject(error);

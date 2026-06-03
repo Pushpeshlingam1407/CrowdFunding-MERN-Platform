@@ -165,9 +165,7 @@ const Login = () => {
           >
             <Card>
               <FormTitle>Welcome Back</FormTitle>
-              <FormSubtitle>
-                Sign in to your account
-              </FormSubtitle>
+              <FormSubtitle>Sign in to your account</FormSubtitle>
 
               {error && !errorField && (
                 <ErrorBox>

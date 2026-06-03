@@ -127,18 +127,17 @@ public class InvestmentController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
             }
 
-            // Check if investment already recorded as completed
+            // Check if this specific payment was already processed
             List<Investment> existing = investmentRepository.findByInvestorIdOrderByCreatedAtDesc(userDetails.getId());
             Optional<Investment> duplicate = existing.stream()
-                    .filter(i -> i.getProject().getId().equals(projectId)
-                            && "completed".equalsIgnoreCase(i.getStatus()))
+                    .filter(i -> razorpayPaymentId.equals(i.getPaymentId()))
                     .findFirst();
 
             if (duplicate.isPresent()) {
                 Project project = projectRepository.findById(projectId).orElse(null);
                 Map<String, Object> response = new HashMap<>();
                 response.put("success", true);
-                response.put("message", "Investment already recorded");
+                response.put("message", "Payment already processed");
                 response.put("investment", duplicate.get());
                 response.put("project", project);
                 return ResponseEntity.ok(response);
@@ -235,18 +234,7 @@ public class InvestmentController {
             User investor = userRepository.findById(userDetails.getId())
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
-            // Check if already invested
-            List<Investment> existing = investmentRepository.findByInvestorIdOrderByCreatedAtDesc(userDetails.getId());
-            Optional<Investment> duplicate = existing.stream()
-                    .filter(i -> i.getProject().getId().equals(projectId))
-                    .findFirst();
-
-            if (duplicate.isPresent()) {
-                Map<String, Object> error = new HashMap<>();
-                error.put("success", false);
-                error.put("message", "You have already invested in this project");
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-            }
+            // Users can invest multiple times, so no duplicate check needed here
 
             Investment investment = Investment.builder()
                     .project(project)
