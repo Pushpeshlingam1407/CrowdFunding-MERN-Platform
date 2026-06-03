@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Rocket, 
-  ArrowRight, 
-  ArrowLeft, 
-  Upload, 
-  DollarSign, 
-  Calendar, 
+import React, { useState } from "react";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Rocket,
+  ArrowRight,
+  ArrowLeft,
+  Upload,
+  DollarSign,
+  Calendar,
   CheckCircle2,
   FileText,
   ShieldCheck,
-  Target
-} from 'lucide-react';
+  Target,
+} from "lucide-react";
 import { toast } from "react-hot-toast";
-import { Button, Card, Container, Flex, Grid, Input } from './ui';
-import { projectAPI } from '../services/api';
+import { Button, Card, Container, Flex, Grid, Input } from "./ui";
+import { projectAPI } from "../services/api";
 
 const CreateWrapper = styled.div`
   padding: 4rem 0;
@@ -36,7 +36,7 @@ const StepItem = styled.div`
   flex-direction: column;
   items: center;
   gap: 0.5rem;
-  opacity: ${props => props.active ? 1 : 0.4};
+  opacity: ${(props) => (props.active ? 1 : 0.4)};
   transition: all 0.3s;
 `;
 
@@ -44,8 +44,9 @@ const StepCircle = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: ${props => props.active ? props.theme.colors.primary : '#eee'};
-  color: ${props => props.active ? 'white' : '#666'};
+  background: ${(props) =>
+    props.active ? props.theme.colors.primary : "#eee"};
+  color: ${(props) => (props.active ? "white" : "#666")};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -101,31 +102,31 @@ const CreateProject = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    category: 'Technology',
-    targetAmount: '',
-    equity: '',
-    startDate: '',
-    endDate: '',
-    image: null
+    title: "",
+    description: "",
+    category: "Technology",
+    targetAmount: "",
+    equity: "",
+    startDate: "",
+    endDate: "",
+    image: null,
   });
   const [campaignImages, setCampaignImages] = useState([]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    if (name === 'image') {
+    if (name === "image") {
       setFormData({ ...formData, image: files[0] });
-    } else if (name === 'startDate') {
+    } else if (name === "startDate") {
       const start = new Date(value);
       if (!isNaN(start.getTime())) {
         const futureDate = new Date(start);
         futureDate.setDate(start.getDate() + 30);
-        const formattedEndDate = futureDate.toISOString().split('T')[0];
-        setFormData({ 
-          ...formData, 
+        const formattedEndDate = futureDate.toISOString().split("T")[0];
+        setFormData({
+          ...formData,
           startDate: value,
-          endDate: formattedEndDate
+          endDate: formattedEndDate,
         });
       } else {
         setFormData({ ...formData, startDate: value });
@@ -137,46 +138,46 @@ const CreateProject = () => {
 
   const handleCampaignImagesChange = (e) => {
     const files = Array.from(e.target.files || []);
-    setCampaignImages(prev => [...prev, ...files]);
+    setCampaignImages((prev) => [...prev, ...files]);
   };
 
   const removeCampaignImage = (index) => {
-    setCampaignImages(prev => prev.filter((_, i) => i !== index));
+    setCampaignImages((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+
     const payload = new FormData();
-    Object.keys(formData).forEach(key => {
+    Object.keys(formData).forEach((key) => {
       payload.append(key, formData[key]);
     });
 
     try {
       const response = await projectAPI.createProject(payload);
       const projectId = response.data.project._id;
-      
+
       // Upload campaign images if any
       if (campaignImages.length > 0) {
         const imagePayload = new FormData();
-        campaignImages.forEach(file => {
-          imagePayload.append('images', file);
+        campaignImages.forEach((file) => {
+          imagePayload.append("images", file);
         });
         await projectAPI.uploadCampaignImages(projectId, imagePayload);
       }
-      
-      toast.success('Campaign launched successfully! Awaiting verification.');
-      navigate('/dashboard');
+
+      toast.success("Campaign launched successfully! Awaiting verification.");
+      navigate("/dashboard");
     } catch (error) {
-      toast.error('Failed to launch campaign');
+      toast.error("Failed to launch campaign");
     } finally {
       setLoading(false);
     }
   };
 
-  const nextStep = () => setCurrentStep(prev => prev + 1);
-  const prevStep = () => setCurrentStep(prev => prev - 1);
+  const nextStep = () => setCurrentStep((prev) => prev + 1);
+  const prevStep = () => setCurrentStep((prev) => prev - 1);
 
   return (
     <CreateWrapper>
@@ -206,34 +207,49 @@ const CreateProject = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <Card style={{ padding: '3rem' }}>
+          <Card style={{ padding: "3rem" }}>
             <form onSubmit={handleSubmit}>
               {currentStep === 1 && (
                 <>
-                  <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '0.5rem', letterSpacing: '-1px' }}>Project Identity</h2>
-                  <p style={{ color: '#666', marginBottom: '2.5rem' }}>Define the core vision of your venture.</p>
-                  
+                  <h2
+                    style={{
+                      fontSize: "2rem",
+                      fontWeight: 800,
+                      marginBottom: "0.5rem",
+                      letterSpacing: "-1px",
+                    }}
+                  >
+                    Project Identity
+                  </h2>
+                  <p style={{ color: "#666", marginBottom: "2.5rem" }}>
+                    Define the core vision of your venture.
+                  </p>
+
                   <Label>Campaign Title</Label>
-                  <Input 
-                    name="title" 
-                    placeholder="e.g. Next-Gen AI Logistics" 
-                    value={formData.title} 
+                  <Input
+                    name="title"
+                    placeholder="e.g. Next-Gen AI Logistics"
+                    value={formData.title}
                     onChange={handleChange}
-                    style={{ marginBottom: '1.5rem' }}
+                    style={{ marginBottom: "1.5rem" }}
                     required
                   />
 
                   <Label>Detailed Vision</Label>
-                  <TextArea 
-                    name="description" 
-                    placeholder="What problem are you solving for the ecosystem?" 
-                    value={formData.description} 
+                  <TextArea
+                    name="description"
+                    placeholder="What problem are you solving for the ecosystem?"
+                    value={formData.description}
                     onChange={handleChange}
                     required
                   />
 
                   <Label>Category</Label>
-                  <Select name="category" value={formData.category} onChange={handleChange}>
+                  <Select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                  >
                     <option value="Technology">Technology</option>
                     <option value="Healthcare">Healthcare</option>
                     <option value="Education">Education</option>
@@ -246,58 +262,73 @@ const CreateProject = () => {
 
               {currentStep === 2 && (
                 <>
-                  <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '0.5rem', letterSpacing: '-1px' }}>Funding Strategy</h2>
-                  <p style={{ color: '#666', marginBottom: '2.5rem' }}>Set your financial goals and timeline.</p>
-                  
+                  <h2
+                    style={{
+                      fontSize: "2rem",
+                      fontWeight: 800,
+                      marginBottom: "0.5rem",
+                      letterSpacing: "-1px",
+                    }}
+                  >
+                    Funding Strategy
+                  </h2>
+                  <p style={{ color: "#666", marginBottom: "2.5rem" }}>
+                    Set your financial goals and timeline.
+                  </p>
+
                   <Grid cols={2} gap="1.5rem">
                     <div>
                       <Label>Target Amount (₹)</Label>
-                      <Input 
-                        type="number" 
-                        name="targetAmount" 
-                        placeholder="5,000,000" 
-                        value={formData.targetAmount} 
+                      <Input
+                        type="number"
+                        name="targetAmount"
+                        placeholder="5,000,000"
+                        value={formData.targetAmount}
                         onChange={handleChange}
                         required
                       />
                     </div>
                     <div>
                       <Label>Equity Offered (%)</Label>
-                      <Input 
-                        type="number" 
-                        name="equity" 
-                        placeholder="10" 
-                        value={formData.equity} 
+                      <Input
+                        type="number"
+                        name="equity"
+                        placeholder="10"
+                        value={formData.equity}
                         onChange={handleChange}
                         required
                       />
                     </div>
                   </Grid>
 
-                  <Grid cols={2} gap="1.5rem" style={{ marginTop: '1.5rem' }}>
+                  <Grid cols={2} gap="1.5rem" style={{ marginTop: "1.5rem" }}>
                     <div>
                       <Label>Launch Date</Label>
-                      <Input 
-                        type="date" 
-                        name="startDate" 
-                        value={formData.startDate} 
+                      <Input
+                        type="date"
+                        name="startDate"
+                        value={formData.startDate}
                         onChange={handleChange}
-                        min={new Date().toISOString().split('T')[0]}
+                        min={new Date().toISOString().split("T")[0]}
                         required
                       />
                     </div>
                     <div>
                       <Label>Expiration Date</Label>
-                      <Input 
-                        type="date" 
-                        name="endDate" 
-                        value={formData.endDate} 
+                      <Input
+                        type="date"
+                        name="endDate"
+                        value={formData.endDate}
                         onChange={handleChange}
-                        min={formData.startDate ? (() => {
-                          const start = new Date(formData.startDate);
-                          start.setDate(start.getDate() + 1);
-                          return start.toISOString().split('T')[0];
-                        })() : new Date().toISOString().split('T')[0]}
+                        min={
+                          formData.startDate
+                            ? (() => {
+                                const start = new Date(formData.startDate);
+                                start.setDate(start.getDate() + 1);
+                                return start.toISOString().split("T")[0];
+                              })()
+                            : new Date().toISOString().split("T")[0]
+                        }
                         required
                       />
                     </div>
@@ -307,99 +338,232 @@ const CreateProject = () => {
 
               {currentStep === 3 && (
                 <>
-                  <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '0.5rem', letterSpacing: '-1px' }}>Cover Image</h2>
-                  <p style={{ color: '#666', marginBottom: '2.5rem' }}>Upload your campaign cover image that will be displayed prominently.</p>
-                  
-                  <div style={{ padding: '3rem', border: '2px dashed #eee', borderRadius: '16px', textAlign: 'center', marginBottom: '2rem' }}>
-                    <Upload size={32} style={{ color: '#0077b6', marginBottom: '1rem' }} />
-                    <p style={{ fontSize: '0.9rem', fontWeight: 600, color: '#444' }}>
-                      {formData.image ? `✓ ${formData.image.name}` : 'Upload Campaign Cover Image'}
-                    </p>
-                    <input 
-                      type="file" 
-                      name="image" 
-                      accept="image/*" 
-                      onChange={handleChange} 
-                      style={{ marginTop: '1rem' }} 
-                      required
-                    />
-                  </div>
+                  <h2
+                    style={{
+                      fontSize: "2rem",
+                      fontWeight: 800,
+                      marginBottom: "0.5rem",
+                      letterSpacing: "-1px",
+                    }}
+                  >
+                    Cover Image
+                  </h2>
+                  <p style={{ color: "#666", marginBottom: "2.5rem" }}>
+                    Upload your campaign cover image that will be displayed
+                    prominently.
+                  </p>
 
-                  <Flex gap="1rem" style={{ padding: '1.5rem', background: '#f8f9fa', borderRadius: '12px' }}>
-                     <ShieldCheck size={20} style={{ color: '#2f855a' }} />
-                     <span style={{ fontSize: '0.85rem', color: '#666' }}>Your data is protected by StartupFund's enterprise security protocols.</span>
+                  {formData.image ? (
+                    <div style={{ marginBottom: "2rem" }}>
+                      <div
+                        style={{
+                          position: "relative",
+                          width: "100%",
+                          height: "300px",
+                          borderRadius: "16px",
+                          overflow: "hidden",
+                          boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
+                        }}
+                      >
+                        <img
+                          src={URL.createObjectURL(formData.image)}
+                          alt="Cover Preview"
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                          }}
+                        />
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setFormData({ ...formData, image: null })
+                          }
+                          style={{
+                            position: "absolute",
+                            top: "1rem",
+                            right: "1rem",
+                            background: "rgba(255, 255, 255, 0.9)",
+                            border: "none",
+                            borderRadius: "50%",
+                            width: "36px",
+                            height: "36px",
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            color: "#e31a1a",
+                            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                          }}
+                        >
+                          ×
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      style={{
+                        padding: "3rem",
+                        border: "2px dashed #eee",
+                        borderRadius: "16px",
+                        textAlign: "center",
+                        marginBottom: "2rem",
+                      }}
+                    >
+                      <Upload
+                        size={32}
+                        style={{ color: "#0077b6", marginBottom: "1rem" }}
+                      />
+                      <p
+                        style={{
+                          fontSize: "0.9rem",
+                          fontWeight: 600,
+                          color: "#444",
+                        }}
+                      >
+                        Upload Campaign Cover Image
+                      </p>
+                      <input
+                        type="file"
+                        name="image"
+                        accept="image/*"
+                        onChange={handleChange}
+                        style={{ marginTop: "1rem" }}
+                        required
+                      />
+                    </div>
+                  )}
+
+                  <Flex
+                    gap="1rem"
+                    style={{
+                      padding: "1.5rem",
+                      background: "#f8f9fa",
+                      borderRadius: "12px",
+                    }}
+                  >
+                    <ShieldCheck size={20} style={{ color: "#2f855a" }} />
+                    <span style={{ fontSize: "0.85rem", color: "#666" }}>
+                      Your data is protected by StartupFund's enterprise
+                      security protocols.
+                    </span>
                   </Flex>
                 </>
               )}
 
               {currentStep === 4 && (
                 <>
-                  <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '0.5rem', letterSpacing: '-1px' }}>Campaign Gallery</h2>
-                  <p style={{ color: '#666', marginBottom: '2.5rem' }}>Upload additional images to showcase your campaign (optional). Upload up to 10 images.</p>
-                  
-                  <div style={{ padding: '3rem', border: '2px dashed #eee', borderRadius: '16px', textAlign: 'center', marginBottom: '2rem' }}>
-                    <Upload size={32} style={{ color: '#0077b6', marginBottom: '1rem' }} />
-                    <p style={{ fontSize: '0.9rem', fontWeight: 600, color: '#444' }}>
-                      {campaignImages.length > 0 
-                        ? `✓ ${campaignImages.length} image(s) selected` 
-                        : 'Upload Campaign Gallery Images'}
+                  <h2
+                    style={{
+                      fontSize: "2rem",
+                      fontWeight: 800,
+                      marginBottom: "0.5rem",
+                      letterSpacing: "-1px",
+                    }}
+                  >
+                    Campaign Gallery
+                  </h2>
+                  <p style={{ color: "#666", marginBottom: "2.5rem" }}>
+                    Upload additional images to showcase your campaign
+                    (optional). Upload up to 10 images.
+                  </p>
+
+                  <div
+                    style={{
+                      padding: "3rem",
+                      border: "2px dashed #eee",
+                      borderRadius: "16px",
+                      textAlign: "center",
+                      marginBottom: "2rem",
+                    }}
+                  >
+                    <Upload
+                      size={32}
+                      style={{ color: "#0077b6", marginBottom: "1rem" }}
+                    />
+                    <p
+                      style={{
+                        fontSize: "0.9rem",
+                        fontWeight: 600,
+                        color: "#444",
+                      }}
+                    >
+                      {campaignImages.length > 0
+                        ? `✓ ${campaignImages.length} image(s) selected`
+                        : "Upload Campaign Gallery Images"}
                     </p>
-                    <input 
-                      type="file" 
-                      name="campaignImages" 
-                      accept="image/*" 
-                      onChange={handleCampaignImagesChange} 
-                      style={{ marginTop: '1rem' }}
+                    <input
+                      type="file"
+                      name="campaignImages"
+                      accept="image/*"
+                      onChange={handleCampaignImagesChange}
+                      style={{ marginTop: "1rem" }}
                       multiple
                     />
                   </div>
 
                   {campaignImages.length > 0 && (
-                    <div style={{ marginBottom: '2rem' }}>
-                      <h3 style={{ fontSize: '0.9rem', fontWeight: 700, marginBottom: '1rem', color: '#333' }}>Selected Images:</h3>
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: '1rem' }}>
+                    <div style={{ marginBottom: "2rem" }}>
+                      <h3
+                        style={{
+                          fontSize: "0.9rem",
+                          fontWeight: 700,
+                          marginBottom: "1rem",
+                          color: "#333",
+                        }}
+                      >
+                        Selected Images:
+                      </h3>
+                      <div
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns:
+                            "repeat(auto-fill, minmax(120px, 1fr))",
+                          gap: "1rem",
+                        }}
+                      >
                         {campaignImages.map((file, index) => (
-                          <div 
+                          <div
                             key={index}
                             style={{
-                              position: 'relative',
-                              paddingBottom: '100%',
-                              background: '#f0f0f0',
-                              borderRadius: '8px',
-                              overflow: 'hidden',
-                              border: '1px solid #ddd'
+                              position: "relative",
+                              paddingBottom: "100%",
+                              background: "#f0f0f0",
+                              borderRadius: "8px",
+                              overflow: "hidden",
+                              border: "1px solid #ddd",
                             }}
                           >
-                            <img 
+                            <img
                               src={URL.createObjectURL(file)}
                               alt={`Gallery ${index + 1}`}
                               style={{
-                                position: 'absolute',
+                                position: "absolute",
                                 top: 0,
                                 left: 0,
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'cover'
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
                               }}
                             />
                             <button
                               type="button"
                               onClick={() => removeCampaignImage(index)}
                               style={{
-                                position: 'absolute',
-                                top: '4px',
-                                right: '4px',
-                                background: 'rgba(255, 0, 0, 0.7)',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '4px',
-                                width: '24px',
-                                height: '24px',
-                                cursor: 'pointer',
-                                fontSize: '16px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
+                                position: "absolute",
+                                top: "4px",
+                                right: "4px",
+                                background: "rgba(255, 0, 0, 0.7)",
+                                color: "white",
+                                border: "none",
+                                borderRadius: "4px",
+                                width: "24px",
+                                height: "24px",
+                                cursor: "pointer",
+                                fontSize: "16px",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
                               }}
                             >
                               ×
@@ -410,22 +574,50 @@ const CreateProject = () => {
                     </div>
                   )}
 
-                  <Flex gap="1rem" style={{ padding: '1.5rem', background: '#f8f9fa', borderRadius: '12px' }}>
-                     <ShieldCheck size={20} style={{ color: '#2f855a' }} />
-                     <span style={{ fontSize: '0.85rem', color: '#666' }}>Gallery images are optional. You can add them later from your dashboard.</span>
+                  <Flex
+                    gap="1rem"
+                    style={{
+                      padding: "1.5rem",
+                      background: "#f8f9fa",
+                      borderRadius: "12px",
+                    }}
+                  >
+                    <ShieldCheck size={20} style={{ color: "#2f855a" }} />
+                    <span style={{ fontSize: "0.85rem", color: "#666" }}>
+                      Gallery images are optional. You can add them later from
+                      your dashboard.
+                    </span>
                   </Flex>
                 </>
               )}
 
-              <Flex gap="1rem" style={{ marginTop: '3rem' }}>
-                {currentStep > 1 && <Button variant="outline" type="button" onClick={prevStep} style={{ flexGrow: 1 }}>Back</Button>}
+              <Flex gap="1rem" style={{ marginTop: "3rem" }}>
+                {currentStep > 1 && (
+                  <Button
+                    variant="outline"
+                    type="button"
+                    onClick={prevStep}
+                    style={{ flexGrow: 1 }}
+                  >
+                    Back
+                  </Button>
+                )}
                 {currentStep < 4 ? (
-                  <Button type="button" onClick={nextStep} style={{ flexGrow: 2 }}>
+                  <Button
+                    type="button"
+                    onClick={nextStep}
+                    style={{ flexGrow: 2 }}
+                  >
                     Continue <ArrowRight size={18} style={{ marginLeft: 8 }} />
                   </Button>
                 ) : (
-                  <Button type="submit" disabled={loading} style={{ flexGrow: 2 }}>
-                    {loading ? 'Launching...' : 'Launch Campaign'} <Rocket size={18} style={{ marginLeft: 8 }} />
+                  <Button
+                    type="submit"
+                    disabled={loading}
+                    style={{ flexGrow: 2 }}
+                  >
+                    {loading ? "Launching..." : "Launch Campaign"}{" "}
+                    <Rocket size={18} style={{ marginLeft: 8 }} />
                   </Button>
                 )}
               </Flex>

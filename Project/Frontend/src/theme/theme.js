@@ -1,11 +1,11 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 export const theme = {
   colors: {
-    primary: '#0077b6',
-    background: '#ffffff',
-    text: '#212529',
-    accent: '#005f8a',
+    primary: "#0077b6",
+    background: "#ffffff",
+    text: "#212529",
+    accent: "#005f8a",
   },
   fonts: {
     main: `'Inter', sans-serif`,

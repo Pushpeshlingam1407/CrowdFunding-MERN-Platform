@@ -1,5 +1,5 @@
-import { Navigate } from 'react-router-dom';
-import useAuthStore from '../store/authStore';
+import { Navigate } from "react-router-dom";
+import useAuthStore from "../store/authStore";
 
 const PrivateRoute = ({ children, adminOnly = false }) => {
   const { user, isAuthenticated, adminAuthenticated } = useAuthStore();
@@ -9,7 +9,7 @@ const PrivateRoute = ({ children, adminOnly = false }) => {
     return <Navigate to="/login" replace />;
   }
 
-  if (adminOnly && user?.role !== 'admin') {
+  if (adminOnly && user?.role !== "admin") {
     return <Navigate to="/" replace />;
   }
 

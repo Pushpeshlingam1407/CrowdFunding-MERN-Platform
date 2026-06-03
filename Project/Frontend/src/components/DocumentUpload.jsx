@@ -1,30 +1,32 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Upload, FileText, CheckCircle2, AlertCircle, X } from 'lucide-react';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Upload, FileText, CheckCircle2, AlertCircle, X } from "lucide-react";
 import { toast } from "react-hot-toast";
-import { Button, Flex, Grid } from './ui';
+import { Button, Flex, Grid } from "./ui";
 
 const Wrapper = styled.div`
   max-width: 600px;
 `;
 
 const DropZone = styled.div`
-  border: 2px dashed ${props => props.hasFile ? props.theme.colors.primary : '#e0e0e0'};
+  border: 2px dashed
+    ${(props) => (props.hasFile ? props.theme.colors.primary : "#e0e0e0")};
   border-radius: 16px;
   padding: 3rem 2rem;
   text-align: center;
-  background: ${props => props.hasFile ? `${props.theme.colors.primary}05` : '#fafafa'};
+  background: ${(props) =>
+    props.hasFile ? `${props.theme.colors.primary}05` : "#fafafa"};
   transition: all 0.2s;
   cursor: pointer;
   position: relative;
   margin-bottom: 1.5rem;
 
   &:hover {
-    border-color: ${props => props.theme.colors.primary};
-    background: ${props => props.theme.colors.primary}05;
+    border-color: ${(props) => props.theme.colors.primary};
+    background: ${(props) => props.theme.colors.primary}05;
   }
 
-  input[type='file'] {
+  input[type="file"] {
     position: absolute;
     inset: 0;
     opacity: 0;
@@ -102,7 +104,7 @@ const FileInfo = styled.div`
   border-radius: 10px;
   padding: 0.9rem 1.25rem;
   margin-bottom: 1.5rem;
-  
+
   .name {
     font-weight: 600;
     font-size: 0.9rem;
@@ -118,25 +120,25 @@ const FileInfo = styled.div`
 
 const DocumentUpload = ({ onSuccess }) => {
   const [file, setFile] = useState(null);
-  const [documentType, setDocumentType] = useState('');
-  const [projectName, setProjectName] = useState('');
+  const [documentType, setDocumentType] = useState("");
+  const [projectName, setProjectName] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleFileChange = (e) => {
-    setError('');
-    setSuccess('');
+    setError("");
+    setSuccess("");
     const selected = e.target.files?.[0];
     if (!selected) return;
 
-    const allowed = ['application/pdf', 'image/jpeg', 'image/png'];
+    const allowed = ["application/pdf", "image/jpeg", "image/png"];
     if (!allowed.includes(selected.type)) {
-      setError('Only PDF, JPEG and PNG files are allowed.');
+      setError("Only PDF, JPEG and PNG files are allowed.");
       return;
     }
     if (selected.size > 5 * 1024 * 1024) {
-      setError('File size must be under 5 MB.');
+      setError("File size must be under 5 MB.");
       return;
     }
     setFile(selected);
@@ -150,37 +152,46 @@ const DocumentUpload = ({ onSuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setSuccess('');
+    setError("");
+    setSuccess("");
 
-    if (!file) { setError('Please select a file.'); return; }
-    if (!documentType) { setError('Please select a document type.'); return; }
+    if (!file) {
+      setError("Please select a file.");
+      return;
+    }
+    if (!documentType) {
+      setError("Please select a document type.");
+      return;
+    }
 
     setLoading(true);
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('documentType', documentType);
-    if (projectName) formData.append('projectName', projectName);
+    formData.append("file", file);
+    formData.append("documentType", documentType);
+    if (projectName) formData.append("projectName", projectName);
 
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/documents/upload', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
-      });
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        "http://localhost:5000/api/documents/upload",
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        },
+      );
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.message || 'Upload failed');
+      if (!response.ok) throw new Error(data.message || "Upload failed");
 
       setSuccess(`Document "${file.name}" uploaded successfully!`);
       setFile(null);
-      setDocumentType('');
-      setProjectName('');
-      toast.success('Document uploaded successfully!');
+      setDocumentType("");
+      setProjectName("");
+      toast.success("Document uploaded successfully!");
       if (onSuccess) onSuccess(data);
     } catch (err) {
-      setError(err.message || 'Upload failed. Please try again.');
+      setError(err.message || "Upload failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -189,14 +200,26 @@ const DocumentUpload = ({ onSuccess }) => {
   const clearFile = (e) => {
     e.stopPropagation();
     setFile(null);
-    setError('');
+    setError("");
   };
 
   return (
     <Wrapper>
-      <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.5rem' }}>Upload Document</h3>
-      <p style={{ color: '#666', fontSize: '0.9rem', marginBottom: '2rem', lineHeight: 1.6 }}>
-        Upload identity, financial, or project documents for KYC verification. Accepted: PDF, JPEG, PNG (max 5 MB).
+      <h3
+        style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "0.5rem" }}
+      >
+        Upload Document
+      </h3>
+      <p
+        style={{
+          color: "#666",
+          fontSize: "0.9rem",
+          marginBottom: "2rem",
+          lineHeight: 1.6,
+        }}
+      >
+        Upload identity, financial, or project documents for KYC verification.
+        Accepted: PDF, JPEG, PNG (max 5 MB).
       </p>
 
       {error && (
@@ -220,12 +243,21 @@ const DocumentUpload = ({ onSuccess }) => {
             accept=".pdf,.jpg,.jpeg,.png"
             onChange={handleFileChange}
           />
-          <Upload size={32} style={{ color: '#0077b6', marginBottom: '1rem', opacity: file ? 1 : 0.5 }} />
-          <p style={{ fontWeight: 600, color: '#444', marginBottom: '0.25rem' }}>
-            {file ? file.name : 'Drag & drop or click to select a file'}
+          <Upload
+            size={32}
+            style={{
+              color: "#0077b6",
+              marginBottom: "1rem",
+              opacity: file ? 1 : 0.5,
+            }}
+          />
+          <p
+            style={{ fontWeight: 600, color: "#444", marginBottom: "0.25rem" }}
+          >
+            {file ? file.name : "Drag & drop or click to select a file"}
           </p>
-          <p style={{ fontSize: '0.8rem', color: '#888' }}>
-            {file ? formatSize(file.size) : 'PDF, JPEG, PNG · Max 5 MB'}
+          <p style={{ fontSize: "0.8rem", color: "#888" }}>
+            {file ? formatSize(file.size) : "PDF, JPEG, PNG · Max 5 MB"}
           </p>
         </DropZone>
 
@@ -238,7 +270,13 @@ const DocumentUpload = ({ onSuccess }) => {
             <button
               type="button"
               onClick={clearFile}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#999', padding: 0 }}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                color: "#999",
+                padding: 0,
+              }}
             >
               <X size={16} />
             </button>
@@ -253,7 +291,9 @@ const DocumentUpload = ({ onSuccess }) => {
           required
         >
           <option value="">Select document type…</option>
-          <option value="identity">Identity Proof (Aadhaar, PAN, Passport)</option>
+          <option value="identity">
+            Identity Proof (Aadhaar, PAN, Passport)
+          </option>
           <option value="address">Address Proof</option>
           <option value="financial">Financial Statement</option>
           <option value="project">Project Document</option>
@@ -272,10 +312,10 @@ const DocumentUpload = ({ onSuccess }) => {
         <Button
           type="submit"
           size="lg"
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
           disabled={loading || !file || !documentType}
         >
-          {loading ? 'Uploading...' : 'Upload Document'}
+          {loading ? "Uploading..." : "Upload Document"}
         </Button>
       </form>
     </Wrapper>

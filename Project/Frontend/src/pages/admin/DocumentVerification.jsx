@@ -34,7 +34,7 @@ const TableWrapper = styled.div`
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #A3AED0;
+    color: #a3aed0;
     background: #ffffff;
     border-bottom: 1px solid #f1f5f9;
   }
@@ -57,7 +57,7 @@ const TableWrapper = styled.div`
   }
 
   tbody tr:hover {
-    background: #F4F7FE;
+    background: #f4f7fe;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(112, 144, 176, 0.08);
   }
@@ -69,7 +69,7 @@ const DocBadge = styled.span`
   font-size: 0.75rem;
   font-weight: 800;
   background: rgba(67, 24, 255, 0.1);
-  color: #4318FF;
+  color: #4318ff;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 `;
@@ -83,24 +83,29 @@ const SearchBar = styled.div`
     left: 1.25rem;
     top: 50%;
     transform: translateY(-50%);
-    color: #A3AED0;
+    color: #a3aed0;
     pointer-events: none;
   }
 
   input {
     width: 100%;
     padding: 0.85rem 1rem 0.85rem 3rem;
-    background: #F4F7FE;
+    background: #f4f7fe;
     border: none;
     border-radius: 20px;
-    color: #2B3674;
+    color: #2b3674;
     font-size: 0.9rem;
     font-weight: 500;
     outline: none;
     transition: all 0.2s;
 
-    &::placeholder { color: #A3AED0; }
-    &:focus { box-shadow: 0px 18px 40px rgba(67, 24, 255, 0.1); background: #ffffff; }
+    &::placeholder {
+      color: #a3aed0;
+    }
+    &:focus {
+      box-shadow: 0px 18px 40px rgba(67, 24, 255, 0.1);
+      background: #ffffff;
+    }
   }
 `;
 
@@ -108,7 +113,7 @@ const Avatar = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #4318FF 0%, #868CFF 100%);
+  background: linear-gradient(135deg, #4318ff 0%, #868cff 100%);
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -163,13 +168,37 @@ const AdminDocumentVerification = () => {
   };
 
   return (
-    <AdminLayout title="KYC & Verification" subtitle="Audit identity proofs and professional certificates in our ecosystem.">
+    <AdminLayout
+      title="KYC & Verification"
+      subtitle="Audit identity proofs and professional certificates in our ecosystem."
+    >
       <div>
-        <div style={{ background: "#ffffff", border: "none", borderRadius: 20, padding: "1.5rem", boxShadow: "0px 18px 40px rgba(112, 144, 176, 0.12)" }}>
-          <Flex justify="space-between" align="center" gap="1rem" style={{ flexWrap: "wrap" }}>
+        <div
+          style={{
+            background: "#ffffff",
+            border: "none",
+            borderRadius: 20,
+            padding: "1.5rem",
+            boxShadow: "0px 18px 40px rgba(112, 144, 176, 0.12)",
+          }}
+        >
+          <Flex
+            justify="space-between"
+            align="center"
+            gap="1rem"
+            style={{ flexWrap: "wrap" }}
+          >
             <Flex gap="2rem">
               <div style={{ textAlign: "center" }}>
-                <h3 style={{ fontSize: "1.75rem", fontWeight: 800, color: "#E31A1A" }}>{verifications.length}</h3>
+                <h3
+                  style={{
+                    fontSize: "1.75rem",
+                    fontWeight: 800,
+                    color: "#E31A1A",
+                  }}
+                >
+                  {verifications.length}
+                </h3>
                 <p
                   style={{
                     color: "#A3AED0",
@@ -185,7 +214,15 @@ const AdminDocumentVerification = () => {
                 style={{ height: "40px", width: "1px", background: "#f1f5f9" }}
               />
               <div style={{ textAlign: "center" }}>
-                <h3 style={{ fontSize: "1.75rem", fontWeight: 800, color: "#2B3674" }}>1,124</h3>
+                <h3
+                  style={{
+                    fontSize: "1.75rem",
+                    fontWeight: 800,
+                    color: "#2B3674",
+                  }}
+                >
+                  1,124
+                </h3>
                 <p
                   style={{
                     color: "#A3AED0",
@@ -201,18 +238,23 @@ const AdminDocumentVerification = () => {
             <div style={{ position: "relative", width: "340px" }}>
               <SearchBar>
                 <Search size={16} />
-                <input
-                  placeholder="Search entity name..."
-                />
+                <input placeholder="Search entity name..." />
               </SearchBar>
             </div>
-            <button 
-              onClick={fetchVerifications} 
-              style={{ 
-                display: 'flex', alignItems: 'center', gap: 6,
-                background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 20,
-                padding: '0.6rem 1.5rem', color: '#2B3674', fontWeight: 700,
-                cursor: 'pointer', transition: 'all 0.2s'
+            <button
+              onClick={fetchVerifications}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                background: "#ffffff",
+                border: "1px solid #e2e8f0",
+                borderRadius: 20,
+                padding: "0.6rem 1.5rem",
+                color: "#2B3674",
+                fontWeight: 700,
+                cursor: "pointer",
+                transition: "all 0.2s",
               }}
             >
               <RefreshCw size={14} className={loading ? "spin" : ""} /> Refresh
@@ -234,13 +276,29 @@ const AdminDocumentVerification = () => {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={5} style={{ textAlign: "center", padding: "4rem", color: "#A3AED0", fontWeight: 600 }}>
+                  <td
+                    colSpan={5}
+                    style={{
+                      textAlign: "center",
+                      padding: "4rem",
+                      color: "#A3AED0",
+                      fontWeight: 600,
+                    }}
+                  >
                     Loading queue...
                   </td>
                 </tr>
               ) : verifications.length === 0 ? (
                 <tr>
-                  <td colSpan={5} style={{ textAlign: "center", padding: "4rem", color: "#A3AED0", fontWeight: 600 }}>
+                  <td
+                    colSpan={5}
+                    style={{
+                      textAlign: "center",
+                      padding: "4rem",
+                      color: "#A3AED0",
+                      fontWeight: 600,
+                    }}
+                  >
                     Audit queue is empty. System secured.
                   </td>
                 </tr>
@@ -251,10 +309,22 @@ const AdminDocumentVerification = () => {
                       <Flex gap="1rem">
                         <Avatar>{verify.user?.name?.charAt(0) || "?"}</Avatar>
                         <div>
-                          <p style={{ fontWeight: 700, fontSize: "0.95rem", color: "#2B3674" }}>
+                          <p
+                            style={{
+                              fontWeight: 700,
+                              fontSize: "0.95rem",
+                              color: "#2B3674",
+                            }}
+                          >
                             {verify.user?.name}
                           </p>
-                          <p style={{ fontSize: "0.8rem", color: "#A3AED0", fontWeight: 500 }}>
+                          <p
+                            style={{
+                              fontSize: "0.8rem",
+                              color: "#A3AED0",
+                              fontWeight: 500,
+                            }}
+                          >
                             {verify.user?.email}
                           </p>
                         </div>
@@ -269,9 +339,14 @@ const AdminDocumentVerification = () => {
                     <td>
                       <Flex
                         gap="0.5rem"
-                        style={{ fontSize: "0.85rem", color: "#2B3674", fontWeight: 700 }}
+                        style={{
+                          fontSize: "0.85rem",
+                          color: "#2B3674",
+                          fontWeight: 700,
+                        }}
                       >
-                        <Calendar size={14} style={{ color: "#A3AED0" }} /> Aug 12, 2026
+                        <Calendar size={14} style={{ color: "#A3AED0" }} /> Aug
+                        12, 2026
                       </Flex>
                     </td>
                     <td>
@@ -284,7 +359,7 @@ const AdminDocumentVerification = () => {
                           background: "rgba(5, 205, 153, 0.1)",
                           padding: "0.3rem 0.8rem",
                           borderRadius: 99,
-                          display: "inline-flex"
+                          display: "inline-flex",
                         }}
                       >
                         <ShieldCheck size={16} /> SAFE
@@ -293,41 +368,81 @@ const AdminDocumentVerification = () => {
                     <td>
                       <Flex gap="0.5rem">
                         <button
-                          onClick={() => window.open(verify.identityProof, "_blank")}
+                          onClick={() =>
+                            window.open(verify.identityProof, "_blank")
+                          }
                           style={{
-                            display: "inline-flex", alignItems: "center", gap: "0.4rem",
-                            background: "#ffffff", border: "1px solid #E2E8F0", borderRadius: 8,
-                            padding: "0.4rem 0.85rem", color: "#2B3674", fontSize: "0.8rem", fontWeight: 700,
-                            cursor: "pointer", transition: "all 0.15s"
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "0.4rem",
+                            background: "#ffffff",
+                            border: "1px solid #E2E8F0",
+                            borderRadius: 8,
+                            padding: "0.4rem 0.85rem",
+                            color: "#2B3674",
+                            fontSize: "0.8rem",
+                            fontWeight: 700,
+                            cursor: "pointer",
+                            transition: "all 0.15s",
                           }}
-                          onMouseOver={(e) => e.currentTarget.style.background = '#F4F7FE'}
-                          onMouseOut={(e) => e.currentTarget.style.background = '#ffffff'}
+                          onMouseOver={(e) =>
+                            (e.currentTarget.style.background = "#F4F7FE")
+                          }
+                          onMouseOut={(e) =>
+                            (e.currentTarget.style.background = "#ffffff")
+                          }
                         >
                           <Eye size={14} /> Inspect
                         </button>
                         <button
-                          onClick={() => handleVerify(verify.user?._id, 0, "verified")}
+                          onClick={() =>
+                            handleVerify(verify.user?._id, 0, "verified")
+                          }
                           style={{
-                            display: "inline-flex", alignItems: "center", gap: "0.4rem",
-                            background: "#ffffff", border: "1px solid rgba(5,205,153,0.3)", borderRadius: 8,
-                            padding: "0.4rem 0.6rem", color: "#05CD99",
-                            cursor: "pointer", transition: "all 0.15s"
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "0.4rem",
+                            background: "#ffffff",
+                            border: "1px solid rgba(5,205,153,0.3)",
+                            borderRadius: 8,
+                            padding: "0.4rem 0.6rem",
+                            color: "#05CD99",
+                            cursor: "pointer",
+                            transition: "all 0.15s",
                           }}
-                          onMouseOver={(e) => e.currentTarget.style.background = 'rgba(5,205,153,0.1)'}
-                          onMouseOut={(e) => e.currentTarget.style.background = '#ffffff'}
+                          onMouseOver={(e) =>
+                            (e.currentTarget.style.background =
+                              "rgba(5,205,153,0.1)")
+                          }
+                          onMouseOut={(e) =>
+                            (e.currentTarget.style.background = "#ffffff")
+                          }
                         >
                           <CheckCircle2 size={16} />
                         </button>
                         <button
-                          onClick={() => handleVerify(verify.user?._id, 0, "rejected")}
+                          onClick={() =>
+                            handleVerify(verify.user?._id, 0, "rejected")
+                          }
                           style={{
-                            display: "inline-flex", alignItems: "center", gap: "0.4rem",
-                            background: "#ffffff", border: "1px solid rgba(227,26,26,0.3)", borderRadius: 8,
-                            padding: "0.4rem 0.6rem", color: "#E31A1A",
-                            cursor: "pointer", transition: "all 0.15s"
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "0.4rem",
+                            background: "#ffffff",
+                            border: "1px solid rgba(227,26,26,0.3)",
+                            borderRadius: 8,
+                            padding: "0.4rem 0.6rem",
+                            color: "#E31A1A",
+                            cursor: "pointer",
+                            transition: "all 0.15s",
                           }}
-                          onMouseOver={(e) => e.currentTarget.style.background = 'rgba(227,26,26,0.1)'}
-                          onMouseOut={(e) => e.currentTarget.style.background = '#ffffff'}
+                          onMouseOver={(e) =>
+                            (e.currentTarget.style.background =
+                              "rgba(227,26,26,0.1)")
+                          }
+                          onMouseOut={(e) =>
+                            (e.currentTarget.style.background = "#ffffff")
+                          }
                         >
                           <XCircle size={16} />
                         </button>

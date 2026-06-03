@@ -1,9 +1,14 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Button = styled.button`
-  background-color: ${props => props.variant === 'outline' ? 'transparent' : props.theme.colors.primary};
-  color: ${props => props.variant === 'outline' ? props.theme.colors.primary : '#ffffff'};
-  border: ${props => props.variant === 'outline' ? `2px solid ${props.theme.colors.primary}` : 'none'};
+  background-color: ${(props) =>
+    props.variant === "outline" ? "transparent" : props.theme.colors.primary};
+  color: ${(props) =>
+    props.variant === "outline" ? props.theme.colors.primary : "#ffffff"};
+  border: ${(props) =>
+    props.variant === "outline"
+      ? `2px solid ${props.theme.colors.primary}`
+      : "none"};
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   font-family: inherit;
@@ -17,7 +22,10 @@ export const Button = styled.button`
   gap: 0.5rem;
 
   &:hover {
-    background-color: ${props => props.variant === 'outline' ? `${props.theme.colors.primary}11` : props.theme.colors.accent};
+    background-color: ${(props) =>
+      props.variant === "outline"
+        ? `${props.theme.colors.primary}11`
+        : props.theme.colors.accent};
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 119, 182, 0.2);
   }
@@ -46,7 +54,7 @@ export const Input = styled.input`
 
   &:focus {
     outline: none;
-    border-color: ${props => props.theme.colors.primary};
+    border-color: ${(props) => props.theme.colors.primary};
     background-color: #ffffff;
     box-shadow: 0 0 0 4px rgba(0, 119, 182, 0.1);
   }
@@ -62,7 +70,9 @@ export const Card = styled.div`
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
   padding: 2rem;
   border: 1px solid #f0f0f0;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 
   &:hover {
     transform: translateY(-4px);
@@ -78,27 +88,28 @@ export const Container = styled.div`
 
 export const Flex = styled.div`
   display: flex;
-  align-items: ${props => props.align || 'center'};
-  justify-content: ${props => props.justify || 'flex-start'};
-  gap: ${props => props.gap || '1rem'};
-  flex-direction: ${props => props.direction || 'row'};
-  flex-wrap: ${props => props.wrap || 'nowrap'};
+  align-items: ${(props) => props.align || "center"};
+  justify-content: ${(props) => props.justify || "flex-start"};
+  gap: ${(props) => props.gap || "1rem"};
+  flex-direction: ${(props) => props.direction || "row"};
+  flex-wrap: ${(props) => props.wrap || "nowrap"};
 `;
 
 export const Grid = styled.div`
   display: grid;
-  grid-template-columns: ${props => {
-    if (typeof props.cols === 'string' && props.cols.includes('fr')) {
+  grid-template-columns: ${(props) => {
+    if (typeof props.cols === "string" && props.cols.includes("fr")) {
       return props.cols;
     }
     return `repeat(${props.cols || 1}, 1fr)`;
   }};
-  gap: ${props => props.gap || '2rem'};
-  
+  gap: ${(props) => props.gap || "2rem"};
+
   @media (max-width: 992px) {
-    grid-template-columns: ${props => props.cols > 2 ? 'repeat(2, 1fr)' : '1fr'};
+    grid-template-columns: ${(props) =>
+      props.cols > 2 ? "repeat(2, 1fr)" : "1fr"};
   }
-  
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 const NotFound = () => {
   return (
@@ -7,7 +7,9 @@ const NotFound = () => {
       <div className="max-w-md w-full space-y-8 text-center">
         <div>
           <h1 className="text-9xl font-extrabold text-gray-900">404</h1>
-          <h2 className="mt-6 text-3xl font-bold text-gray-900">Page Not Found</h2>
+          <h2 className="mt-6 text-3xl font-bold text-gray-900">
+            Page Not Found
+          </h2>
           <p className="mt-2 text-sm text-gray-600">
             Oops! The page you're looking for doesn't exist.
           </p>
@@ -25,4 +27,4 @@ const NotFound = () => {
   );
 };
 
-export default NotFound; 
+export default NotFound;

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import styled, { keyframes } from 'styled-components';
-import { useNavigate, useParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from "react";
+import styled, { keyframes } from "styled-components";
+import { useNavigate, useParams } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
   Save,
   ArrowLeft,
@@ -10,9 +10,9 @@ import {
   CheckCircle2,
   AlertTriangle,
   Image as ImageIcon,
-} from 'lucide-react';
+} from "lucide-react";
 import { toast } from "react-hot-toast";
-import { projectAPI } from '../services/api';
+import { projectAPI } from "../services/api";
 
 // ─── Animations ───────────────────────────────────────────────────────────────
 const fadeIn = keyframes`
@@ -104,10 +104,14 @@ const StyledInput = styled.input`
   color: #f8fafc;
   font-size: 0.95rem;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
   box-sizing: border-box;
 
-  &::placeholder { color: #334155; }
+  &::placeholder {
+    color: #334155;
+  }
   &:focus {
     border-color: #38bdf8;
     box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.08);
@@ -126,10 +130,14 @@ const StyledTextArea = styled.textarea`
   min-height: 140px;
   resize: vertical;
   font-family: inherit;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
   box-sizing: border-box;
 
-  &::placeholder { color: #334155; }
+  &::placeholder {
+    color: #334155;
+  }
   &:focus {
     border-color: #38bdf8;
     box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.08);
@@ -149,8 +157,12 @@ const StyledSelect = styled.select`
   transition: border-color 0.2s;
   box-sizing: border-box;
 
-  &:focus { border-color: #38bdf8; }
-  option { background: #0f172a; }
+  &:focus {
+    border-color: #38bdf8;
+  }
+  option {
+    background: #0f172a;
+  }
 `;
 
 const TwoCol = styled.div`
@@ -158,7 +170,9 @@ const TwoCol = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
 
-  @media (max-width: 600px) { grid-template-columns: 1fr; }
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const FieldGroup = styled.div`
@@ -175,7 +189,9 @@ const ImageUploadZone = styled.label`
   border: 2px dashed #1e293b;
   border-radius: 14px;
   cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
   background: #0a1020;
   text-align: center;
 
@@ -184,7 +200,9 @@ const ImageUploadZone = styled.label`
     background: rgba(56, 189, 248, 0.03);
   }
 
-  input { display: none; }
+  input {
+    display: none;
+  }
 `;
 
 const SaveBtn = styled(motion.button)`
@@ -225,7 +243,9 @@ const DeleteBtn = styled.button`
   cursor: pointer;
   transition: all 0.2s;
 
-  &:hover { background: rgba(248, 113, 113, 0.08); }
+  &:hover {
+    background: rgba(248, 113, 113, 0.08);
+  }
 `;
 
 const LockBanner = styled.div`
@@ -242,7 +262,15 @@ const LockBanner = styled.div`
   margin-bottom: 2rem;
 `;
 
-const CATEGORIES = ['Technology', 'Healthcare', 'Education', 'Environment', 'Finance', 'Social', 'Other'];
+const CATEGORIES = [
+  "Technology",
+  "Healthcare",
+  "Education",
+  "Environment",
+  "Finance",
+  "Social",
+  "Other",
+];
 
 const EditProject = () => {
   const { id } = useParams();
@@ -255,13 +283,13 @@ const EditProject = () => {
   const [newCampaignImages, setNewCampaignImages] = useState([]);
   const [uploadingImages, setUploadingImages] = useState(false);
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    category: 'Technology',
-    targetAmount: '',
-    equity: '',
-    startDate: '',
-    endDate: '',
+    title: "",
+    description: "",
+    category: "Technology",
+    targetAmount: "",
+    equity: "",
+    startDate: "",
+    endDate: "",
     image: null,
   });
 
@@ -273,21 +301,21 @@ const EditProject = () => {
         setIsLocked(p.isLocked || false);
         setCampaignImages(p.campaignImages || []);
         setFormData({
-          title: p.title || '',
-          description: p.description || '',
-          category: p.category || 'Technology',
-          targetAmount: p.targetAmount || '',
-          equity: p.equity || '',
-          startDate: p.startDate?.split('T')[0] || '',
-          endDate: p.endDate?.split('T')[0] || '',
+          title: p.title || "",
+          description: p.description || "",
+          category: p.category || "Technology",
+          targetAmount: p.targetAmount || "",
+          equity: p.equity || "",
+          startDate: p.startDate?.split("T")[0] || "",
+          endDate: p.endDate?.split("T")[0] || "",
           image: p.image || null,
         });
-        if (p.image && typeof p.image === 'string') {
+        if (p.image && typeof p.image === "string") {
           setImagePreview(`http://localhost:5000${p.image}`);
         }
       } catch {
-        toast.error('Failed to load campaign');
-        navigate('/dashboard');
+        toast.error("Failed to load campaign");
+        navigate("/dashboard");
       } finally {
         setLoading(false);
       }
@@ -296,13 +324,13 @@ const EditProject = () => {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    if (name === 'newImage' && files?.[0]) {
-      setFormData(prev => ({ ...prev, image: files[0] }));
+    if (name === "newImage" && files?.[0]) {
+      setFormData((prev) => ({ ...prev, image: files[0] }));
       setImagePreview(URL.createObjectURL(files[0]));
-    } else if (name === 'campaignImages' && files) {
-      setNewCampaignImages(prev => [...prev, ...Array.from(files)]);
+    } else if (name === "campaignImages" && files) {
+      setNewCampaignImages((prev) => [...prev, ...Array.from(files)]);
     } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
@@ -310,10 +338,10 @@ const EditProject = () => {
     try {
       setUploadingImages(true);
       await projectAPI.deleteCampaignImage(id, imageUrl);
-      setCampaignImages(prev => prev.filter(img => img !== imageUrl));
-      toast.success('Image deleted successfully');
+      setCampaignImages((prev) => prev.filter((img) => img !== imageUrl));
+      toast.success("Image deleted successfully");
     } catch (error) {
-      toast.error('Failed to delete image');
+      toast.error("Failed to delete image");
     } finally {
       setUploadingImages(false);
     }
@@ -321,35 +349,35 @@ const EditProject = () => {
 
   const handleUploadNewCampaignImages = async () => {
     if (newCampaignImages.length === 0) {
-      toast.info('No new images to upload');
+      toast.info("No new images to upload");
       return;
     }
 
     try {
       setUploadingImages(true);
       const imagePayload = new FormData();
-      newCampaignImages.forEach(file => {
-        imagePayload.append('images', file);
+      newCampaignImages.forEach((file) => {
+        imagePayload.append("images", file);
       });
       const response = await projectAPI.uploadCampaignImages(id, imagePayload);
       setCampaignImages(response.data.campaignImages);
       setNewCampaignImages([]);
-      toast.success('Campaign images uploaded successfully!');
+      toast.success("Campaign images uploaded successfully!");
     } catch (error) {
-      toast.error('Failed to upload images');
+      toast.error("Failed to upload images");
     } finally {
       setUploadingImages(false);
     }
   };
 
   const removeNewCampaignImage = (index) => {
-    setNewCampaignImages(prev => prev.filter((_, i) => i !== index));
+    setNewCampaignImages((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isLocked) {
-      toast.error('This campaign is locked and cannot be edited.');
+      toast.error("This campaign is locked and cannot be edited.");
       return;
     }
     setSaving(true);
@@ -357,9 +385,9 @@ const EditProject = () => {
     const payload = new FormData();
     Object.entries(formData).forEach(([key, val]) => {
       // Skip existing image URL string (only upload if it's a File object)
-      if (key === 'image' && typeof val === 'string') return;
-      if (key === 'image' && val instanceof File) {
-        payload.append('image', val);
+      if (key === "image" && typeof val === "string") return;
+      if (key === "image" && val instanceof File) {
+        payload.append("image", val);
         return;
       }
       if (val !== null && val !== undefined) {
@@ -369,10 +397,10 @@ const EditProject = () => {
 
     try {
       await projectAPI.updateProject(id, payload);
-      toast.success('🎉 Campaign updated successfully!');
+      toast.success("🎉 Campaign updated successfully!");
       navigate(`/projects/${id}`);
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to update campaign');
+      toast.error(err.response?.data?.message || "Failed to update campaign");
     } finally {
       setSaving(false);
     }
@@ -381,17 +409,29 @@ const EditProject = () => {
   if (loading) {
     return (
       <PageWrapper>
-        <div style={{
-          maxWidth: 820, margin: '0 auto', display: 'flex',
-          flexDirection: 'column', gap: '1rem', alignItems: 'center',
-          paddingTop: '4rem', color: '#475569',
-        }}>
-          <div style={{
-            width: 48, height: 48, borderRadius: '50%',
-            border: '3px solid #1e293b', borderTopColor: '#38bdf8',
-            animation: 'spin 0.8s linear infinite',
-          }} />
-          <p style={{ fontSize: '0.9rem' }}>Loading campaign…</p>
+        <div
+          style={{
+            maxWidth: 820,
+            margin: "0 auto",
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            alignItems: "center",
+            paddingTop: "4rem",
+            color: "#475569",
+          }}
+        >
+          <div
+            style={{
+              width: 48,
+              height: 48,
+              borderRadius: "50%",
+              border: "3px solid #1e293b",
+              borderTopColor: "#38bdf8",
+              animation: "spin 0.8s linear infinite",
+            }}
+          />
+          <p style={{ fontSize: "0.9rem" }}>Loading campaign…</p>
           <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
         </div>
       </PageWrapper>
@@ -400,7 +440,7 @@ const EditProject = () => {
 
   return (
     <PageWrapper>
-      <div style={{ maxWidth: 820, margin: '0 auto' }}>
+      <div style={{ maxWidth: 820, margin: "0 auto" }}>
         <BackBtn onClick={() => navigate(`/projects/${id}`)}>
           <ArrowLeft size={15} /> Cancel Editing
         </BackBtn>
@@ -408,17 +448,26 @@ const EditProject = () => {
         <FormCard
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: 'easeOut' }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
         >
           {/* Header */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.25rem' }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              marginBottom: "0.25rem",
+            }}
+          >
             <div>
               <Heading>
                 Edit <span>Campaign</span>
               </Heading>
-              <SubText>Update your venture details and funding strategy.</SubText>
+              <SubText>
+                Update your venture details and funding strategy.
+              </SubText>
             </div>
-            <DeleteBtn onClick={() => toast.info('Delete from the dashboard')}>
+            <DeleteBtn onClick={() => toast.info("Delete from the dashboard")}>
               <Trash2 size={14} /> Delete
             </DeleteBtn>
           </div>
@@ -463,8 +512,17 @@ const EditProject = () => {
             <TwoCol>
               <FieldGroup>
                 <Label>Category</Label>
-                <StyledSelect name="category" value={formData.category} onChange={handleChange} disabled={isLocked}>
-                  {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                <StyledSelect
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  disabled={isLocked}
+                >
+                  {CATEGORIES.map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
                 </StyledSelect>
               </FieldGroup>
               <FieldGroup>
@@ -527,18 +585,34 @@ const EditProject = () => {
                   <img
                     src={imagePreview}
                     alt="Preview"
-                    style={{ width: '100%', maxHeight: 200, objectFit: 'cover', borderRadius: 10 }}
+                    style={{
+                      width: "100%",
+                      maxHeight: 200,
+                      objectFit: "cover",
+                      borderRadius: 10,
+                    }}
                   />
                 ) : (
                   <>
-                    <ImageIcon size={32} style={{ color: '#334155' }} />
-                    <p style={{ color: '#475569', fontSize: '0.85rem' }}>Click to upload a new hero image</p>
-                    <p style={{ color: '#1e293b', fontSize: '0.75rem' }}>PNG, JPG, WEBP up to 10MB</p>
+                    <ImageIcon size={32} style={{ color: "#334155" }} />
+                    <p style={{ color: "#475569", fontSize: "0.85rem" }}>
+                      Click to upload a new hero image
+                    </p>
+                    <p style={{ color: "#1e293b", fontSize: "0.75rem" }}>
+                      PNG, JPG, WEBP up to 10MB
+                    </p>
                   </>
                 )}
               </ImageUploadZone>
               {imagePreview && (
-                <p style={{ fontSize: '0.76rem', color: '#475569', marginTop: '0.5rem', textAlign: 'center' }}>
+                <p
+                  style={{
+                    fontSize: "0.76rem",
+                    color: "#475569",
+                    marginTop: "0.5rem",
+                    textAlign: "center",
+                  }}
+                >
                   ✓ Image selected — will replace existing on save
                 </p>
               )}
@@ -550,31 +624,47 @@ const EditProject = () => {
             <FieldGroup>
               <Label>Campaign Gallery</Label>
               {campaignImages.length > 0 && (
-                <div style={{ marginBottom: '2rem' }}>
-                  <p style={{ fontSize: '0.85rem', color: '#475569', marginBottom: '1rem' }}>Existing Gallery Images ({campaignImages.length}):</p>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+                <div style={{ marginBottom: "2rem" }}>
+                  <p
+                    style={{
+                      fontSize: "0.85rem",
+                      color: "#475569",
+                      marginBottom: "1rem",
+                    }}
+                  >
+                    Existing Gallery Images ({campaignImages.length}):
+                  </p>
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns:
+                        "repeat(auto-fill, minmax(120px, 1fr))",
+                      gap: "1rem",
+                      marginBottom: "2rem",
+                    }}
+                  >
                     {campaignImages.map((imageUrl, index) => (
-                      <div 
+                      <div
                         key={index}
                         style={{
-                          position: 'relative',
-                          paddingBottom: '100%',
-                          background: '#0f172a',
-                          borderRadius: '8px',
-                          overflow: 'hidden',
-                          border: '1px solid #1e293b'
+                          position: "relative",
+                          paddingBottom: "100%",
+                          background: "#0f172a",
+                          borderRadius: "8px",
+                          overflow: "hidden",
+                          border: "1px solid #1e293b",
                         }}
                       >
-                        <img 
+                        <img
                           src={`http://localhost:5000${imageUrl}`}
                           alt={`Gallery ${index + 1}`}
                           style={{
-                            position: 'absolute',
+                            position: "absolute",
                             top: 0,
                             left: 0,
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover'
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
                           }}
                         />
                         <button
@@ -582,21 +672,21 @@ const EditProject = () => {
                           onClick={() => handleDeleteCampaignImage(imageUrl)}
                           disabled={uploadingImages}
                           style={{
-                            position: 'absolute',
-                            top: '4px',
-                            right: '4px',
-                            background: 'rgba(248, 113, 113, 0.8)',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            width: '28px',
-                            height: '28px',
-                            cursor: uploadingImages ? 'not-allowed' : 'pointer',
-                            fontSize: '18px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            opacity: uploadingImages ? 0.6 : 1
+                            position: "absolute",
+                            top: "4px",
+                            right: "4px",
+                            background: "rgba(248, 113, 113, 0.8)",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "4px",
+                            width: "28px",
+                            height: "28px",
+                            cursor: uploadingImages ? "not-allowed" : "pointer",
+                            fontSize: "18px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            opacity: uploadingImages ? 0.6 : 1,
                           }}
                         >
                           ×
@@ -616,60 +706,71 @@ const EditProject = () => {
                   disabled={isLocked}
                   multiple
                 />
-                <Upload size={24} style={{ color: '#334155' }} />
-                <p style={{ color: '#475569', fontSize: '0.85rem' }}>
-                  {newCampaignImages.length > 0 
-                    ? `✓ ${newCampaignImages.length} new image(s) selected` 
-                    : 'Click to add more gallery images'}
+                <Upload size={24} style={{ color: "#334155" }} />
+                <p style={{ color: "#475569", fontSize: "0.85rem" }}>
+                  {newCampaignImages.length > 0
+                    ? `✓ ${newCampaignImages.length} new image(s) selected`
+                    : "Click to add more gallery images"}
                 </p>
-                <p style={{ color: '#1e293b', fontSize: '0.75rem' }}>Up to 10 images, PNG/JPG/WEBP</p>
+                <p style={{ color: "#1e293b", fontSize: "0.75rem" }}>
+                  Up to 10 images, PNG/JPG/WEBP
+                </p>
               </ImageUploadZone>
 
               {newCampaignImages.length > 0 && (
                 <>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: '1rem', marginTop: '1rem', marginBottom: '1rem' }}>
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns:
+                        "repeat(auto-fill, minmax(120px, 1fr))",
+                      gap: "1rem",
+                      marginTop: "1rem",
+                      marginBottom: "1rem",
+                    }}
+                  >
                     {newCampaignImages.map((file, index) => (
-                      <div 
+                      <div
                         key={index}
                         style={{
-                          position: 'relative',
-                          paddingBottom: '100%',
-                          background: '#0f172a',
-                          borderRadius: '8px',
-                          overflow: 'hidden',
-                          border: '2px solid #38bdf8'
+                          position: "relative",
+                          paddingBottom: "100%",
+                          background: "#0f172a",
+                          borderRadius: "8px",
+                          overflow: "hidden",
+                          border: "2px solid #38bdf8",
                         }}
                       >
-                        <img 
+                        <img
                           src={URL.createObjectURL(file)}
                           alt={`New Gallery ${index + 1}`}
                           style={{
-                            position: 'absolute',
+                            position: "absolute",
                             top: 0,
                             left: 0,
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover'
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
                           }}
                         />
                         <button
                           type="button"
                           onClick={() => removeNewCampaignImage(index)}
                           style={{
-                            position: 'absolute',
-                            top: '4px',
-                            right: '4px',
-                            background: 'rgba(248, 113, 113, 0.8)',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            width: '28px',
-                            height: '28px',
-                            cursor: 'pointer',
-                            fontSize: '18px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
+                            position: "absolute",
+                            top: "4px",
+                            right: "4px",
+                            background: "rgba(248, 113, 113, 0.8)",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "4px",
+                            width: "28px",
+                            height: "28px",
+                            cursor: "pointer",
+                            fontSize: "18px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
                           }}
                         >
                           ×
@@ -682,25 +783,34 @@ const EditProject = () => {
                     onClick={handleUploadNewCampaignImages}
                     disabled={uploadingImages}
                     style={{
-                      width: '100%',
-                      padding: '0.75rem',
-                      background: uploadingImages ? '#475569' : '#38bdf8',
-                      color: '#050d1a',
-                      border: 'none',
-                      borderRadius: '10px',
-                      fontSize: '0.9rem',
+                      width: "100%",
+                      padding: "0.75rem",
+                      background: uploadingImages ? "#475569" : "#38bdf8",
+                      color: "#050d1a",
+                      border: "none",
+                      borderRadius: "10px",
+                      fontSize: "0.9rem",
                       fontWeight: 700,
-                      cursor: uploadingImages ? 'not-allowed' : 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '0.5rem'
+                      cursor: uploadingImages ? "not-allowed" : "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "0.5rem",
                     }}
                     whileHover={{ scale: uploadingImages ? 1 : 1.01 }}
                   >
                     {uploadingImages ? (
                       <>
-                        <div style={{ width: 14, height: 14, borderRadius: '50%', border: '2px solid rgba(5,13,26,0.3)', borderTopColor: '#050d1a', animation: 'spin 0.7s linear infinite' }} />
+                        <div
+                          style={{
+                            width: 14,
+                            height: 14,
+                            borderRadius: "50%",
+                            border: "2px solid rgba(5,13,26,0.3)",
+                            borderTopColor: "#050d1a",
+                            animation: "spin 0.7s linear infinite",
+                          }}
+                        />
                         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
                         Uploading...
                       </>
@@ -724,7 +834,16 @@ const EditProject = () => {
             >
               {saving ? (
                 <>
-                  <div style={{ width: 18, height: 18, borderRadius: '50%', border: '2px solid rgba(5,13,26,0.3)', borderTopColor: '#050d1a', animation: 'spin 0.7s linear infinite' }} />
+                  <div
+                    style={{
+                      width: 18,
+                      height: 18,
+                      borderRadius: "50%",
+                      border: "2px solid rgba(5,13,26,0.3)",
+                      borderTopColor: "#050d1a",
+                      animation: "spin 0.7s linear infinite",
+                    }}
+                  />
                   Saving Changes…
                   <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
                 </>

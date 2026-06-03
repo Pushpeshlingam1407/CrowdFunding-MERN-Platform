@@ -1,20 +1,20 @@
-import { create } from 'zustand';
-import axios from 'axios';
+import { create } from "zustand";
+import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
 });
 
 // Request interceptor for adding auth token
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 const useInvestmentStore = create((set, get) => ({
@@ -22,14 +22,14 @@ const useInvestmentStore = create((set, get) => ({
   loading: false,
   error: null,
 
-  createInvestment: async (projectId, amount, paymentMethod = 'upi') => {
+  createInvestment: async (projectId, amount, paymentMethod = "upi") => {
     set({ loading: true, error: null });
     try {
-      const response = await api.post('/investments', {
+      const response = await api.post("/investments", {
         projectId,
         amount,
         paymentMethod,
-        status: 'completed'
+        status: "completed",
       });
 
       if (response.data.success) {
@@ -39,7 +39,7 @@ const useInvestmentStore = create((set, get) => ({
         }));
         return { success: true, data: response.data.investment };
       } else {
-        throw new Error(response.data.message || 'Failed to create investment');
+        throw new Error(response.data.message || "Failed to create investment");
       }
     } catch (error) {
       const errorMsg = error.response?.data?.message || error.message;
@@ -51,17 +51,17 @@ const useInvestmentStore = create((set, get) => ({
   fetchUserInvestments: async () => {
     set({ loading: true, error: null });
     try {
-      const response = await api.get('/investments/user');
+      const response = await api.get("/investments/user");
 
       if (response.data.success) {
-        set({ 
-          investments: response.data.investments, 
-          loading: false, 
-          error: null 
+        set({
+          investments: response.data.investments,
+          loading: false,
+          error: null,
         });
         return { success: true, data: response.data.investments };
       } else {
-        throw new Error(response.data.message || 'Failed to fetch investments');
+        throw new Error(response.data.message || "Failed to fetch investments");
       }
     } catch (error) {
       const errorMsg = error.response?.data?.message || error.message;
@@ -78,7 +78,9 @@ const useInvestmentStore = create((set, get) => ({
       if (response.data.success) {
         return { success: true, data: response.data.investments };
       } else {
-        throw new Error(response.data.message || 'Failed to fetch project investments');
+        throw new Error(
+          response.data.message || "Failed to fetch project investments",
+        );
       }
     } catch (error) {
       const errorMsg = error.response?.data?.message || error.message;
@@ -88,7 +90,7 @@ const useInvestmentStore = create((set, get) => ({
   },
 
   clearError: () => set({ error: null }),
-  clearInvestments: () => set({ investments: [], error: null })
+  clearInvestments: () => set({ investments: [], error: null }),
 }));
 
 export default useInvestmentStore;

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Container, Row, Col, Card, Badge } from 'react-bootstrap';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Container, Row, Col, Card, Badge } from "react-bootstrap";
+import axios from "axios";
 import { toast } from "react-hot-toast";
 
 const CampaignsList = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     fetchProjects();
@@ -15,19 +15,20 @@ const CampaignsList = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/projects');
+      const response = await axios.get("http://localhost:5000/api/projects");
       setProjects(response.data);
     } catch (error) {
-      console.error('Error fetching projects:', error);
-      toast.error('Failed to load campaigns');
+      console.error("Error fetching projects:", error);
+      toast.error("Failed to load campaigns");
     } finally {
       setLoading(false);
     }
   };
 
-  const filteredProjects = filter === 'all' 
-    ? projects 
-    : projects.filter(project => project.category === filter);
+  const filteredProjects =
+    filter === "all"
+      ? projects
+      : projects.filter((project) => project.category === filter);
 
   if (loading) {
     return (
@@ -70,39 +71,46 @@ const CampaignsList = () => {
         </div>
       ) : (
         <Row xs={1} md={2} lg={3} className="g-4">
-          {filteredProjects.map(project => (
+          {filteredProjects.map((project) => (
             <Col key={project._id}>
               <Card className="h-100 shadow-sm">
-                <Card.Img 
-                  variant="top" 
+                <Card.Img
+                  variant="top"
                   src={`http://localhost:5000${project.image}`}
                   alt={project.title}
-                  style={{ height: '200px', objectFit: 'cover' }}
+                  style={{ height: "200px", objectFit: "cover" }}
                 />
                 <Card.Body>
                   <Card.Title>{project.title}</Card.Title>
                   <Card.Text className="text-muted mb-2">
-                    by {project.creator?.name || 'Anonymous'}
+                    by {project.creator?.name || "Anonymous"}
                   </Card.Text>
                   <Card.Text>
-                    {project.description.length > 100 
-                      ? `${project.description.substring(0, 100)}...` 
+                    {project.description.length > 100
+                      ? `${project.description.substring(0, 100)}...`
                       : project.description}
                   </Card.Text>
                   <div className="mb-3">
                     <Badge bg="primary" className="me-2">
                       {project.category}
                     </Badge>
-                    <Badge bg={
-                      project.status === 'completed' ? 'info' :
-                      project.status === 'approved' ? 'success' :
-                      project.status === 'pending' ? 'warning' :
-                      'danger'
-                    }>
-                      {project.status === 'completed' ? 'Fully Funded' : project.status}
+                    <Badge
+                      bg={
+                        project.status === "completed"
+                          ? "info"
+                          : project.status === "approved"
+                            ? "success"
+                            : project.status === "pending"
+                              ? "warning"
+                              : "danger"
+                      }
+                    >
+                      {project.status === "completed"
+                        ? "Fully Funded"
+                        : project.status}
                     </Badge>
                   </div>
-                  <Link 
+                  <Link
                     to={`/projects/${project._id}`}
                     className="btn btn-outline-primary"
                   >
@@ -118,4 +126,4 @@ const CampaignsList = () => {
   );
 };
 
-export default CampaignsList; 
+export default CampaignsList;

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import useAuthStore from '../store/authStore';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import useAuthStore from "../store/authStore";
+import { Link } from "react-router-dom";
 
 const UserDashboard = () => {
   const [userProjects, setUserProjects] = useState([]);
@@ -20,7 +20,7 @@ const UserDashboard = () => {
         const donationsData = await donationsResponse.json();
         setUserDonations(donationsData);
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
       }
     };
 
@@ -36,7 +36,7 @@ const UserDashboard = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">My Dashboard</h1>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
           <h2 className="text-2xl font-semibold mb-4">My Projects</h2>
@@ -74,9 +74,7 @@ const UserDashboard = () => {
                   <h3 className="text-xl font-medium">
                     {donation.project.title}
                   </h3>
-                  <p className="text-gray-600">
-                    Amount: ₹{donation.amount}
-                  </p>
+                  <p className="text-gray-600">Amount: ₹{donation.amount}</p>
                   <p className="text-gray-600">
                     Date: {new Date(donation.createdAt).toLocaleDateString()}
                   </p>
@@ -96,4 +94,4 @@ const UserDashboard = () => {
   );
 };
 
-export default UserDashboard; 
+export default UserDashboard;

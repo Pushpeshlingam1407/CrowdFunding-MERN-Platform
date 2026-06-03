@@ -206,7 +206,8 @@ const Profile = () => {
                 Professional Identity
               </h1>
               <p style={{ color: "#666" }}>
-                Manage your personal and company metadata for the crowdfunding ecosystem.
+                Manage your personal and company metadata for the crowdfunding
+                ecosystem.
               </p>
             </header>
 

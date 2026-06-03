@@ -2,7 +2,14 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ShieldCheck, Mail, Lock, LogIn, ArrowLeft, AlertCircle } from "lucide-react";
+import {
+  ShieldCheck,
+  Mail,
+  Lock,
+  LogIn,
+  ArrowLeft,
+  AlertCircle,
+} from "lucide-react";
 import { toast } from "react-hot-toast";
 import { Button, Input, Card, Container, Flex } from "../../components/ui";
 import useAuthStore from "../../store/authStore";
@@ -14,7 +21,11 @@ const AdminLoginWrapper = styled.div`
   justify-content: center;
   background: #f8fafc;
   padding: 2rem;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
 `;
 
 const AdminLogo = styled.div`
@@ -33,7 +44,9 @@ const AdminCard = styled(Card)`
   max-width: 450px;
   padding: 3rem;
   color: #0f172a;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
   border-radius: 16px;
 `;
 
@@ -67,17 +80,18 @@ const Label = styled.label`
 
 const LightInput = styled(Input)`
   background: #ffffff;
-  border-color: ${({ $hasError }) => $hasError ? '#ef4444' : '#cbd5e1'};
+  border-color: ${({ $hasError }) => ($hasError ? "#ef4444" : "#cbd5e1")};
   color: #0f172a;
   padding-left: 3rem;
   border-radius: 8px;
 
   &:focus {
     background: #ffffff;
-    border-color: ${({ $hasError }) => $hasError ? '#ef4444' : '#2563eb'};
-    box-shadow: ${({ $hasError }) => $hasError
-      ? '0 0 0 4px rgba(239, 68, 68, 0.15)'
-      : '0 0 0 4px rgba(37, 99, 235, 0.1)'};
+    border-color: ${({ $hasError }) => ($hasError ? "#ef4444" : "#2563eb")};
+    box-shadow: ${({ $hasError }) =>
+      $hasError
+        ? "0 0 0 4px rgba(239, 68, 68, 0.15)"
+        : "0 0 0 4px rgba(37, 99, 235, 0.1)"};
   }
 `;
 
@@ -162,12 +176,13 @@ const AdminLogin = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, email: e.target.value })
                 }
-                $hasError={errorField === 'email'}
+                $hasError={errorField === "email"}
                 required
               />
-              {errorField === 'email' && (
+              {errorField === "email" && (
                 <FieldError>
-                  <AlertCircle size={13} />{error}
+                  <AlertCircle size={13} />
+                  {error}
                 </FieldError>
               )}
             </FormGroup>
@@ -184,12 +199,13 @@ const AdminLogin = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, password: e.target.value })
                 }
-                $hasError={errorField === 'password'}
+                $hasError={errorField === "password"}
                 required
               />
-              {errorField === 'password' && (
+              {errorField === "password" && (
                 <FieldError>
-                  <AlertCircle size={13} />{error}
+                  <AlertCircle size={13} />
+                  {error}
                 </FieldError>
               )}
             </FormGroup>

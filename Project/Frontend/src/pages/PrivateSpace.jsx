@@ -1,24 +1,24 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styled from 'styled-components';
-import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { 
-  Send, 
-  Paperclip, 
-  User, 
-  Search, 
-  MoreVertical, 
+import React, { useState, useEffect, useRef } from "react";
+import styled from "styled-components";
+import { useParams, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  Send,
+  Paperclip,
+  User,
+  Search,
+  MoreVertical,
   FileIcon,
   ShieldCheck,
   CheckCircle2,
   Clock,
   ArrowLeft,
-  MessageSquare
-} from 'lucide-react';
+  MessageSquare,
+} from "lucide-react";
 import { toast } from "sonner";
-import { Button, Card, Container, Flex, Grid, Input } from '../components/ui';
-import { chatAPI, b2bAPI } from '../services/api';
-import useAuthStore from '../store/authStore';
+import { Button, Card, Container, Flex, Grid, Input } from "../components/ui";
+import { chatAPI, b2bAPI } from "../services/api";
+import useAuthStore from "../store/authStore";
 
 const ChatWrapper = styled.div`
   height: calc(100vh - 80px);
@@ -56,8 +56,9 @@ const ContactItem = styled.div`
   gap: 1rem;
   padding: 1rem 1.5rem;
   cursor: pointer;
-  background: ${props => props.active ? '#0077b60a' : 'transparent'};
-  border-right: ${props => props.active ? `3px solid ${props.theme.colors.primary}` : 'none'};
+  background: ${(props) => (props.active ? "#0077b60a" : "transparent")};
+  border-right: ${(props) =>
+    props.active ? `3px solid ${props.theme.colors.primary}` : "none"};
   transition: all 0.2s;
 
   &:hover {
@@ -69,8 +70,8 @@ const Avatar = styled.div`
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: ${props => props.theme.colors.primary}15;
-  color: ${props => props.theme.colors.primary};
+  background: ${(props) => props.theme.colors.primary}15;
+  color: ${(props) => props.theme.colors.primary};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -110,14 +111,17 @@ const MessageBubble = styled.div`
   line-height: 1.5;
   word-wrap: break-word;
   position: relative;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
-  ${props => props.own ? `
+  ${(props) =>
+    props.own
+      ? `
     align-self: flex-end;
     background: ${props.theme.colors.primary};
     color: white;
     border-bottom-right-radius: 4px;
-  ` : `
+  `
+      : `
     align-self: flex-start;
     background: white;
     color: #333;
@@ -138,13 +142,13 @@ const PrivateSpace = () => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const [messages, setMessages] = useState([]);
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState("");
   const [activeContact, setActiveContact] = useState(null);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
     if (id) {
-       fetchChatDetails();
+      fetchChatDetails();
     }
   }, [id]);
 
@@ -168,11 +172,14 @@ const PrivateSpace = () => {
     if (!inputText.trim() || !id) return;
 
     try {
-      const res = await chatAPI.sendMessage({ receiverId: id, text: inputText });
+      const res = await chatAPI.sendMessage({
+        receiverId: id,
+        text: inputText,
+      });
       setMessages([...messages, res.data.message]);
-      setInputText('');
+      setInputText("");
     } catch (error) {
-      toast.error('Failed to send message');
+      toast.error("Failed to send message");
     }
   };
 
@@ -181,25 +188,43 @@ const PrivateSpace = () => {
       <ChatGrid>
         <Sidebar>
           <SidebarHeader>
-            <Flex justify="space-between" style={{ marginBottom: '1rem' }}>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 800 }}>Private Space</h2>
+            <Flex justify="space-between" style={{ marginBottom: "1rem" }}>
+              <h2 style={{ fontSize: "1.25rem", fontWeight: 800 }}>
+                Private Space
+              </h2>
             </Flex>
-            <div style={{ position: 'relative' }}>
-              <Search size={16} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: '#999' }} />
-              <Input style={{ paddingLeft: '2.5rem', background: '#f8f9fa' }} placeholder="Search Professional..." />
+            <div style={{ position: "relative" }}>
+              <Search
+                size={16}
+                style={{
+                  position: "absolute",
+                  left: "1rem",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "#999",
+                }}
+              />
+              <Input
+                style={{ paddingLeft: "2.5rem", background: "#f8f9fa" }}
+                placeholder="Search Professional..."
+              />
             </div>
           </SidebarHeader>
           <ContactList>
-             {/* Dynamic contacts will go here */}
-             {activeContact && (
-               <ContactItem active>
-                  <Avatar>{activeContact.name.charAt(0)}</Avatar>
-                  <div>
-                    <h4 style={{ fontSize: '0.95rem', fontWeight: 700 }}>{activeContact.name}</h4>
-                    <p style={{ fontSize: '0.8rem', color: '#888' }}>Professional Service</p>
-                  </div>
-               </ContactItem>
-             )}
+            {/* Dynamic contacts will go here */}
+            {activeContact && (
+              <ContactItem active>
+                <Avatar>{activeContact.name.charAt(0)}</Avatar>
+                <div>
+                  <h4 style={{ fontSize: "0.95rem", fontWeight: 700 }}>
+                    {activeContact.name}
+                  </h4>
+                  <p style={{ fontSize: "0.8rem", color: "#888" }}>
+                    Professional Service
+                  </p>
+                </div>
+              </ContactItem>
+            )}
           </ContactList>
         </Sidebar>
 
@@ -208,24 +233,46 @@ const PrivateSpace = () => {
             <>
               <ChatHeader>
                 <Flex gap="1rem">
-                   <Avatar>{activeContact.name.charAt(0)}</Avatar>
-                   <div>
-                     <h4 style={{ fontSize: '1.1rem', fontWeight: 700 }}>{activeContact.name}</h4>
-                     <Flex gap="0.5rem" style={{ fontSize: '0.8rem', color: '#2f855a', fontWeight: 600 }}>
-                        <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#2f855a' }} />
-                        Active Professional
-                     </Flex>
-                   </div>
+                  <Avatar>{activeContact.name.charAt(0)}</Avatar>
+                  <div>
+                    <h4 style={{ fontSize: "1.1rem", fontWeight: 700 }}>
+                      {activeContact.name}
+                    </h4>
+                    <Flex
+                      gap="0.5rem"
+                      style={{
+                        fontSize: "0.8rem",
+                        color: "#2f855a",
+                        fontWeight: 600,
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: 8,
+                          height: 8,
+                          borderRadius: "50%",
+                          background: "#2f855a",
+                        }}
+                      />
+                      Active Professional
+                    </Flex>
+                  </div>
                 </Flex>
                 <Flex gap="1.5rem">
-                   <ShieldCheck size={20} style={{ color: '#0077b6' }} />
-                   <MoreVertical size={20} style={{ color: '#999', cursor: 'pointer' }} />
+                  <ShieldCheck size={20} style={{ color: "#0077b6" }} />
+                  <MoreVertical
+                    size={20}
+                    style={{ color: "#999", cursor: "pointer" }}
+                  />
                 </Flex>
               </ChatHeader>
 
               <MessagesArea>
-                {messages.map(msg => (
-                  <MessageBubble key={msg._id} own={msg.sender._id === user?.id}>
+                {messages.map((msg) => (
+                  <MessageBubble
+                    key={msg._id}
+                    own={msg.sender._id === user?.id}
+                  >
                     {msg.text}
                   </MessageBubble>
                 ))}
@@ -233,25 +280,36 @@ const PrivateSpace = () => {
               </MessagesArea>
 
               <ChatInput>
-                <Button variant="outline" style={{ borderRadius: '12px', padding: '0.75rem' }}>
-                   <Paperclip size={20} />
+                <Button
+                  variant="outline"
+                  style={{ borderRadius: "12px", padding: "0.75rem" }}
+                >
+                  <Paperclip size={20} />
                 </Button>
-                <Input 
-                  placeholder="Type a message to collaborate..." 
+                <Input
+                  placeholder="Type a message to collaborate..."
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSend(e)}
-                  style={{ borderRadius: '12px' }}
+                  onKeyPress={(e) => e.key === "Enter" && handleSend(e)}
+                  style={{ borderRadius: "12px" }}
                 />
-                <Button onClick={handleSend} style={{ borderRadius: '12px', padding: '0.75rem 1.5rem' }}>
-                   <Send size={20} />
+                <Button
+                  onClick={handleSend}
+                  style={{ borderRadius: "12px", padding: "0.75rem 1.5rem" }}
+                >
+                  <Send size={20} />
                 </Button>
               </ChatInput>
             </>
           ) : (
-            <Flex direction="column" style={{ height: '100%', color: '#999' }}>
-               <MessageSquare size={48} style={{ marginBottom: '1rem', opacity: 0.2 }} />
-               <p>Select a contact to start collaborating in your private space.</p>
+            <Flex direction="column" style={{ height: "100%", color: "#999" }}>
+              <MessageSquare
+                size={48}
+                style={{ marginBottom: "1rem", opacity: 0.2 }}
+              />
+              <p>
+                Select a contact to start collaborating in your private space.
+              </p>
             </Flex>
           )}
         </MainChat>

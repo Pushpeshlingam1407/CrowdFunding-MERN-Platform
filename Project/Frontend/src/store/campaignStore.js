@@ -1,5 +1,5 @@
-import { create } from 'zustand';
-import { supabase } from '../lib/supabase';
+import { create } from "zustand";
+import { supabase } from "../lib/supabase";
 
 const useCampaignStore = create((set, get) => ({
   campaigns: [],
@@ -10,9 +10,9 @@ const useCampaignStore = create((set, get) => ({
     set({ loading: true });
     try {
       const { data, error } = await supabase
-        .from('campaigns')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .from("campaigns")
+        .select("*")
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       set({ campaigns: data, loading: false, error: null });
@@ -24,14 +24,14 @@ const useCampaignStore = create((set, get) => ({
   createCampaign: async (campaignData) => {
     try {
       const { data, error } = await supabase
-        .from('campaigns')
+        .from("campaigns")
         .insert([campaignData])
         .select()
         .single();
 
       if (error) throw error;
-      set(state => ({
-        campaigns: [data, ...state.campaigns]
+      set((state) => ({
+        campaigns: [data, ...state.campaigns],
       }));
       return { data, error: null };
     } catch (error) {
@@ -42,17 +42,17 @@ const useCampaignStore = create((set, get) => ({
   updateCampaign: async (id, updates) => {
     try {
       const { data, error } = await supabase
-        .from('campaigns')
+        .from("campaigns")
         .update(updates)
-        .eq('id', id)
+        .eq("id", id)
         .select()
         .single();
 
       if (error) throw error;
-      set(state => ({
-        campaigns: state.campaigns.map(campaign => 
-          campaign.id === id ? data : campaign
-        )
+      set((state) => ({
+        campaigns: state.campaigns.map((campaign) =>
+          campaign.id === id ? data : campaign,
+        ),
       }));
       return { data, error: null };
     } catch (error) {

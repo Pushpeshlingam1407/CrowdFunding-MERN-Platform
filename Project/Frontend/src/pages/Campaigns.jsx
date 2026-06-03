@@ -1,10 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { Filter, Search, ArrowRight, Users, DollarSign, Clock, CheckCircle2 } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Button, Card, Container, Flex, Grid, Input } from '../components/ui';
-import { projectAPI } from '../services/api';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import {
+  Filter,
+  Search,
+  ArrowRight,
+  Users,
+  DollarSign,
+  Clock,
+  CheckCircle2,
+} from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Button, Card, Container, Flex, Grid, Input } from "../components/ui";
+import { projectAPI } from "../services/api";
 
 const PageHeader = styled.div`
   padding: 4rem 0;
@@ -62,8 +70,8 @@ const Badge = styled.span`
   border-radius: 99px;
   font-size: 0.75rem;
   font-weight: 700;
-  color: ${props => props.theme.colors.primary};
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  color: ${(props) => props.theme.colors.primary};
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const Content = styled.div`
@@ -76,7 +84,7 @@ const Content = styled.div`
 const Category = styled.span`
   font-size: 0.75rem;
   font-weight: 700;
-  color: ${props => props.theme.colors.primary};
+  color: ${(props) => props.theme.colors.primary};
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 0.5rem;
@@ -87,7 +95,7 @@ const Title = styled.h3`
   font-size: 1.25rem;
   font-weight: 700;
   margin-bottom: 0.75rem;
-  color: ${props => props.theme.colors.text};
+  color: ${(props) => props.theme.colors.text};
 `;
 
 const Description = styled.p`
@@ -115,8 +123,8 @@ const ProgressBarBase = styled.div`
 
 const ProgressBarFill = styled.div`
   height: 100%;
-  background: ${props => props.theme.colors.primary};
-  width: ${props => props.progress}%;
+  background: ${(props) => props.theme.colors.primary};
+  width: ${(props) => props.progress}%;
 `;
 
 const StatsGrid = styled.div`
@@ -164,12 +172,17 @@ const Campaigns = () => {
     }
   };
 
-  const categories = ["All", ...Array.from(new Set(campaigns.map(c => c.category).filter(Boolean)))];
+  const categories = [
+    "All",
+    ...Array.from(new Set(campaigns.map((c) => c.category).filter(Boolean))),
+  ];
 
-  const filteredCampaigns = campaigns.filter(c => {
-    const matchesCategory = selectedCategory === "All" || c.category === selectedCategory;
-    const matchesSearch = c.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                         c.description.toLowerCase().includes(searchQuery.toLowerCase());
+  const filteredCampaigns = campaigns.filter((c) => {
+    const matchesCategory =
+      selectedCategory === "All" || c.category === selectedCategory;
+    const matchesSearch =
+      c.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      c.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
@@ -177,12 +190,30 @@ const Campaigns = () => {
     <>
       <PageHeader>
         <Container>
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '1rem', letterSpacing: '-1px' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <h1
+              style={{
+                fontSize: "2.5rem",
+                fontWeight: 800,
+                marginBottom: "1rem",
+                letterSpacing: "-1px",
+              }}
+            >
               Campaign Marketplace
             </h1>
-            <p style={{ color: '#666', fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto' }}>
-              Discover promising startups, connect with MNCS, and find the next big success story in the global ecosystem.
+            <p
+              style={{
+                color: "#666",
+                fontSize: "1.1rem",
+                maxWidth: "600px",
+                margin: "0 auto",
+              }}
+            >
+              Discover promising startups, connect with MNCS, and find the next
+              big success story in the global ecosystem.
             </p>
           </motion.div>
         </Container>
@@ -192,20 +223,29 @@ const Campaigns = () => {
         <Container>
           <Flex justify="space-between" wrap="wrap" gap="1rem">
             <Flex gap="1rem">
-              <div style={{ position: 'relative', width: '300px' }}>
-                <Search size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: '#999' }} />
-                <Input 
-                  style={{ paddingLeft: '2.75rem' }} 
-                  placeholder="Search campaigns..." 
+              <div style={{ position: "relative", width: "300px" }}>
+                <Search
+                  size={18}
+                  style={{
+                    position: "absolute",
+                    left: "1rem",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    color: "#999",
+                  }}
+                />
+                <Input
+                  style={{ paddingLeft: "2.75rem" }}
+                  placeholder="Search campaigns..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
               <Flex gap="0.5rem">
-                {categories.map(cat => (
-                  <Button 
-                    key={cat} 
-                    variant={selectedCategory === cat ? 'primary' : 'outline'} 
+                {categories.map((cat) => (
+                  <Button
+                    key={cat}
+                    variant={selectedCategory === cat ? "primary" : "outline"}
                     size="sm"
                     onClick={() => setSelectedCategory(cat)}
                   >
@@ -214,7 +254,7 @@ const Campaigns = () => {
                 ))}
               </Flex>
             </Flex>
-            <div style={{ color: '#666', fontSize: '0.9rem', fontWeight: 500 }}>
+            <div style={{ color: "#666", fontSize: "0.9rem", fontWeight: 500 }}>
               Showing {filteredCampaigns.length} campaigns
             </div>
           </Flex>
@@ -224,55 +264,96 @@ const Campaigns = () => {
       <Container>
         <CampaignGrid>
           {loading ? (
-            <div style={{ textAlign: 'center', gridColumn: '1/-1', padding: '4rem' }}>Loading campaigns...</div>
+            <div
+              style={{
+                textAlign: "center",
+                gridColumn: "1/-1",
+                padding: "4rem",
+              }}
+            >
+              Loading campaigns...
+            </div>
           ) : (
-            filteredCampaigns.map(campaign => {
-              const progress = Math.min(100, (campaign.currentAmount / campaign.targetAmount) * 100);
+            filteredCampaigns.map((campaign) => {
+              const progress = Math.min(
+                100,
+                (campaign.currentAmount / campaign.targetAmount) * 100,
+              );
               const daysLeft = calculateDaysLeft(campaign.endDate);
               const isLocked = daysLeft === 0;
 
               return (
                 <CampaignCard key={campaign._id}>
                   <ImageWrapper>
-                    <img 
-                      src={campaign.image?.startsWith('http') ? campaign.image : `http://localhost:5000${campaign.image}`} 
+                    <img
+                      src={
+                        campaign.image?.startsWith("http")
+                          ? campaign.image
+                          : `http://localhost:5000${campaign.image}`
+                      }
                       alt={campaign.title}
-                      onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&q=80&w=2070'; }}
+                      onError={(e) => {
+                        e.target.src =
+                          "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&q=80&w=2070";
+                      }}
                     />
                     <Badge>
-                      {isLocked ? <CheckCircle2 size={12} style={{ marginRight: 4, display: 'inline' }} /> : <Clock size={12} style={{ marginRight: 4, display: 'inline' }} />}
-                      {isLocked ? 'COMPLETED' : `${daysLeft} DAYS LEFT`}
+                      {isLocked ? (
+                        <CheckCircle2
+                          size={12}
+                          style={{ marginRight: 4, display: "inline" }}
+                        />
+                      ) : (
+                        <Clock
+                          size={12}
+                          style={{ marginRight: 4, display: "inline" }}
+                        />
+                      )}
+                      {isLocked ? "COMPLETED" : `${daysLeft} DAYS LEFT`}
                     </Badge>
                   </ImageWrapper>
                   <Content>
                     <Category>{campaign.category}</Category>
                     <Title>{campaign.title}</Title>
                     <Description>{campaign.description}</Description>
-                    
+
                     <ProgressInfo>
-                      <Flex justify="space-between" style={{ marginBottom: '0.25rem', fontSize: '0.85rem' }}>
-                        <span style={{ fontWeight: 600 }}>{progress.toFixed(1)}% funded</span>
-                        <span style={{ color: '#666' }}>Target: ₹{campaign.targetAmount.toLocaleString()}</span>
+                      <Flex
+                        justify="space-between"
+                        style={{ marginBottom: "0.25rem", fontSize: "0.85rem" }}
+                      >
+                        <span style={{ fontWeight: 600 }}>
+                          {progress.toFixed(1)}% funded
+                        </span>
+                        <span style={{ color: "#666" }}>
+                          Target: ₹{campaign.targetAmount.toLocaleString()}
+                        </span>
                       </Flex>
                       <ProgressBarBase>
-                        <ProgressBarFill progress={progress}/>
+                        <ProgressBarFill progress={progress} />
                       </ProgressBarBase>
                     </ProgressInfo>
 
                     <StatsGrid>
                       <StatItem>
                         <Users size={16} />
-                        <span>{campaign.creator?.name || 'Vetted Startup'}</span>
+                        <span>
+                          {campaign.creator?.name || "Vetted Startup"}
+                        </span>
                       </StatItem>
-                      <StatItem style={{ justifyContent: 'flex-end' }}>
+                      <StatItem style={{ justifyContent: "flex-end" }}>
                         <DollarSign size={16} />
                         <span>Equity: {campaign.equity}</span>
                       </StatItem>
                     </StatsGrid>
-                    
-                    <Link to={`/projects/${campaign._id}`} style={{ textDecoration: 'none', marginTop: '1.5rem' }}>
-                      <Button style={{ width: '100%' }}>
-                        View Portfolio <ArrowRight size={18} style={{ marginLeft: 8 }} />
+
+                    <Link
+                      to={`/projects/${campaign._id}`}
+                      style={{ textDecoration: "none", marginTop: "1.5rem" }}
+                    >
+                      <Button style={{ width: "100%" }}>
+                        View Portfolio{" "}
+                        <ArrowRight size={18} style={{ marginLeft: 8 }} />
                       </Button>
                     </Link>
                   </Content>

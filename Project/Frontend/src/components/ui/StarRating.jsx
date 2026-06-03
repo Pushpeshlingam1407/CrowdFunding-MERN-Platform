@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Star } from 'lucide-react';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Star } from "lucide-react";
 
 const RatingContainer = styled.div`
   display: flex;
@@ -11,10 +11,11 @@ const StarButton = styled.button`
   background: none;
   border: none;
   padding: 0;
-  cursor: ${props => props.readonly ? 'default' : 'pointer'};
-  color: ${props => props.active ? '#ffab00' : '#e0e0e0'};
+  cursor: ${(props) => (props.readonly ? "default" : "pointer")};
+  color: ${(props) => (props.active ? "#ffab00" : "#e0e0e0")};
   transition: all 0.2s ease;
-  transform: ${props => (!props.readonly && props.hovered) ? 'scale(1.2)' : 'scale(1)'};
+  transform: ${(props) =>
+    !props.readonly && props.hovered ? "scale(1.2)" : "scale(1)"};
 `;
 
 const StarRating = ({ rating, setRating, readonly = false, size = 20 }) => {
@@ -32,7 +33,10 @@ const StarRating = ({ rating, setRating, readonly = false, size = 20 }) => {
           onMouseEnter={() => !readonly && setHover(star)}
           onMouseLeave={() => !readonly && setHover(0)}
         >
-          <Star size={size} fill={star <= (hover || rating) ? "currentColor" : "none"} />
+          <Star
+            size={size}
+            fill={star <= (hover || rating) ? "currentColor" : "none"}
+          />
         </StarButton>
       ))}
     </RatingContainer>

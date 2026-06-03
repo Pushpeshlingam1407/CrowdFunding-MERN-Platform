@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { LogIn, Mail, Lock, AlertCircle, ShieldCheck } from 'lucide-react';
-import { Button, Input, Card, Container, Flex } from '../components/ui';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
+import { LogIn, Mail, Lock, AlertCircle, ShieldCheck } from "lucide-react";
+import { Button, Input, Card, Container, Flex } from "../components/ui";
 import { toast } from "react-hot-toast";
-import useAuthStore from '../store/authStore';
+import useAuthStore from "../store/authStore";
 
 const LoginWrapper = styled.div`
   min-height: calc(100vh - 80px);
@@ -65,10 +65,11 @@ const FormIcon = styled.div`
 
 const StyledInput = styled(Input)`
   padding-left: 2.75rem;
-  border-color: ${({ $hasError }) => $hasError ? '#e53e3e' : undefined};
+  border-color: ${({ $hasError }) => ($hasError ? "#e53e3e" : undefined)};
   &:focus {
-    border-color: ${({ $hasError }) => $hasError ? '#e53e3e' : undefined};
-    box-shadow: ${({ $hasError }) => $hasError ? '0 0 0 3px rgba(229,62,62,0.15)' : undefined};
+    border-color: ${({ $hasError }) => ($hasError ? "#e53e3e" : undefined)};
+    box-shadow: ${({ $hasError }) =>
+      $hasError ? "0 0 0 3px rgba(229,62,62,0.15)" : undefined};
   }
 `;
 
@@ -99,17 +100,27 @@ const AdminHint = styled.div`
     color: #0077b6;
     font-weight: 700;
     text-decoration: none;
-    &:hover { text-decoration: underline; }
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || '/dashboard';
-  
-  const { login, adminLogin, isAuthenticated, adminAuthenticated, error, errorField, isLoading } = useAuthStore();
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const from = location.state?.from?.pathname || "/dashboard";
+
+  const {
+    login,
+    adminLogin,
+    isAuthenticated,
+    adminAuthenticated,
+    error,
+    errorField,
+    isLoading,
+  } = useAuthStore();
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -119,7 +130,7 @@ const Login = () => {
 
   useEffect(() => {
     if (adminAuthenticated) {
-      navigate('/admin/dashboard', { replace: true });
+      navigate("/admin/dashboard", { replace: true });
     }
   }, [adminAuthenticated, navigate]);
 
@@ -129,22 +140,22 @@ const Login = () => {
     const success = await login(formData.email, formData.password);
     if (success) {
       const loggedInUser = useAuthStore.getState().user;
-      if (loggedInUser?.role === 'admin') {
+      if (loggedInUser?.role === "admin") {
         // Automatically authorize admin session if logged in as admin
-        const token = localStorage.getItem('token');
-        localStorage.setItem('adminToken', token);
-        localStorage.setItem('adminUser', JSON.stringify(loggedInUser));
-        
+        const token = localStorage.getItem("token");
+        localStorage.setItem("adminToken", token);
+        localStorage.setItem("adminUser", JSON.stringify(loggedInUser));
+
         useAuthStore.setState({
           adminUser: loggedInUser,
           adminAuthenticated: true,
-          isAdminMode: true
+          isAdminMode: true,
         });
-        
-        toast.success('Welcome, Admin! Redirecting to Admin Dashboard…');
-        navigate('/admin/dashboard', { replace: true });
+
+        toast.success("Welcome, Admin! Redirecting to Admin Dashboard…");
+        navigate("/admin/dashboard", { replace: true });
       } else {
-        toast.success('Welcome back! Successfully logged in.');
+        toast.success("Welcome back! Successfully logged in.");
         navigate(from, { replace: true });
       }
     }
@@ -162,67 +173,86 @@ const Login = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
-            style={{ width: '100%', maxWidth: '440px' }}
+            style={{ width: "100%", maxWidth: "440px" }}
           >
             <Card>
               <FormTitle>Welcome Back</FormTitle>
-              <FormSubtitle>Log in to access the crowdfunding network</FormSubtitle>
-              
+              <FormSubtitle>
+                Log in to access the crowdfunding network
+              </FormSubtitle>
+
               {error && !errorField && (
                 <ErrorBox>
                   <AlertCircle size={18} />
                   {error}
                 </ErrorBox>
               )}
-              
+
               <form onSubmit={handleSubmit}>
                 <FormGroup>
                   <Label>Email address</Label>
-                  <FormIcon><Mail size={18} /></FormIcon>
+                  <FormIcon>
+                    <Mail size={18} />
+                  </FormIcon>
                   <StyledInput
                     type="email"
                     name="email"
                     placeholder="name@company.com"
                     value={formData.email}
                     onChange={handleChange}
-                    $hasError={errorField === 'email'}
+                    $hasError={errorField === "email"}
                     required
                   />
-                  {errorField === 'email' && (
-                    <FieldError><AlertCircle size={13} />{error}</FieldError>
+                  {errorField === "email" && (
+                    <FieldError>
+                      <AlertCircle size={13} />
+                      {error}
+                    </FieldError>
                   )}
                 </FormGroup>
 
                 <FormGroup>
                   <Label>Password</Label>
-                  <FormIcon><Lock size={18} /></FormIcon>
+                  <FormIcon>
+                    <Lock size={18} />
+                  </FormIcon>
                   <StyledInput
                     type="password"
                     name="password"
                     placeholder="Enter your password"
                     value={formData.password}
                     onChange={handleChange}
-                    $hasError={errorField === 'password'}
+                    $hasError={errorField === "password"}
                     required
                   />
-                  {errorField === 'password' && (
-                    <FieldError><AlertCircle size={13} />{error}</FieldError>
+                  {errorField === "password" && (
+                    <FieldError>
+                      <AlertCircle size={13} />
+                      {error}
+                    </FieldError>
                   )}
                 </FormGroup>
 
-                <Button 
-                  type="submit" 
+                <Button
+                  type="submit"
                   disabled={isLoading}
-                  style={{ width: '100%', marginBottom: '1.5rem' }}
+                  style={{ width: "100%", marginBottom: "1.5rem" }}
                 >
                   <LogIn size={18} style={{ marginRight: 8 }} />
-                  {isLoading ? 'Verifying...' : 'Log in'}
+                  {isLoading ? "Verifying..." : "Log in"}
                 </Button>
 
-                <div style={{ textAlign: 'center' }}>
-                  <span style={{ fontSize: '0.9rem', color: '#666' }}>
-                    New to StartupFund?{' '}
-                    <Link to="/register" style={{ color: '#0077b6', fontWeight: 600, textDecoration: 'none' }}>
+                <div style={{ textAlign: "center" }}>
+                  <span style={{ fontSize: "0.9rem", color: "#666" }}>
+                    New to StartupFund?{" "}
+                    <Link
+                      to="/register"
+                      style={{
+                        color: "#0077b6",
+                        fontWeight: 600,
+                        textDecoration: "none",
+                      }}
+                    >
                       Get started
                     </Link>
                   </span>
@@ -231,8 +261,11 @@ const Login = () => {
 
               {/* Admin hint */}
               <AdminHint>
-                <ShieldCheck size={15} style={{ color: '#0077b6', flexShrink: 0 }} />
-                Admin? Use your admin credentials above or{' '}
+                <ShieldCheck
+                  size={15}
+                  style={{ color: "#0077b6", flexShrink: 0 }}
+                />
+                Admin? Use your admin credentials above or{" "}
                 <Link to="/admin/login">go to the Admin Portal →</Link>
               </AdminHint>
             </Card>

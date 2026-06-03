@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import styled, { keyframes } from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from "react";
+import styled, { keyframes } from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
   Users,
   Briefcase,
@@ -16,10 +16,10 @@ import {
   DollarSign,
   Clock,
   CheckCircle2,
-} from 'lucide-react';
+} from "lucide-react";
 import { toast } from "sonner";
-import useAuthStore from '../../store/authStore';
-import AdminLayout from '../../components/AdminLayout';
+import useAuthStore from "../../store/authStore";
+import AdminLayout from "../../components/AdminLayout";
 
 // ─── Animations ──────────────────────────────────────────────────────────────
 const shimmer = keyframes`
@@ -32,8 +32,6 @@ const pulse = keyframes`
   50%       { opacity: 0.6; }
 `;
 // ─────────────────────────────────────────────────────────────────────────────
-
-
 
 const PageBody = styled.div`
   max-width: 1280px;
@@ -69,8 +67,12 @@ const StatsGrid = styled.div`
   gap: 1.5rem;
   margin-bottom: 3.5rem;
 
-  @media (max-width: 900px) { grid-template-columns: repeat(2, 1fr); }
-  @media (max-width: 500px) { grid-template-columns: 1fr; }
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 500px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const StatCard = styled(motion.div)`
@@ -82,7 +84,9 @@ const StatCard = styled(motion.div)`
   overflow: hidden;
   box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
   transition: transform 0.2s;
-  &:hover { transform: translateY(-4px); }
+  &:hover {
+    transform: translateY(-4px);
+  }
 `;
 
 const StatLabel = styled.p`
@@ -115,8 +119,12 @@ const ModulesGrid = styled.div`
   gap: 1.5rem;
   margin-bottom: 3.5rem;
 
-  @media (max-width: 900px) { grid-template-columns: repeat(2, 1fr); }
-  @media (max-width: 560px) { grid-template-columns: 1fr; }
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const ModuleCard = styled(motion.div)`
@@ -141,8 +149,8 @@ const ModuleIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${p => p.$bg};
-  color: ${p => p.$color};
+  background: ${(p) => p.$bg};
+  color: ${(p) => p.$color};
   margin-bottom: 1.25rem;
 `;
 
@@ -166,7 +174,7 @@ const ModuleLink = styled.div`
   gap: 0.3rem;
   font-size: 0.8rem;
   font-weight: 600;
-  color: ${p => p.$color};
+  color: ${(p) => p.$color};
 `;
 
 const ActivityBar = styled.div`
@@ -192,8 +200,8 @@ const Skeleton = styled.div`
   background-size: 400px 100%;
   animation: ${shimmer} 1.5s infinite;
   border-radius: 8px;
-  height: ${p => p.$h || '1rem'};
-  width: ${p => p.$w || '100%'};
+  height: ${(p) => p.$h || "1rem"};
+  width: ${(p) => p.$w || "100%"};
 `;
 
 const AdminDashboard = () => {
@@ -203,9 +211,10 @@ const AdminDashboard = () => {
   const [loadingStats, setLoadingStats] = useState(true);
 
   const getToken = () =>
-    localStorage.getItem('adminToken') || localStorage.getItem('token');
+    localStorage.getItem("adminToken") || localStorage.getItem("token");
 
-  const getBaseURL = () => import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  const getBaseURL = () =>
+    import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
   useEffect(() => {
     fetchStats();
@@ -221,7 +230,7 @@ const AdminDashboard = () => {
       if (!res.ok) throw new Error(data.message);
       setStats(data.stats);
     } catch {
-      toast.error('Failed to load dashboard stats');
+      toast.error("Failed to load dashboard stats");
     } finally {
       setLoadingStats(false);
     }
@@ -229,87 +238,87 @@ const AdminDashboard = () => {
 
   const handleLogout = () => {
     adminLogout();
-    navigate('/admin/login');
-    toast.info('Admin session ended');
+    navigate("/admin/login");
+    toast.info("Admin session ended");
   };
 
   const statCards = stats
     ? [
         {
-          label: 'Total Users',
+          label: "Total Users",
           value: stats.totalUsers.toLocaleString(),
-          sub: 'Registered accounts',
+          sub: "Registered accounts",
           icon: <Users size={20} />,
-          from: '#1d4ed8',
-          to: '#3b82f6',
+          from: "#1d4ed8",
+          to: "#3b82f6",
         },
         {
-          label: 'Total Campaigns',
+          label: "Total Campaigns",
           value: stats.totalProjects.toLocaleString(),
           sub: `${stats.approvedProjects} approved`,
           icon: <Briefcase size={20} />,
-          from: '#065f46',
-          to: '#10b981',
+          from: "#065f46",
+          to: "#10b981",
         },
         {
-          label: 'Pending Review',
+          label: "Pending Review",
           value: stats.pendingProjects.toLocaleString(),
-          sub: 'Awaiting moderation',
+          sub: "Awaiting moderation",
           icon: <Clock size={20} />,
-          from: '#92400e',
-          to: '#f59e0b',
+          from: "#92400e",
+          to: "#f59e0b",
         },
         {
-          label: 'Total Invested',
+          label: "Total Invested",
           value: `₹${(stats.totalInvestedAmount / 100000).toFixed(1)}L`,
           sub: `${stats.totalInvestments} investments`,
           icon: <DollarSign size={20} />,
-          from: '#4c1d95',
-          to: '#8b5cf6',
+          from: "#4c1d95",
+          to: "#8b5cf6",
         },
       ]
     : [];
 
   const modules = [
     {
-      title: 'Campaign Moderation',
-      desc: 'Approve, reject, and manage all startup campaigns awaiting verification.',
+      title: "Campaign Moderation",
+      desc: "Approve, reject, and manage all startup campaigns awaiting verification.",
       icon: <Briefcase size={22} />,
-      color: '#38bdf8',
-      bg: 'rgba(56,189,248,0.1)',
-      path: '/admin/projects',
+      color: "#38bdf8",
+      bg: "rgba(56,189,248,0.1)",
+      path: "/admin/projects",
     },
     {
-      title: 'User Ecosystem',
-      desc: 'Manage startups, investors, MNCs and platform members.',
+      title: "User Ecosystem",
+      desc: "Manage startups, investors, MNCs and platform members.",
       icon: <Users size={22} />,
-      color: '#4ade80',
-      bg: 'rgba(74,222,128,0.1)',
-      path: '/admin/users',
+      color: "#4ade80",
+      bg: "rgba(74,222,128,0.1)",
+      path: "/admin/users",
     },
     {
-      title: 'Platform Analytics',
-      desc: 'Deep-dive into investment trends, growth metrics and KPIs.',
+      title: "Platform Analytics",
+      desc: "Deep-dive into investment trends, growth metrics and KPIs.",
       icon: <BarChart3 size={22} />,
-      color: '#fb923c',
-      bg: 'rgba(251,146,60,0.1)',
-      path: '/admin/analytics',
+      color: "#fb923c",
+      bg: "rgba(251,146,60,0.1)",
+      path: "/admin/analytics",
     },
     {
-      title: 'Compliance Reports',
-      desc: 'Review bug reports, fraud allegations and user complaints.',
+      title: "Compliance Reports",
+      desc: "Review bug reports, fraud allegations and user complaints.",
       icon: <AlertCircle size={22} />,
-      color: '#f87171',
-      bg: 'rgba(248,113,113,0.1)',
-      path: '/admin/complaints',
+      color: "#f87171",
+      bg: "rgba(248,113,113,0.1)",
+      path: "/admin/complaints",
     },
     {
-      title: 'Admin Settings',
-      desc: 'Configure platform-wide policies, security and access.',
+      title: "Admin Settings",
+      desc: "Configure platform-wide policies, security and access.",
       icon: <Settings size={22} />,
-      color: '#a78bfa',
-      bg: 'rgba(167,139,250,0.1)',
-      path: '/admin/settings',
+      color: "#a78bfa",
+      bg: "rgba(167,139,250,0.1)",
+      path: "/admin/settings",
     },
   ];
 
@@ -319,7 +328,7 @@ const AdminDashboard = () => {
         {/* Welcome */}
         <WelcomeSection>
           <WelcomeTitle>
-            Welcome back,&nbsp;<span>{adminUser?.name || 'Admin'}</span>
+            Welcome back,&nbsp;<span>{adminUser?.name || "Admin"}</span>
           </WelcomeTitle>
           <WelcomeSub>
             Here's what's happening on the StartupFund platform right now.
@@ -329,11 +338,13 @@ const AdminDashboard = () => {
         {/* Stats */}
         <StatsGrid>
           {loadingStats
-            ? Array(4).fill(0).map((_, i) => (
-                <div key={i} style={{ borderRadius: 18, overflow: 'hidden' }}>
-                  <Skeleton $h="128px" />
-                </div>
-              ))
+            ? Array(4)
+                .fill(0)
+                .map((_, i) => (
+                  <div key={i} style={{ borderRadius: 18, overflow: "hidden" }}>
+                    <Skeleton $h="128px" />
+                  </div>
+                ))
             : statCards.map((card, i) => (
                 <StatCard
                   key={i}
@@ -347,10 +358,20 @@ const AdminDashboard = () => {
                   <StatValue>{card.value}</StatValue>
                   <StatSub>{card.sub}</StatSub>
                 </StatCard>
-              ))}</StatsGrid>
+              ))}
+        </StatsGrid>
 
         {/* Module Cards */}
-        <h2 style={{ fontSize: '0.85rem', fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '1.25rem' }}>
+        <h2
+          style={{
+            fontSize: "0.85rem",
+            fontWeight: 600,
+            color: "#64748b",
+            textTransform: "uppercase",
+            letterSpacing: "1px",
+            marginBottom: "1.25rem",
+          }}
+        >
           Admin Modules
         </h2>
         <ModulesGrid>
@@ -378,34 +399,89 @@ const AdminDashboard = () => {
         {/* Activity Summary */}
         <ActivityBar>
           <ActivityTitle>
-            <TrendingUp size={20} style={{ color: '#2563eb' }} />
+            <TrendingUp size={20} style={{ color: "#2563eb" }} />
             Platform Summary
           </ActivityTitle>
           {loadingStats ? (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1.5rem' }}>
-              {Array(4).fill(0).map((_, i) => <Skeleton key={i} $h="80px" />)}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4,1fr)",
+                gap: "1.5rem",
+              }}
+            >
+              {Array(4)
+                .fill(0)
+                .map((_, i) => (
+                  <Skeleton key={i} $h="80px" />
+                ))}
             </div>
-          ) : stats && (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1.5rem' }}>
-              {[
-                { label: 'Approved Ventures', value: stats.approvedProjects, color: '#059669' },
-                { label: 'Pending KYC Docs', value: stats.pendingDocuments, color: '#d97706' },
-                { label: 'Total Investments', value: stats.totalInvestments, color: '#2563eb' },
-                { label: 'Total Raised', value: `₹${(stats.totalInvestedAmount/100000).toFixed(1)}L`, color: '#7c3aed' },
-              ].map((item, i) => (
-                <div key={i} style={{
-                  background: '#f8fafc', borderRadius: 12, padding: '1.5rem',
-                  border: '1px solid #e2e8f0',
-                }}>
-                  <p style={{ fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', color: '#64748b', marginBottom: 8 }}>
-                    {item.label}
-                  </p>
-                  <p style={{ fontSize: '2rem', fontWeight: 700, color: item.color, letterSpacing: '-0.5px' }}>
-                    {item.value}
-                  </p>
-                </div>
-              ))}
-            </div>
+          ) : (
+            stats && (
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(4,1fr)",
+                  gap: "1.5rem",
+                }}
+              >
+                {[
+                  {
+                    label: "Approved Ventures",
+                    value: stats.approvedProjects,
+                    color: "#059669",
+                  },
+                  {
+                    label: "Pending KYC Docs",
+                    value: stats.pendingDocuments,
+                    color: "#d97706",
+                  },
+                  {
+                    label: "Total Investments",
+                    value: stats.totalInvestments,
+                    color: "#2563eb",
+                  },
+                  {
+                    label: "Total Raised",
+                    value: `₹${(stats.totalInvestedAmount / 100000).toFixed(1)}L`,
+                    color: "#7c3aed",
+                  },
+                ].map((item, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      background: "#f8fafc",
+                      borderRadius: 12,
+                      padding: "1.5rem",
+                      border: "1px solid #e2e8f0",
+                    }}
+                  >
+                    <p
+                      style={{
+                        fontSize: "0.75rem",
+                        fontWeight: 600,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.5px",
+                        color: "#64748b",
+                        marginBottom: 8,
+                      }}
+                    >
+                      {item.label}
+                    </p>
+                    <p
+                      style={{
+                        fontSize: "2rem",
+                        fontWeight: 700,
+                        color: item.color,
+                        letterSpacing: "-0.5px",
+                      }}
+                    >
+                      {item.value}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )
           )}
         </ActivityBar>
       </div>
@@ -414,4 +490,3 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
-

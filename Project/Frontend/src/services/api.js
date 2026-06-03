@@ -35,7 +35,10 @@ api.interceptors.response.use(
       localStorage.removeItem("user");
       localStorage.removeItem("adminUser");
       const isAdminPage = window.location.pathname.startsWith("/admin");
-      const isAuthPage = window.location.pathname === "/login" || window.location.pathname === "/admin/login" || window.location.pathname === "/register";
+      const isAuthPage =
+        window.location.pathname === "/login" ||
+        window.location.pathname === "/admin/login" ||
+        window.location.pathname === "/register";
       if (!isAuthPage) {
         window.location.href = isAdminPage ? "/admin/login" : "/login";
       }

@@ -214,13 +214,14 @@ const AdminUsers = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const getToken = () => localStorage.getItem("adminToken") || localStorage.getItem("token");
-  const getBaseURL = () => import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  const getToken = () =>
+    localStorage.getItem("adminToken") || localStorage.getItem("token");
+  const getBaseURL = () =>
+    import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
   useEffect(() => {
     fetchUsers();
   }, []);
-
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -240,14 +241,17 @@ const AdminUsers = () => {
 
   const handleRoleChange = async (userId, newRole) => {
     try {
-      const response = await fetch(`${getBaseURL()}/admin/users/${userId}/role`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${getBaseURL()}/admin/users/${userId}/role`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ role: newRole }),
         },
-        body: JSON.stringify({ role: newRole }),
-      });
+      );
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Update failed");
       toast.success(`Role updated to ${newRole}`);
@@ -259,14 +263,17 @@ const AdminUsers = () => {
 
   const handleVerifyToggle = async (userId, currentStatus) => {
     try {
-      const response = await fetch(`${getBaseURL()}/admin/users/${userId}/status`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${getBaseURL()}/admin/users/${userId}/status`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ isVerified: !currentStatus }),
         },
-        body: JSON.stringify({ isVerified: !currentStatus }),
-      });
+      );
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Update failed");
       toast.success(
@@ -467,4 +474,3 @@ const AdminUsers = () => {
 };
 
 export default AdminUsers;
-

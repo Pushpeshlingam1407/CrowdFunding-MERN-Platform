@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { Container, Flex, Grid } from './index';
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { Container, Flex, Grid } from "./index";
 
 const FooterWrapper = styled.footer`
   background: #ffffff;
@@ -18,13 +18,13 @@ const FooterLink = styled(Link)`
   cursor: pointer;
 
   &:hover {
-    color: ${props => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.primary};
     transform: translateX(4px);
   }
 `;
 
 const SubHeading = styled.h4`
-  color: ${props => props.theme.colors.text};
+  color: ${(props) => props.theme.colors.text};
   font-weight: 800;
   margin-bottom: 1.75rem;
   font-size: 0.9rem;
@@ -35,14 +35,14 @@ const SubHeading = styled.h4`
 const Logo = styled(Link)`
   font-size: 1.5rem;
   font-weight: 800;
-  color: ${props => props.theme.colors.text};
+  color: ${(props) => props.theme.colors.text};
   text-decoration: none;
   letter-spacing: -1.5px;
   margin-bottom: 1.5rem;
   display: block;
 
   span {
-    color: ${props => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.primary};
   }
 `;
 
@@ -63,12 +63,27 @@ const Footer = () => {
       <Container>
         <Grid cols="1.5fr 1fr 1fr 1fr">
           <div>
-            <Logo to="/">Startup<span>Fund</span></Logo>
-            <p style={{ lineHeight: '1.6', fontSize: '0.95rem', maxWidth: '240px', marginBottom: '2rem' }}>
-              The definitive crowdfunding infrastructure for the global startup ecosystem.
+            <Logo to="/">
+              Startup<span>Fund</span>
+            </Logo>
+            <p
+              style={{
+                lineHeight: "1.6",
+                fontSize: "0.95rem",
+                maxWidth: "240px",
+                marginBottom: "2rem",
+              }}
+            >
+              The definitive crowdfunding infrastructure for the global startup
+              ecosystem.
             </p>
             <Flex gap="1.5rem">
-               <FooterLink to="/admin/login" style={{ fontSize: '0.8rem', opacity: 0.5 }}>Executive Terminal</FooterLink>
+              <FooterLink
+                to="/admin/login"
+                style={{ fontSize: "0.8rem", opacity: 0.5 }}
+              >
+                Executive Terminal
+              </FooterLink>
             </Flex>
           </div>
           <div>
@@ -97,10 +112,17 @@ const Footer = () => {
           </div>
         </Grid>
         <Copyright>
-          <span>&copy; {new Date().getFullYear()} StartupFund Executive Terminal. ISO 27001 Compliant.</span>
+          <span>
+            &copy; {new Date().getFullYear()} StartupFund Executive Terminal.
+            ISO 27001 Compliant.
+          </span>
           <Flex gap="2rem">
-             <FooterLink to="/terms" style={{ fontSize: '0.8rem' }}>Cookie Policy</FooterLink>
-             <FooterLink to="/privacy" style={{ fontSize: '0.8rem' }}>Data Ethics</FooterLink>
+            <FooterLink to="/terms" style={{ fontSize: "0.8rem" }}>
+              Cookie Policy
+            </FooterLink>
+            <FooterLink to="/privacy" style={{ fontSize: "0.8rem" }}>
+              Data Ethics
+            </FooterLink>
           </Flex>
         </Copyright>
       </Container>

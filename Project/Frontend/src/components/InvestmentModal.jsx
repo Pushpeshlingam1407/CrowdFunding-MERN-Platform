@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { X, Info } from 'lucide-react';
-import { Button, Card, Flex, Input } from './ui';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import { X, Info } from "lucide-react";
+import { Button, Card, Flex, Input } from "./ui";
 
 const ModalOverlay = styled(motion.div)`
   position: fixed;
@@ -34,7 +34,7 @@ const CloseButton = styled.button`
   cursor: pointer;
   color: #999;
   transition: color 0.2s;
-  
+
   &:hover {
     color: #333;
   }
@@ -42,14 +42,14 @@ const CloseButton = styled.button`
 
 const Header = styled.div`
   margin-bottom: 2rem;
-  
+
   h2 {
     font-size: 1.75rem;
     font-weight: 800;
     letter-spacing: -0.5px;
     margin-bottom: 0.5rem;
   }
-  
+
   p {
     color: #666;
     font-size: 0.95rem;
@@ -78,7 +78,7 @@ const InfoBox = styled.div`
   gap: 0.75rem;
   font-size: 0.85rem;
   color: #333;
-  
+
   svg {
     color: #0077b6;
     flex-shrink: 0;
@@ -94,7 +94,7 @@ const EquityInfo = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
-  
+
   div {
     h4 {
       font-size: 0.8rem;
@@ -103,7 +103,7 @@ const EquityInfo = styled.div`
       color: #999;
       margin-bottom: 0.5rem;
     }
-    
+
     p {
       font-size: 1.25rem;
       font-weight: 800;
@@ -113,29 +113,30 @@ const EquityInfo = styled.div`
 `;
 
 const InvestmentModal = ({ isOpen, onClose, project, onProceed }) => {
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   if (!isOpen || !project) return null;
 
   const handleProceed = () => {
     if (!amount || Number(amount) <= 0) {
-      setError('Please enter a valid investment amount');
-      return;
-    }
-    
-    if (Number(amount) > 10000000) {
-      setError('Maximum investment limit is ₹1,00,00,000');
+      setError("Please enter a valid investment amount");
       return;
     }
 
-    setError('');
+    if (Number(amount) > 10000000) {
+      setError("Maximum investment limit is ₹1,00,00,000");
+      return;
+    }
+
+    setError("");
     setLoading(true);
     onProceed(Number(amount));
   };
 
-  const equityPerAmount = (project.equity * Number(amount)) / project.targetAmount || 0;
+  const equityPerAmount =
+    (project.equity * Number(amount)) / project.targetAmount || 0;
 
   return (
     <ModalOverlay
@@ -161,7 +162,10 @@ const InvestmentModal = ({ isOpen, onClose, project, onProceed }) => {
 
         <InfoBox>
           <Info size={18} />
-          <span>You are investing in equity of this startup. Your investment will be locked until the campaign ends.</span>
+          <span>
+            You are investing in equity of this startup. Your investment will be
+            locked until the campaign ends.
+          </span>
         </InfoBox>
 
         <FormGroup>
@@ -172,17 +176,27 @@ const InvestmentModal = ({ isOpen, onClose, project, onProceed }) => {
             value={amount}
             onChange={(e) => {
               setAmount(e.target.value);
-              setError('');
+              setError("");
             }}
             min="1000"
             step="1000"
-            style={{ 
-              padding: '1rem',
-              fontSize: '1rem',
-              borderColor: error ? '#e53e3e' : '#e0e0e0'
+            style={{
+              padding: "1rem",
+              fontSize: "1rem",
+              borderColor: error ? "#e53e3e" : "#e0e0e0",
             }}
           />
-          {error && <p style={{ color: '#e53e3e', fontSize: '0.85rem', marginTop: '0.5rem' }}>{error}</p>}
+          {error && (
+            <p
+              style={{
+                color: "#e53e3e",
+                fontSize: "0.85rem",
+                marginTop: "0.5rem",
+              }}
+            >
+              {error}
+            </p>
+          )}
         </FormGroup>
 
         {amount && Number(amount) > 0 && (
@@ -198,7 +212,7 @@ const InvestmentModal = ({ isOpen, onClose, project, onProceed }) => {
           </EquityInfo>
         )}
 
-        <Flex gap="1rem" style={{ marginTop: '2rem' }}>
+        <Flex gap="1rem" style={{ marginTop: "2rem" }}>
           <Button
             variant="outline"
             onClick={onClose}
@@ -212,7 +226,7 @@ const InvestmentModal = ({ isOpen, onClose, project, onProceed }) => {
             style={{ flex: 1 }}
             disabled={loading || !amount || Number(amount) <= 0}
           >
-            {loading ? 'Processing...' : 'Proceed to Payment'}
+            {loading ? "Processing..." : "Proceed to Payment"}
           </Button>
         </Flex>
       </ModalContent>

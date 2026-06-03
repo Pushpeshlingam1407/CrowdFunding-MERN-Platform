@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { TrendingUp, ArrowRight, Briefcase, DollarSign, Target } from 'lucide-react';
-import { Button, Card, Container, Flex, Grid } from './ui';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  TrendingUp,
+  ArrowRight,
+  Briefcase,
+  DollarSign,
+  Target,
+} from "lucide-react";
+import { Button, Card, Container, Flex, Grid } from "./ui";
 import { toast } from "react-hot-toast";
 
 const PortfolioWrapper = styled.div`
@@ -37,7 +43,7 @@ const StatCard = styled(Card)`
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  
+
   svg {
     width: 40px;
     height: 40px;
@@ -76,12 +82,12 @@ const InvestmentCard = styled(motion.div)`
   grid-template-columns: 1fr 2fr 1fr 1fr auto;
   gap: 2rem;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: all 0.3s;
   border: 1px solid #f0f0f0;
 
   &:hover {
-    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
     border-color: #e0e0e0;
   }
 
@@ -167,9 +173,11 @@ const InvestmentStatus = styled.div`
     border-radius: 8px;
     font-size: 0.85rem;
     font-weight: 600;
-    background: ${props => props.status === 'completed' ? '#f0fdf4' : '#f0f7ff'};
-    color: ${props => props.status === 'completed' ? '#22c55e' : '#3b82f6'};
-    border: 1px solid ${props => props.status === 'completed' ? '#dcfce7' : '#dbeafe'};
+    background: ${(props) =>
+      props.status === "completed" ? "#f0fdf4" : "#f0f7ff"};
+    color: ${(props) => (props.status === "completed" ? "#22c55e" : "#3b82f6")};
+    border: 1px solid
+      ${(props) => (props.status === "completed" ? "#dcfce7" : "#dbeafe")};
   }
 `;
 
@@ -178,7 +186,7 @@ const EmptyState = styled.div`
   padding: 4rem 2rem;
   background: white;
   border-radius: 16px;
-  
+
   svg {
     width: 64px;
     height: 64px;
@@ -206,7 +214,7 @@ const Portfolio = () => {
   const [stats, setStats] = useState({
     totalInvested: 0,
     activeInvestments: 0,
-    averageReturn: 0
+    averageReturn: 0,
   });
 
   useEffect(() => {
@@ -216,16 +224,16 @@ const Portfolio = () => {
   const fetchInvestments = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/investments/user`,
+        `${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}/investments/user`,
         {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          }
-        }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
       );
 
       if (!response.ok) {
-        throw new Error('Failed to fetch investments');
+        throw new Error("Failed to fetch investments");
       }
 
       const data = await response.json();
@@ -233,18 +241,23 @@ const Portfolio = () => {
 
       // Calculate stats
       const totalInvested = data.investments.reduce((sum, inv) => {
-        return inv.status === 'completed' ? sum + inv.amount : sum;
+        return inv.status === "completed" ? sum + inv.amount : sum;
       }, 0);
 
-      const activeInvestments = data.investments.filter(inv => inv.status === 'completed').length;
+      const activeInvestments = data.investments.filter(
+        (inv) => inv.status === "completed",
+      ).length;
 
       setStats({
         totalInvested,
         activeInvestments,
-        averageReturn: activeInvestments > 0 ? Math.round(totalInvested / activeInvestments) : 0
+        averageReturn:
+          activeInvestments > 0
+            ? Math.round(totalInvested / activeInvestments)
+            : 0,
       });
     } catch (error) {
-      toast.error('Failed to load your investments');
+      toast.error("Failed to load your investments");
       console.error(error);
     } finally {
       setLoading(false);
@@ -255,7 +268,7 @@ const Portfolio = () => {
     return (
       <PortfolioWrapper>
         <Container>
-          <div style={{ textAlign: 'center', padding: '4rem' }}>
+          <div style={{ textAlign: "center", padding: "4rem" }}>
             <p>Loading your portfolio...</p>
           </div>
         </Container>
@@ -271,7 +284,7 @@ const Portfolio = () => {
           <p>Track your investments across all campaigns</p>
         </Header>
 
-        <StatsGrid cols={3} gap="1.5rem" style={{ marginBottom: '3rem' }}>
+        <StatsGrid cols={3} gap="1.5rem" style={{ marginBottom: "3rem" }}>
           <StatCard>
             <DollarSign />
             <StatContent>
@@ -299,14 +312,25 @@ const Portfolio = () => {
           <EmptyState>
             <Briefcase />
             <h3>No Investments Yet</h3>
-            <p>Start building your investment portfolio. Explore our campaigns and invest in startups.</p>
-            <Button onClick={() => navigate('/campaigns')}>
+            <p>
+              Start building your investment portfolio. Explore our campaigns
+              and invest in startups.
+            </p>
+            <Button onClick={() => navigate("/campaigns")}>
               Explore Campaigns
             </Button>
           </EmptyState>
         ) : (
           <>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '1.5rem' }}>Your Investments</h2>
+            <h2
+              style={{
+                fontSize: "1.5rem",
+                fontWeight: 800,
+                marginBottom: "1.5rem",
+              }}
+            >
+              Your Investments
+            </h2>
             <InvestmentList>
               {investments.map((investment, index) => (
                 <InvestmentCard
@@ -319,20 +343,23 @@ const Portfolio = () => {
                   <ProjectImage>
                     <img
                       src={
-                        investment.project?.image?.startsWith('http')
+                        investment.project?.image?.startsWith("http")
                           ? investment.project.image
                           : `http://localhost:5000${investment.project?.image}`
                       }
                       alt={investment.project?.title}
                       onError={(e) => {
-                        e.target.src = 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&q=80&w=400';
+                        e.target.src =
+                          "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&q=80&w=400";
                       }}
                     />
                   </ProjectImage>
 
                   <ProjectInfo>
                     <h3>{investment.project?.title}</h3>
-                    <p>{investment.project?.description?.substring(0, 100)}...</p>
+                    <p>
+                      {investment.project?.description?.substring(0, 100)}...
+                    </p>
                     <span className="category">Technology</span>
                   </ProjectInfo>
 
@@ -343,13 +370,18 @@ const Portfolio = () => {
 
                   <InvestmentStatus status={investment.status}>
                     <h4>Status</h4>
-                    <span>{investment.status.charAt(0).toUpperCase() + investment.status.slice(1)}</span>
+                    <span>
+                      {investment.status.charAt(0).toUpperCase() +
+                        investment.status.slice(1)}
+                    </span>
                   </InvestmentStatus>
 
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => navigate(`/projects/${investment.project?._id}`)}
+                    onClick={() =>
+                      navigate(`/projects/${investment.project?._id}`)
+                    }
                   >
                     View <ArrowRight size={16} style={{ marginLeft: 8 }} />
                   </Button>

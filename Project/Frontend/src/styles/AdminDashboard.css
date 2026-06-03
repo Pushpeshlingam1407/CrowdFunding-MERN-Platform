@@ -78,7 +78,8 @@
   cursor: not-allowed;
 }
 
-.loading, .error {
+.loading,
+.error {
   text-align: center;
   padding: 40px;
   font-size: 1.1em;
@@ -90,4 +91,4 @@
 
 .loading {
   color: #666;
-} 
+}

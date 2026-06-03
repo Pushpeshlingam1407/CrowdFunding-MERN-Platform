@@ -35,7 +35,7 @@ const TableWrapper = styled.div`
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #A3AED0;
+    color: #a3aed0;
     background: #ffffff;
     border-bottom: 1px solid #f1f5f9;
   }
@@ -54,7 +54,7 @@ const TableWrapper = styled.div`
   }
 
   tbody tr:hover {
-    background: #F4F7FE;
+    background: #f4f7fe;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(112, 144, 176, 0.08);
   }
@@ -89,7 +89,7 @@ const SearchBar = styled.div`
     left: 1.25rem;
     top: 50%;
     transform: translateY(-50%);
-    color: #A3AED0;
+    color: #a3aed0;
     pointer-events: none;
   }
 
@@ -99,14 +99,16 @@ const SearchBar = styled.div`
     background: #ffffff;
     border: none;
     border-radius: 20px;
-    color: #2B3674;
+    color: #2b3674;
     font-size: 0.9rem;
     font-weight: 500;
     outline: none;
     transition: all 0.2s;
     box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
 
-    &::placeholder { color: #A3AED0; }
+    &::placeholder {
+      color: #a3aed0;
+    }
     &:focus {
       box-shadow: 0px 18px 40px rgba(67, 24, 255, 0.2);
     }
@@ -139,15 +141,18 @@ const ActionBtn = styled.button`
 const EmptyState = styled.div`
   padding: 5rem 2rem;
   text-align: center;
-  color: #A3AED0;
+  color: #a3aed0;
 
   svg {
     margin: 0 auto 1rem;
     display: block;
     opacity: 0.4;
-    color: #A3AED0;
+    color: #a3aed0;
   }
-  p { font-size: 0.95rem; font-weight: 500; }
+  p {
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
 `;
 
 const AdminProjects = () => {
@@ -157,8 +162,10 @@ const AdminProjects = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("all");
 
-  const getToken = () => localStorage.getItem("adminToken") || localStorage.getItem("token");
-  const getBaseURL = () => import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  const getToken = () =>
+    localStorage.getItem("adminToken") || localStorage.getItem("token");
+  const getBaseURL = () =>
+    import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
   useEffect(() => {
     fetchAdminProjects();
@@ -192,7 +199,9 @@ const AdminProjects = () => {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Operation failed");
-      toast.success(`Campaign ${status === "approved" ? "approved ✓" : "rejected ✗"}`);
+      toast.success(
+        `Campaign ${status === "approved" ? "approved ✓" : "rejected ✗"}`,
+      );
       fetchAdminProjects();
     } catch (error) {
       toast.error(error.message || "Operation failed");
@@ -241,12 +250,29 @@ const AdminProjects = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </SearchBar>
-          <ActionBtn onClick={fetchAdminProjects} style={{ whiteSpace: "nowrap", padding: '0 1.5rem', borderRadius: 20, border: 'none', background: '#ffffff', boxShadow: '0px 18px 40px rgba(112, 144, 176, 0.12)' }}>
+          <ActionBtn
+            onClick={fetchAdminProjects}
+            style={{
+              whiteSpace: "nowrap",
+              padding: "0 1.5rem",
+              borderRadius: 20,
+              border: "none",
+              background: "#ffffff",
+              boxShadow: "0px 18px 40px rgba(112, 144, 176, 0.12)",
+            }}
+          >
             <RefreshCw size={16} className={loading ? "spin" : ""} /> Refresh
           </ActionBtn>
         </Flex>
 
-        <Flex gap="0.75rem" style={{ marginBottom: "1.5rem", overflowX: "auto", paddingBottom: "0.5rem" }}>
+        <Flex
+          gap="0.75rem"
+          style={{
+            marginBottom: "1.5rem",
+            overflowX: "auto",
+            paddingBottom: "0.5rem",
+          }}
+        >
           {filterTabs.map((tab) => (
             <button
               key={tab.key}
@@ -261,7 +287,10 @@ const AdminProjects = () => {
                 transition: "all 0.2s",
                 background: filter === tab.key ? "#4318FF" : "#ffffff",
                 color: filter === tab.key ? "#ffffff" : "#A3AED0",
-                boxShadow: filter === tab.key ? "0 4px 12px rgba(67, 24, 255, 0.3)" : "0px 18px 40px rgba(112, 144, 176, 0.08)",
+                boxShadow:
+                  filter === tab.key
+                    ? "0 4px 12px rgba(67, 24, 255, 0.3)"
+                    : "0px 18px 40px rgba(112, 144, 176, 0.08)",
               }}
             >
               {tab.label}
@@ -300,19 +329,78 @@ const AdminProjects = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.05 }}
                   >
-                    <td style={{ maxWidth: 260 }}>
-                      <p style={{ fontWeight: 700, color: "#2B3674", marginBottom: 4 }}>
-                        {project.title}
-                      </p>
-                      <p style={{ fontSize: "0.8rem", color: "#A3AED0", fontWeight: 500 }}>
-                        {project.category} · {new Date(project.createdAt).toLocaleDateString("en-IN")}
-                      </p>
+                    <td style={{ maxWidth: 300 }}>
+                      <Flex gap="1rem" align="center">
+                        <div
+                          style={{
+                            width: "60px",
+                            height: "60px",
+                            borderRadius: "8px",
+                            overflow: "hidden",
+                            background: "#f1f5f9",
+                            flexShrink: 0,
+                          }}
+                        >
+                          <img
+                            src={
+                              project.image?.startsWith("http")
+                                ? project.image
+                                : `http://localhost:5000${project.image}`
+                            }
+                            alt={project.title}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                            }}
+                            onError={(e) => {
+                              e.target.src =
+                                "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&q=80&w=150";
+                            }}
+                          />
+                        </div>
+                        <div>
+                          <p
+                            style={{
+                              fontWeight: 700,
+                              color: "#2B3674",
+                              marginBottom: 4,
+                            }}
+                          >
+                            {project.title}
+                          </p>
+                          <p
+                            style={{
+                              fontSize: "0.8rem",
+                              color: "#A3AED0",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {project.category} ·{" "}
+                            {new Date(project.createdAt).toLocaleDateString(
+                              "en-IN",
+                            )}
+                          </p>
+                        </div>
+                      </Flex>
                     </td>
                     <td>
-                      <p style={{ fontWeight: 600, color: "#2B3674", marginBottom: 2 }}>
+                      <p
+                        style={{
+                          fontWeight: 600,
+                          color: "#2B3674",
+                          marginBottom: 2,
+                        }}
+                      >
                         {project.creator?.name || "—"}
                       </p>
-                      <p style={{ fontSize: "0.8rem", color: "#A3AED0", fontWeight: 500 }}>
+                      <p
+                        style={{
+                          fontSize: "0.8rem",
+                          color: "#A3AED0",
+                          fontWeight: 500,
+                        }}
+                      >
                         {project.creator?.email}
                       </p>
                     </td>
@@ -322,7 +410,9 @@ const AdminProjects = () => {
                       </p>
                     </td>
                     <td>
-                      <p style={{ color: "#2B3674", fontWeight: 700 }}>{project.equity}%</p>
+                      <p style={{ color: "#2B3674", fontWeight: 700 }}>
+                        {project.equity}%
+                      </p>
                     </td>
                     <td>
                       <StatusBadge $status={project.status}>
@@ -333,28 +423,53 @@ const AdminProjects = () => {
                       <Flex gap="0.5rem">
                         {project.status === "pending" && (
                           <>
-                            <ActionBtn $variant="approve" onClick={() => handleStatusChange(project._id, "approved")}>
+                            <ActionBtn
+                              $variant="approve"
+                              onClick={() =>
+                                handleStatusChange(project._id, "approved")
+                              }
+                            >
                               <CheckCircle2 size={14} />
                             </ActionBtn>
-                            <ActionBtn $variant="reject" onClick={() => handleStatusChange(project._id, "rejected")}>
+                            <ActionBtn
+                              $variant="reject"
+                              onClick={() =>
+                                handleStatusChange(project._id, "rejected")
+                              }
+                            >
                               <XCircle size={14} />
                             </ActionBtn>
                           </>
                         )}
                         {project.status === "approved" && (
-                          <ActionBtn $variant="reject" onClick={() => handleStatusChange(project._id, "rejected")}>
+                          <ActionBtn
+                            $variant="reject"
+                            onClick={() =>
+                              handleStatusChange(project._id, "rejected")
+                            }
+                          >
                             <XCircle size={14} />
                           </ActionBtn>
                         )}
                         {project.status === "rejected" && (
-                          <ActionBtn $variant="approve" onClick={() => handleStatusChange(project._id, "approved")}>
+                          <ActionBtn
+                            $variant="approve"
+                            onClick={() =>
+                              handleStatusChange(project._id, "approved")
+                            }
+                          >
                             <CheckCircle2 size={14} />
                           </ActionBtn>
                         )}
-                        <ActionBtn onClick={() => navigate(`/projects/${project._id}`)}>
+                        <ActionBtn
+                          onClick={() => navigate(`/projects/${project._id}`)}
+                        >
                           <ExternalLink size={14} />
                         </ActionBtn>
-                        <ActionBtn $variant="delete" onClick={() => handleDelete(project._id)}>
+                        <ActionBtn
+                          $variant="delete"
+                          onClick={() => handleDelete(project._id)}
+                        >
                           <Trash2 size={14} />
                         </ActionBtn>
                       </Flex>
@@ -371,4 +486,3 @@ const AdminProjects = () => {
 };
 
 export default AdminProjects;
-
