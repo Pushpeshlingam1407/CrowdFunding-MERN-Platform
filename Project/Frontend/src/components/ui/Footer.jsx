@@ -90,16 +90,15 @@ const Footer = () => {
             <SubHeading>Ecosystem</SubHeading>
             <Flex direction="column" align="flex-start" gap="1rem">
               <FooterLink to="/campaigns">Marketplace</FooterLink>
-              <FooterLink to="/about">Our Mission</FooterLink>
               <FooterLink to="/dashboard">Dashboard</FooterLink>
             </Flex>
           </div>
           <div>
             <SubHeading>Compliance</SubHeading>
             <Flex direction="column" align="flex-start" gap="1rem">
-              <FooterLink to="/privacy">Privacy Ledger</FooterLink>
-              <FooterLink to="/terms">Professional Terms</FooterLink>
-              <FooterLink to="/about">Verification Audit</FooterLink>
+              <span style={{ fontSize: "0.95rem" }}>Secure Ledger</span>
+              <span style={{ fontSize: "0.95rem" }}>Professional Terms</span>
+              <span style={{ fontSize: "0.95rem" }}>Verification Audit</span>
             </Flex>
           </div>
           <div>
@@ -117,12 +116,8 @@ const Footer = () => {
             ISO 27001 Compliant.
           </span>
           <Flex gap="2rem">
-            <FooterLink to="/terms" style={{ fontSize: "0.8rem" }}>
-              Cookie Policy
-            </FooterLink>
-            <FooterLink to="/privacy" style={{ fontSize: "0.8rem" }}>
-              Data Ethics
-            </FooterLink>
+            <span style={{ fontSize: "0.8rem" }}>Cookie Policy</span>
+            <span style={{ fontSize: "0.8rem" }}>Data Ethics</span>
           </Flex>
         </Copyright>
       </Container>

@@ -469,9 +469,18 @@ const ProjectDetails = () => {
   /* ── Render ── */
   if (loading)
     return (
-      <div style={{ padding: "8rem", textAlign: "center" }}>
-        Loading Project...
-      </div>
+      <ProjectWrapper>
+        <Container>
+          <div style={{ padding: "8rem", display: "flex", justifyContent: "center" }}>
+            <div style={{ width: "100%", maxWidth: "800px", display: "flex", flexDirection: "column", gap: "2rem" }}>
+              <div style={{ width: "100%", height: "400px", background: "#f0f0f0", borderRadius: "24px" }} />
+              <div style={{ width: "30%", height: "24px", background: "#f0f0f0", borderRadius: "8px" }} />
+              <div style={{ width: "80%", height: "48px", background: "#f0f0f0", borderRadius: "8px" }} />
+              <div style={{ width: "100%", height: "120px", background: "#f0f0f0", borderRadius: "8px" }} />
+            </div>
+          </div>
+        </Container>
+      </ProjectWrapper>
     );
   if (!project)
     return (
@@ -585,10 +594,10 @@ const ProjectDetails = () => {
                         textTransform: "uppercase",
                       }}
                     >
-                      Tier
+                      Min Investment
                     </span>
                     <span style={{ fontSize: "1.25rem", fontWeight: 700 }}>
-                      Enterprise
+                      ₹10,000
                     </span>
                   </Flex>
                 </Grid>

@@ -212,8 +212,7 @@ const Campaigns = () => {
                 margin: "0 auto",
               }}
             >
-              Discover promising startups, connect with MNCS, and find the next
-              big success story in the global ecosystem.
+              Browse active fundraising rounds and support emerging startups.
             </p>
           </motion.div>
         </Container>
@@ -264,15 +263,15 @@ const Campaigns = () => {
       <Container>
         <CampaignGrid>
           {loading ? (
-            <div
-              style={{
-                textAlign: "center",
-                gridColumn: "1/-1",
-                padding: "4rem",
-              }}
-            >
-              Loading campaigns...
-            </div>
+            Array(6).fill(0).map((_, i) => (
+              <CampaignCard key={i} style={{ padding: "1.5rem", minHeight: "400px" }}>
+                <div style={{ width: "100%", height: "200px", background: "#f0f0f0", borderRadius: "8px", marginBottom: "1rem" }} />
+                <div style={{ width: "40%", height: "16px", background: "#f0f0f0", borderRadius: "4px", marginBottom: "1rem" }} />
+                <div style={{ width: "80%", height: "24px", background: "#f0f0f0", borderRadius: "4px", marginBottom: "1rem" }} />
+                <div style={{ width: "100%", height: "48px", background: "#f0f0f0", borderRadius: "4px", marginBottom: "1rem" }} />
+                <div style={{ width: "100%", height: "6px", background: "#f0f0f0", borderRadius: "3px", marginTop: "auto" }} />
+              </CampaignCard>
+            ))
           ) : (
             filteredCampaigns.map((campaign) => {
               const progress = Math.min(

@@ -247,6 +247,26 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/investments")
+    public ResponseEntity<?> getAllInvestments() {
+        try {
+            List<Investment> investments = investmentRepository.findAll().stream()
+                    .sorted((i1, i2) -> i2.getCreatedAt().compareTo(i1.getCreatedAt()))
+                    .collect(java.util.stream.Collectors.toList());
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("investments", investments);
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+        }
+    }
+
     @PutMapping("/complaints/{id}/resolve")
     public ResponseEntity<?> resolveComplaint(@PathVariable Long id) {
         try {

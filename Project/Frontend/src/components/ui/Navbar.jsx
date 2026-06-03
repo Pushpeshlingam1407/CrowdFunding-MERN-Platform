@@ -60,12 +60,8 @@ const Navbar = () => {
             </Logo>
             <Flex gap="2rem">
               <NavLink to="/campaigns">Marketplace</NavLink>
-              <NavLink to="/about">About Ecosystem</NavLink>
               {isAuthenticated && (
-                <>
-                  <NavLink to="/dashboard">Dashboard</NavLink>
-                  <NavLink to="/messages">Private Space</NavLink>
-                </>
+                <NavLink to="/dashboard">Dashboard</NavLink>
               )}
             </Flex>
           </Flex>

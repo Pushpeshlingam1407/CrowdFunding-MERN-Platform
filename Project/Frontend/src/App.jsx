@@ -29,12 +29,9 @@ import ProjectDetails from "./pages/ProjectDetails";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Campaigns from "./pages/Campaigns";
-import About from "./pages/About";
-import Terms from "./pages/Terms";
-import Privacy from "./pages/Privacy";
 import CompanyProfile from "./pages/CompanyProfile";
-import PrivateSpace from "./pages/PrivateSpace";
 import AdminComplaints from "./pages/admin/Complaints";
+import AdminFinancials from "./pages/admin/AdminFinancials";
 
 // Components
 import PrivateRoute from "./components/PrivateRoute";
@@ -107,27 +104,8 @@ const AppContent = () => {
           <Route path="/admin/login" element={<AdminLogin />} />
 
           {/* Public pages */}
-          <Route path="/about" element={<About />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/privacy" element={<Privacy />} />
           <Route path="/campaigns" element={<Campaigns />} />
           <Route path="/company/:id" element={<CompanyProfile />} />
-          <Route
-            path="/messages"
-            element={
-              <PrivateRoute>
-                <PrivateSpace />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/messages/:id"
-            element={
-              <PrivateRoute>
-                <PrivateSpace />
-              </PrivateRoute>
-            }
-          />
 
           {/* Protected User Routes */}
           <Route
@@ -226,6 +204,14 @@ const AppContent = () => {
             element={
               <AdminRoute>
                 <AdminComplaints />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/financials"
+            element={
+              <AdminRoute>
+                <AdminFinancials />
               </AdminRoute>
             }
           />

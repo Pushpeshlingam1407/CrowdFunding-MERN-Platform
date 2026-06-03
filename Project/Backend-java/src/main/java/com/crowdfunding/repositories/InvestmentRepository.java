@@ -10,4 +10,5 @@ import java.util.List;
 public interface InvestmentRepository extends JpaRepository<Investment, Long> {
     List<Investment> findByInvestorIdOrderByCreatedAtDesc(Long investorId);
     List<Investment> findByProjectIdOrderByCreatedAtDesc(Long projectId);
+    List<Investment> findByProjectCreatorIdOrderByCreatedAtDesc(Long creatorId);
 }

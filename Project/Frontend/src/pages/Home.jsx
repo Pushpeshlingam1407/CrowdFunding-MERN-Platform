@@ -106,15 +106,12 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Badge>Trusted by 10,000+ Startups & Investors</Badge>
+            <Badge>Welcome to StartupFund</Badge>
             <Title>
-              Connecting the <span>Startup Ecosystem</span> <br /> for
-              Investment Success
+              Empowering Startups to <br /> <span>Raise Capital</span> & Scale
             </Title>
             <Subtitle>
-              The premium crowdfunding platform for startups, single investors,
-              MNCs, and employees. Find services, post jobs, and fund the next
-              big thing.
+              Launch campaigns, discover high-potential startups, and manage your investment portfolio all in one platform.
             </Subtitle>
             <Flex justify="center" gap="1rem">
               <Button size="lg" onClick={handleGetStarted}>
@@ -154,60 +151,27 @@ const Home = () => {
               <FeatureIcon>
                 <Zap size={24} />
               </FeatureIcon>
-              <FeatureTitle>Startup Funding</FeatureTitle>
+              <FeatureTitle>Launch Campaigns</FeatureTitle>
               <FeatureText>
-                Launch campaigns, attract investors, and get the capital you
-                need to scale your vision.
-              </FeatureText>
-            </Card>
-            <Card>
-              <FeatureIcon>
-                <Briefcase size={24} />
-              </FeatureIcon>
-              <FeatureTitle>Startup Services</FeatureTitle>
-              <FeatureText>
-                Connect with investors and startups to provide or find
-                specialized funding and opportunities.
-              </FeatureText>
-            </Card>
-            <Card>
-              <FeatureIcon>
-                <Users size={24} />
-              </FeatureIcon>
-              <FeatureTitle>Talent Network</FeatureTitle>
-              <FeatureText>
-                Find high-impact roles or hire the best employees from a pool of
-                vetted professionals.
+                Raise capital quickly with transparent equity offerings and attract the right investors for your vision.
               </FeatureText>
             </Card>
             <Card>
               <FeatureIcon>
                 <Target size={24} />
               </FeatureIcon>
-              <FeatureTitle>Smart Investing</FeatureTitle>
+              <FeatureTitle>Discover Opportunities</FeatureTitle>
               <FeatureText>
-                Individual investors can discover high-potential startups with
-                detailed metrics and reviews.
+                Browse verified startups, review comprehensive metrics, and invest in high-potential ventures.
               </FeatureText>
             </Card>
             <Card>
               <FeatureIcon>
-                <Shield size={24} />
+                <Briefcase size={24} />
               </FeatureIcon>
-              <FeatureTitle>Secure Private Space</FeatureTitle>
+              <FeatureTitle>Manage Portfolio</FeatureTitle>
               <FeatureText>
-                Exclusive communication channels and document sharing protected
-                by enterprise-grade security.
-              </FeatureText>
-            </Card>
-            <Card>
-              <FeatureIcon>
-                <Globe size={24} />
-              </FeatureIcon>
-              <FeatureTitle>Global Connection</FeatureTitle>
-              <FeatureText>
-                Break geographical barriers and connect with partners from
-                around the world.
+                Track your investments, view campaign progress, and securely monitor your equity in real-time.
               </FeatureText>
             </Card>
           </Grid>
@@ -231,7 +195,7 @@ const Home = () => {
                 marginBottom: "1.5rem",
               }}
             >
-              Ready to transform your business?
+              Start Your Fundraising Journey
             </h2>
             <p
               style={{
@@ -240,8 +204,7 @@ const Home = () => {
                 opacity: 0.9,
               }}
             >
-              Join StartupFund today and start connecting with the leaders of
-              tomorrow.
+              Create your account today and connect with investors who believe in your vision.
             </p>
             <Button
               style={{ background: "#fff", color: "#0077b6" }}

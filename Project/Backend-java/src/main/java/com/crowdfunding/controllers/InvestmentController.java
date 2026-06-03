@@ -300,6 +300,25 @@ public class InvestmentController {
         }
     }
 
+    @GetMapping("/api/investments/received")
+    public ResponseEntity<?> getReceivedInvestments(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        try {
+            List<Investment> investments = investmentRepository
+                    .findByProjectCreatorIdOrderByCreatedAtDesc(userDetails.getId());
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("investments", investments);
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+        }
+    }
+
     @GetMapping("/api/investments/project/{projectId}")
     public ResponseEntity<?> getProjectInvestments(@PathVariable Long projectId) {
         try {

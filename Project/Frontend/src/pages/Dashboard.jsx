@@ -268,6 +268,7 @@ const Dashboard = () => {
   const { user } = useAuthStore();
   const [projects, setProjects] = useState([]);
   const [investments, setInvestments] = useState([]);
+  const [receivedInvestments, setReceivedInvestments] = useState([]);
   const [activeTab, setActiveTab] = useState("overview");
   const [stats, setStats] = useState({ total: 0, active: 0, pending: 0 });
 
@@ -293,6 +294,9 @@ const Dashboard = () => {
         (p) => p.status === "pending",
       ).length;
       setStats({ total, active, pending });
+
+      const receivedRes = await investmentAPI.getReceivedInvestments();
+      setReceivedInvestments(receivedRes.data.investments || []);
     } catch (error) {
       console.error("Error fetching projects:", error);
     }
@@ -333,8 +337,6 @@ const Dashboard = () => {
       { id: "overview", label: "Overview", icon: LayoutDashboard },
     ];
     const ending = [
-      { id: "messages", label: "Private Space", icon: MessageSquare },
-      { id: "documents", label: "Documents", icon: FileText },
       { id: "settings", label: "Settings", icon: Settings },
     ];
 
@@ -342,6 +344,7 @@ const Dashboard = () => {
       return [
         ...common,
         { id: "campaigns", label: "My Campaigns", icon: Briefcase },
+        { id: "backers", label: "Donors & Backers", icon: Users },
         ...ending,
       ];
     } else if (user?.role === "investor") {
@@ -742,62 +745,71 @@ const Dashboard = () => {
       case "partnerships":
       case "fractional":
         return renderTableData(); // Re-use the table rendering logic for full view since it's the same structure
-      case "documents":
+      case "backers":
         return (
           <ContentCard
-            style={{ padding: "2.5rem" }}
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
           >
-            <h2
-              style={{
-                fontSize: "1.5rem",
-                fontWeight: 800,
-                color: "#2B3674",
-                marginBottom: "2rem",
-              }}
-            >
-              Professional Records
-            </h2>
-            <DocumentUpload />
-          </ContentCard>
-        );
-      case "messages":
-        return (
-          <ContentCard
-            style={{ padding: "4rem", textAlign: "center" }}
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-          >
-            <MessageSquare
-              size={64}
-              style={{ color: "#4318FF", marginBottom: "1.5rem", opacity: 0.2 }}
-            />
-            <h3
-              style={{
-                fontSize: "1.5rem",
-                fontWeight: 800,
-                color: "#2B3674",
-                marginBottom: "1rem",
-              }}
-            >
-              Secure Messaging Space
-            </h3>
-            <p
-              style={{
-                color: "#A3AED0",
-                fontWeight: 500,
-                marginBottom: "2.5rem",
-                maxWidth: "400px",
-                margin: "0 auto 2.5rem",
-              }}
-            >
-              Connect directly with startups, professional investors, and
-              enterprises in a fully isolated ecosystem.
-            </p>
-            <PremiumBtn $primary onClick={() => navigate("/messages")}>
-              Enter Private Space
-            </PremiumBtn>
+            <Flex justify="space-between" style={{ marginBottom: "1.5rem" }}>
+              <h2 style={{ fontSize: "1.25rem", fontWeight: 800, color: "#2B3674" }}>
+                Donors & Backers
+              </h2>
+            </Flex>
+            <TableWrapper>
+              <table>
+                <thead>
+                  <tr>
+                    <th>DONOR NAME</th>
+                    <th>ROLE</th>
+                    <th>AMOUNT</th>
+                    <th>PROJECT BACKED</th>
+                    <th>DATE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {receivedInvestments.map((inv) => (
+                    <tr key={inv._id}>
+                      <td style={{ fontWeight: 800, color: "#2B3674" }}>
+                        {inv.investor?.name || "Anonymous"}
+                      </td>
+                      <td style={{ fontWeight: 600, textTransform: "capitalize", color: "#64748B" }}>
+                        {inv.investor?.role || "—"}
+                      </td>
+                      <td style={{ fontWeight: 800, color: "#05CD99" }}>
+                        ₹{inv.amount?.toLocaleString()}
+                      </td>
+                      <td style={{ fontWeight: 600, color: "#475569" }}>
+                        {inv.project?.title || "—"}
+                      </td>
+                      <td style={{ color: "#94A3B8" }}>
+                        {new Date(inv.createdAt).toLocaleDateString("en-IN", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </td>
+                    </tr>
+                  ))}
+                  {receivedInvestments.length === 0 && (
+                    <tr>
+                      <td
+                        colSpan="5"
+                        style={{
+                          textAlign: "center",
+                          padding: "3rem",
+                          color: "#A3AED0",
+                          fontWeight: 600,
+                        }}
+                      >
+                        No donations received yet.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </TableWrapper>
           </ContentCard>
         );
       case "settings":

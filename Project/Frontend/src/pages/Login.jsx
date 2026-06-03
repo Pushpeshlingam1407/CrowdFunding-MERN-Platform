@@ -166,7 +166,7 @@ const Login = () => {
             <Card>
               <FormTitle>Welcome Back</FormTitle>
               <FormSubtitle>
-                Log in to access the crowdfunding network
+                Sign in to your account
               </FormSubtitle>
 
               {error && !errorField && (
@@ -227,7 +227,7 @@ const Login = () => {
                   style={{ width: "100%", marginBottom: "1.5rem" }}
                 >
                   <LogIn size={18} style={{ marginRight: 8 }} />
-                  {isLoading ? "Verifying..." : "Log in"}
+                  {isLoading ? "Signing in..." : "Sign in"}
                 </Button>
 
                 <div style={{ textAlign: "center" }}>

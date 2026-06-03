@@ -320,6 +320,14 @@ const AdminDashboard = () => {
       bg: "rgba(167,139,250,0.1)",
       path: "/admin/settings",
     },
+    {
+      title: "Financial Activity",
+      desc: "Monitor platform-wide fundraising and investments.",
+      icon: <DollarSign size={22} />,
+      color: "#10b981",
+      bg: "rgba(16,185,129,0.1)",
+      path: "/admin/financials",
+    },
   ];
 
   return (

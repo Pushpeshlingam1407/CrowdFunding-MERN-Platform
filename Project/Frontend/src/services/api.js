@@ -79,6 +79,14 @@ export const b2bAPI = {
   postComplaint: (data) => api.post("/complaints", data),
 };
 
+export const adminAPI = {
+  updateUserRole: (id, role) => api.put(`/admin/users/${id}/role`, { role }),
+  deleteUser: (id) => api.delete(`/admin/users/${id}`),
+  getComplaints: () => api.get("/admin/complaints"),
+  resolveComplaint: (id) => api.put(`/admin/complaints/${id}/resolve`),
+  getInvestments: () => api.get("/admin/investments"),
+};
+
 export const chatAPI = {
   getMessages: (receiverId) => api.get(`/messages/${receiverId}`),
   sendMessage: (data) => api.post("/messages", data),
@@ -101,6 +109,7 @@ export const investmentAPI = {
   getUserInvestments: () => api.get("/investments/user"),
   getProjectInvestments: (projectId) =>
     api.get(`/investments/project/${projectId}`),
+  getReceivedInvestments: () => api.get("/investments/received"),
 };
 
 export default api;
