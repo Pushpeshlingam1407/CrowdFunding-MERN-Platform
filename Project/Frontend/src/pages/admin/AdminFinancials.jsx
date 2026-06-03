@@ -1,6 +1,3 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { motion } from "framer-motion";
 import {
   DollarSign,
   TrendingUp,
@@ -10,11 +7,13 @@ import {
   Clock,
   Building2,
   Download,
+  Filter,
 } from "lucide-react";
 import { toast } from "sonner";
 import { adminAPI } from "../../services/api";
 import AdminLayout from "../../components/AdminLayout";
 import { Button, Input, Flex } from "../../components/ui";
+import { exportToCSV } from "../../utils/export";
 
 const PageHeader = styled.div`
   margin-bottom: 2rem;
@@ -29,7 +28,6 @@ const Title = styled.h1`
   color: #0f172a;
   letter-spacing: -0.5px;
 `;
-5
 const Subtitle = styled.p`
   color: #64748b;
   font-size: 0.95rem;
@@ -152,6 +150,7 @@ const AdminFinancials = () => {
   const [investments, setInvestments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   useEffect(() => {
     fetchInvestments();
@@ -177,16 +176,43 @@ const AdminFinancials = () => {
     const investorName = inv.investor?.name?.toLowerCase() || "";
     const projectName = inv.project?.title?.toLowerCase() || "";
     const creatorName = inv.project?.creator?.name?.toLowerCase() || "";
-    return (
+    
+    const matchesSearch = 
       investorName.includes(q) ||
       projectName.includes(q) ||
-      creatorName.includes(q)
-    );
+      creatorName.includes(q);
+      
+    const matchesStatus = statusFilter === "all" || inv.status === statusFilter;
+    
+    return matchesSearch && matchesStatus;
   });
 
+  const handleExport = () => {
+    if (filteredInvestments.length === 0) {
+      toast.error("No data to export");
+      return;
+    }
+    
+    const exportData = filteredInvestments.map(inv => ({
+      "Transaction ID": inv._id,
+      "Date": new Date(inv.createdAt).toLocaleDateString("en-IN"),
+      "Investor Name": inv.investor?.name || "Unknown",
+      "Investor Role": inv.investor?.role || "Unknown",
+      "Amount (INR)": inv.amount,
+      "Project Title": inv.project?.title || "Unknown",
+      "Creator Name": inv.project?.creator?.name || "Unknown",
+      "Status": inv.status
+    }));
+
+    exportToCSV(exportData, `financial_ledger_${new Date().getTime()}.csv`);
+    toast.success("Ledger exported successfully");
+  };
+
   const totalVolume = investments
-    .filter((i) => i.status === "completed")
+    .filter((i) => i.status === "completed" || i.status === "approved")
     .reduce((acc, curr) => acc + curr.amount, 0);
+    
+  const platformRevenue = totalVolume * 0.05; // 5% flat fee
     
   const activeFundraisers = new Set(
     investments.map((i) => i.project?.creator?._id)
@@ -197,11 +223,11 @@ const AdminFinancials = () => {
       <PageHeader>
         <div>
           <Title>Financial Overview</Title>
-          <Subtitle>Monitor platform-wide fundraising and investments</Subtitle>
+          <Subtitle>Monitor platform-wide fundraising and platform revenue</Subtitle>
         </div>
-        <Button variant="outline">
+        <Button onClick={handleExport}>
           <Download size={16} style={{ marginRight: 8 }} />
-          Export Report
+          Export CSV Ledger
         </Button>
       </PageHeader>
 
@@ -217,11 +243,21 @@ const AdminFinancials = () => {
         </StatCard>
         
         <StatCard>
+          <div className="icon-box" $bg="rgba(16, 185, 129, 0.1)" $color="#10b981">
+            <DollarSign size={24} />
+          </div>
+          <div className="stat-info">
+            <h3>{new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(platformRevenue)}</h3>
+            <p>Platform Revenue (5%)</p>
+          </div>
+        </StatCard>
+        
+        <StatCard>
           <div className="icon-box" $bg="rgba(56, 189, 248, 0.1)" $color="#0284c7">
             <TrendingUp size={24} />
           </div>
           <div className="stat-info">
-            <h3>{investments.filter((i) => i.status === "completed").length}</h3>
+            <h3>{investments.filter((i) => i.status === "completed" || i.status === "approved").length}</h3>
             <p>Completed Transactions</p>
           </div>
         </StatCard>
@@ -242,24 +278,45 @@ const AdminFinancials = () => {
           <h3 style={{ fontSize: "1.1rem", fontWeight: 700, color: "#0f172a" }}>
             Recent Transactions
           </h3>
-          <div style={{ position: "relative", width: "300px" }}>
-            <Search
-              size={16}
+          <Flex gap="1rem">
+            <div style={{ position: "relative", width: "250px" }}>
+              <Search
+                size={16}
+                style={{
+                  position: "absolute",
+                  left: "1rem",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "#94a3b8",
+                }}
+              />
+              <Input
+                style={{ paddingLeft: "2.5rem" }}
+                placeholder="Search ledger..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <select
               style={{
-                position: "absolute",
-                left: "1rem",
-                top: "50%",
-                transform: "translateY(-50%)",
-                color: "#94a3b8",
+                padding: "0.75rem 1rem",
+                borderRadius: "8px",
+                border: "1px solid #e2e8f0",
+                background: "#f8fafc",
+                color: "#475569",
+                fontWeight: 600,
+                outline: "none",
+                cursor: "pointer"
               }}
-            />
-            <Input
-              style={{ paddingLeft: "2.5rem" }}
-              placeholder="Search investors or campaigns..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+            >
+              <option value="all">All Statuses</option>
+              <option value="completed">Completed</option>
+              <option value="pending">Pending</option>
+              <option value="failed">Failed</option>
+            </select>
+          </Flex>
         </TableHeader>
         
         <TableWrapper>

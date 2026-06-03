@@ -208,11 +208,6 @@ const AdminLayout = ({
     { name: "Settings", path: "/admin/settings", icon: Settings },
   ];
 
-  // The Verification path was just /admin/documents or something. Wait, in App.jsx it doesn't even exist!
-  // Oh, wait, it isn't in App.jsx. Let me map it to whatever it is if it exists, or just skip it if it isn't linked.
-  // Actually, wait, Document Verification wasn't in App.jsx's router list in my grep?
-  // Let's check App.jsx again carefully.
-
   return (
     <LayoutWrapper>
       <Sidebar>

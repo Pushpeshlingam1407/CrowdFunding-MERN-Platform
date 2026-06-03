@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// Create axios instance with default config
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
   headers: {
@@ -8,7 +7,6 @@ const api = axios.create({
   },
 });
 
-// Request interceptor for adding auth token
 api.interceptors.request.use(
   (config) => {
     const adminToken = localStorage.getItem("adminToken");
@@ -25,7 +23,6 @@ api.interceptors.request.use(
   },
 );
 
-// Response interceptor for handling errors
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -47,7 +44,6 @@ api.interceptors.response.use(
   },
 );
 
-// API endpoints
 export const projectAPI = {
   createProject: (data) =>
     api.post("/projects", data, {

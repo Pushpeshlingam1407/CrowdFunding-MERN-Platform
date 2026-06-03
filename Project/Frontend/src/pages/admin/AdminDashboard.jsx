@@ -16,12 +16,10 @@ import {
   DollarSign,
   Clock,
   CheckCircle2,
-} from "lucide-react";
 import { toast } from "sonner";
 import useAuthStore from "../../store/authStore";
 import AdminLayout from "../../components/AdminLayout";
 
-// ─── Animations ──────────────────────────────────────────────────────────────
 const shimmer = keyframes`
   0%   { background-position: -400px 0; }
   100% { background-position: 400px 0; }
@@ -31,7 +29,6 @@ const pulse = keyframes`
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.6; }
 `;
-// ─────────────────────────────────────────────────────────────────────────────
 
 const PageBody = styled.div`
   max-width: 1280px;
@@ -60,7 +57,6 @@ const WelcomeSub = styled.p`
   font-size: 1rem;
 `;
 
-// Stats Grid
 const StatsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -112,7 +108,6 @@ const StatSub = styled.p`
   font-weight: 500;
 `;
 
-// Nav Modules Grid
 const ModulesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -333,7 +328,6 @@ const AdminDashboard = () => {
   return (
     <AdminLayout title="Dashboard">
       <div>
-        {/* Welcome */}
         <WelcomeSection>
           <WelcomeTitle>
             Welcome back,&nbsp;<span>{adminUser?.name || "Admin"}</span>
@@ -343,7 +337,6 @@ const AdminDashboard = () => {
           </WelcomeSub>
         </WelcomeSection>
 
-        {/* Stats */}
         <StatsGrid>
           {loadingStats
             ? Array(4)
@@ -369,7 +362,6 @@ const AdminDashboard = () => {
               ))}
         </StatsGrid>
 
-        {/* Module Cards */}
         <h2
           style={{
             fontSize: "0.85rem",
@@ -404,7 +396,6 @@ const AdminDashboard = () => {
           ))}
         </ModulesGrid>
 
-        {/* Activity Summary */}
         <ActivityBar>
           <ActivityTitle>
             <TrendingUp size={20} style={{ color: "#2563eb" }} />

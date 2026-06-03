@@ -60,6 +60,12 @@ public class AdminController {
                     .mapToDouble(Investment::getAmount)
                     .sum();
 
+            // Calculate Platform Revenue (e.g., 5% fee on completed investments)
+            double platformRevenue = investmentRepository.findAll().stream()
+                    .filter(i -> "completed".equalsIgnoreCase(i.getStatus()) || "approved".equalsIgnoreCase(i.getStatus()))
+                    .mapToDouble(i -> i.getAmount() * 0.05)
+                    .sum();
+
             Map<String, Object> stats = new HashMap<>();
             stats.put("totalUsers", totalUsers);
             stats.put("totalProjects", totalProjects);
@@ -68,6 +74,7 @@ public class AdminController {
             stats.put("pendingDocuments", pendingDocuments);
             stats.put("totalInvestments", totalInvestments);
             stats.put("totalInvestedAmount", totalInvestedAmount);
+            stats.put("platformRevenue", platformRevenue);
 
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);

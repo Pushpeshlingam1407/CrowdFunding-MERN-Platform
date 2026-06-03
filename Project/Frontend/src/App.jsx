@@ -15,7 +15,7 @@ import Navbar from "./components/ui/Navbar";
 import Footer from "./components/ui/Footer";
 import "react-toastify/dist/ReactToastify.css";
 
-// Pages
+
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -33,7 +33,7 @@ import CompanyProfile from "./pages/CompanyProfile";
 import AdminComplaints from "./pages/admin/Complaints";
 import AdminFinancials from "./pages/admin/AdminFinancials";
 
-// Components
+
 import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
 import Register from "./components/Register";
@@ -41,7 +41,7 @@ import CreateProject from "./components/CreateProject";
 import EditProject from "./components/EditProject";
 import Portfolio from "./components/Portfolio";
 
-// Store
+
 import useAuthStore from "./store/authStore";
 
 const AppContent = () => {
@@ -80,7 +80,6 @@ const AppContent = () => {
 
       <main style={{ flexGrow: 1 }}>
         <Routes>
-          {/* Public routes */}
           <Route
             path="/login"
             element={
@@ -103,11 +102,9 @@ const AppContent = () => {
           />
           <Route path="/admin/login" element={<AdminLogin />} />
 
-          {/* Public pages */}
           <Route path="/campaigns" element={<Campaigns />} />
           <Route path="/company/:id" element={<CompanyProfile />} />
 
-          {/* Protected User Routes */}
           <Route
             path="/dashboard"
             element={
@@ -150,7 +147,6 @@ const AppContent = () => {
             }
           />
 
-          {/* Admin Routes */}
           <Route
             path="/admin/dashboard"
             element={
@@ -216,7 +212,6 @@ const AppContent = () => {
             }
           />
 
-          {/* Root Route */}
           <Route path="/" element={<Home />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
