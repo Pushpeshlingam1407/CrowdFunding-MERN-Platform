@@ -35,9 +35,7 @@ const useAuthStore = create((set) => ({
         throw new Error("Login failed");
       }
 
-      if (user.role === "admin") {
-        throw new Error("Access Denied: Admins must log in through the Admin Portal.");
-      }
+
 
       // Store token and user data for regular users
       localStorage.setItem("token", token);
