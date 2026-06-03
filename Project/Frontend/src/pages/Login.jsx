@@ -4,7 +4,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { LogIn, Mail, Lock, AlertCircle, ShieldCheck } from 'lucide-react';
 import { Button, Input, Card, Container, Flex } from '../components/ui';
-import { toast } from 'react-toastify';
+import { toast } from "react-hot-toast";
 import useAuthStore from '../store/authStore';
 
 const LoginWrapper = styled.div`
@@ -144,6 +144,7 @@ const Login = () => {
         toast.success('Welcome, Admin! Redirecting to Admin Dashboard…');
         navigate('/admin/dashboard', { replace: true });
       } else {
+        toast.success('Welcome back! Successfully logged in.');
         navigate(from, { replace: true });
       }
     }

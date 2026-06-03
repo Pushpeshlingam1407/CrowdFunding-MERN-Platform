@@ -15,7 +15,7 @@ import {
   ExternalLink,
   History,
 } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { Button, Card, Container, Flex, Grid, Input } from "../components/ui";
 import useAuthStore from "../store/authStore";
 import { userAPI, b2bAPI } from "../services/api";

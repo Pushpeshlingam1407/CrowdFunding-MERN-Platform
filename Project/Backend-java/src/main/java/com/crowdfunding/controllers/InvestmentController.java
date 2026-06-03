@@ -61,6 +61,20 @@ public class InvestmentController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
             }
 
+            Project project = projectOpt.get();
+            if ("completed".equalsIgnoreCase(project.getStatus())) {
+                Map<String, Object> error = new HashMap<>();
+                error.put("success", false);
+                error.put("message", "This campaign has already reached its funding goal and is finished.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+            }
+            if (project.getEndDate().isBefore(LocalDateTime.now())) {
+                Map<String, Object> error = new HashMap<>();
+                error.put("success", false);
+                error.put("message", "This campaign's funding period has ended.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+            }
+
             // Generate a mock order
             Map<String, Object> mockOrder = new HashMap<>();
             mockOrder.put("id",
@@ -136,6 +150,13 @@ public class InvestmentController {
             Project project = projectRepository.findById(projectId)
                     .orElseThrow(() -> new RuntimeException("Project not found"));
 
+            if ("completed".equalsIgnoreCase(project.getStatus()) || project.getEndDate().isBefore(LocalDateTime.now())) {
+                Map<String, Object> error = new HashMap<>();
+                error.put("success", false);
+                error.put("message", "Campaign is finished and cannot accept new investments");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+            }
+
             // Create completed investment
             Investment investment = Investment.builder()
                     .project(project)
@@ -150,6 +171,9 @@ public class InvestmentController {
 
             // Increment currentAmount
             project.setCurrentAmount(project.getCurrentAmount() + amount);
+            if (project.getCurrentAmount() >= project.getTargetAmount()) {
+                project.setStatus("completed");
+            }
             project = projectRepository.save(project);
 
             // Generate automatic milestones
@@ -195,6 +219,19 @@ public class InvestmentController {
             Project project = projectRepository.findById(projectId)
                     .orElseThrow(() -> new RuntimeException("Project not found"));
 
+            if ("completed".equalsIgnoreCase(project.getStatus())) {
+                Map<String, Object> error = new HashMap<>();
+                error.put("success", false);
+                error.put("message", "This campaign has already reached its funding goal and is finished.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+            }
+            if (project.getEndDate().isBefore(LocalDateTime.now())) {
+                Map<String, Object> error = new HashMap<>();
+                error.put("success", false);
+                error.put("message", "This campaign's funding period has ended.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+            }
+
             User investor = userRepository.findById(userDetails.getId())
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -222,6 +259,9 @@ public class InvestmentController {
 
             // Increment currentAmount
             project.setCurrentAmount(project.getCurrentAmount() + amount);
+            if (project.getCurrentAmount() >= project.getTargetAmount()) {
+                project.setStatus("completed");
+            }
             project = projectRepository.save(project);
 
             // Generate automatic milestones

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Upload, FileText, CheckCircle2, AlertCircle, X } from 'lucide-react';
-import { toast } from 'react-toastify';
+import { toast } from "react-hot-toast";
 import { Button, Flex, Grid } from './ui';
 
 const Wrapper = styled.div`

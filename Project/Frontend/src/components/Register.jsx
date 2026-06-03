@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useNavigate, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { UserPlus, Mail, Lock, User, Building2, Briefcase, ShieldCheck, Check, X, AlertCircle } from 'lucide-react';
-import { toast } from 'react-toastify';
-import { Button, Input, Card, Container, Flex, Grid } from './ui';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useNavigate, Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  UserPlus,
+  Mail,
+  Lock,
+  User,
+  Building2,
+  Briefcase,
+  ShieldCheck,
+  Check,
+  X,
+  AlertCircle,
+} from "lucide-react";
+import { toast } from "react-toastify";
+import { toast as hotToast } from "react-hot-toast";
+import { toast as sonnerToast } from "sonner";
+import { Button, Input, Card, Container, Flex, Grid } from "./ui";
 import api from "../services/api";
 
 const RegisterWrapper = styled.div`
@@ -13,7 +26,11 @@ const RegisterWrapper = styled.div`
   align-items: center;
   justify-content: center;
   padding: 4rem 0;
-  background: radial-gradient(circle at bottom left, #0077b60a 0%, #ffffff 100%);
+  background: radial-gradient(
+    circle at bottom left,
+    #0077b60a 0%,
+    #ffffff 100%
+  );
 `;
 
 const FormTitle = styled.h2`
@@ -54,7 +71,8 @@ const FormIcon = styled.div`
 
 const StyledInput = styled(Input)`
   padding-left: 2.75rem;
-  border-color: ${({ $hasError, $isValid }) => $hasError ? '#e53e3e' : $isValid ? '#38a169' : undefined};
+  border-color: ${({ $hasError, $isValid }) =>
+    $hasError ? "#e53e3e" : $isValid ? "#38a169" : undefined};
 `;
 
 const StyledSelect = styled.select`
@@ -70,7 +88,7 @@ const StyledSelect = styled.select`
 
   &:focus {
     outline: none;
-    border-color: ${props => props.theme.colors.primary};
+    border-color: ${(props) => props.theme.colors.primary};
     background-color: #ffffff;
     box-shadow: 0 0 0 4px rgba(0, 119, 182, 0.1);
   }
@@ -91,7 +109,7 @@ const CheckboxContainer = styled.label`
 `;
 
 const ValidationIndicator = styled.div`
-  color: ${props => props.$isValid ? '#38a169' : '#e53e3e'};
+  color: ${(props) => (props.$isValid ? "#38a169" : "#e53e3e")};
   font-size: 0.8rem;
   font-weight: 500;
   display: flex;
@@ -116,28 +134,37 @@ const CriteriaItem = styled.div`
   align-items: center;
   gap: 0.35rem;
   font-size: 0.76rem;
-  color: ${props => props.$isValid ? '#38a169' : '#718096'};
-  font-weight: ${props => props.$isValid ? '600' : '400'};
+  color: ${(props) => (props.$isValid ? "#38a169" : "#718096")};
+  font-weight: ${(props) => (props.$isValid ? "600" : "400")};
   transition: all 0.2s;
 `;
 
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    role: 'startup',
-    agreeToTerms: false
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "startup",
+    agreeToTerms: false,
   });
   const [loading, setLoading] = useState(false);
+  const [firstNameTouched, setFirstNameTouched] = useState(false);
+  const [lastNameTouched, setLastNameTouched] = useState(false);
   const [emailTouched, setEmailTouched] = useState(false);
   const [passwordTouched, setPasswordTouched] = useState(false);
+  const [emailExists, setEmailExists] = useState(false);
+  const [checkingEmail, setCheckingEmail] = useState(false);
+
+  const isFirstNameValid = formData.firstName.trim().length >= 2;
+  const isLastNameValid = formData.lastName.trim().length >= 2;
 
   // Email validation regex check
-  const isEmailValid = /^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(formData.email.trim());
+  const isEmailValid = /^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(
+    formData.email.trim(),
+  );
 
   // Password criteria checks matching AuthController's complexity rule
   const pass = formData.password;
@@ -145,50 +172,93 @@ const Register = () => {
   const hasUppercase = /[A-Z]/.test(pass);
   const hasNumber = /[0-9]/.test(pass);
   const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':",.<>?]/.test(pass);
-  const isPasswordValid = hasMinLength && hasUppercase && hasNumber && hasSpecial;
+  const isPasswordValid =
+    hasMinLength && hasUppercase && hasNumber && hasSpecial;
+
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      if (emailTouched && isEmailValid) {
+        setCheckingEmail(true);
+        try {
+          const res = await api.get(
+            `/auth/check-email?email=${encodeURIComponent(formData.email.trim())}`,
+          );
+          setEmailExists(res.data.exists);
+        } catch (error) {
+          console.error("Error checking email", error);
+        } finally {
+          setCheckingEmail(false);
+        }
+      } else {
+        setEmailExists(false);
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [formData.email, emailTouched, isEmailValid]);
 
   const handleChange = (e) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    if (e.target.name === 'email') setEmailTouched(true);
-    if (e.target.name === 'password') setPasswordTouched(true);
+    const value =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    if (e.target.name === "firstName") setFirstNameTouched(true);
+    if (e.target.name === "lastName") setLastNameTouched(true);
+    if (e.target.name === "email") setEmailTouched(true);
+    if (e.target.name === "password") setPasswordTouched(true);
     setFormData({ ...formData, [e.target.name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!isFirstNameValid || !isLastNameValid) {
+      hotToast.error("First and last name must be at least 2 characters");
+      return;
+    }
+
     if (!formData.agreeToTerms) {
-      toast.error('Please agree to the terms and conditions');
+      sonnerToast.error("Please agree to the terms and conditions");
       return;
     }
 
     if (!isEmailValid) {
-      toast.error('Please enter a valid email address');
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    if (emailExists) {
+      sonnerToast.error("An account with this email already exists");
       return;
     }
 
     if (!isPasswordValid) {
-      toast.error('Password must be at least 8 characters and include an uppercase letter, a number, and a special character');
+      hotToast.error(
+        "Password must be at least 8 characters and include an uppercase letter, a number, and a special character",
+      );
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not match');
+      toast.error("Passwords do not match");
       return;
     }
 
     try {
       setLoading(true);
-      const { confirmPassword, agreeToTerms, firstName, lastName, ...registerData } = formData;
+      const {
+        confirmPassword,
+        agreeToTerms,
+        firstName,
+        lastName,
+        ...registerData
+      } = formData;
       registerData.name = `${firstName} ${lastName}`.trim();
 
-      await api.post('/auth/register', registerData);
-      
-      toast.success('Registration successful! Please log in.');
-      navigate('/login');
+      await api.post("/auth/register", registerData);
+
+      sonnerToast.success("Registration successful! Please log in.");
+      navigate("/login");
     } catch (error) {
-      const message = error.response?.data?.message || 'Registration failed';
-      toast.error(message);
+      const message = error.response?.data?.message || "Registration failed";
+      hotToast.error(message);
     } finally {
       setLoading(false);
     }
@@ -202,59 +272,114 @@ const Register = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            style={{ width: '100%', maxWidth: '500px' }}
+            style={{ width: "100%", maxWidth: "500px" }}
           >
             <Card>
               <FormTitle>Create Account</FormTitle>
-              <FormSubtitle>Join the premium crowdfunding ecosystem</FormSubtitle>
+              <FormSubtitle>
+                Join the premium crowdfunding ecosystem
+              </FormSubtitle>
 
               <form onSubmit={handleSubmit}>
                 <Grid cols={2} gap="1rem">
                   <FormGroup>
                     <Label>First Name</Label>
-                    <FormIcon><User size={18} /></FormIcon>
+                    <FormIcon>
+                      <User size={18} />
+                    </FormIcon>
                     <StyledInput
                       type="text"
                       name="firstName"
                       placeholder="Jane"
                       value={formData.firstName}
                       onChange={handleChange}
+                      $isValid={firstNameTouched && isFirstNameValid}
+                      $hasError={firstNameTouched && !isFirstNameValid}
                       required
                     />
+                    {firstNameTouched && (
+                      <ValidationIndicator $isValid={isFirstNameValid}>
+                        {isFirstNameValid ? (
+                          <>
+                            <Check size={14} /> First name{" "}
+                          </>
+                        ) : (
+                          <>
+                            <AlertCircle size={14} /> At least 2 characters
+                            required
+                          </>
+                        )}
+                      </ValidationIndicator>
+                    )}
                   </FormGroup>
                   <FormGroup>
                     <Label>Last Name</Label>
-                    <FormIcon><User size={18} /></FormIcon>
+                    <FormIcon>
+                      <User size={18} />
+                    </FormIcon>
                     <StyledInput
                       type="text"
                       name="lastName"
                       placeholder="Doe"
                       value={formData.lastName}
                       onChange={handleChange}
+                      $isValid={lastNameTouched && isLastNameValid}
+                      $hasError={lastNameTouched && !isLastNameValid}
                       required
                     />
+                    {lastNameTouched && (
+                      <ValidationIndicator $isValid={isLastNameValid}>
+                        {isLastNameValid ? (
+                          <>
+                            <Check size={14} /> Last name
+                          </>
+                        ) : (
+                          <>
+                            <AlertCircle size={14} /> At least 2 characters
+                            required
+                          </>
+                        )}
+                      </ValidationIndicator>
+                    )}
                   </FormGroup>
                 </Grid>
 
                 <FormGroup>
                   <Label>Email Address</Label>
-                  <FormIcon><Mail size={18} /></FormIcon>
+                  <FormIcon>
+                    <Mail size={18} />
+                  </FormIcon>
                   <StyledInput
                     type="email"
                     name="email"
                     placeholder="jane@company.com"
                     value={formData.email}
                     onChange={handleChange}
-                    $isValid={emailTouched && isEmailValid}
-                    $hasError={emailTouched && !isEmailValid}
+                    $isValid={emailTouched && isEmailValid && !emailExists}
+                    $hasError={emailTouched && (!isEmailValid || emailExists)}
                     required
                   />
                   {emailTouched && (
-                    <ValidationIndicator $isValid={isEmailValid}>
-                      {isEmailValid ? (
-                        <><Check size={14} /> Email address is valid</>
+                    <ValidationIndicator
+                      $isValid={isEmailValid && !emailExists}
+                    >
+                      {checkingEmail ? (
+                        <>
+                          <AlertCircle size={14} /> Checking email...
+                        </>
+                      ) : !isEmailValid ? (
+                        <>
+                          <AlertCircle size={14} /> Please enter a valid email
+                          format
+                        </>
+                      ) : emailExists ? (
+                        <>
+                          <X size={14} /> Email already exists
+                        </>
                       ) : (
-                        <><AlertCircle size={14} /> Please enter a valid email format</>
+                        <>
+                          <Check size={14} /> Email address is valid
+                        </>
                       )}
                     </ValidationIndicator>
                   )}
@@ -262,7 +387,9 @@ const Register = () => {
 
                 <FormGroup>
                   <Label>Password</Label>
-                  <FormIcon><Lock size={18} /></FormIcon>
+                  <FormIcon>
+                    <Lock size={18} />
+                  </FormIcon>
                   <StyledInput
                     type="password"
                     name="password"
@@ -276,16 +403,20 @@ const Register = () => {
                   {passwordTouched && (
                     <CriteriaList>
                       <CriteriaItem $isValid={hasMinLength}>
-                        {hasMinLength ? <Check size={12} /> : <X size={12} />} At least 8 characters
+                        {hasMinLength ? <Check size={12} /> : <X size={12} />}{" "}
+                        At least 8 characters
                       </CriteriaItem>
                       <CriteriaItem $isValid={hasUppercase}>
-                        {hasUppercase ? <Check size={12} /> : <X size={12} />} One uppercase letter
+                        {hasUppercase ? <Check size={12} /> : <X size={12} />}{" "}
+                        One uppercase letter
                       </CriteriaItem>
                       <CriteriaItem $isValid={hasNumber}>
-                        {hasNumber ? <Check size={12} /> : <X size={12} />} One number
+                        {hasNumber ? <Check size={12} /> : <X size={12} />} One
+                        number
                       </CriteriaItem>
                       <CriteriaItem $isValid={hasSpecial}>
-                        {hasSpecial ? <Check size={12} /> : <X size={12} />} One special character (!@#$%^&*)
+                        {hasSpecial ? <Check size={12} /> : <X size={12} />} One
+                        special character (!@#$%^&*)
                       </CriteriaItem>
                     </CriteriaList>
                   )}
@@ -293,23 +424,37 @@ const Register = () => {
 
                 <FormGroup>
                   <Label>Confirm Password</Label>
-                  <FormIcon><Lock size={18} /></FormIcon>
+                  <FormIcon>
+                    <Lock size={18} />
+                  </FormIcon>
                   <StyledInput
                     type="password"
                     name="confirmPassword"
                     placeholder="••••••••"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    $isValid={formData.confirmPassword && formData.password === formData.confirmPassword}
-                    $hasError={formData.confirmPassword && formData.password !== formData.confirmPassword}
+                    $isValid={
+                      formData.confirmPassword &&
+                      formData.password === formData.confirmPassword
+                    }
+                    $hasError={
+                      formData.confirmPassword &&
+                      formData.password !== formData.confirmPassword
+                    }
                     required
                   />
                   {formData.confirmPassword && (
-                    <ValidationIndicator $isValid={formData.password === formData.confirmPassword}>
+                    <ValidationIndicator
+                      $isValid={formData.password === formData.confirmPassword}
+                    >
                       {formData.password === formData.confirmPassword ? (
-                        <><Check size={14} /> Passwords match</>
+                        <>
+                          <Check size={14} /> Passwords match
+                        </>
                       ) : (
-                        <><AlertCircle size={14} /> Passwords do not match</>
+                        <>
+                          <AlertCircle size={14} /> Passwords do not match
+                        </>
                       )}
                     </ValidationIndicator>
                   )}
@@ -317,7 +462,9 @@ const Register = () => {
 
                 <FormGroup>
                   <Label>I am a...</Label>
-                  <FormIcon><Briefcase size={18} /></FormIcon>
+                  <FormIcon>
+                    <Briefcase size={18} />
+                  </FormIcon>
                   <StyledSelect
                     name="role"
                     value={formData.role}
@@ -339,25 +486,53 @@ const Register = () => {
                     required
                   />
                   <span>
-                    I agree to the <Link to="/terms" style={{ color: '#0077b6', textDecoration: 'none' }}>Terms of Service</Link>, 
-                    <Link to="/privacy" style={{ color: '#0077b6', textDecoration: 'none' }}> Privacy Policy</Link>, and 
-                    <Link to="/agreement" style={{ color: '#0077b6', textDecoration: 'none' }}> User Agreement</Link>.
+                    I agree to the{" "}
+                    <Link
+                      to="/terms"
+                      style={{ color: "#0077b6", textDecoration: "none" }}
+                    >
+                      Terms of Service
+                    </Link>
+                    ,
+                    <Link
+                      to="/privacy"
+                      style={{ color: "#0077b6", textDecoration: "none" }}
+                    >
+                      {" "}
+                      Privacy Policy
+                    </Link>
+                    , and
+                    <Link
+                      to="/agreement"
+                      style={{ color: "#0077b6", textDecoration: "none" }}
+                    >
+                      {" "}
+                      User Agreement
+                    </Link>
+                    .
                   </span>
                 </CheckboxContainer>
 
-                <Button 
-                  type="submit" 
+                <Button
+                  type="submit"
                   disabled={loading}
-                  style={{ width: '100%', marginBottom: '1.5rem' }}
+                  style={{ width: "100%", marginBottom: "1.5rem" }}
                 >
                   <UserPlus size={18} style={{ marginRight: 8 }} />
-                  {loading ? 'Creating Account...' : 'Join StartupFund'}
+                  {loading ? "Creating Account..." : "Join StartupFund"}
                 </Button>
 
-                <div style={{ textAlign: 'center' }}>
-                  <span style={{ fontSize: '0.9rem', color: '#666' }}>
-                    Already have an account?{' '}
-                    <Link to="/login" style={{ color: '#0077b6', fontWeight: 600, textDecoration: 'none' }}>
+                <div style={{ textAlign: "center" }}>
+                  <span style={{ fontSize: "0.9rem", color: "#666" }}>
+                    Already have an account?{" "}
+                    <Link
+                      to="/login"
+                      style={{
+                        color: "#0077b6",
+                        fontWeight: 600,
+                        textDecoration: "none",
+                      }}
+                    >
                       Log in
                     </Link>
                   </span>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 //import { Container, Row, Col, Card, Button, Badge, Spinner, Alert } from 'react-bootstrap';
-import { toast } from 'react-toastify';
+import { toast } from "react-hot-toast";
 import axios from 'axios';
 
 const ProjectView = () => {
@@ -113,9 +113,10 @@ const ProjectView = () => {
                 <Button 
                   variant="primary" 
                   size="lg"
+                  disabled={project.status === 'completed'}
                   onClick={() => navigate(`/projects/${id}/invest`)}
                 >
-                  Invest Now
+                  {project.status === 'completed' ? 'Fully Funded' : 'Invest Now'}
                 </Button>
                 <Button 
                   variant="outline-secondary"

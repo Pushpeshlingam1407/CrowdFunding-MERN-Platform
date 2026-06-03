@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Card, Badge } from 'react-bootstrap';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast } from "react-hot-toast";
 
 const CampaignsList = () => {
   const [projects, setProjects] = useState([]);
@@ -94,11 +94,12 @@ const CampaignsList = () => {
                       {project.category}
                     </Badge>
                     <Badge bg={
+                      project.status === 'completed' ? 'info' :
                       project.status === 'approved' ? 'success' :
                       project.status === 'pending' ? 'warning' :
                       'danger'
                     }>
-                      {project.status}
+                      {project.status === 'completed' ? 'Fully Funded' : project.status}
                     </Badge>
                   </div>
                   <Link 

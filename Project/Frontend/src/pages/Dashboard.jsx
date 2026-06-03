@@ -19,7 +19,7 @@ import {
   Target
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from "sonner";
 import { Button, Flex } from '../components/ui';
 import DocumentUpload from '../components/ui/DocumentUpload';
 import useAuthStore from '../store/authStore';

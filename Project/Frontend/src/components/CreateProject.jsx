@@ -14,7 +14,7 @@ import {
   ShieldCheck,
   Target
 } from 'lucide-react';
-import { toast } from 'react-toastify';
+import { toast } from "react-hot-toast";
 import { Button, Card, Container, Flex, Grid, Input } from './ui';
 import { projectAPI } from '../services/api';
 

@@ -8,6 +8,8 @@ import {
 } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { ToastContainer } from "react-toastify";
+import { Toaster as HotToaster } from "react-hot-toast";
+import { Toaster as SonnerToaster } from "sonner";
 import { theme, GlobalStyle } from "./theme/theme";
 import Navbar from "./components/ui/Navbar";
 import Footer from "./components/ui/Footer";
@@ -22,6 +24,7 @@ import Projects from "./pages/admin/Projects";
 import Users from "./pages/admin/Users";
 import Analytics from "./pages/admin/Analytics";
 import AdminSettings from "./pages/admin/Settings";
+import AdminDocumentVerification from "./pages/admin/DocumentVerification";
 import ProjectDetails from "./pages/ProjectDetails";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
@@ -194,6 +197,14 @@ const AppContent = () => {
             }
           />
           <Route
+            path="/admin/document-verification"
+            element={
+              <AdminRoute>
+                <AdminDocumentVerification />
+              </AdminRoute>
+            }
+          />
+          <Route
             path="/admin/analytics"
             element={
               <AdminRoute>
@@ -227,6 +238,8 @@ const AppContent = () => {
       {/* Show footer everywhere except admin pages */}
       {!isAdminPage && <Footer />}
       <ToastContainer position="bottom-right" />
+      <HotToaster position="top-center" />
+      <SonnerToaster position="bottom-left" />
     </div>
   );
 };
