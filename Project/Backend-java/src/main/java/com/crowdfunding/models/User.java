@@ -91,6 +91,7 @@ public class User {
         private String description;
         private String link;
         private String image;
+        @Column(name = "item_date")
         private String date;
     }
 
@@ -100,6 +101,7 @@ public class User {
     @AllArgsConstructor
     @Builder
     public static class PartnerHistoryItem {
+        @Column(name = "partner_name")
         private String name;
         private String logo;
         private Long profileId; // Ref to User ID
