@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -7,245 +7,53 @@ import {
   ArrowLeft,
   Trash2,
   Upload,
-  CheckCircle2,
   AlertTriangle,
   Image as ImageIcon,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { projectAPI } from "../services/api";
+import { Button, Card, Container, Flex, Grid, Input } from "./ui";
 
-// ─── Animations ───────────────────────────────────────────────────────────────
-const fadeIn = keyframes`
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-`;
-// ─────────────────────────────────────────────────────────────────────────────
-
-const PageWrapper = styled.div`
-  min-height: 100vh;
-  background: linear-gradient(160deg, #060b17 0%, #0d1526 60%, #0a1020 100%);
-  padding: 5rem 1rem 4rem;
+const EditWrapper = styled.div`
+  padding: 4rem 0;
+  background: #fafafa;
+  min-height: calc(100vh - 80px);
 `;
 
-const FormCard = styled(motion.div)`
+const FormSection = styled(motion.div)`
   max-width: 820px;
   margin: 0 auto;
-  background: rgba(14, 22, 40, 0.9);
-  border: 1px solid #1e293b;
-  border-radius: 24px;
-  padding: 3rem;
-  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(20px);
-`;
-
-const BackBtn = styled.button`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: none;
-  border: 1px solid #1e293b;
-  color: #64748b;
-  padding: 0.5rem 1.1rem;
-  border-radius: 9px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  margin-bottom: 2.5rem;
-  transition: all 0.2s;
-
-  &:hover {
-    border-color: #38bdf8;
-    color: #38bdf8;
-  }
-`;
-
-const Heading = styled.h1`
-  font-size: 2rem;
-  font-weight: 900;
-  letter-spacing: -1.5px;
-  color: #f8fafc;
-  margin-bottom: 0.4rem;
-
-  span {
-    background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-`;
-
-const SubText = styled.p`
-  color: #475569;
-  font-size: 0.9rem;
-  margin-bottom: 2.5rem;
-`;
-
-const Divider = styled.div`
-  height: 1px;
-  background: #1e293b;
-  margin: 2rem 0;
 `;
 
 const Label = styled.label`
   display: block;
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: #64748b;
   margin-bottom: 0.5rem;
+  color: #444;
 `;
 
-const StyledInput = styled.input`
+const Select = styled.select`
   width: 100%;
-  padding: 0.85rem 1.1rem;
-  background: #0f172a;
-  border: 1px solid #1e293b;
-  border-radius: 10px;
-  color: #f8fafc;
-  font-size: 0.95rem;
-  outline: none;
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
-  box-sizing: border-box;
-
-  &::placeholder {
-    color: #334155;
-  }
-  &:focus {
-    border-color: #38bdf8;
-    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.08);
-  }
-`;
-
-const StyledTextArea = styled.textarea`
-  width: 100%;
-  padding: 0.85rem 1.1rem;
-  background: #0f172a;
-  border: 1px solid #1e293b;
-  border-radius: 10px;
-  color: #f8fafc;
-  font-size: 0.95rem;
-  outline: none;
-  min-height: 140px;
-  resize: vertical;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
   font-family: inherit;
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
-  box-sizing: border-box;
-
-  &::placeholder {
-    color: #334155;
-  }
-  &:focus {
-    border-color: #38bdf8;
-    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.08);
-  }
-`;
-
-const StyledSelect = styled.select`
-  width: 100%;
-  padding: 0.85rem 1.1rem;
-  background: #0f172a;
-  border: 1px solid #1e293b;
-  border-radius: 10px;
-  color: #f8fafc;
-  font-size: 0.95rem;
-  outline: none;
-  cursor: pointer;
-  transition: border-color 0.2s;
-  box-sizing: border-box;
-
-  &:focus {
-    border-color: #38bdf8;
-  }
-  option {
-    background: #0f172a;
-  }
-`;
-
-const TwoCol = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const FieldGroup = styled.div`
+  font-size: 1rem;
+  background: white;
   margin-bottom: 1.5rem;
 `;
 
-const ImageUploadZone = styled.label`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  padding: 2.5rem;
-  border: 2px dashed #1e293b;
-  border-radius: 14px;
-  cursor: pointer;
-  transition:
-    border-color 0.2s,
-    background 0.2s;
-  background: #0a1020;
-  text-align: center;
-
-  &:hover {
-    border-color: #38bdf8;
-    background: rgba(56, 189, 248, 0.03);
-  }
-
-  input {
-    display: none;
-  }
-`;
-
-const SaveBtn = styled(motion.button)`
+const TextArea = styled.textarea`
   width: 100%;
   padding: 1rem;
-  border-radius: 12px;
-  border: none;
-  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-  color: #050d1a;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-family: inherit;
   font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: -0.3px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  margin-top: 2.5rem;
-  transition: opacity 0.2s;
-
-  &:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-  }
-`;
-
-const DeleteBtn = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.5rem 1rem;
-  border-radius: 9px;
-  border: 1px solid rgba(248, 113, 113, 0.3);
-  background: transparent;
-  color: #f87171;
-  font-size: 0.82rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    background: rgba(248, 113, 113, 0.08);
-  }
+  min-height: 150px;
+  margin-bottom: 1.5rem;
+  resize: vertical;
 `;
 
 const LockBanner = styled.div`
@@ -253,10 +61,10 @@ const LockBanner = styled.div`
   align-items: center;
   gap: 0.75rem;
   padding: 1rem 1.25rem;
-  background: rgba(251, 191, 36, 0.08);
-  border: 1px solid rgba(251, 191, 36, 0.2);
+  background: #fffbeb;
+  border: 1px solid #fcd34d;
   border-radius: 12px;
-  color: #fbbf24;
+  color: #b45309;
   font-size: 0.88rem;
   font-weight: 600;
   margin-bottom: 2rem;
@@ -311,7 +119,7 @@ const EditProject = () => {
           image: p.image || null,
         });
         if (p.image && typeof p.image === "string") {
-          setImagePreview(`http://localhost:5000${p.image}`);
+          setImagePreview(p.image?.startsWith('http') ? p.image : `http://localhost:5000${p.image}`);
         }
       } catch {
         toast.error("Failed to load campaign");
@@ -320,7 +128,7 @@ const EditProject = () => {
         setLoading(false);
       }
     })();
-  }, [id]);
+  }, [id, navigate]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -408,95 +216,70 @@ const EditProject = () => {
 
   if (loading) {
     return (
-      <PageWrapper>
-        <div
-          style={{
-            maxWidth: 820,
-            margin: "0 auto",
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
-            alignItems: "center",
-            paddingTop: "4rem",
-            color: "#475569",
-          }}
-        >
-          <div
-            style={{
-              width: 48,
-              height: 48,
-              borderRadius: "50%",
-              border: "3px solid #1e293b",
-              borderTopColor: "#38bdf8",
-              animation: "spin 0.8s linear infinite",
-            }}
-          />
-          <p style={{ fontSize: "0.9rem" }}>Loading campaign…</p>
-          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      <EditWrapper>
+        <div style={{ textAlign: "center", paddingTop: "4rem", color: "#666" }}>
+          Loading campaign…
         </div>
-      </PageWrapper>
+      </EditWrapper>
     );
   }
 
   return (
-    <PageWrapper>
-      <div style={{ maxWidth: 820, margin: "0 auto" }}>
-        <BackBtn onClick={() => navigate(`/projects/${id}`)}>
-          <ArrowLeft size={15} /> Cancel Editing
-        </BackBtn>
-
-        <FormCard
-          initial={{ opacity: 0, y: 24 }}
+    <EditWrapper>
+      <Container>
+        <FormSection
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
+          transition={{ duration: 0.4 }}
         >
-          {/* Header */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-start",
-              marginBottom: "0.25rem",
-            }}
+          <Button
+            variant="outline"
+            onClick={() => navigate(`/projects/${id}`)}
+            style={{ marginBottom: "2rem", padding: "0.5rem 1rem", fontSize: "0.9rem" }}
           >
-            <div>
-              <Heading>
-                Edit <span>Campaign</span>
-              </Heading>
-              <SubText>
-                Update your venture details and funding strategy.
-              </SubText>
-            </div>
-            <DeleteBtn onClick={() => toast.info("Delete from the dashboard")}>
-              <Trash2 size={14} /> Delete
-            </DeleteBtn>
-          </div>
+            <ArrowLeft size={16} style={{ marginRight: 8 }} /> Cancel Editing
+          </Button>
 
-          {isLocked && (
-            <LockBanner>
-              <AlertTriangle size={18} />
-              This campaign has expired and is locked. Editing is disabled.
-            </LockBanner>
-          )}
+          <Card style={{ padding: "3rem" }}>
+            <Flex justify="space-between" align="flex-start" style={{ marginBottom: "2.5rem" }}>
+              <div>
+                <h2 style={{ fontSize: "2rem", fontWeight: 800, marginBottom: "0.5rem", letterSpacing: "-1px" }}>
+                  Edit Campaign
+                </h2>
+                <p style={{ color: "#666" }}>
+                  Update your venture details and funding strategy.
+                </p>
+              </div>
+              <Button 
+                variant="outline" 
+                style={{ color: "#e53e3e", borderColor: "#fed7d7" }}
+                onClick={() => toast.info("Delete from the dashboard")}
+              >
+                <Trash2 size={16} style={{ marginRight: 8 }} /> Delete
+              </Button>
+            </Flex>
 
-          <form onSubmit={handleSubmit}>
-            {/* Title */}
-            <FieldGroup>
+            {isLocked && (
+              <LockBanner>
+                <AlertTriangle size={18} />
+                This campaign has expired and is locked. Editing is disabled.
+              </LockBanner>
+            )}
+
+            <form onSubmit={handleSubmit}>
               <Label>Campaign Title *</Label>
-              <StyledInput
+              <Input
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
                 placeholder="e.g. GreenTech Solar Solutions"
+                style={{ marginBottom: "1.5rem" }}
                 required
                 disabled={isLocked}
               />
-            </FieldGroup>
 
-            {/* Description */}
-            <FieldGroup>
               <Label>Project Vision *</Label>
-              <StyledTextArea
+              <TextArea
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
@@ -504,360 +287,161 @@ const EditProject = () => {
                 required
                 disabled={isLocked}
               />
-            </FieldGroup>
 
-            <Divider />
-
-            {/* Category + Equity */}
-            <TwoCol>
-              <FieldGroup>
-                <Label>Category</Label>
-                <StyledSelect
-                  name="category"
-                  value={formData.category}
-                  onChange={handleChange}
-                  disabled={isLocked}
-                >
-                  {CATEGORIES.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
-                </StyledSelect>
-              </FieldGroup>
-              <FieldGroup>
-                <Label>Equity Offered (%)</Label>
-                <StyledInput
-                  type="number"
-                  name="equity"
-                  value={formData.equity}
-                  onChange={handleChange}
-                  placeholder="e.g. 5"
-                  min="0"
-                  max="100"
-                  required
-                  disabled={isLocked}
-                />
-              </FieldGroup>
-            </TwoCol>
-
-            {/* Target + End Date */}
-            <TwoCol>
-              <FieldGroup>
-                <Label>Funding Goal (₹)</Label>
-                <StyledInput
-                  type="number"
-                  name="targetAmount"
-                  value={formData.targetAmount}
-                  onChange={handleChange}
-                  placeholder="e.g. 5000000"
-                  required
-                  disabled={isLocked}
-                />
-              </FieldGroup>
-              <FieldGroup>
-                <Label>Campaign End Date</Label>
-                <StyledInput
-                  type="date"
-                  name="endDate"
-                  value={formData.endDate}
-                  onChange={handleChange}
-                  required
-                  disabled={isLocked}
-                />
-              </FieldGroup>
-            </TwoCol>
-
-            <Divider />
-
-            {/* Image Upload */}
-            <FieldGroup>
-              <Label>Hero Image</Label>
-              <ImageUploadZone>
-                <input
-                  type="file"
-                  name="newImage"
-                  accept="image/*"
-                  onChange={handleChange}
-                  disabled={isLocked}
-                />
-                {imagePreview ? (
-                  <img
-                    src={imagePreview}
-                    alt="Preview"
-                    style={{
-                      width: "100%",
-                      maxHeight: 200,
-                      objectFit: "cover",
-                      borderRadius: 10,
-                    }}
+              <Grid cols={2} gap="1.5rem">
+                <div>
+                  <Label>Category</Label>
+                  <Select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    disabled={isLocked}
+                  >
+                    {CATEGORIES.map((c) => (
+                      <option key={c} value={c}>{c}</option>
+                    ))}
+                  </Select>
+                </div>
+                <div>
+                  <Label>Equity Offered (%)</Label>
+                  <Input
+                    type="number"
+                    name="equity"
+                    value={formData.equity}
+                    onChange={handleChange}
+                    placeholder="e.g. 5"
+                    min="0"
+                    max="100"
+                    style={{ marginBottom: "1.5rem" }}
+                    required
+                    disabled={isLocked}
                   />
+                </div>
+              </Grid>
+
+              <Grid cols={2} gap="1.5rem">
+                <div>
+                  <Label>Funding Goal (₹)</Label>
+                  <Input
+                    type="number"
+                    name="targetAmount"
+                    value={formData.targetAmount}
+                    onChange={handleChange}
+                    placeholder="e.g. 5000000"
+                    style={{ marginBottom: "1.5rem" }}
+                    required
+                    disabled={isLocked}
+                  />
+                </div>
+                <div>
+                  <Label>Campaign End Date</Label>
+                  <Input
+                    type="date"
+                    name="endDate"
+                    value={formData.endDate}
+                    onChange={handleChange}
+                    style={{ marginBottom: "1.5rem" }}
+                    required
+                    disabled={isLocked}
+                  />
+                </div>
+              </Grid>
+
+              {/* Cover Image Upload */}
+              <div style={{ marginTop: "1rem", marginBottom: "2.5rem" }}>
+                <Label>Hero Image</Label>
+                {imagePreview ? (
+                  <div style={{ position: "relative", width: "100%", height: "300px", borderRadius: "16px", overflow: "hidden", boxShadow: "0 10px 30px rgba(0,0,0,0.1)" }}>
+                    <img src={imagePreview} alt="Preview" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    {!isLocked && (
+                      <div style={{ position: "absolute", bottom: "1rem", right: "1rem", background: "white", borderRadius: "8px", padding: "0.5rem 1rem", boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}>
+                        <label style={{ cursor: "pointer", margin: 0, fontWeight: 700, fontSize: "0.85rem", color: "#0077b6" }}>
+                          Change Cover Image
+                          <input type="file" name="newImage" accept="image/*" onChange={handleChange} style={{ display: "none" }} />
+                        </label>
+                      </div>
+                    )}
+                  </div>
                 ) : (
+                  <div style={{ padding: "3rem", border: "2px dashed #eee", borderRadius: "16px", textAlign: "center", background: "#fafafa" }}>
+                    <Upload size={32} style={{ color: "#0077b6", marginBottom: "1rem" }} />
+                    <p style={{ fontSize: "0.9rem", fontWeight: 600, color: "#444" }}>Upload Campaign Cover Image</p>
+                    <input type="file" name="newImage" accept="image/*" onChange={handleChange} disabled={isLocked} style={{ marginTop: "1rem" }} />
+                  </div>
+                )}
+              </div>
+
+              {/* Campaign Gallery */}
+              <div style={{ marginBottom: "3rem" }}>
+                <Label>Campaign Gallery</Label>
+                
+                {campaignImages.length > 0 && (
+                  <div style={{ marginBottom: "2rem" }}>
+                    <p style={{ fontSize: "0.85rem", color: "#666", marginBottom: "1rem" }}>
+                      Existing Gallery Images ({campaignImages.length}):
+                    </p>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))", gap: "1rem" }}>
+                      {campaignImages.map((imgUrl, index) => (
+                        <div key={index} style={{ position: "relative", paddingBottom: "100%", background: "#f0f0f0", borderRadius: "8px", overflow: "hidden", border: "1px solid #ddd" }}>
+                          <img src={imgUrl.startsWith('http') ? imgUrl : `http://localhost:5000${imgUrl}`} alt={`Gallery ${index + 1}`} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteCampaignImage(imgUrl)}
+                            disabled={uploadingImages || isLocked}
+                            style={{ position: "absolute", top: "4px", right: "4px", background: "rgba(255,0,0,0.8)", color: "white", border: "none", borderRadius: "4px", width: "24px", height: "24px", cursor: (uploadingImages || isLocked) ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div style={{ padding: "3rem", border: "2px dashed #eee", borderRadius: "16px", textAlign: "center", background: "#fafafa" }}>
+                  <Upload size={32} style={{ color: "#0077b6", marginBottom: "1rem" }} />
+                  <p style={{ fontSize: "0.9rem", fontWeight: 600, color: "#444" }}>
+                    {newCampaignImages.length > 0 ? `✓ ${newCampaignImages.length} new image(s) selected` : "Upload Additional Gallery Images"}
+                  </p>
+                  <input type="file" name="campaignImages" accept="image/*" onChange={handleChange} disabled={isLocked} multiple style={{ marginTop: "1rem" }} />
+                </div>
+
+                {newCampaignImages.length > 0 && (
                   <>
-                    <ImageIcon size={32} style={{ color: "#334155" }} />
-                    <p style={{ color: "#475569", fontSize: "0.85rem" }}>
-                      Click to upload a new hero image
-                    </p>
-                    <p style={{ color: "#1e293b", fontSize: "0.75rem" }}>
-                      PNG, JPG, WEBP up to 10MB
-                    </p>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))", gap: "1rem", marginTop: "1.5rem", marginBottom: "1.5rem" }}>
+                      {newCampaignImages.map((file, index) => (
+                        <div key={index} style={{ position: "relative", paddingBottom: "100%", background: "#f0f0f0", borderRadius: "8px", overflow: "hidden", border: "2px solid #0077b6" }}>
+                          <img src={URL.createObjectURL(file)} alt={`New Gallery ${index + 1}`} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                          <button type="button" onClick={() => removeNewCampaignImage(index)} style={{ position: "absolute", top: "4px", right: "4px", background: "rgba(255,0,0,0.8)", color: "white", border: "none", borderRadius: "4px", width: "24px", height: "24px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                    <Button
+                      type="button"
+                      onClick={handleUploadNewCampaignImages}
+                      disabled={uploadingImages || isLocked}
+                      style={{ width: "100%", padding: "1rem" }}
+                    >
+                      {uploadingImages ? "Uploading..." : "Upload New Gallery Images Now"}
+                    </Button>
                   </>
                 )}
-              </ImageUploadZone>
-              {imagePreview && (
-                <p
-                  style={{
-                    fontSize: "0.76rem",
-                    color: "#475569",
-                    marginTop: "0.5rem",
-                    textAlign: "center",
-                  }}
-                >
-                  ✓ Image selected — will replace existing on save
-                </p>
-              )}
-            </FieldGroup>
+              </div>
 
-            <Divider />
-
-            {/* Campaign Gallery */}
-            <FieldGroup>
-              <Label>Campaign Gallery</Label>
-              {campaignImages.length > 0 && (
-                <div style={{ marginBottom: "2rem" }}>
-                  <p
-                    style={{
-                      fontSize: "0.85rem",
-                      color: "#475569",
-                      marginBottom: "1rem",
-                    }}
-                  >
-                    Existing Gallery Images ({campaignImages.length}):
-                  </p>
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns:
-                        "repeat(auto-fill, minmax(120px, 1fr))",
-                      gap: "1rem",
-                      marginBottom: "2rem",
-                    }}
-                  >
-                    {campaignImages.map((imageUrl, index) => (
-                      <div
-                        key={index}
-                        style={{
-                          position: "relative",
-                          paddingBottom: "100%",
-                          background: "#0f172a",
-                          borderRadius: "8px",
-                          overflow: "hidden",
-                          border: "1px solid #1e293b",
-                        }}
-                      >
-                        <img
-                          src={`http://localhost:5000${imageUrl}`}
-                          alt={`Gallery ${index + 1}`}
-                          style={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                          }}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => handleDeleteCampaignImage(imageUrl)}
-                          disabled={uploadingImages}
-                          style={{
-                            position: "absolute",
-                            top: "4px",
-                            right: "4px",
-                            background: "rgba(248, 113, 113, 0.8)",
-                            color: "white",
-                            border: "none",
-                            borderRadius: "4px",
-                            width: "28px",
-                            height: "28px",
-                            cursor: uploadingImages ? "not-allowed" : "pointer",
-                            fontSize: "18px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            opacity: uploadingImages ? 0.6 : 1,
-                          }}
-                        >
-                          ×
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              <ImageUploadZone>
-                <input
-                  type="file"
-                  name="campaignImages"
-                  accept="image/*"
-                  onChange={handleChange}
-                  disabled={isLocked}
-                  multiple
-                />
-                <Upload size={24} style={{ color: "#334155" }} />
-                <p style={{ color: "#475569", fontSize: "0.85rem" }}>
-                  {newCampaignImages.length > 0
-                    ? `✓ ${newCampaignImages.length} new image(s) selected`
-                    : "Click to add more gallery images"}
-                </p>
-                <p style={{ color: "#1e293b", fontSize: "0.75rem" }}>
-                  Up to 10 images, PNG/JPG/WEBP
-                </p>
-              </ImageUploadZone>
-
-              {newCampaignImages.length > 0 && (
-                <>
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns:
-                        "repeat(auto-fill, minmax(120px, 1fr))",
-                      gap: "1rem",
-                      marginTop: "1rem",
-                      marginBottom: "1rem",
-                    }}
-                  >
-                    {newCampaignImages.map((file, index) => (
-                      <div
-                        key={index}
-                        style={{
-                          position: "relative",
-                          paddingBottom: "100%",
-                          background: "#0f172a",
-                          borderRadius: "8px",
-                          overflow: "hidden",
-                          border: "2px solid #38bdf8",
-                        }}
-                      >
-                        <img
-                          src={URL.createObjectURL(file)}
-                          alt={`New Gallery ${index + 1}`}
-                          style={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                          }}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => removeNewCampaignImage(index)}
-                          style={{
-                            position: "absolute",
-                            top: "4px",
-                            right: "4px",
-                            background: "rgba(248, 113, 113, 0.8)",
-                            color: "white",
-                            border: "none",
-                            borderRadius: "4px",
-                            width: "28px",
-                            height: "28px",
-                            cursor: "pointer",
-                            fontSize: "18px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
-                        >
-                          ×
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                  <motion.button
-                    type="button"
-                    onClick={handleUploadNewCampaignImages}
-                    disabled={uploadingImages}
-                    style={{
-                      width: "100%",
-                      padding: "0.75rem",
-                      background: uploadingImages ? "#475569" : "#38bdf8",
-                      color: "#050d1a",
-                      border: "none",
-                      borderRadius: "10px",
-                      fontSize: "0.9rem",
-                      fontWeight: 700,
-                      cursor: uploadingImages ? "not-allowed" : "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "0.5rem",
-                    }}
-                    whileHover={{ scale: uploadingImages ? 1 : 1.01 }}
-                  >
-                    {uploadingImages ? (
-                      <>
-                        <div
-                          style={{
-                            width: 14,
-                            height: 14,
-                            borderRadius: "50%",
-                            border: "2px solid rgba(5,13,26,0.3)",
-                            borderTopColor: "#050d1a",
-                            animation: "spin 0.7s linear infinite",
-                          }}
-                        />
-                        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-                        Uploading...
-                      </>
-                    ) : (
-                      <>
-                        <Upload size={16} />
-                        Upload Gallery Images
-                      </>
-                    )}
-                  </motion.button>
-                </>
-              )}
-            </FieldGroup>
-
-            {/* Submit */}
-            <SaveBtn
-              type="submit"
-              disabled={saving || isLocked}
-              whileHover={{ scale: isLocked ? 1 : 1.01 }}
-              whileTap={{ scale: isLocked ? 1 : 0.98 }}
-            >
-              {saving ? (
-                <>
-                  <div
-                    style={{
-                      width: 18,
-                      height: 18,
-                      borderRadius: "50%",
-                      border: "2px solid rgba(5,13,26,0.3)",
-                      borderTopColor: "#050d1a",
-                      animation: "spin 0.7s linear infinite",
-                    }}
-                  />
-                  Saving Changes…
-                  <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-                </>
-              ) : (
-                <>
-                  <Save size={18} />
-                  Save &amp; Publish Updates
-                </>
-              )}
-            </SaveBtn>
-          </form>
-        </FormCard>
-      </div>
-    </PageWrapper>
+              <Button
+                type="submit"
+                disabled={saving || isLocked}
+                style={{ width: "100%", padding: "1.2rem", fontSize: "1.1rem" }}
+              >
+                {saving ? "Saving Changes..." : "Save & Publish Updates"} <Save size={18} style={{ marginLeft: 8 }} />
+              </Button>
+            </form>
+          </Card>
+        </FormSection>
+      </Container>
+    </EditWrapper>
   );
 };
 
