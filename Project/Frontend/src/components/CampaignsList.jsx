@@ -76,7 +76,7 @@ const CampaignsList = () => {
               <Card className="h-100 shadow-sm">
                 <Card.Img
                   variant="top"
-                  src={`http://localhost:5000${project.image}`}
+                  src={project.image?.startsWith("http") ? project.image : `http://localhost:5000${project.image}`}
                   alt={project.title}
                   style={{ height: "200px", objectFit: "cover" }}
                 />
