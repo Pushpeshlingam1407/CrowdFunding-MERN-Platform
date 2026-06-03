@@ -35,6 +35,10 @@ const useAuthStore = create((set) => ({
         throw new Error("Login failed");
       }
 
+      if (user.role === "admin") {
+        throw new Error("Access Denied: Admins must log in through the Admin Portal.");
+      }
+
       // Store token and user data for regular users
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
@@ -42,14 +46,14 @@ const useAuthStore = create((set) => ({
       set({
         user,
         isAuthenticated: true,
-        isAdmin: user.role === "admin",
+        isAdmin: false,
         isLoading: false,
         error: null,
         errorField: null,
       });
       return true;
     } catch (error) {
-      const message = error.response?.data?.message || "Login failed";
+      const message = error.response?.data?.message || error.message || "Login failed";
       const field = error.response?.data?.field || null;
       localStorage.removeItem("token");
       localStorage.removeItem("user");

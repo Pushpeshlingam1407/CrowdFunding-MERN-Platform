@@ -139,24 +139,12 @@ const Login = () => {
 
     const success = await login(formData.email, formData.password);
     if (success) {
-      const loggedInUser = useAuthStore.getState().user;
-      if (loggedInUser?.role === "admin") {
-        // Automatically authorize admin session if logged in as admin
-        const token = localStorage.getItem("token");
-        localStorage.setItem("adminToken", token);
-        localStorage.setItem("adminUser", JSON.stringify(loggedInUser));
-
-        useAuthStore.setState({
-          adminUser: loggedInUser,
-          adminAuthenticated: true,
-          isAdminMode: true,
-        });
-
-        toast.success("Welcome, Admin! Redirecting to Admin Dashboard…");
-        navigate("/admin/dashboard", { replace: true });
-      } else {
-        toast.success("Welcome back! Successfully logged in.");
-        navigate(from, { replace: true });
+      toast.success("Welcome back! Successfully logged in.");
+      navigate(from, { replace: true });
+    } else {
+      const errorMsg = useAuthStore.getState().error;
+      if (errorMsg?.includes("Access Denied")) {
+        toast.error(errorMsg);
       }
     }
   };

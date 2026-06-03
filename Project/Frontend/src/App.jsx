@@ -49,14 +49,15 @@ import useAuthStore from "./store/authStore";
 
 const AppContent = () => {
   const location = useLocation();
-  const { checkAuth, isAuthenticated, isLoading } = useAuthStore();
+  const { checkAuth, isAuthenticated } = useAuthStore();
   const isAdminPage = location.pathname.startsWith("/admin/");
+  const [isCheckingAuth, setIsCheckingAuth] = React.useState(true);
 
   useEffect(() => {
-    checkAuth();
+    checkAuth().finally(() => setIsCheckingAuth(false));
   }, [checkAuth]);
 
-  if (isLoading) {
+  if (isCheckingAuth) {
     return (
       <div
         style={{
