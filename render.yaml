@@ -7,8 +7,8 @@ services:
     healthCheckPath: /
     envVars:
       - key: SPRING_DATASOURCE_URL
-        value: "jdbc:mysql://<AIVEN_MYSQL_HOST>:<PORT>/<DATABASE>?sslMode=REQUIRED"
+        sync: false
       - key: SPRING_DATASOURCE_USERNAME
-        value: "your_aiven_username"
+        sync: false
       - key: SPRING_DATASOURCE_PASSWORD
-        value: "your_aiven_password"
+        sync: false
