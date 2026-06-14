@@ -201,6 +201,13 @@ public class AdminController {
             User user = userRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
+            if ("admin".equalsIgnoreCase(user.getRole())) {
+                Map<String, Object> error = new HashMap<>();
+                error.put("success", false);
+                error.put("message", "Cannot modify admin status");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+            }
+
             user.setVerified(isVerified);
             user = userRepository.save(user);
 
@@ -311,6 +318,13 @@ public class AdminController {
 
             User user = userRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("User not found"));
+
+            if ("admin".equalsIgnoreCase(user.getRole())) {
+                Map<String, Object> error = new HashMap<>();
+                error.put("success", false);
+                error.put("message", "Cannot modify admin roles");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+            }
 
             user.setRole(role);
             user = userRepository.save(user);

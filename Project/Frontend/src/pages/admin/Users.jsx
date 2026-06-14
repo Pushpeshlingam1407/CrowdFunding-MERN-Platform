@@ -457,30 +457,34 @@ const AdminUsers = () => {
                         <ActionBtn title="Email User" onClick={() => window.open(`mailto:${user.email}`)}>
                           <Mail size={14} />
                         </ActionBtn>
-                        <ActionBtn
-                          $variant={user.isVerified ? "ban" : "verify"}
-                          onClick={() =>
-                            handleVerifyToggle(user._id, user.isVerified)
-                          }
-                          title={
-                            user.isVerified
-                              ? "Revoke Verification"
-                              : "Verify User"
-                          }
-                        >
-                          {user.isVerified ? (
-                            <ShieldAlert size={14} />
-                          ) : (
-                            <ShieldCheck size={14} />
-                          )}
-                        </ActionBtn>
-                        <ActionBtn
-                          $variant="delete"
-                          onClick={() => handleDeleteUser(user._id, user.name)}
-                          title="Delete User"
-                        >
-                          <Trash2 size={14} />
-                        </ActionBtn>
+                        {user.role !== "admin" && (
+                          <ActionBtn
+                            $variant={user.isVerified ? "ban" : "verify"}
+                            onClick={() =>
+                              handleVerifyToggle(user._id, user.isVerified)
+                            }
+                            title={
+                              user.isVerified
+                                ? "Revoke Verification"
+                                : "Verify User"
+                            }
+                          >
+                            {user.isVerified ? (
+                              <ShieldAlert size={14} />
+                            ) : (
+                              <ShieldCheck size={14} />
+                            )}
+                          </ActionBtn>
+                        )}
+                        {user.role !== "admin" && (
+                          <ActionBtn
+                            $variant="delete"
+                            onClick={() => handleDeleteUser(user._id, user.name)}
+                            title="Delete User"
+                          >
+                            <Trash2 size={14} />
+                          </ActionBtn>
+                        )}
                       </Flex>
                     </td>
                   </motion.tr>
