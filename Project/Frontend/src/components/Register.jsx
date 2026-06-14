@@ -61,36 +61,79 @@ const Label = styled.label`
   margin-bottom: 0.5rem;
 `;
 
+const InputWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
 const FormIcon = styled.div`
   position: absolute;
-  left: 1rem;
-  top: 2.3rem;
-  color: #9e9e9e;
-  z-index: 1;
+  left: 1.15rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #86868b;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  z-index: 5;
 `;
 
 const StyledInput = styled(Input)`
-  padding-left: 2.75rem;
+  padding-left: 3rem;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  font-size: 0.95rem;
+  height: 3rem;
+  background: #ffffff;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   border-color: ${({ $hasError, $isValid }) =>
     $hasError ? "#e53e3e" : $isValid ? "#38a169" : undefined};
-`;
-
-const StyledSelect = styled.select`
-  width: 100%;
-  padding: 0.75rem 1rem 0.75rem 2.75rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 1rem;
-  transition: border-color 0.2s;
-  background-color: #fafafa;
-  appearance: none;
 
   &:focus {
-    outline: none;
-    border-color: ${(props) => props.theme.colors.primary};
-    background-color: #ffffff;
-    box-shadow: 0 0 0 4px rgba(0, 119, 182, 0.1);
+    border-color: ${({ $hasError, $isValid }) =>
+      $hasError ? "#e53e3e" : $isValid ? "#38a169" : "#0071e3"};
+    background: #ffffff;
+    box-shadow: ${({ $hasError, $isValid }) =>
+      $hasError
+        ? "0 0 0 4px rgba(229,62,62,0.15)"
+        : $isValid
+          ? "0 0 0 4px rgba(56,161,105,0.1)"
+          : "0 0 0 4px rgba(0, 113, 227, 0.08)"};
+  }
+`;
+
+const RoleGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+`;
+
+const RoleCard = styled.div`
+  background: ${(props) => (props.$active ? "#ffffff" : "rgba(0, 0, 0, 0.02)")};
+  color: ${(props) => (props.$active ? "#0071e3" : "#1d1d1f")};
+  border: 1px solid ${(props) => (props.$active ? "#0071e3" : "rgba(0, 0, 0, 0.08)")};
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: ${(props) => (props.$active ? "0 4px 12px rgba(0, 113, 227, 0.08)" : "none")};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  &:hover {
+    background: ${(props) => (props.$active ? "#ffffff" : "rgba(0, 0, 0, 0.04)")};
+    border-color: ${(props) => (props.$active ? "#0071e3" : "rgba(0, 0, 0, 0.15)")};
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: scale(0.97);
   }
 `;
 
@@ -284,19 +327,21 @@ const Register = () => {
                 <Grid cols={2} gap="1rem">
                   <FormGroup>
                     <Label>First Name</Label>
-                    <FormIcon>
-                      <User size={18} />
-                    </FormIcon>
-                    <StyledInput
-                      type="text"
-                      name="firstName"
-                      placeholder="Jane"
-                      value={formData.firstName}
-                      onChange={handleChange}
-                      $isValid={firstNameTouched && isFirstNameValid}
-                      $hasError={firstNameTouched && !isFirstNameValid}
-                      required
-                    />
+                    <InputWrapper>
+                      <FormIcon>
+                        <User size={18} />
+                      </FormIcon>
+                      <StyledInput
+                        type="text"
+                        name="firstName"
+                        placeholder="Jane"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        $isValid={firstNameTouched && isFirstNameValid}
+                        $hasError={firstNameTouched && !isFirstNameValid}
+                        required
+                      />
+                    </InputWrapper>
                     {firstNameTouched && (
                       <ValidationIndicator $isValid={isFirstNameValid}>
                         {isFirstNameValid ? (
@@ -314,19 +359,21 @@ const Register = () => {
                   </FormGroup>
                   <FormGroup>
                     <Label>Last Name</Label>
-                    <FormIcon>
-                      <User size={18} />
-                    </FormIcon>
-                    <StyledInput
-                      type="text"
-                      name="lastName"
-                      placeholder="Doe"
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      $isValid={lastNameTouched && isLastNameValid}
-                      $hasError={lastNameTouched && !isLastNameValid}
-                      required
-                    />
+                    <InputWrapper>
+                      <FormIcon>
+                        <User size={18} />
+                      </FormIcon>
+                      <StyledInput
+                        type="text"
+                        name="lastName"
+                        placeholder="Doe"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        $isValid={lastNameTouched && isLastNameValid}
+                        $hasError={lastNameTouched && !isLastNameValid}
+                        required
+                      />
+                    </InputWrapper>
                     {lastNameTouched && (
                       <ValidationIndicator $isValid={isLastNameValid}>
                         {isLastNameValid ? (
@@ -346,19 +393,21 @@ const Register = () => {
 
                 <FormGroup>
                   <Label>Email Address</Label>
-                  <FormIcon>
-                    <Mail size={18} />
-                  </FormIcon>
-                  <StyledInput
-                    type="email"
-                    name="email"
-                    placeholder="jane@company.com"
-                    value={formData.email}
-                    onChange={handleChange}
-                    $isValid={emailTouched && isEmailValid && !emailExists}
-                    $hasError={emailTouched && (!isEmailValid || emailExists)}
-                    required
-                  />
+                  <InputWrapper>
+                    <FormIcon>
+                      <Mail size={18} />
+                    </FormIcon>
+                    <StyledInput
+                      type="email"
+                      name="email"
+                      placeholder="jane@company.com"
+                      value={formData.email}
+                      onChange={handleChange}
+                      $isValid={emailTouched && isEmailValid && !emailExists}
+                      $hasError={emailTouched && (!isEmailValid || emailExists)}
+                      required
+                    />
+                  </InputWrapper>
                   {emailTouched && (
                     <ValidationIndicator
                       $isValid={isEmailValid && !emailExists}
@@ -387,19 +436,21 @@ const Register = () => {
 
                 <FormGroup>
                   <Label>Password</Label>
-                  <FormIcon>
-                    <Lock size={18} />
-                  </FormIcon>
-                  <StyledInput
-                    type="password"
-                    name="password"
-                    placeholder="••••••••"
-                    value={formData.password}
-                    onChange={handleChange}
-                    $isValid={passwordTouched && isPasswordValid}
-                    $hasError={passwordTouched && !isPasswordValid}
-                    required
-                  />
+                  <InputWrapper>
+                    <FormIcon>
+                      <Lock size={18} />
+                    </FormIcon>
+                    <StyledInput
+                      type="password"
+                      name="password"
+                      placeholder="••••••••"
+                      value={formData.password}
+                      onChange={handleChange}
+                      $isValid={passwordTouched && isPasswordValid}
+                      $hasError={passwordTouched && !isPasswordValid}
+                      required
+                    />
+                  </InputWrapper>
                   {passwordTouched && (
                     <CriteriaList>
                       <CriteriaItem $isValid={hasMinLength}>
@@ -424,25 +475,27 @@ const Register = () => {
 
                 <FormGroup>
                   <Label>Confirm Password</Label>
-                  <FormIcon>
-                    <Lock size={18} />
-                  </FormIcon>
-                  <StyledInput
-                    type="password"
-                    name="confirmPassword"
-                    placeholder="••••••••"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    $isValid={
-                      formData.confirmPassword &&
-                      formData.password === formData.confirmPassword
-                    }
-                    $hasError={
-                      formData.confirmPassword &&
-                      formData.password !== formData.confirmPassword
-                    }
-                    required
-                  />
+                  <InputWrapper>
+                    <FormIcon>
+                      <Lock size={18} />
+                    </FormIcon>
+                    <StyledInput
+                      type="password"
+                      name="confirmPassword"
+                      placeholder="••••••••"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      $isValid={
+                        formData.confirmPassword &&
+                        formData.password === formData.confirmPassword
+                      }
+                      $hasError={
+                        formData.confirmPassword &&
+                        formData.password !== formData.confirmPassword
+                      }
+                      required
+                    />
+                  </InputWrapper>
                   {formData.confirmPassword && (
                     <ValidationIndicator
                       $isValid={formData.password === formData.confirmPassword}
@@ -460,21 +513,28 @@ const Register = () => {
                   )}
                 </FormGroup>
 
-                <FormGroup>
+                <FormGroup style={{ marginBottom: "2rem" }}>
                   <Label>I am a...</Label>
-                  <FormIcon>
-                    <Briefcase size={18} />
-                  </FormIcon>
-                  <StyledSelect
-                    name="role"
-                    value={formData.role}
-                    onChange={handleChange}
-                  >
-                    <option value="startup">Startup</option>
-                    <option value="investor">Single Investor</option>
-                    <option value="mnc">MNC / Enterprise</option>
-                    <option value="employee">Individual Employee</option>
-                  </StyledSelect>
+                  <RoleGrid>
+                    {[
+                      { value: "startup", label: "Startup", icon: Building2 },
+                      { value: "investor", label: "Single Investor", icon: User },
+                      { value: "mnc", label: "MNC / Enterprise", icon: Briefcase },
+                      { value: "employee", label: "Individual Employee", icon: Briefcase },
+                    ].map((opt) => {
+                      const Icon = opt.icon;
+                      return (
+                        <RoleCard
+                          key={opt.value}
+                          $active={formData.role === opt.value}
+                          onClick={() => setFormData({ ...formData, role: opt.value })}
+                        >
+                          <Icon size={16} />
+                          {opt.label}
+                        </RoleCard>
+                      );
+                    })}
+                  </RoleGrid>
                 </FormGroup>
 
                 <CheckboxContainer>

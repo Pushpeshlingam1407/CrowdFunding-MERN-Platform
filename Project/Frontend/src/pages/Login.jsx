@@ -56,20 +56,38 @@ const ErrorBox = styled.div`
   border: 1px solid #fed7d7;
 `;
 
+const InputWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
 const FormIcon = styled.div`
   position: absolute;
-  left: 1rem;
-  top: 2.3rem;
-  color: #9e9e9e;
+  left: 1.15rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #86868b;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  z-index: 5;
 `;
 
 const StyledInput = styled(Input)`
-  padding-left: 2.75rem;
+  padding-left: 3rem;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  font-size: 0.95rem;
+  height: 3rem;
+  background: #ffffff;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   border-color: ${({ $hasError }) => ($hasError ? "#e53e3e" : undefined)};
+
   &:focus {
-    border-color: ${({ $hasError }) => ($hasError ? "#e53e3e" : undefined)};
+    border-color: ${({ $hasError }) => ($hasError ? "#e53e3e" : "#0071e3")};
+    background: #ffffff;
     box-shadow: ${({ $hasError }) =>
-      $hasError ? "0 0 0 3px rgba(229,62,62,0.15)" : undefined};
+      $hasError ? "0 0 0 4px rgba(229,62,62,0.15)" : "0 0 0 4px rgba(0, 113, 227, 0.08)"};
   }
 `;
 
@@ -177,18 +195,20 @@ const Login = () => {
               <form onSubmit={handleSubmit}>
                 <FormGroup>
                   <Label>Email address</Label>
-                  <FormIcon>
-                    <Mail size={18} />
-                  </FormIcon>
-                  <StyledInput
-                    type="email"
-                    name="email"
-                    placeholder="name@company.com"
-                    value={formData.email}
-                    onChange={handleChange}
-                    $hasError={errorField === "email"}
-                    required
-                  />
+                  <InputWrapper>
+                    <FormIcon>
+                      <Mail size={18} />
+                    </FormIcon>
+                    <StyledInput
+                      type="email"
+                      name="email"
+                      placeholder="name@company.com"
+                      value={formData.email}
+                      onChange={handleChange}
+                      $hasError={errorField === "email"}
+                      required
+                    />
+                  </InputWrapper>
                   {errorField === "email" && (
                     <FieldError>
                       <AlertCircle size={13} />
@@ -199,18 +219,20 @@ const Login = () => {
 
                 <FormGroup>
                   <Label>Password</Label>
-                  <FormIcon>
-                    <Lock size={18} />
-                  </FormIcon>
-                  <StyledInput
-                    type="password"
-                    name="password"
-                    placeholder="Enter your password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    $hasError={errorField === "password"}
-                    required
-                  />
+                  <InputWrapper>
+                    <FormIcon>
+                      <Lock size={18} />
+                    </FormIcon>
+                    <StyledInput
+                      type="password"
+                      name="password"
+                      placeholder="Enter your password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      $hasError={errorField === "password"}
+                      required
+                    />
+                  </InputWrapper>
                   {errorField === "password" && (
                     <FieldError>
                       <AlertCircle size={13} />

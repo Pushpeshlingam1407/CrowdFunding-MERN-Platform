@@ -27,7 +27,7 @@ import { projectAPI, investmentAPI } from "../services/api";
 
 const DashboardWrapper = styled.div`
   padding: 3rem 0;
-  background: #f4f7fe; /* V2 Premium Background */
+  background: radial-gradient(circle at 10% 20%, rgba(0, 119, 182, 0.04) 0%, rgba(244, 247, 254, 0.4) 90%);
   min-height: calc(100vh - 80px);
   font-family: inherit;
 `;
@@ -47,11 +47,12 @@ const DashboardLayout = styled.div`
 `;
 
 const Sidebar = styled.aside`
-  background: #ffffff;
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
   padding: 1.5rem;
-  border: none;
-  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.02);
   position: sticky;
   top: 100px;
 `;
@@ -60,18 +61,23 @@ const NavItem = styled.div`
   display: flex;
   align-items: center;
   gap: 0.875rem;
-  padding: 0.875rem 1.25rem;
-  border-radius: 12px;
-  color: ${(p) => (p.$active ? "#4318FF" : "#A3AED0")};
-  background: ${(p) => (p.$active ? "rgba(67, 24, 255, 0.05)" : "transparent")};
-  font-weight: ${(p) => (p.$active ? "700" : "600")};
+  padding: 0.8rem 1.25rem;
+  border-radius: 99px;
+  color: ${(p) => (p.$active ? "#0071e3" : "#6e6e73")};
+  background: ${(p) => (p.$active ? "rgba(0, 113, 227, 0.08)" : "transparent")};
+  font-weight: ${(p) => (p.$active ? "700" : "500")};
   cursor: pointer;
-  transition: all 0.2s;
-  margin-bottom: 0.5rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-bottom: 0.4rem;
 
   &:hover {
-    background: rgba(67, 24, 255, 0.03);
-    color: #4318ff;
+    background: ${(p) => (p.$active ? "rgba(0, 113, 227, 0.08)" : "rgba(0, 0, 0, 0.03)")};
+    color: ${(p) => (p.$active ? "#0071e3" : "#1d1d1f")};
+    transform: scale(1.02);
+  }
+
+  &:active {
+    transform: scale(0.97);
   }
 `;
 
@@ -88,37 +94,47 @@ const StatsGrid = styled.div`
 `;
 
 const StatCard = styled(motion.div)`
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 1.75rem;
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
-  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    transform: translateY(-4px) scale(1.015);
+    box-shadow: 0px 24px 48px rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 113, 227, 0.1);
+  }
 
   .icon-box {
     width: 56px;
     height: 56px;
-    border-radius: 16px;
+    border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: ${(p) => p.$bg || "rgba(67, 24, 255, 0.1)"};
-    color: ${(p) => p.$color || "#4318FF"};
-    box-shadow: 0 4px 12px ${(p) => p.$bg || "rgba(67, 24, 255, 0.1)"};
+    background: ${(p) => p.$bg || "rgba(0, 113, 227, 0.08)"};
+    color: ${(p) => p.$color || "#0071e3"};
+    box-shadow: 0 4px 12px ${(p) => p.$bg || "rgba(0, 113, 227, 0.05)"};
   }
 
   .stat-info {
     h3 {
       font-size: 1.75rem;
       font-weight: 800;
-      color: #2b3674;
+      color: #1d1d1f;
       margin-bottom: 0.25rem;
+      font-family: ${(props) => props.theme.fonts.mono};
+      letter-spacing: -0.02em;
     }
     p {
-      color: #a3aed0;
-      font-size: 0.85rem;
+      color: #86868b;
+      font-size: 0.72rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -127,11 +143,12 @@ const StatCard = styled(motion.div)`
 `;
 
 const ContentCard = styled(motion.div)`
-  background: #ffffff;
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
   padding: 2rem;
-  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
-  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
 `;
 
 const TableWrapper = styled.div`
