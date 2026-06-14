@@ -101,6 +101,20 @@ const FieldError = styled.div`
   font-weight: 500;
 `;
 
+const ErrorBox = styled.div`
+  background: #fff5f5;
+  color: #e53e3e;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid #fed7d7;
+  font-weight: 600;
+`;
+
 const AdminLogin = () => {
   const navigate = useNavigate();
   const { adminLogin, error, errorField } = useAuthStore();
@@ -115,6 +129,9 @@ const AdminLogin = () => {
       if (success) {
         toast.success("Admin authenticated successfully");
         navigate("/admin/dashboard");
+      } else {
+        const currentError = useAuthStore.getState().error;
+        toast.error(currentError || "Access denied. Admin privileges required.");
       }
     } catch (err) {
       toast.error("Authentication Error");
@@ -150,6 +167,13 @@ const AdminLogin = () => {
           <FormSubtitle>
             Sign in to access the administrator dashboard.
           </FormSubtitle>
+
+          {error && !errorField && (
+            <ErrorBox>
+              <AlertCircle size={18} style={{ flexShrink: 0 }} />
+              {error}
+            </ErrorBox>
+          )}
 
           <form onSubmit={handleSubmit}>
             <FormGroup>

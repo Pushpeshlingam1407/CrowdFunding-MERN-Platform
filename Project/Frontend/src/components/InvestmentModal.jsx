@@ -69,45 +69,48 @@ const Label = styled.label`
 `;
 
 const InfoBox = styled.div`
-  background: #f0f7ff;
-  border-left: 4px solid #0077b6;
+  background: rgba(0, 113, 227, 0.05);
+  border-left: 4px solid ${(props) => props.theme.colors.accent || "#0071e3"};
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 1.5rem;
   display: flex;
   gap: 0.75rem;
   font-size: 0.85rem;
-  color: #333;
+  color: #191919;
 
   svg {
-    color: #0077b6;
+    color: ${(props) => props.theme.colors.accent || "#0071e3"};
     flex-shrink: 0;
     margin-top: 0.2rem;
   }
 `;
 
 const EquityInfo = styled.div`
-  background: #faf9f7;
-  padding: 1rem;
-  border-radius: 12px;
+  background: #faf8f5;
+  padding: 1.25rem;
+  border-radius: 16px;
   margin-bottom: 1.5rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 1.25rem;
+  border: 1px solid #e3e0d8;
 
   div {
     h4 {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 700;
       text-transform: uppercase;
-      color: #999;
+      color: #6e6e73;
       margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
     }
 
     p {
-      font-size: 1.25rem;
+      font-size: 1.35rem;
       font-weight: 800;
-      color: #0077b6;
+      color: ${(props) => props.theme.colors.accent || "#0071e3"};
+      font-family: var(--font-mono);
     }
   }
 `;

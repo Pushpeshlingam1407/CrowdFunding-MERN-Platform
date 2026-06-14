@@ -184,14 +184,15 @@ const Profile = () => {
                   width: 80,
                   height: 80,
                   borderRadius: "24px",
-                  background: "#0077b615",
-                  color: "#0077b6",
+                  background: "rgba(0, 113, 227, 0.08)",
+                  color: "#0071e3",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: "2rem",
+                  fontSize: "2.5rem",
                   fontWeight: 800,
                   margin: "0 auto 1.5rem",
+                  border: "1px solid rgba(0, 113, 227, 0.15)",
                 }}
               >
                 {user?.name.charAt(0)}

@@ -1,29 +1,77 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { Button, Container, Flex } from "../components/ui";
+
+const Wrapper = styled.div`
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fbf9f6;
+  background-image: radial-gradient(#d3d0c9 1px, transparent 1px);
+  background-size: 24px 24px;
+`;
+
+const Content = styled.div`
+  text-align: center;
+  max-width: 480px;
+  padding: 3rem;
+  background: #ffffff;
+  border: 1px solid #e3e0d8;
+  border-radius: 24px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.015);
+`;
+
+const Code = styled.h1`
+  font-size: 6.5rem;
+  font-weight: 850;
+  color: #191919;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  margin-bottom: 1rem;
+  font-family: ${(props) => props.theme.fonts.mono};
+`;
+
+const Title = styled.h2`
+  font-size: 2rem;
+  font-weight: 800;
+  color: #191919;
+  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+  font-family: ${(props) => props.theme.fonts.serif};
+`;
+
+const Text = styled.p`
+  font-size: 0.95rem;
+  color: #6e6e73;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+`;
 
 const NotFound = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 text-center">
-        <div>
-          <h1 className="text-9xl font-extrabold text-gray-900">404</h1>
-          <h2 className="mt-6 text-3xl font-bold text-gray-900">
-            Page Not Found
-          </h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Oops! The page you're looking for doesn't exist.
-          </p>
-        </div>
-        <div>
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
-          >
-            Go back home
-          </Link>
-        </div>
-      </div>
-    </div>
+    <Wrapper>
+      <Container>
+        <Flex justify="center">
+          <Content>
+            <Code>404</Code>
+            <Title>Identity Lost</Title>
+            <Text>
+              The resource you are looking for has either been moved, updated, or does not exist in our system registry.
+            </Text>
+            <Button
+              onClick={() => navigate("/")}
+              style={{ padding: "0.8rem 2rem", fontSize: "0.95rem" }}
+            >
+              Return to Registry
+            </Button>
+          </Content>
+        </Flex>
+      </Container>
+    </Wrapper>
   );
 };
 

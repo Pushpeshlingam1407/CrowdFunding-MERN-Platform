@@ -59,22 +59,27 @@ const Header = styled.div`
 `;
 
 const AmountDisplay = styled.div`
-  background: #f0f7ff;
-  padding: 1rem;
-  border-radius: 12px;
+  background: rgba(0, 113, 227, 0.05);
+  padding: 1.25rem;
+  border-radius: 16px;
   text-align: center;
   margin-bottom: 2rem;
+  border: 1px solid rgba(0, 113, 227, 0.1);
 
   p {
-    color: #666;
+    color: #6e6e73;
     font-size: 0.85rem;
     margin-bottom: 0.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   h3 {
-    font-size: 1.75rem;
+    font-size: 2rem;
     font-weight: 800;
-    color: #0077b6;
+    color: ${(props) => props.theme.colors.accent || "#0071e3"};
+    font-family: var(--font-mono);
   }
 `;
 
@@ -86,31 +91,31 @@ const PaymentMethodsGrid = styled.div`
 `;
 
 const PaymentMethodButton = styled(motion.button)`
-  background: ${(props) => (props.selected ? "#f0f7ff" : "#fff")};
-  border: 2px solid ${(props) => (props.selected ? "#0077b6" : "#e0e0e0")};
-  border-radius: 12px;
+  background: ${(props) => (props.selected ? "rgba(0, 113, 227, 0.05)" : "#fff")};
+  border: 2px solid ${(props) => (props.selected ? (props.theme.colors.accent || "#0071e3") : "#e3e0d8")};
+  border-radius: 16px;
   padding: 1.5rem;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
 
   &:hover {
-    border-color: #0077b6;
-    background: #f9f9f9;
+    border-color: ${(props) => props.theme.colors.accent || "#0071e3"};
+    background: ${(props) => (props.selected ? "rgba(0, 113, 227, 0.05)" : "rgba(0, 0, 0, 0.02)")};
   }
 
   svg {
-    color: ${(props) => (props.selected ? "#0077b6" : "#999")};
+    color: ${(props) => (props.selected ? (props.theme.colors.accent || "#0071e3") : "#6e6e73")};
     width: 28px;
     height: 28px;
   }
 
   span {
-    font-weight: 600;
-    color: #333;
+    font-weight: 700;
+    color: #191919;
     font-size: 0.9rem;
   }
 `;
@@ -123,8 +128,10 @@ const Label = styled.label`
   display: block;
   font-weight: 700;
   margin-bottom: 0.75rem;
-  color: #333;
-  font-size: 0.95rem;
+  color: #191919;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 `;
 
 const FormGrid = styled.div`
@@ -145,14 +152,14 @@ const StatusBox = styled.div`
       ? "#f0fdf4"
       : props.type === "error"
         ? "#fef2f2"
-        : "#f0f7ff"};
+        : "rgba(0, 113, 227, 0.05)"};
   border: 1px solid
     ${(props) =>
       props.type === "success"
         ? "#dcfce7"
         : props.type === "error"
           ? "#fee2e2"
-          : "#dbeafe"};
+          : "rgba(0, 113, 227, 0.1)"};
 
   svg {
     color: ${(props) =>
@@ -160,13 +167,14 @@ const StatusBox = styled.div`
         ? "#22c55e"
         : props.type === "error"
           ? "#ef4444"
-          : "#3b82f6"};
+          : "#0071e3"};
     flex-shrink: 0;
   }
 
   span {
-    color: #333;
+    color: #191919;
     font-size: 0.9rem;
+    font-weight: 500;
   }
 `;
 

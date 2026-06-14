@@ -93,12 +93,13 @@ const Navbar = () => {
                       width: 28,
                       height: 28,
                       borderRadius: "8px",
-                      background: "#0077b615",
-                      color: "#0077b6",
+                      background: "rgba(0, 113, 227, 0.08)",
+                      color: "#0071e3",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       fontSize: "0.75rem",
+                      fontWeight: 800,
                     }}
                   >
                     {user?.name.charAt(0)}

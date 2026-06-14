@@ -20,7 +20,7 @@ import { projectAPI } from "../services/api";
 
 const CreateWrapper = styled.div`
   padding: 4rem 0;
-  background: #fafafa;
+  background: ${(props) => props.theme.colors.background};
   min-height: calc(100vh - 80px);
 `;
 
@@ -34,7 +34,7 @@ const Stepper = styled.div`
 const StepItem = styled.div`
   display: flex;
   flex-direction: column;
-  items: center;
+  align-items: center;
   gap: 0.5rem;
   opacity: ${(props) => (props.active ? 1 : 0.4)};
   transition: all 0.3s;
@@ -45,20 +45,22 @@ const StepCircle = styled.div`
   height: 40px;
   border-radius: 50%;
   background: ${(props) =>
-    props.active ? props.theme.colors.primary : "#eee"};
-  color: ${(props) => (props.active ? "white" : "#666")};
+    props.active ? props.theme.colors.primary : "transparent"};
+  color: ${(props) => (props.active ? "#ffffff" : "#86868b")};
+  border: 1px solid ${(props) => (props.active ? props.theme.colors.primary : "#e3e0d8")};
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
+  font-weight: 850;
   font-size: 0.9rem;
 `;
 
 const StepLabel = styled.span`
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: 0.75rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.05em;
+  color: #191919;
 `;
 
 const FormSection = styled(motion.div)`
@@ -68,33 +70,55 @@ const FormSection = styled(motion.div)`
 
 const Label = styled.label`
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6e6e73;
   margin-bottom: 0.5rem;
-  color: #444;
 `;
 
 const Select = styled.select`
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  padding: 0.85rem 1.25rem;
+  border: 1px solid #dcdad2;
+  border-radius: 12px;
   font-family: inherit;
-  font-size: 1rem;
-  background: white;
+  font-size: 0.95rem;
+  height: 3rem;
+  background: #ffffff;
   margin-bottom: 1.5rem;
+  outline: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%236e6e73%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 16px) center;
+
+  &:focus {
+    border-color: ${(props) => props.theme.colors.primary};
+    box-shadow: 0 0 0 4px rgba(25, 25, 25, 0.04);
+  }
 `;
 
 const TextArea = styled.textarea`
   width: 100%;
-  padding: 1rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  border: 1px solid #dcdad2;
+  border-radius: 12px;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.95rem;
   min-height: 150px;
   margin-bottom: 1.5rem;
   resize: vertical;
+  background: #ffffff;
+  outline: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:focus {
+    border-color: ${(props) => props.theme.colors.primary};
+    box-shadow: 0 0 0 4px rgba(25, 25, 25, 0.04);
+  }
 `;
 
 const CreateProject = () => {
@@ -176,7 +200,47 @@ const CreateProject = () => {
     }
   };
 
-  const nextStep = () => setCurrentStep((prev) => prev + 1);
+  const nextStep = () => {
+    if (currentStep === 1) {
+      if (!formData.title.trim() || formData.title.trim().length < 5) {
+        toast.error("Campaign title must be at least 5 characters long");
+        return;
+      }
+      if (!formData.description.trim() || formData.description.trim().length < 20) {
+        toast.error("Venture description must be at least 20 characters long");
+        return;
+      }
+    }
+    if (currentStep === 2) {
+      if (!formData.targetAmount || Number(formData.targetAmount) < 1000) {
+        toast.error("Target funding amount must be at least ₹1,000");
+        return;
+      }
+      if (!formData.equity || Number(formData.equity) <= 0 || Number(formData.equity) > 100) {
+        toast.error("Equity offered must be between 0.1% and 100%");
+        return;
+      }
+      if (!formData.startDate) {
+        toast.error("Please specify a launch date");
+        return;
+      }
+      if (!formData.endDate) {
+        toast.error("Please specify an expiration date");
+        return;
+      }
+      if (new Date(formData.endDate) <= new Date(formData.startDate)) {
+        toast.error("Expiration date must be after the launch date");
+        return;
+      }
+    }
+    if (currentStep === 3) {
+      if (!formData.image) {
+        toast.error("Please upload a cover image for your campaign");
+        return;
+      }
+    }
+    setCurrentStep((prev) => prev + 1);
+  };
   const prevStep = () => setCurrentStep((prev) => prev - 1);
 
   return (
@@ -404,15 +468,17 @@ const CreateProject = () => {
                     <div
                       style={{
                         padding: "3rem",
-                        border: "2px dashed #eee",
-                        borderRadius: "16px",
+                        border: "1.5px dashed #e3e0d8",
+                        borderRadius: "20px",
                         textAlign: "center",
                         marginBottom: "2rem",
+                        background: "#ffffff",
+                        transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
                       }}
                     >
                       <Upload
                         size={32}
-                        style={{ color: "#0077b6", marginBottom: "1rem" }}
+                        style={{ color: "#0071e3", marginBottom: "1rem" }}
                       />
                       <p
                         style={{
@@ -471,15 +537,17 @@ const CreateProject = () => {
                   <div
                     style={{
                       padding: "3rem",
-                      border: "2px dashed #eee",
-                      borderRadius: "16px",
+                      border: "1.5px dashed #e3e0d8",
+                      borderRadius: "20px",
                       textAlign: "center",
                       marginBottom: "2rem",
+                      background: "#ffffff",
+                      transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
                     }}
                   >
                     <Upload
                       size={32}
-                      style={{ color: "#0077b6", marginBottom: "1rem" }}
+                      style={{ color: "#0071e3", marginBottom: "1rem" }}
                     />
                     <p
                       style={{

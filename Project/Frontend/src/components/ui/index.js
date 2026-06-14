@@ -45,39 +45,39 @@ export const Button = styled.button`
 
 export const Input = styled.input`
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  padding: 0.85rem 1.25rem;
+  border: 1px solid #dcdad2;
+  border-radius: 12px;
   font-family: inherit;
-  font-size: 1rem;
-  transition: border-color 0.2s;
-  background-color: #fafafa;
+  font-size: 0.95rem;
+  height: 3rem;
+  background: #ffffff;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:focus {
     outline: none;
     border-color: ${(props) => props.theme.colors.primary};
     background-color: #ffffff;
-    box-shadow: 0 0 0 4px rgba(0, 119, 182, 0.1);
+    box-shadow: 0 0 0 4px rgba(25, 25, 25, 0.04);
   }
 
   &::placeholder {
-    color: #9e9e9e;
+    color: #86868b;
   }
 `;
 
 export const Card = styled.div`
   background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  border-radius: 24px;
+  border: 1px solid #e3e0d8;
   padding: 2rem;
-  border: 1px solid #f0f0f0;
-  transition:
-    transform 0.2s,
-    box-shadow 0.2s;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.015);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px) scale(1.01);
+    border-color: ${(props) => props.theme.colors.primary};
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.035);
   }
 `;
 

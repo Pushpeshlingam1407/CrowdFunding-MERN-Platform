@@ -15,7 +15,6 @@ import Navbar from "./components/ui/Navbar";
 import Footer from "./components/ui/Footer";
 import "react-toastify/dist/ReactToastify.css";
 
-
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -33,14 +32,12 @@ import CompanyProfile from "./pages/CompanyProfile";
 import AdminComplaints from "./pages/admin/Complaints";
 import AdminFinancials from "./pages/admin/AdminFinancials";
 
-
 import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
 import Register from "./components/Register";
 import CreateProject from "./components/CreateProject";
 import EditProject from "./components/EditProject";
 import Portfolio from "./components/Portfolio";
-
 
 import useAuthStore from "./store/authStore";
 
@@ -219,9 +216,28 @@ const AppContent = () => {
 
       {/* Show footer everywhere except admin pages */}
       {!isAdminPage && <Footer />}
-      <ToastContainer position="bottom-right" />
-      <HotToaster position="top-center" />
-      <SonnerToaster position="bottom-left" />
+      <ToastContainer position="bottom-right" theme="light" />
+      <HotToaster
+        position="top-center"
+        toastOptions={{
+          className: "hot-toast-card",
+          style: {
+            background: "rgba(255, 255, 255, 0.82)",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+            border: "1px solid rgba(227, 224, 216, 0.7)",
+            borderRadius: "20px",
+            color: "#191919",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.02)",
+            fontFamily: "var(--font-sans)",
+            fontSize: "0.9rem",
+            fontWeight: "600",
+            padding: "0.85rem 1.25rem",
+            maxWidth: "380px",
+          },
+        }}
+      />
+      <SonnerToaster position="bottom-left" theme="light" />
     </div>
   );
 };

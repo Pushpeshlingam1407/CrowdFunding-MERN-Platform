@@ -16,7 +16,7 @@ import { Button, Card, Container, Flex, Grid, Input } from "./ui";
 
 const EditWrapper = styled.div`
   padding: 4rem 0;
-  background: #fafafa;
+  background: ${(props) => props.theme.colors.background};
   min-height: calc(100vh - 80px);
 `;
 
@@ -27,33 +27,55 @@ const FormSection = styled(motion.div)`
 
 const Label = styled.label`
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6e6e73;
   margin-bottom: 0.5rem;
-  color: #444;
 `;
 
 const Select = styled.select`
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  padding: 0.85rem 1.25rem;
+  border: 1px solid #dcdad2;
+  border-radius: 12px;
   font-family: inherit;
-  font-size: 1rem;
-  background: white;
+  font-size: 0.95rem;
+  height: 3rem;
+  background: #ffffff;
   margin-bottom: 1.5rem;
+  outline: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%236e6e73%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 16px) center;
+
+  &:focus {
+    border-color: ${(props) => props.theme.colors.primary};
+    box-shadow: 0 0 0 4px rgba(25, 25, 25, 0.04);
+  }
 `;
 
 const TextArea = styled.textarea`
   width: 100%;
-  padding: 1rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  border: 1px solid #dcdad2;
+  border-radius: 12px;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.95rem;
   min-height: 150px;
   margin-bottom: 1.5rem;
   resize: vertical;
+  background: #ffffff;
+  outline: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:focus {
+    border-color: ${(props) => props.theme.colors.primary};
+    box-shadow: 0 0 0 4px rgba(25, 25, 25, 0.04);
+  }
 `;
 
 const LockBanner = styled.div`
@@ -66,7 +88,7 @@ const LockBanner = styled.div`
   border-radius: 12px;
   color: #b45309;
   font-size: 0.88rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 2rem;
 `;
 
@@ -351,11 +373,11 @@ const EditProject = () => {
               <div style={{ marginTop: "1rem", marginBottom: "2.5rem" }}>
                 <Label>Hero Image</Label>
                 {imagePreview ? (
-                  <div style={{ position: "relative", width: "100%", height: "300px", borderRadius: "16px", overflow: "hidden", boxShadow: "0 10px 30px rgba(0,0,0,0.1)" }}>
+                  <div style={{ position: "relative", width: "100%", height: "300px", borderRadius: "24px", overflow: "hidden", boxShadow: "0 10px 30px rgba(0,0,0,0.015)", border: "1px solid #e3e0d8" }}>
                     <img src={imagePreview} alt="Preview" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                     {!isLocked && (
-                      <div style={{ position: "absolute", bottom: "1rem", right: "1rem", background: "white", borderRadius: "8px", padding: "0.5rem 1rem", boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}>
-                        <label style={{ cursor: "pointer", margin: 0, fontWeight: 700, fontSize: "0.85rem", color: "#0077b6" }}>
+                      <div style={{ position: "absolute", bottom: "1rem", right: "1rem", background: "white", borderRadius: "12px", padding: "0.6rem 1.25rem", boxShadow: "0 4px 12px rgba(0,0,0,0.05)", border: "1px solid #e3e0d8" }}>
+                        <label style={{ cursor: "pointer", margin: 0, fontWeight: 700, fontSize: "0.85rem", color: "#0071e3" }}>
                           Change Cover Image
                           <input type="file" name="newImage" accept="image/*" onChange={handleChange} style={{ display: "none" }} />
                         </label>
@@ -363,8 +385,8 @@ const EditProject = () => {
                     )}
                   </div>
                 ) : (
-                  <div style={{ padding: "3rem", border: "2px dashed #eee", borderRadius: "16px", textAlign: "center", background: "#fafafa" }}>
-                    <Upload size={32} style={{ color: "#0077b6", marginBottom: "1rem" }} />
+                  <div style={{ padding: "3rem", border: "1.5px dashed #e3e0d8", borderRadius: "20px", textAlign: "center", background: "#ffffff", transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)" }}>
+                    <Upload size={32} style={{ color: "#0071e3", marginBottom: "1rem" }} />
                     <p style={{ fontSize: "0.9rem", fontWeight: 600, color: "#444" }}>Upload Campaign Cover Image</p>
                     <input type="file" name="newImage" accept="image/*" onChange={handleChange} disabled={isLocked} style={{ marginTop: "1rem" }} />
                   </div>
@@ -398,8 +420,8 @@ const EditProject = () => {
                   </div>
                 )}
 
-                <div style={{ padding: "3rem", border: "2px dashed #eee", borderRadius: "16px", textAlign: "center", background: "#fafafa" }}>
-                  <Upload size={32} style={{ color: "#0077b6", marginBottom: "1rem" }} />
+                <div style={{ padding: "3rem", border: "1.5px dashed #e3e0d8", borderRadius: "20px", textAlign: "center", background: "#ffffff", transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)" }}>
+                  <Upload size={32} style={{ color: "#0071e3", marginBottom: "1rem" }} />
                   <p style={{ fontSize: "0.9rem", fontWeight: 600, color: "#444" }}>
                     {newCampaignImages.length > 0 ? `✓ ${newCampaignImages.length} new image(s) selected` : "Upload Additional Gallery Images"}
                   </p>
@@ -410,7 +432,7 @@ const EditProject = () => {
                   <>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))", gap: "1rem", marginTop: "1.5rem", marginBottom: "1.5rem" }}>
                       {newCampaignImages.map((file, index) => (
-                        <div key={index} style={{ position: "relative", paddingBottom: "100%", background: "#f0f0f0", borderRadius: "8px", overflow: "hidden", border: "2px solid #0077b6" }}>
+                        <div key={index} style={{ position: "relative", paddingBottom: "100%", background: "#fbf9f6", borderRadius: "12px", overflow: "hidden", border: "2px solid #0071e3" }}>
                           <img src={URL.createObjectURL(file)} alt={`New Gallery ${index + 1}`} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }} />
                           <button type="button" onClick={() => removeNewCampaignImage(index)} style={{ position: "absolute", top: "4px", right: "4px", background: "rgba(255,0,0,0.8)", color: "white", border: "none", borderRadius: "4px", width: "24px", height: "24px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
                             ×

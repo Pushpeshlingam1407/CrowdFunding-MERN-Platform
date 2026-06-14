@@ -14,7 +14,7 @@ import { toast } from "react-hot-toast";
 
 const PortfolioWrapper = styled.div`
   padding: 4rem 0;
-  background: #fafafa;
+  background: ${(props) => props.theme.colors.background};
   min-height: calc(100vh - 80px);
 `;
 
@@ -24,12 +24,13 @@ const Header = styled.div`
   h1 {
     font-size: 2.5rem;
     font-weight: 800;
-    letter-spacing: -1px;
+    letter-spacing: -1.5px;
     margin-bottom: 1rem;
+    font-family: ${(props) => props.theme.fonts.serif};
   }
 
   p {
-    color: #666;
+    color: #6e6e73;
     font-size: 1rem;
   }
 `;
@@ -47,24 +48,26 @@ const StatCard = styled(Card)`
   svg {
     width: 40px;
     height: 40px;
-    color: #0077b6;
+    color: ${(props) => props.theme.colors.accent};
     flex-shrink: 0;
   }
 `;
 
 const StatContent = styled.div`
   h3 {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #999;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #6e6e73;
     text-transform: uppercase;
     margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
   }
 
   p {
     font-size: 1.75rem;
     font-weight: 800;
-    color: #0077b6;
+    color: #191919;
+    font-family: var(--font-mono);
   }
 `;
 
@@ -75,20 +78,21 @@ const InvestmentList = styled.div`
 `;
 
 const InvestmentCard = styled(motion.div)`
-  background: white;
-  border-radius: 16px;
+  background: #ffffff;
+  border-radius: 24px;
   padding: 1.5rem;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr 1fr auto;
   gap: 2rem;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s;
-  border: 1px solid #f0f0f0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.015);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid #e3e0d8;
 
   &:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    border-color: #e0e0e0;
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.035);
+    border-color: #191919;
   }
 
   @media (max-width: 1024px) {
@@ -100,9 +104,10 @@ const InvestmentCard = styled(motion.div)`
 const ProjectImage = styled.div`
   width: 100%;
   height: 120px;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  background: #eee;
+  background: #faf8f5;
+  border: 1px solid #e3e0d8;
 
   img {
     width: 100%;
@@ -117,67 +122,76 @@ const ProjectImage = styled.div`
 
 const ProjectInfo = styled.div`
   h3 {
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 1.15rem;
+    font-weight: 800;
     margin-bottom: 0.5rem;
-    color: #333;
+    color: #191919;
+    font-family: ${(props) => props.theme.fonts.serif};
+    letter-spacing: -0.02em;
   }
 
   p {
-    font-size: 0.85rem;
-    color: #888;
+    font-size: 0.9rem;
+    color: #6e6e73;
     line-height: 1.5;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
   }
 
   .category {
     display: inline-block;
     padding: 0.25rem 0.75rem;
-    background: #f0f7ff;
-    color: #0077b6;
+    background: rgba(0, 113, 227, 0.05);
+    color: #0071e3;
     border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
+    font-size: 0.72rem;
+    font-weight: 800;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(0, 113, 227, 0.15);
   }
 `;
 
 const InvestmentAmount = styled.div`
   h4 {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #999;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #6e6e73;
     text-transform: uppercase;
     margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
   }
 
   p {
     font-size: 1.5rem;
     font-weight: 800;
-    color: #0077b6;
+    color: #191919;
+    font-family: var(--font-mono);
   }
 `;
 
 const InvestmentStatus = styled.div`
   h4 {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #999;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #6e6e73;
     text-transform: uppercase;
     margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
   }
 
   span {
     display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    font-weight: 600;
+    padding: 0.4rem 0.85rem;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     background: ${(props) =>
-      props.status === "completed" ? "#f0fdf4" : "#f0f7ff"};
-    color: ${(props) => (props.status === "completed" ? "#22c55e" : "#3b82f6")};
+      props.status === "completed" ? "#f0fdf4" : "rgba(0, 113, 227, 0.05)"};
+    color: ${(props) => (props.status === "completed" ? "#22c55e" : "#0071e3")};
     border: 1px solid
-      ${(props) => (props.status === "completed" ? "#dcfce7" : "#dbeafe")};
+      ${(props) => (props.status === "completed" ? "#dcfce7" : "rgba(0, 113, 227, 0.15)")};
   }
 `;
 

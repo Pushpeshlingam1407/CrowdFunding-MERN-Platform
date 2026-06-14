@@ -13,21 +13,21 @@ import { Button, Flex } from "./index";
 
 /* ─── Styled ──────────────────────────── */
 const DropZone = styled.div`
-  border: 2px dashed
-    ${(props) => (props.hasFile ? props.theme.colors.primary : "#e0e0e0")};
+  border: 1.5px dashed
+    ${(props) => (props.hasFile ? props.theme.colors.primary : "#e3e0d8")};
   border-radius: 20px;
   padding: 3rem 2rem;
   text-align: center;
   background: ${(props) =>
-    props.hasFile ? `${props.theme.colors.primary}05` : "#fafafa"};
-  transition: all 0.2s;
+    props.hasFile ? "rgba(0, 113, 227, 0.03)" : "#ffffff"};
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   position: relative;
   margin-bottom: 1.5rem;
 
   &:hover {
     border-color: ${(props) => props.theme.colors.primary};
-    background: ${(props) => props.theme.colors.primary}05;
+    background: rgba(0, 113, 227, 0.03);
   }
 
   input[type="file"] {
@@ -42,43 +42,66 @@ const DropZone = styled.div`
 
 const Label = styled.label`
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  color: #444;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6e6e73;
   margin-bottom: 0.5rem;
 `;
 
 const Select = styled.select`
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  padding: 0.85rem 1.25rem;
+  border: 1px solid #dcdad2;
+  border-radius: 12px;
   font-family: inherit;
   font-size: 0.95rem;
-  background: white;
+  height: 3rem;
+  background: #ffffff;
   margin-bottom: 1.5rem;
   box-sizing: border-box;
+  outline: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%236e6e73%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 16px) center;
+
+  &:focus {
+    border-color: ${(props) => props.theme.colors.primary};
+    box-shadow: 0 0 0 4px rgba(25, 25, 25, 0.04);
+  }
 `;
 
 const TextInput = styled.input`
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  padding: 0.85rem 1.25rem;
+  border: 1px solid #dcdad2;
+  border-radius: 12px;
   font-family: inherit;
   font-size: 0.95rem;
+  height: 3rem;
   margin-bottom: 1.5rem;
   box-sizing: border-box;
+  background: #ffffff;
+  outline: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:focus {
+    border-color: ${(props) => props.theme.colors.primary};
+    box-shadow: 0 0 0 4px rgba(25, 25, 25, 0.04);
+  }
 `;
 
 const Alert = styled.div`
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 0.85rem 1.25rem;
   display: flex;
   gap: 0.75rem;
   align-items: center;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 1.5rem;
   ${(props) =>
     props.variant === "error"
@@ -90,22 +113,24 @@ const FilePill = styled.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: #f0f7ff;
-  border: 1px solid #bee3f8;
-  border-radius: 10px;
+  background: rgba(0, 113, 227, 0.05);
+  border: 1px solid rgba(0, 113, 227, 0.15);
+  border-radius: 12px;
   padding: 0.85rem 1.25rem;
   margin-bottom: 1.5rem;
   font-size: 0.9rem;
 
   .name {
-    font-weight: 600;
+    font-weight: 700;
     flex-grow: 1;
     word-break: break-all;
+    color: #191919;
   }
   .size {
-    color: #888;
+    color: #6e6e73;
     white-space: nowrap;
     font-size: 0.8rem;
+    font-family: var(--font-mono);
   }
 `;
 
@@ -229,8 +254,8 @@ const DocumentUpload = ({ onUploadSuccess }) => {
           />
           <div
             style={{
-              background: "#0077b615",
-              color: "#0077b6",
+              background: "rgba(0, 113, 227, 0.08)",
+              color: "#0071e3",
               padding: "1rem",
               borderRadius: "50%",
               display: "inline-block",
@@ -240,18 +265,18 @@ const DocumentUpload = ({ onUploadSuccess }) => {
             <Upload size={28} />
           </div>
           <p
-            style={{ fontWeight: 600, color: "#444", marginBottom: "0.25rem" }}
+            style={{ fontWeight: 600, color: "#191919", marginBottom: "0.25rem" }}
           >
             {file ? file.name : "Drag & drop or click to select"}
           </p>
-          <p style={{ fontSize: "0.8rem", color: "#888" }}>
+          <p style={{ fontSize: "0.8rem", color: "#6e6e73" }}>
             {file ? fmt(file.size) : "PDF, JPEG, PNG, DOC/DOCX · Max 9 MB"}
           </p>
         </DropZone>
 
         {file && (
           <FilePill>
-            <FileText size={20} color="#0077b6" style={{ flexShrink: 0 }} />
+            <FileText size={20} color="#0071e3" style={{ flexShrink: 0 }} />
             <span className="name">{file.name}</span>
             <span className="size">{fmt(file.size)}</span>
             <button
