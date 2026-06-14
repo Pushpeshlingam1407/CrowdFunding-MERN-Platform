@@ -12,21 +12,34 @@ const LoginWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at top right, #0077b60a 0%, #ffffff 100%);
+  background-color: #fbf9f6;
+  background-image: radial-gradient(#d3d0c9 1px, transparent 1px);
+  background-size: 24px 24px;
+`;
+
+const StyledCard = styled.div`
+  background: #ffffff;
+  border: 1px solid #e3e0d8;
+  border-radius: 24px;
+  padding: 3.5rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.015);
+  width: 100%;
 `;
 
 const FormTitle = styled.h2`
-  font-size: 2rem;
+  font-size: 2.25rem;
   font-weight: 800;
   margin-bottom: 0.5rem;
   text-align: center;
-  letter-spacing: -1px;
+  letter-spacing: -0.03em;
+  font-family: ${(props) => props.theme.fonts.serif};
+  color: #191919;
 `;
 
 const FormSubtitle = styled.p`
-  color: #666;
+  color: #86868b;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   font-size: 0.95rem;
 `;
 
@@ -37,9 +50,11 @@ const FormGroup = styled.div`
 
 const Label = styled.label`
   display: block;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #444;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6e6e73;
   margin-bottom: 0.5rem;
 `;
 
@@ -56,38 +71,22 @@ const ErrorBox = styled.div`
   border: 1px solid #fed7d7;
 `;
 
-const InputWrapper = styled.div`
-  position: relative;
-  width: 100%;
-`;
-
-const FormIcon = styled.div`
-  position: absolute;
-  left: 1.15rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #86868b;
-  display: flex;
-  align-items: center;
-  pointer-events: none;
-  z-index: 5;
-`;
-
 const StyledInput = styled(Input)`
-  padding-left: 3rem;
+  padding: 0.85rem 1.25rem;
   border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid #dcdad2;
   font-size: 0.95rem;
   height: 3rem;
   background: #ffffff;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   border-color: ${({ $hasError }) => ($hasError ? "#e53e3e" : undefined)};
+  width: 100%;
 
   &:focus {
-    border-color: ${({ $hasError }) => ($hasError ? "#e53e3e" : "#0071e3")};
+    border-color: ${({ $hasError }) => ($hasError ? "#e53e3e" : "#191919")};
     background: #ffffff;
     box-shadow: ${({ $hasError }) =>
-      $hasError ? "0 0 0 4px rgba(229,62,62,0.15)" : "0 0 0 4px rgba(0, 113, 227, 0.08)"};
+      $hasError ? "0 0 0 4px rgba(229,62,62,0.15)" : "0 0 0 4px rgba(25, 25, 25, 0.05)"};
   }
 `;
 
@@ -103,19 +102,19 @@ const FieldError = styled.div`
 
 // Small "go to admin login" link at bottom
 const AdminHint = styled.div`
-  margin-top: 1.25rem;
-  padding: 0.75rem 1rem;
-  background: rgba(0, 119, 182, 0.05);
-  border: 1px solid rgba(0, 119, 182, 0.15);
-  border-radius: 10px;
+  margin-top: 2rem;
+  padding: 0.85rem 1rem;
+  background: #fbf9f6;
+  border: 1px solid #e3e0d8;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.82rem;
-  color: #555;
+  color: #6e6e73;
 
   a {
-    color: #0077b6;
+    color: #191919;
     font-weight: 700;
     text-decoration: none;
     &:hover {
@@ -181,7 +180,7 @@ const Login = () => {
             transition={{ duration: 0.3 }}
             style={{ width: "100%", maxWidth: "440px" }}
           >
-            <Card>
+            <StyledCard>
               <FormTitle>Welcome Back</FormTitle>
               <FormSubtitle>Sign in to your account</FormSubtitle>
 
@@ -195,20 +194,15 @@ const Login = () => {
               <form onSubmit={handleSubmit}>
                 <FormGroup>
                   <Label>Email address</Label>
-                  <InputWrapper>
-                    <FormIcon>
-                      <Mail size={18} />
-                    </FormIcon>
-                    <StyledInput
-                      type="email"
-                      name="email"
-                      placeholder="name@company.com"
-                      value={formData.email}
-                      onChange={handleChange}
-                      $hasError={errorField === "email"}
-                      required
-                    />
-                  </InputWrapper>
+                  <StyledInput
+                    type="email"
+                    name="email"
+                    placeholder="name@company.com"
+                    value={formData.email}
+                    onChange={handleChange}
+                    $hasError={errorField === "email"}
+                    required
+                  />
                   {errorField === "email" && (
                     <FieldError>
                       <AlertCircle size={13} />
@@ -219,20 +213,15 @@ const Login = () => {
 
                 <FormGroup>
                   <Label>Password</Label>
-                  <InputWrapper>
-                    <FormIcon>
-                      <Lock size={18} />
-                    </FormIcon>
-                    <StyledInput
-                      type="password"
-                      name="password"
-                      placeholder="Enter your password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      $hasError={errorField === "password"}
-                      required
-                    />
-                  </InputWrapper>
+                  <StyledInput
+                    type="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    $hasError={errorField === "password"}
+                    required
+                  />
                   {errorField === "password" && (
                     <FieldError>
                       <AlertCircle size={13} />
@@ -244,19 +233,19 @@ const Login = () => {
                 <Button
                   type="submit"
                   disabled={isLoading}
-                  style={{ width: "100%", marginBottom: "1.5rem" }}
+                  style={{ width: "100%", marginBottom: "1.5rem", background: "#191919", color: "#ffffff" }}
                 >
                   <LogIn size={18} style={{ marginRight: 8 }} />
                   {isLoading ? "Signing in..." : "Sign in"}
                 </Button>
 
                 <div style={{ textAlign: "center" }}>
-                  <span style={{ fontSize: "0.9rem", color: "#666" }}>
+                  <span style={{ fontSize: "0.9rem", color: "#6e6e73" }}>
                     New to StartupFund?{" "}
                     <Link
                       to="/register"
                       style={{
-                        color: "#0077b6",
+                        color: "#191919",
                         fontWeight: 600,
                         textDecoration: "none",
                       }}
@@ -269,14 +258,10 @@ const Login = () => {
 
               {/* Admin hint */}
               <AdminHint>
-                <ShieldCheck
-                  size={15}
-                  style={{ color: "#0077b6", flexShrink: 0 }}
-                />
                 Admin? Use your admin credentials above or{" "}
                 <Link to="/admin/login">go to the Admin Portal →</Link>
               </AdminHint>
-            </Card>
+            </StyledCard>
           </motion.div>
         </Flex>
       </Container>

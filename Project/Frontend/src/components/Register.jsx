@@ -26,25 +26,34 @@ const RegisterWrapper = styled.div`
   align-items: center;
   justify-content: center;
   padding: 4rem 0;
-  background: radial-gradient(
-    circle at bottom left,
-    #0077b60a 0%,
-    #ffffff 100%
-  );
+  background-color: #fbf9f6;
+  background-image: radial-gradient(#d3d0c9 1px, transparent 1px);
+  background-size: 24px 24px;
+`;
+
+const StyledCard = styled.div`
+  background: #ffffff;
+  border: 1px solid #e3e0d8;
+  border-radius: 24px;
+  padding: 3.5rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.015);
+  width: 100%;
 `;
 
 const FormTitle = styled.h2`
-  font-size: 2rem;
+  font-size: 2.25rem;
   font-weight: 800;
   margin-bottom: 0.5rem;
   text-align: center;
-  letter-spacing: -1px;
+  letter-spacing: -0.03em;
+  font-family: ${(props) => props.theme.fonts.serif};
+  color: #191919;
 `;
 
 const FormSubtitle = styled.p`
-  color: #666;
+  color: #86868b;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   font-size: 0.95rem;
 `;
 
@@ -55,50 +64,36 @@ const FormGroup = styled.div`
 
 const Label = styled.label`
   display: block;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #444;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6e6e73;
   margin-bottom: 0.5rem;
 `;
 
-const InputWrapper = styled.div`
-  position: relative;
-  width: 100%;
-`;
-
-const FormIcon = styled.div`
-  position: absolute;
-  left: 1.15rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #86868b;
-  display: flex;
-  align-items: center;
-  pointer-events: none;
-  z-index: 5;
-`;
-
 const StyledInput = styled(Input)`
-  padding-left: 3rem;
+  padding: 0.85rem 1.25rem;
   border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid #dcdad2;
   font-size: 0.95rem;
   height: 3rem;
   background: #ffffff;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   border-color: ${({ $hasError, $isValid }) =>
     $hasError ? "#e53e3e" : $isValid ? "#38a169" : undefined};
+  width: 100%;
 
   &:focus {
     border-color: ${({ $hasError, $isValid }) =>
-      $hasError ? "#e53e3e" : $isValid ? "#38a169" : "#0071e3"};
+      $hasError ? "#e53e3e" : $isValid ? "#38a169" : "#191919"};
     background: #ffffff;
     box-shadow: ${({ $hasError, $isValid }) =>
       $hasError
         ? "0 0 0 4px rgba(229,62,62,0.15)"
         : $isValid
           ? "0 0 0 4px rgba(56,161,105,0.1)"
-          : "0 0 0 4px rgba(0, 113, 227, 0.08)"};
+          : "0 0 0 4px rgba(25, 25, 25, 0.05)"};
   }
 `;
 
@@ -111,16 +106,16 @@ const RoleGrid = styled.div`
 
 const RoleCard = styled.div`
   background: ${(props) => (props.$active ? "#ffffff" : "rgba(0, 0, 0, 0.02)")};
-  color: ${(props) => (props.$active ? "#0071e3" : "#1d1d1f")};
-  border: 1px solid ${(props) => (props.$active ? "#0071e3" : "rgba(0, 0, 0, 0.08)")};
+  color: ${(props) => (props.$active ? "#191919" : "#6e6e73")};
+  border: 1px solid ${(props) => (props.$active ? "#191919" : "#e3e0d8")};
   border-radius: 12px;
   padding: 0.75rem 1rem;
   font-size: 0.88rem;
   font-weight: 600;
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: ${(props) => (props.$active ? "0 4px 12px rgba(0, 113, 227, 0.08)" : "none")};
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: ${(props) => (props.$active ? "0 4px 12px rgba(0, 0, 0, 0.02)" : "none")};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -128,8 +123,7 @@ const RoleCard = styled.div`
 
   &:hover {
     background: ${(props) => (props.$active ? "#ffffff" : "rgba(0, 0, 0, 0.04)")};
-    border-color: ${(props) => (props.$active ? "#0071e3" : "rgba(0, 0, 0, 0.15)")};
-    transform: translateY(-1px);
+    border-color: ${(props) => (props.$active ? "#191919" : "#dcdad2")};
   }
 
   &:active {
@@ -144,7 +138,7 @@ const CheckboxContainer = styled.label`
   margin-bottom: 2rem;
   cursor: pointer;
   font-size: 0.85rem;
-  color: #666;
+  color: #6e6e73;
 
   input {
     margin-top: 0.2rem;
