@@ -29,11 +29,7 @@ const DashboardWrapper = styled.div`
   padding: 3rem 0;
   background: #f4f7fe; /* V2 Premium Background */
   min-height: calc(100vh - 80px);
-  font-family:
-    "Inter",
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
+  font-family: inherit;
 `;
 
 const DashboardLayout = styled.div`

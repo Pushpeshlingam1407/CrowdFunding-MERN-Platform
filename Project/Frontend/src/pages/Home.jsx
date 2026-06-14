@@ -38,6 +38,7 @@ const Title = styled(motion.h1)`
   letter-spacing: -2px;
   margin-bottom: 1.5rem;
   color: ${(props) => props.theme.colors.text};
+  font-family: ${(props) => props.theme.fonts.serif};
 
   span {
     color: ${(props) => props.theme.colors.primary};
@@ -54,6 +55,7 @@ const Subtitle = styled(motion.p)`
   max-width: 600px;
   margin: 0 auto 3rem;
   line-height: 1.6;
+  font-family: ${(props) => props.theme.fonts.serif};
 `;
 
 const FeatureIcon = styled.div`
@@ -138,11 +140,12 @@ const Home = () => {
                 fontSize: "2.5rem",
                 fontWeight: 800,
                 marginBottom: "1rem",
+                fontFamily: '"Crimson Pro", Lora, Georgia, serif',
               }}
             >
               One Platform, Endless Possibilities
             </h2>
-            <p style={{ color: "#666", fontSize: "1.1rem" }}>
+            <p style={{ color: "#666", fontSize: "1.1rem", fontFamily: '"Crimson Pro", Lora, Georgia, serif' }}>
               Everything you need to scale your startup or portfolio.
             </p>
           </SectionHeader>
@@ -193,6 +196,7 @@ const Home = () => {
                 fontSize: "2.5rem",
                 fontWeight: 800,
                 marginBottom: "1.5rem",
+                fontFamily: '"Crimson Pro", Lora, Georgia, serif',
               }}
             >
               Start Your Fundraising Journey
@@ -202,6 +206,7 @@ const Home = () => {
                 fontSize: "1.2rem",
                 marginBottom: "2.5rem",
                 opacity: 0.9,
+                fontFamily: '"Crimson Pro", Lora, Georgia, serif',
               }}
             >
               Create your account today and connect with investors who believe in your vision.

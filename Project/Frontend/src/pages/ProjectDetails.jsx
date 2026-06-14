@@ -91,6 +91,7 @@ const ProjectTitle = styled.h1`
   letter-spacing: -2px;
   margin-bottom: 1.5rem;
   color: ${(props) => props.theme.colors.text};
+  font-family: ${(props) => props.theme.fonts.serif};
 `;
 
 const Description = styled.p`
@@ -98,6 +99,7 @@ const Description = styled.p`
   line-height: 1.7;
   color: #555;
   margin-bottom: 2.5rem;
+  font-family: ${(props) => props.theme.fonts.serif};
 `;
 
 const SidebarCard = styled(Card)`

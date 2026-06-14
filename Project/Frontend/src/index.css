@@ -1,11 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300..900;1,300..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Space+Grotesk:wght@300..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+:root {
+  --font-sans: CohereText, "SF Pro Text", "Space Grotesk", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif: "Crimson Pro", Lora, "Tiempos Fine", Copernicus, Georgia, "Times New Roman", serif;
+  --font-mono: JetBrains Mono, SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
 body {
   margin: 0;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f8f9fa;
+  color: #1a1a1a;
+  line-height: 1.6;
+}
+
+/* Typographic Scale for Headlines - Tight Letter Spacing & Proper Weights */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: #111111;
+}
+
+p, li {
+  letter-spacing: -0.005em;
+  line-height: 1.6;
+}
+
+/* Senior Level Utility classes for typography */
+.text-serif {
+  font-family: var(--font-serif);
+}
+
+.text-sans {
+  font-family: var(--font-sans);
+}
+
+.text-mono {
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
+}
+
+/* Ensure inputs and buttons match the primary font */
+button, input, select, textarea {
+  font-family: inherit;
 }
 
 .navbar-brand {
@@ -37,3 +78,4 @@ body {
   color: white;
   padding: 40px 0;
 }
+

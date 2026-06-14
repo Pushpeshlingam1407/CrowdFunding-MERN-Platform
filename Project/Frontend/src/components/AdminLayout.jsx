@@ -20,11 +20,7 @@ const LayoutWrapper = styled.div`
   display: flex;
   min-height: 100vh;
   background-color: #f4f7fe; /* Premium Horizon UI Background */
-  font-family:
-    "Inter",
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
+  font-family: inherit;
 `;
 
 const Sidebar = styled.aside`

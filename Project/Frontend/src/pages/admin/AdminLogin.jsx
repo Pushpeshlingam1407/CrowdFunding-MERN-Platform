@@ -21,11 +21,7 @@ const AdminLoginWrapper = styled.div`
   justify-content: center;
   background: #f8fafc;
   padding: 2rem;
-  font-family:
-    "Inter",
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
+  font-family: inherit;
 `;
 
 const AdminLogo = styled.div`
