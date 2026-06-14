@@ -19,7 +19,9 @@ const AdminLoginWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f8fafc;
+  background-color: #fbf9f6;
+  background-image: radial-gradient(#d3d0c9 1px, transparent 1px);
+  background-size: 24px 24px;
   padding: 2rem;
   font-family: inherit;
 `;
@@ -29,33 +31,32 @@ const AdminLogo = styled.div`
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 2rem;
-  color: #0f172a;
+  color: #191919;
   justify-content: center;
 `;
 
-const AdminCard = styled(Card)`
+const StyledCard = styled.div`
   background: #ffffff;
-  border-color: #e2e8f0;
+  border: 1px solid #e3e0d8;
+  border-radius: 24px;
+  padding: 3.5rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.015);
   width: 100%;
   max-width: 450px;
-  padding: 3rem;
-  color: #0f172a;
-  box-shadow:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  border-radius: 16px;
 `;
 
 const FormTitle = styled.h2`
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 800;
   margin-bottom: 0.5rem;
   text-align: center;
-  letter-spacing: -1px;
+  letter-spacing: -0.03em;
+  font-family: ${(props) => props.theme.fonts.serif};
+  color: #191919;
 `;
 
 const FormSubtitle = styled.p`
-  color: #64748b;
+  color: #86868b;
   text-align: center;
   margin-bottom: 2.5rem;
   font-size: 0.95rem;
@@ -68,45 +69,43 @@ const FormGroup = styled.div`
 
 const Label = styled.label`
   display: block;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #475569;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6e6e73;
   margin-bottom: 0.5rem;
 `;
 
 const LightInput = styled(Input)`
+  padding: 0.85rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid #dcdad2;
+  font-size: 0.95rem;
+  height: 3rem;
   background: #ffffff;
-  border-color: ${({ $hasError }) => ($hasError ? "#ef4444" : "#cbd5e1")};
-  color: #0f172a;
-  padding-left: 3rem;
-  border-radius: 8px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border-color: ${({ $hasError }) => ($hasError ? "#ef4444" : undefined)};
+  width: 100%;
 
   &:focus {
     background: #ffffff;
-    border-color: ${({ $hasError }) => ($hasError ? "#ef4444" : "#2563eb")};
+    border-color: ${({ $hasError }) => ($hasError ? "#ef4444" : "#191919")};
     box-shadow: ${({ $hasError }) =>
       $hasError
         ? "0 0 0 4px rgba(239, 68, 68, 0.15)"
-        : "0 0 0 4px rgba(37, 99, 235, 0.1)"};
+        : "0 0 0 4px rgba(25, 25, 25, 0.05)"};
   }
 `;
 
 const FieldError = styled.div`
-  color: #f87171;
+  color: #ef4444;
   font-size: 0.82rem;
   margin-top: 0.4rem;
   display: flex;
   align-items: center;
   gap: 0.3rem;
   font-weight: 500;
-`;
-
-const FormIcon = styled.div`
-  position: absolute;
-  left: 1.25rem;
-  top: 2.35rem;
-  color: #64748b;
-  z-index: 1;
 `;
 
 const AdminLogin = () => {

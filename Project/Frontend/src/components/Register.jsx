@@ -311,7 +311,7 @@ const Register = () => {
             transition={{ duration: 0.4 }}
             style={{ width: "100%", maxWidth: "500px" }}
           >
-            <Card>
+            <StyledCard>
               <FormTitle>Create Account</FormTitle>
               <FormSubtitle>
                 Join the premium crowdfunding ecosystem
@@ -321,21 +321,16 @@ const Register = () => {
                 <Grid cols={2} gap="1rem">
                   <FormGroup>
                     <Label>First Name</Label>
-                    <InputWrapper>
-                      <FormIcon>
-                        <User size={18} />
-                      </FormIcon>
-                      <StyledInput
-                        type="text"
-                        name="firstName"
-                        placeholder="Jane"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        $isValid={firstNameTouched && isFirstNameValid}
-                        $hasError={firstNameTouched && !isFirstNameValid}
-                        required
-                      />
-                    </InputWrapper>
+                    <StyledInput
+                      type="text"
+                      name="firstName"
+                      placeholder="Jane"
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      $isValid={firstNameTouched && isFirstNameValid}
+                      $hasError={firstNameTouched && !isFirstNameValid}
+                      required
+                    />
                     {firstNameTouched && (
                       <ValidationIndicator $isValid={isFirstNameValid}>
                         {isFirstNameValid ? (
@@ -353,21 +348,16 @@ const Register = () => {
                   </FormGroup>
                   <FormGroup>
                     <Label>Last Name</Label>
-                    <InputWrapper>
-                      <FormIcon>
-                        <User size={18} />
-                      </FormIcon>
-                      <StyledInput
-                        type="text"
-                        name="lastName"
-                        placeholder="Doe"
-                        value={formData.lastName}
-                        onChange={handleChange}
-                        $isValid={lastNameTouched && isLastNameValid}
-                        $hasError={lastNameTouched && !isLastNameValid}
-                        required
-                      />
-                    </InputWrapper>
+                    <StyledInput
+                      type="text"
+                      name="lastName"
+                      placeholder="Doe"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      $isValid={lastNameTouched && isLastNameValid}
+                      $hasError={lastNameTouched && !isLastNameValid}
+                      required
+                    />
                     {lastNameTouched && (
                       <ValidationIndicator $isValid={isLastNameValid}>
                         {isLastNameValid ? (
@@ -387,21 +377,16 @@ const Register = () => {
 
                 <FormGroup>
                   <Label>Email Address</Label>
-                  <InputWrapper>
-                    <FormIcon>
-                      <Mail size={18} />
-                    </FormIcon>
-                    <StyledInput
-                      type="email"
-                      name="email"
-                      placeholder="jane@company.com"
-                      value={formData.email}
-                      onChange={handleChange}
-                      $isValid={emailTouched && isEmailValid && !emailExists}
-                      $hasError={emailTouched && (!isEmailValid || emailExists)}
-                      required
-                    />
-                  </InputWrapper>
+                  <StyledInput
+                    type="email"
+                    name="email"
+                    placeholder="jane@company.com"
+                    value={formData.email}
+                    onChange={handleChange}
+                    $isValid={emailTouched && isEmailValid && !emailExists}
+                    $hasError={emailTouched && (!isEmailValid || emailExists)}
+                    required
+                  />
                   {emailTouched && (
                     <ValidationIndicator
                       $isValid={isEmailValid && !emailExists}
@@ -430,21 +415,16 @@ const Register = () => {
 
                 <FormGroup>
                   <Label>Password</Label>
-                  <InputWrapper>
-                    <FormIcon>
-                      <Lock size={18} />
-                    </FormIcon>
-                    <StyledInput
-                      type="password"
-                      name="password"
-                      placeholder="••••••••"
-                      value={formData.password}
-                      onChange={handleChange}
-                      $isValid={passwordTouched && isPasswordValid}
-                      $hasError={passwordTouched && !isPasswordValid}
-                      required
-                    />
-                  </InputWrapper>
+                  <StyledInput
+                    type="password"
+                    name="password"
+                    placeholder="••••••••"
+                    value={formData.password}
+                    onChange={handleChange}
+                    $isValid={passwordTouched && isPasswordValid}
+                    $hasError={passwordTouched && !isPasswordValid}
+                    required
+                  />
                   {passwordTouched && (
                     <CriteriaList>
                       <CriteriaItem $isValid={hasMinLength}>
@@ -469,27 +449,22 @@ const Register = () => {
 
                 <FormGroup>
                   <Label>Confirm Password</Label>
-                  <InputWrapper>
-                    <FormIcon>
-                      <Lock size={18} />
-                    </FormIcon>
-                    <StyledInput
-                      type="password"
-                      name="confirmPassword"
-                      placeholder="••••••••"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      $isValid={
-                        formData.confirmPassword &&
-                        formData.password === formData.confirmPassword
-                      }
-                      $hasError={
-                        formData.confirmPassword &&
-                        formData.password !== formData.confirmPassword
-                      }
-                      required
-                    />
-                  </InputWrapper>
+                  <StyledInput
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="••••••••"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    $isValid={
+                      formData.confirmPassword &&
+                      formData.password === formData.confirmPassword
+                    }
+                    $hasError={
+                      formData.confirmPassword &&
+                      formData.password !== formData.confirmPassword
+                    }
+                    required
+                  />
                   {formData.confirmPassword && (
                     <ValidationIndicator
                       $isValid={formData.password === formData.confirmPassword}
@@ -507,7 +482,7 @@ const Register = () => {
                   )}
                 </FormGroup>
 
-                <FormGroup style={{ marginBottom: "2rem" }}>
+                <FormGroup style={{ marginBottom: "2.5rem" }}>
                   <Label>I am a...</Label>
                   <RoleGrid>
                     {[
@@ -543,14 +518,14 @@ const Register = () => {
                     I agree to the{" "}
                     <Link
                       to="/terms"
-                      style={{ color: "#0077b6", textDecoration: "none" }}
+                      style={{ color: "#191919", textDecoration: "none", fontWeight: 600 }}
                     >
                       Terms of Service
                     </Link>
                     ,
                     <Link
                       to="/privacy"
-                      style={{ color: "#0077b6", textDecoration: "none" }}
+                      style={{ color: "#191919", textDecoration: "none", fontWeight: 600 }}
                     >
                       {" "}
                       Privacy Policy
@@ -558,7 +533,7 @@ const Register = () => {
                     , and
                     <Link
                       to="/agreement"
-                      style={{ color: "#0077b6", textDecoration: "none" }}
+                      style={{ color: "#191919", textDecoration: "none", fontWeight: 600 }}
                     >
                       {" "}
                       User Agreement
@@ -570,19 +545,19 @@ const Register = () => {
                 <Button
                   type="submit"
                   disabled={loading}
-                  style={{ width: "100%", marginBottom: "1.5rem" }}
+                  style={{ width: "100%", marginBottom: "1.5rem", background: "#191919", color: "#ffffff" }}
                 >
                   <UserPlus size={18} style={{ marginRight: 8 }} />
                   {loading ? "Creating Account..." : "Join StartupFund"}
                 </Button>
 
                 <div style={{ textAlign: "center" }}>
-                  <span style={{ fontSize: "0.9rem", color: "#666" }}>
+                  <span style={{ fontSize: "0.9rem", color: "#6e6e73" }}>
                     Already have an account?{" "}
                     <Link
                       to="/login"
                       style={{
-                        color: "#0077b6",
+                        color: "#191919",
                         fontWeight: 600,
                         textDecoration: "none",
                       }}
@@ -592,7 +567,7 @@ const Register = () => {
                   </span>
                 </div>
               </form>
-            </Card>
+            </StyledCard>
           </motion.div>
         </Flex>
       </Container>
