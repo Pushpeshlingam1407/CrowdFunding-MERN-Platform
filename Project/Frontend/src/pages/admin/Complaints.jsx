@@ -13,12 +13,13 @@ import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
 
 const TableWrapper = styled.div`
-  background: #ffffff;
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
   margin-top: 2rem;
-  border: none;
 
   table {
     width: 100%;
@@ -31,46 +32,44 @@ const TableWrapper = styled.div`
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #a3aed0;
-    background: #ffffff;
-    border-bottom: 1px solid #f1f5f9;
+    color: #86868b;
+    background: transparent;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
   td {
     padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     font-size: 0.9rem;
-    color: #475569;
+    color: #1d1d1f;
     vertical-align: middle;
   }
   tbody tr {
-    background: #ffffff;
-    transition: all 0.2s;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
   tbody tr:last-child td {
     border-bottom: none;
   }
   tbody tr:hover {
-    background: #f4f7fe;
+    background: rgba(0, 0, 0, 0.02);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(112, 144, 176, 0.08);
   }
 `;
 
 const TypeBadge = styled.span`
   padding: 0.35rem 0.75rem;
   border-radius: 99px;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   ${(props) =>
     props.type === "fraud"
-      ? "background: rgba(227, 26, 26, 0.1); color: #E31A1A;"
+      ? "background: rgba(239, 68, 68, 0.1); color: #ef4444;"
       : props.type === "unpaid"
-        ? "background: rgba(255, 181, 71, 0.1); color: #FFB547;"
+        ? "background: rgba(245, 158, 11, 0.1); color: #f59e0b;"
         : props.type === "bug"
-          ? "background: rgba(67, 24, 255, 0.1); color: #4318FF;"
-          : "background: rgba(5, 205, 153, 0.1); color: #05CD99;"}
+          ? "background: rgba(0, 113, 227, 0.1); color: #0071e3;"
+          : "background: rgba(16, 185, 129, 0.1); color: #10b981;"}
 `;
 
 const StatusBadge = styled.span`
@@ -79,12 +78,13 @@ const StatusBadge = styled.span`
   font-size: 0.72rem;
   font-weight: 800;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
   ${(props) =>
     props.status === "resolved"
-      ? "background: rgba(5, 205, 153, 0.1); color: #05CD99;"
+      ? "background: rgba(16, 185, 129, 0.1); color: #10b981;"
       : props.status === "in-progress"
-        ? "background: rgba(67, 24, 255, 0.1); color: #4318FF;"
-        : "background: rgba(227, 26, 26, 0.1); color: #E31A1A;"}
+        ? "background: rgba(0, 113, 227, 0.1); color: #0071e3;"
+        : "background: rgba(239, 68, 68, 0.1); color: #ef4444;"}
 `;
 
 const SearchBar = styled.div`
@@ -96,28 +96,31 @@ const SearchBar = styled.div`
     left: 1.25rem;
     top: 50%;
     transform: translateY(-50%);
-    color: #a3aed0;
+    color: #86868b;
     pointer-events: none;
   }
 
   input {
     width: 100%;
     padding: 0.85rem 1rem 0.85rem 3rem;
-    background: #f4f7fe;
-    border: none;
-    border-radius: 20px;
-    color: #2b3674;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    border-radius: 99px;
+    color: #191919;
     font-size: 0.9rem;
     font-weight: 500;
     outline: none;
-    transition: all 0.2s;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
 
     &::placeholder {
-      color: #a3aed0;
+      color: #86868b;
     }
     &:focus {
-      box-shadow: 0px 18px 40px rgba(67, 24, 255, 0.1);
       background: #ffffff;
+      border-color: #191919;
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.03);
     }
   }
 `;
@@ -126,18 +129,24 @@ const ActionBtn = styled.button`
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.4rem 1rem;
-  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+  border-radius: 99px;
   font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
   border: 1px solid;
-  transition: all 0.15s;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   background: #ffffff;
-  color: #05cd99;
-  border-color: rgba(5, 205, 153, 0.3);
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.3);
+
   &:hover {
-    background: rgba(5, 205, 153, 0.1);
+    background: rgba(16, 185, 129, 0.1);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
   }
 `;
 
@@ -145,7 +154,7 @@ const Avatar = styled.div`
   width: 36px;
   height: 36px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #4318ff 0%, #868cff 100%);
+  background: #191919;
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -153,7 +162,12 @@ const Avatar = styled.div`
   font-weight: 800;
   font-size: 0.9rem;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(67, 24, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 const AdminComplaints = () => {
@@ -227,11 +241,12 @@ const AdminComplaints = () => {
       <div>
         <div
           style={{
-            background: "#ffffff",
-            border: "none",
-            borderRadius: 20,
+            background: "rgba(255, 255, 255, 0.75)",
+            backdropFilter: "blur(20px)",
+            border: "1px solid rgba(0, 0, 0, 0.04)",
+            borderRadius: 24,
             padding: "1.5rem",
-            boxShadow: "0px 18px 40px rgba(112, 144, 176, 0.12)",
+            boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.02)",
           }}
         >
           <Flex
@@ -240,22 +255,22 @@ const AdminComplaints = () => {
             gap="1rem"
             style={{ flexWrap: "wrap" }}
           >
-            <Flex gap="2rem">
-              <Flex gap="0.75rem" style={{ color: "#E31A1A", fontWeight: 800 }}>
+            <Flex gap="2rem" style={{ flexWrap: "wrap" }}>
+              <Flex gap="0.75rem" style={{ color: "#ef4444", fontWeight: 800, fontFamily: "var(--font-sans)", fontSize: "0.9rem" }}>
                 <ShieldAlert size={20} />
                 {pending} PENDING
               </Flex>
               <div
-                style={{ height: "24px", width: "1px", background: "#e2e8f0" }}
+                style={{ height: "24px", width: "1px", background: "rgba(0,0,0,0.08)" }}
               />
-              <Flex gap="0.75rem" style={{ color: "#05CD99", fontWeight: 800 }}>
+              <Flex gap="0.75rem" style={{ color: "#10b981", fontWeight: 800, fontFamily: "var(--font-sans)", fontSize: "0.9rem" }}>
                 <CheckCircle2 size={20} />
                 {resolved} RESOLVED
               </Flex>
               <div
-                style={{ height: "24px", width: "1px", background: "#e2e8f0" }}
+                style={{ height: "24px", width: "1px", background: "rgba(0,0,0,0.08)" }}
               />
-              <Flex gap="0.75rem" style={{ color: "#2B3674", fontWeight: 800 }}>
+              <Flex gap="0.75rem" style={{ color: "#191919", fontWeight: 800, fontFamily: "var(--font-sans)", fontSize: "0.9rem" }}>
                 <Flag size={20} />
                 {complaints.length} TOTAL
               </Flex>
@@ -276,15 +291,21 @@ const AdminComplaints = () => {
                 display: "flex",
                 alignItems: "center",
                 gap: 6,
-                background: "#ffffff",
-                border: "1px solid #e2e8f0",
-                borderRadius: 20,
+                background: "rgba(255, 255, 255, 0.7)",
+                backdropFilter: "blur(20px)",
+                border: "1px solid rgba(0,0,0,0.1)",
+                borderRadius: 99,
                 padding: "0.6rem 1.5rem",
-                color: "#2B3674",
+                color: "#191919",
                 fontWeight: 700,
                 cursor: "pointer",
-                transition: "all 0.2s",
+                boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.01)",
+                transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
               }}
+              onMouseDown={(e) => { e.currentTarget.style.transform = "scale(0.95)"; }}
+              onMouseUp={(e) => { e.currentTarget.style.transform = "scale(1.05)"; }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.05)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
             >
               <RefreshCw size={14} className={loading ? "spin" : ""} /> Refresh
             </button>
@@ -312,7 +333,7 @@ const AdminComplaints = () => {
                     style={{
                       textAlign: "center",
                       padding: "4rem",
-                      color: "#A3AED0",
+                      color: "#86868b",
                       fontWeight: 600,
                     }}
                   >
@@ -326,7 +347,7 @@ const AdminComplaints = () => {
                     style={{
                       textAlign: "center",
                       padding: "4rem",
-                      color: "#A3AED0",
+                      color: "#86868b",
                       fontWeight: 600,
                     }}
                   >
@@ -341,10 +362,10 @@ const AdminComplaints = () => {
                     <td style={{ maxWidth: "280px" }}>
                       <h4
                         style={{
-                          fontWeight: 700,
+                          fontWeight: 800,
                           marginBottom: "0.3rem",
                           fontSize: "0.95rem",
-                          color: "#2B3674",
+                          color: "#191919",
                         }}
                       >
                         {item.subject}
@@ -352,7 +373,7 @@ const AdminComplaints = () => {
                       <p
                         style={{
                           fontSize: "0.8rem",
-                          color: "#A3AED0",
+                          color: "#86868b",
                           fontWeight: 500,
                           overflow: "hidden",
                           textOverflow: "ellipsis",
@@ -375,7 +396,7 @@ const AdminComplaints = () => {
                             style={{
                               fontWeight: 700,
                               fontSize: "0.85rem",
-                              color: "#2B3674",
+                              color: "#191919",
                             }}
                           >
                             {item.author?.name || "Unknown"}
@@ -383,7 +404,7 @@ const AdminComplaints = () => {
                           <p
                             style={{
                               fontSize: "0.75rem",
-                              color: "#A3AED0",
+                              color: "#86868b",
                               fontWeight: 500,
                             }}
                           >
@@ -398,7 +419,7 @@ const AdminComplaints = () => {
                         style={{
                           fontWeight: 800,
                           fontSize: "0.85rem",
-                          color: "#4318FF",
+                          color: "#0071e3",
                         }}
                       >
                         {item.targetCompany?.name || "N/A"}
@@ -406,7 +427,7 @@ const AdminComplaints = () => {
                       <p
                         style={{
                           fontSize: "0.75rem",
-                          color: "#A3AED0",
+                          color: "#86868b",
                           fontWeight: 500,
                         }}
                       >
@@ -425,12 +446,13 @@ const AdminComplaints = () => {
                         gap="0.4rem"
                         align="center"
                         style={{
-                          color: "#2B3674",
+                          color: "#191919",
                           fontSize: "0.85rem",
                           fontWeight: 700,
+                          fontFamily: "var(--font-mono)"
                         }}
                       >
-                        <Clock size={14} style={{ color: "#A3AED0" }} />
+                        <Clock size={14} style={{ color: "#86868b" }} />
                         {new Date(item.createdAt).toLocaleDateString("en-IN", {
                           day: "numeric",
                           month: "short",
@@ -450,7 +472,7 @@ const AdminComplaints = () => {
                         {item.status === "resolved" && (
                           <span
                             style={{
-                              color: "#05CD99",
+                              color: "#10b981",
                               fontWeight: 800,
                               fontSize: "0.85rem",
                             }}

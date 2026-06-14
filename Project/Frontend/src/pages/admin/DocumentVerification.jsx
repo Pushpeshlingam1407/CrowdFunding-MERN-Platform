@@ -6,7 +6,6 @@ import {
   CheckCircle2,
   XCircle,
   Calendar,
-  Lock,
   Eye,
   RefreshCw,
 } from "lucide-react";
@@ -15,12 +14,13 @@ import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
 
 const TableWrapper = styled.div`
-  background: #ffffff;
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.04);
   margin-top: 2rem;
-  border: none;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
 
   table {
     width: 100%;
@@ -34,22 +34,22 @@ const TableWrapper = styled.div`
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #a3aed0;
-    background: #ffffff;
-    border-bottom: 1px solid #f1f5f9;
+    color: #86868b;
+    background: transparent;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
 
   td {
     padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     font-size: 0.9rem;
-    color: #475569;
+    color: #1d1d1f;
     vertical-align: middle;
   }
 
   tbody tr {
-    background: #ffffff;
-    transition: all 0.2s;
+    background: transparent;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   tbody tr:last-child td {
@@ -57,19 +57,18 @@ const TableWrapper = styled.div`
   }
 
   tbody tr:hover {
-    background: #f4f7fe;
+    background: rgba(0, 0, 0, 0.02);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(112, 144, 176, 0.08);
   }
 `;
 
 const DocBadge = styled.span`
   padding: 0.35rem 0.8rem;
   border-radius: 99px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 800;
-  background: rgba(67, 24, 255, 0.1);
-  color: #4318ff;
+  background: rgba(0, 113, 227, 0.08);
+  color: #0071e3;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 `;
@@ -83,28 +82,31 @@ const SearchBar = styled.div`
     left: 1.25rem;
     top: 50%;
     transform: translateY(-50%);
-    color: #a3aed0;
+    color: #86868b;
     pointer-events: none;
   }
 
   input {
     width: 100%;
     padding: 0.85rem 1rem 0.85rem 3rem;
-    background: #f4f7fe;
-    border: none;
-    border-radius: 20px;
-    color: #2b3674;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    border-radius: 99px;
+    color: #191919;
     font-size: 0.9rem;
     font-weight: 500;
     outline: none;
-    transition: all 0.2s;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
 
     &::placeholder {
-      color: #a3aed0;
+      color: #86868b;
     }
     &:focus {
-      box-shadow: 0px 18px 40px rgba(67, 24, 255, 0.1);
       background: #ffffff;
+      border-color: #191919;
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.03);
     }
   }
 `;
@@ -113,7 +115,7 @@ const Avatar = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #4318ff 0%, #868cff 100%);
+  background: #191919;
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -121,7 +123,42 @@ const Avatar = styled.div`
   font-weight: 800;
   font-size: 1rem;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(67, 24, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+const ActionBtn = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 99px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  background: #ffffff;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  ${(props) =>
+    props.$variant === "approve"
+      ? `color: #10b981; border-color: rgba(16,185,129,0.3); &:hover { background: rgba(16,185,129,0.1); }`
+      : props.$variant === "reject"
+        ? `color: #ef4444; border-color: rgba(239,68,68,0.3); &:hover { background: rgba(239,68,68,0.1); }`
+        : `color: #191919; border-color: rgba(0,0,0,0.15); &:hover { background: rgba(0,0,0,0.05); }`}
 `;
 
 const AdminDocumentVerification = () => {
@@ -175,11 +212,12 @@ const AdminDocumentVerification = () => {
       <div>
         <div
           style={{
-            background: "#ffffff",
-            border: "none",
-            borderRadius: 20,
+            background: "rgba(255, 255, 255, 0.75)",
+            backdropFilter: "blur(20px)",
+            border: "1px solid rgba(0, 0, 0, 0.04)",
+            borderRadius: 24,
             padding: "1.5rem",
-            boxShadow: "0px 18px 40px rgba(112, 144, 176, 0.12)",
+            boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.02)",
           }}
         >
           <Flex
@@ -188,47 +226,55 @@ const AdminDocumentVerification = () => {
             gap="1rem"
             style={{ flexWrap: "wrap" }}
           >
-            <Flex gap="2rem">
+            <Flex gap="2.5rem" style={{ flexWrap: "wrap" }}>
               <div style={{ textAlign: "center" }}>
                 <h3
                   style={{
                     fontSize: "1.75rem",
                     fontWeight: 800,
-                    color: "#E31A1A",
+                    color: "#ef4444",
+                    fontFamily: "var(--font-mono)",
+                    letterSpacing: "-0.02em",
                   }}
                 >
                   {verifications.length}
                 </h3>
                 <p
                   style={{
-                    color: "#A3AED0",
+                    color: "#86868b",
                     fontSize: "0.75rem",
                     fontWeight: 700,
                     textTransform: "uppercase",
+                    fontFamily: "var(--font-sans)",
+                    letterSpacing: "0.5px",
                   }}
                 >
                   Awaiting Audit
                 </p>
               </div>
               <div
-                style={{ height: "40px", width: "1px", background: "#f1f5f9" }}
+                style={{ height: "40px", width: "1px", background: "rgba(0,0,0,0.08)" }}
               />
               <div style={{ textAlign: "center" }}>
                 <h3
                   style={{
                     fontSize: "1.75rem",
                     fontWeight: 800,
-                    color: "#2B3674",
+                    color: "#191919",
+                    fontFamily: "var(--font-mono)",
+                    letterSpacing: "-0.02em",
                   }}
                 >
                   1,124
                 </h3>
                 <p
                   style={{
-                    color: "#A3AED0",
+                    color: "#86868b",
                     fontSize: "0.75rem",
                     fontWeight: 700,
                     textTransform: "uppercase",
+                    fontFamily: "var(--font-sans)",
+                    letterSpacing: "0.5px",
                   }}
                 >
                   Verified Entities
@@ -247,15 +293,21 @@ const AdminDocumentVerification = () => {
                 display: "flex",
                 alignItems: "center",
                 gap: 6,
-                background: "#ffffff",
-                border: "1px solid #e2e8f0",
-                borderRadius: 20,
+                background: "rgba(255, 255, 255, 0.7)",
+                backdropFilter: "blur(20px)",
+                border: "1px solid rgba(0,0,0,0.1)",
+                borderRadius: 99,
                 padding: "0.6rem 1.5rem",
-                color: "#2B3674",
+                color: "#191919",
                 fontWeight: 700,
                 cursor: "pointer",
-                transition: "all 0.2s",
+                boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.01)",
+                transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
               }}
+              onMouseDown={(e) => { e.currentTarget.style.transform = "scale(0.95)"; }}
+              onMouseUp={(e) => { e.currentTarget.style.transform = "scale(1.05)"; }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.05)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
             >
               <RefreshCw size={14} className={loading ? "spin" : ""} /> Refresh
             </button>
@@ -281,7 +333,7 @@ const AdminDocumentVerification = () => {
                     style={{
                       textAlign: "center",
                       padding: "4rem",
-                      color: "#A3AED0",
+                      color: "#86868b",
                       fontWeight: 600,
                     }}
                   >
@@ -295,7 +347,7 @@ const AdminDocumentVerification = () => {
                     style={{
                       textAlign: "center",
                       padding: "4rem",
-                      color: "#A3AED0",
+                      color: "#86868b",
                       fontWeight: 600,
                     }}
                   >
@@ -311,9 +363,9 @@ const AdminDocumentVerification = () => {
                         <div>
                           <p
                             style={{
-                              fontWeight: 700,
+                              fontWeight: 800,
                               fontSize: "0.95rem",
-                              color: "#2B3674",
+                              color: "#191919",
                             }}
                           >
                             {verify.user?.name}
@@ -321,7 +373,7 @@ const AdminDocumentVerification = () => {
                           <p
                             style={{
                               fontSize: "0.8rem",
-                              color: "#A3AED0",
+                              color: "#86868b",
                               fontWeight: 500,
                             }}
                           >
@@ -331,7 +383,7 @@ const AdminDocumentVerification = () => {
                       </Flex>
                     </td>
                     <td>
-                      <Flex gap="0.5rem">
+                      <Flex gap="0.5rem" style={{ flexWrap: "wrap" }}>
                         <DocBadge>IDENTITY PROOF</DocBadge>
                         <DocBadge>ADDRESS</DocBadge>
                       </Flex>
@@ -339,27 +391,32 @@ const AdminDocumentVerification = () => {
                     <td>
                       <Flex
                         gap="0.5rem"
+                        align="center"
                         style={{
                           fontSize: "0.85rem",
-                          color: "#2B3674",
+                          color: "#191919",
                           fontWeight: 700,
+                          fontFamily: "var(--font-mono)"
                         }}
                       >
-                        <Calendar size={14} style={{ color: "#A3AED0" }} /> Aug
+                        <Calendar size={14} style={{ color: "#86868b" }} /> Aug
                         12, 2026
                       </Flex>
                     </td>
                     <td>
                       <Flex
                         gap="0.5rem"
+                        align="center"
                         style={{
-                          color: "#05CD99",
+                          color: "#10b981",
                           fontWeight: 800,
-                          fontSize: "0.85rem",
-                          background: "rgba(5, 205, 153, 0.1)",
+                          fontSize: "0.72rem",
+                          background: "rgba(16, 185, 129, 0.1)",
                           padding: "0.3rem 0.8rem",
                           borderRadius: 99,
                           display: "inline-flex",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.5px"
                         }}
                       >
                         <ShieldCheck size={16} /> SAFE
@@ -367,85 +424,32 @@ const AdminDocumentVerification = () => {
                     </td>
                     <td>
                       <Flex gap="0.5rem">
-                        <button
+                        <ActionBtn
                           onClick={() =>
                             window.open(verify.identityProof, "_blank")
                           }
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "0.4rem",
-                            background: "#ffffff",
-                            border: "1px solid #E2E8F0",
-                            borderRadius: 8,
-                            padding: "0.4rem 0.85rem",
-                            color: "#2B3674",
-                            fontSize: "0.8rem",
-                            fontWeight: 700,
-                            cursor: "pointer",
-                            transition: "all 0.15s",
-                          }}
-                          onMouseOver={(e) =>
-                            (e.currentTarget.style.background = "#F4F7FE")
-                          }
-                          onMouseOut={(e) =>
-                            (e.currentTarget.style.background = "#ffffff")
-                          }
+                          title="Inspect Document"
                         >
-                          <Eye size={14} /> Inspect
-                        </button>
-                        <button
+                          <Eye size={14} style={{ marginRight: 4 }} /> Inspect
+                        </ActionBtn>
+                        <ActionBtn
+                          $variant="approve"
                           onClick={() =>
                             handleVerify(verify.user?._id, 0, "verified")
                           }
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "0.4rem",
-                            background: "#ffffff",
-                            border: "1px solid rgba(5,205,153,0.3)",
-                            borderRadius: 8,
-                            padding: "0.4rem 0.6rem",
-                            color: "#05CD99",
-                            cursor: "pointer",
-                            transition: "all 0.15s",
-                          }}
-                          onMouseOver={(e) =>
-                            (e.currentTarget.style.background =
-                              "rgba(5,205,153,0.1)")
-                          }
-                          onMouseOut={(e) =>
-                            (e.currentTarget.style.background = "#ffffff")
-                          }
+                          title="Approve Document"
                         >
                           <CheckCircle2 size={16} />
-                        </button>
-                        <button
+                        </ActionBtn>
+                        <ActionBtn
+                          $variant="reject"
                           onClick={() =>
                             handleVerify(verify.user?._id, 0, "rejected")
                           }
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "0.4rem",
-                            background: "#ffffff",
-                            border: "1px solid rgba(227,26,26,0.3)",
-                            borderRadius: 8,
-                            padding: "0.4rem 0.6rem",
-                            color: "#E31A1A",
-                            cursor: "pointer",
-                            transition: "all 0.15s",
-                          }}
-                          onMouseOver={(e) =>
-                            (e.currentTarget.style.background =
-                              "rgba(227,26,26,0.1)")
-                          }
-                          onMouseOut={(e) =>
-                            (e.currentTarget.style.background = "#ffffff")
-                          }
+                          title="Reject Document"
                         >
                           <XCircle size={16} />
-                        </button>
+                        </ActionBtn>
                       </Flex>
                     </td>
                   </tr>

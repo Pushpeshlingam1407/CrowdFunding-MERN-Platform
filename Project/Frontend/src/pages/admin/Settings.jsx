@@ -19,12 +19,13 @@ import useAuthStore from "../../store/authStore";
 import AdminLayout from "../../components/AdminLayout";
 
 const Section = styled(motion.div)`
-  background: #ffffff;
-  border: none;
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 24px;
   padding: 2rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
 `;
 
 const SectionHeader = styled.div`
@@ -33,7 +34,7 @@ const SectionHeader = styled.div`
   gap: 1rem;
   margin-bottom: 1.5rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 `;
 
 const SectionIcon = styled.div`
@@ -45,19 +46,19 @@ const SectionIcon = styled.div`
   justify-content: center;
   background: ${(p) => p.$bg};
   color: ${(p) => p.$color};
-  box-shadow: 0 4px 12px ${(p) => p.$bg};
 `;
 
 const SectionTitle = styled.h3`
   font-size: 1.25rem;
   font-weight: 800;
-  color: #2b3674;
+  color: #191919;
   margin-bottom: 0.25rem;
+  font-family: ${(props) => props.theme.fonts.serif};
 `;
 
 const SectionDesc = styled.p`
   font-size: 0.85rem;
-  color: #a3aed0;
+  color: #86868b;
   font-weight: 500;
 `;
 
@@ -66,7 +67,7 @@ const SettingRow = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 1.25rem 0;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   &:last-child {
     border-bottom: none;
     padding-bottom: 0;
@@ -77,12 +78,12 @@ const SettingLabel = styled.div`
   h4 {
     font-size: 0.95rem;
     font-weight: 700;
-    color: #2b3674;
+    color: #191919;
     margin-bottom: 0.3rem;
   }
   p {
     font-size: 0.85rem;
-    color: #a3aed0;
+    color: #86868b;
     font-weight: 500;
   }
 `;
@@ -90,67 +91,69 @@ const SettingLabel = styled.div`
 const Toggle = styled.button`
   width: 52px;
   height: 28px;
-  border-radius: 14px;
+  border-radius: 99px;
   border: none;
   cursor: pointer;
   position: relative;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: ${(p) =>
-    p.$on ? "linear-gradient(135deg, #4318FF 0%, #868CFF 100%)" : "#E2E8F0"};
-  box-shadow: ${(p) =>
-    p.$on
-      ? "0 4px 12px rgba(67, 24, 255, 0.3)"
-      : "inset 0 2px 4px rgba(0,0,0,0.05)"};
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: ${(p) => (p.$on ? "#34c759" : "rgba(0, 0, 0, 0.1)")};
+  box-shadow: none;
 
   &::after {
     content: "";
     position: absolute;
-    top: 4px;
-    left: ${(p) => (p.$on ? "28px" : "4px")};
-    width: 20px;
-    height: 20px;
+    top: 3px;
+    left: ${(p) => (p.$on ? "27px" : "3px")};
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     background: white;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
   }
 `;
 
 const InputField = styled.input`
   padding: 0.75rem 1.25rem;
-  background: #f4f7fe;
-  border: none;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 12px;
-  color: #2b3674;
+  color: #191919;
   font-size: 0.9rem;
   font-weight: 600;
   outline: none;
   width: ${(p) => p.$w || "220px"};
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
   &:focus {
-    box-shadow: 0px 18px 40px rgba(67, 24, 255, 0.1);
+    border-color: #191919;
     background: #ffffff;
   }
   &::placeholder {
-    color: #a3aed0;
+    color: #86868b;
     font-weight: 500;
   }
 `;
 
 const SelectField = styled.select`
-  padding: 0.75rem 1.25rem;
-  background: #f4f7fe;
-  border: none;
+  padding: 0.75rem 2.25rem 0.75rem 1.25rem;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 12px;
-  color: #2b3674;
+  color: #191919;
   font-size: 0.9rem;
   font-weight: 600;
   outline: none;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%236e6e73%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 12px) center;
+
   &:focus {
-    box-shadow: 0px 18px 40px rgba(67, 24, 255, 0.1);
-    background: #ffffff;
+    border-color: #191919;
+    background-color: #ffffff;
   }
 `;
 
@@ -159,30 +162,31 @@ const SaveBtn = styled.button`
   align-items: center;
   gap: 0.5rem;
   padding: 0.8rem 2rem;
-  background: linear-gradient(135deg, #4318ff 0%, #868cff 100%);
+  background: #191919;
   border: none;
-  border-radius: 12px;
+  border-radius: 99px;
   color: white;
-  font-weight: 800;
+  font-weight: 700;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 4px 12px rgba(67, 24, 255, 0.3);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(67, 24, 255, 0.4);
+    transform: scale(1.025);
   }
+
+  &:active {
+    transform: scale(0.965);
+  }
+
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
-    box-shadow: none;
   }
 `;
 
 const AdminSettings = () => {
-  const { adminUser } = useAuthStore();
-
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -281,7 +285,7 @@ const AdminSettings = () => {
           transition={{ delay: 0.05 }}
         >
           <SectionHeader>
-            <SectionIcon $bg="rgba(67, 24, 255, 0.1)" $color="#4318FF">
+            <SectionIcon $bg="rgba(0, 113, 227, 0.08)" $color="#0071e3">
               <Globe size={24} />
             </SectionIcon>
             <div>
@@ -338,7 +342,7 @@ const AdminSettings = () => {
           transition={{ delay: 0.1 }}
         >
           <SectionHeader>
-            <SectionIcon $bg="rgba(5, 205, 153, 0.1)" $color="#05CD99">
+            <SectionIcon $bg="rgba(16, 185, 129, 0.08)" $color="#10b981">
               <DollarSign size={24} />
             </SectionIcon>
             <div>
@@ -368,6 +372,7 @@ const AdminSettings = () => {
             <InputField
               type="number"
               $w="140px"
+              style={{ fontFamily: "var(--font-mono)" }}
               value={settings.minInvestmentAmount}
               onChange={(e) =>
                 update("minInvestmentAmount", Number(e.target.value))
@@ -383,6 +388,7 @@ const AdminSettings = () => {
             <InputField
               type="number"
               $w="140px"
+              style={{ fontFamily: "var(--font-mono)" }}
               value={settings.maxInvestmentAmount}
               onChange={(e) =>
                 update("maxInvestmentAmount", Number(e.target.value))
@@ -398,6 +404,7 @@ const AdminSettings = () => {
             <InputField
               type="number"
               $w="100px"
+              style={{ fontFamily: "var(--font-mono)" }}
               value={settings.defaultEquityCap}
               onChange={(e) =>
                 update("defaultEquityCap", Number(e.target.value))
@@ -412,7 +419,7 @@ const AdminSettings = () => {
           transition={{ delay: 0.15 }}
         >
           <SectionHeader>
-            <SectionIcon $bg="rgba(255, 181, 71, 0.1)" $color="#FFB547">
+            <SectionIcon $bg="rgba(139, 92, 246, 0.08)" $color="#8b5cf6">
               <Users size={24} />
             </SectionIcon>
             <div>
@@ -456,7 +463,7 @@ const AdminSettings = () => {
           transition={{ delay: 0.2 }}
         >
           <SectionHeader>
-            <SectionIcon $bg="rgba(227, 26, 26, 0.1)" $color="#E31A1A">
+            <SectionIcon $bg="rgba(239, 68, 68, 0.08)" $color="#ef4444">
               <Bell size={24} />
             </SectionIcon>
             <div>
@@ -520,7 +527,7 @@ const AdminSettings = () => {
           transition={{ delay: 0.25 }}
         >
           <SectionHeader>
-            <SectionIcon $bg="rgba(168, 85, 247, 0.1)" $color="#A855F7">
+            <SectionIcon $bg="rgba(110, 110, 115, 0.08)" $color="#6e6e73">
               <Lock size={24} />
             </SectionIcon>
             <div>
@@ -539,6 +546,7 @@ const AdminSettings = () => {
             <InputField
               type="number"
               $w="100px"
+              style={{ fontFamily: "var(--font-mono)" }}
               value={settings.sessionTimeout}
               onChange={(e) => update("sessionTimeout", Number(e.target.value))}
             />
@@ -552,6 +560,7 @@ const AdminSettings = () => {
             <InputField
               type="number"
               $w="100px"
+              style={{ fontFamily: "var(--font-mono)" }}
               value={settings.maxLoginAttempts}
               onChange={(e) =>
                 update("maxLoginAttempts", Number(e.target.value))
@@ -575,12 +584,12 @@ const AdminSettings = () => {
               <button
                 onClick={() => setShowPassword(!showPassword)}
                 style={{
-                  background: "#F4F7FE",
+                  background: "rgba(0, 0, 0, 0.04)",
                   border: "none",
                   borderRadius: 12,
                   padding: "0 1rem",
                   cursor: "pointer",
-                  color: "#2B3674",
+                  color: "#191919",
                   transition: "all 0.2s",
                   display: "flex",
                   alignItems: "center",
