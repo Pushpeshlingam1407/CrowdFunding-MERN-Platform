@@ -15,7 +15,7 @@ import {
   Target,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
-import { Button, Card, Container, Flex, Grid, Input } from "./ui";
+import { Button, Card, Container, Flex, Grid, Input, ImageUpload } from "./ui";
 import { projectAPI } from "../services/api";
 
 const CreateWrapper = styled.div`
@@ -417,88 +417,12 @@ const CreateProject = () => {
                     prominently.
                   </p>
 
-                  {formData.image ? (
-                    <div style={{ marginBottom: "2rem" }}>
-                      <div
-                        style={{
-                          position: "relative",
-                          width: "100%",
-                          height: "300px",
-                          borderRadius: "16px",
-                          overflow: "hidden",
-                          boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
-                        }}
-                      >
-                        <img
-                          src={URL.createObjectURL(formData.image)}
-                          alt="Cover Preview"
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                          }}
-                        />
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setFormData({ ...formData, image: null })
-                          }
-                          style={{
-                            position: "absolute",
-                            top: "1rem",
-                            right: "1rem",
-                            background: "rgba(255, 255, 255, 0.9)",
-                            border: "none",
-                            borderRadius: "50%",
-                            width: "36px",
-                            height: "36px",
-                            cursor: "pointer",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            color: "#e31a1a",
-                            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                          }}
-                        >
-                          ×
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div
-                      style={{
-                        padding: "3rem",
-                        border: "1.5px dashed #e3e0d8",
-                        borderRadius: "20px",
-                        textAlign: "center",
-                        marginBottom: "2rem",
-                        background: "#ffffff",
-                        transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-                      }}
-                    >
-                      <Upload
-                        size={32}
-                        style={{ color: "#0071e3", marginBottom: "1rem" }}
-                      />
-                      <p
-                        style={{
-                          fontSize: "0.9rem",
-                          fontWeight: 600,
-                          color: "#444",
-                        }}
-                      >
-                        Upload Campaign Cover Image
-                      </p>
-                      <input
-                        type="file"
-                        name="image"
-                        accept="image/*"
-                        onChange={handleChange}
-                        style={{ marginTop: "1rem" }}
-                        required
-                      />
-                    </div>
-                  )}
+                  <ImageUpload
+                    value={formData.image}
+                    onChange={(file) => setFormData({ ...formData, image: file })}
+                    onRemove={() => setFormData({ ...formData, image: null })}
+                    maxSizeMB={5}
+                  />
 
                   <Flex
                     gap="1rem"
@@ -534,113 +458,13 @@ const CreateProject = () => {
                     (optional). Upload up to 10 images.
                   </p>
 
-                  <div
-                    style={{
-                      padding: "3rem",
-                      border: "1.5px dashed #e3e0d8",
-                      borderRadius: "20px",
-                      textAlign: "center",
-                      marginBottom: "2rem",
-                      background: "#ffffff",
-                      transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-                    }}
-                  >
-                    <Upload
-                      size={32}
-                      style={{ color: "#0071e3", marginBottom: "1rem" }}
-                    />
-                    <p
-                      style={{
-                        fontSize: "0.9rem",
-                        fontWeight: 600,
-                        color: "#444",
-                      }}
-                    >
-                      {campaignImages.length > 0
-                        ? `✓ ${campaignImages.length} image(s) selected`
-                        : "Upload Campaign Gallery Images"}
-                    </p>
-                    <input
-                      type="file"
-                      name="campaignImages"
-                      accept="image/*"
-                      onChange={handleCampaignImagesChange}
-                      style={{ marginTop: "1rem" }}
-                      multiple
-                    />
-                  </div>
-
-                  {campaignImages.length > 0 && (
-                    <div style={{ marginBottom: "2rem" }}>
-                      <h3
-                        style={{
-                          fontSize: "0.9rem",
-                          fontWeight: 700,
-                          marginBottom: "1rem",
-                          color: "#333",
-                        }}
-                      >
-                        Selected Images:
-                      </h3>
-                      <div
-                        style={{
-                          display: "grid",
-                          gridTemplateColumns:
-                            "repeat(auto-fill, minmax(120px, 1fr))",
-                          gap: "1rem",
-                        }}
-                      >
-                        {campaignImages.map((file, index) => (
-                          <div
-                            key={index}
-                            style={{
-                              position: "relative",
-                              paddingBottom: "100%",
-                              background: "#f0f0f0",
-                              borderRadius: "8px",
-                              overflow: "hidden",
-                              border: "1px solid #ddd",
-                            }}
-                          >
-                            <img
-                              src={URL.createObjectURL(file)}
-                              alt={`Gallery ${index + 1}`}
-                              style={{
-                                position: "absolute",
-                                top: 0,
-                                left: 0,
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover",
-                              }}
-                            />
-                            <button
-                              type="button"
-                              onClick={() => removeCampaignImage(index)}
-                              style={{
-                                position: "absolute",
-                                top: "4px",
-                                right: "4px",
-                                background: "rgba(255, 0, 0, 0.7)",
-                                color: "white",
-                                border: "none",
-                                borderRadius: "4px",
-                                width: "24px",
-                                height: "24px",
-                                cursor: "pointer",
-                                fontSize: "16px",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                              }}
-                            >
-                              ×
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                  <ImageUpload
+                    value={campaignImages}
+                    multiple={true}
+                    onChange={(files) => setCampaignImages((prev) => [...prev, ...files])}
+                    onRemove={(index) => setCampaignImages((prev) => prev.filter((_, i) => i !== index))}
+                    maxSizeMB={5}
+                  />
 
                   <Flex
                     gap="1rem"

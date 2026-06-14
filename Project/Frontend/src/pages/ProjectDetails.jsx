@@ -445,6 +445,10 @@ const ProjectDetails = () => {
       navigate("/login");
       return;
     }
+    if (project.status !== "approved" && project.status !== "active") {
+      toast.error("This campaign is not active yet and cannot receive investments.");
+      return;
+    }
     setInvestmentModalOpen(true);
   };
 
@@ -527,7 +531,7 @@ const ProjectDetails = () => {
     100,
     (project.currentAmount / project.targetAmount) * 100,
   );
-  const isCreator = user?.id === project.creator?._id;
+  const isCreator = user?.id === project.creator?._id || user?._id === project.creator?._id || user?.email === project.creator?.email;
   const completedInvestments = investments.filter(
     (i) => i.status === "completed",
   );
@@ -920,7 +924,8 @@ const ProjectDetails = () => {
                 disabled={
                   project.isLocked ||
                   isCreator ||
-                  project.status === "completed"
+                  project.status === "completed" ||
+                  (project.status !== "approved" && project.status !== "active")
                 }
                 onClick={handleInvestClick}
               >
@@ -928,7 +933,13 @@ const ProjectDetails = () => {
                   ? "Campaign Fully Funded"
                   : project.isLocked
                     ? "Campaign Locked"
-                    : "Invest in Startup"}
+                    : project.status === "pending"
+                      ? "Awaiting Admin Approval"
+                      : project.status === "rejected"
+                        ? "Campaign Rejected"
+                        : (project.status !== "approved" && project.status !== "active")
+                          ? "Campaign Inactive"
+                          : "Invest in Startup"}
               </Button>
 
               {isCreator && (

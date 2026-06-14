@@ -14,12 +14,12 @@ import { Button, Flex } from "./index";
 /* ─── Styled ──────────────────────────── */
 const DropZone = styled.div`
   border: 1.5px dashed
-    ${(props) => (props.hasFile ? props.theme.colors.primary : "#e3e0d8")};
+    ${(props) => (props.$isDragging ? props.theme.colors.accent : props.hasFile ? props.theme.colors.primary : "#e3e0d8")};
   border-radius: 20px;
   padding: 3rem 2rem;
   text-align: center;
   background: ${(props) =>
-    props.hasFile ? "rgba(0, 113, 227, 0.03)" : "#ffffff"};
+    props.$isDragging ? "rgba(0, 113, 227, 0.04)" : props.hasFile ? "rgba(0, 113, 227, 0.02)" : "#ffffff"};
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   position: relative;
@@ -27,16 +27,7 @@ const DropZone = styled.div`
 
   &:hover {
     border-color: ${(props) => props.theme.colors.primary};
-    background: rgba(0, 113, 227, 0.03);
-  }
-
-  input[type="file"] {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
+    background: rgba(0, 0, 0, 0.01);
   }
 `;
 
@@ -136,6 +127,8 @@ const FilePill = styled.div`
 
 /* ─── Component ──────────────────────── */
 const DocumentUpload = ({ onUploadSuccess }) => {
+  const fileInputRef = React.useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
   const [file, setFile] = useState(null);
   const [docType, setDocType] = useState("");
   const [projName, setProjName] = useState("");
@@ -148,11 +141,32 @@ const DocumentUpload = ({ onUploadSuccess }) => {
       ? `${(b / 1024).toFixed(1)} KB`
       : `${(b / 1048576).toFixed(1)} MB`;
 
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const f = e.dataTransfer.files?.[0];
+    if (!f) return;
+    validateAndSetFile(f);
+  };
+
   const handleFile = (e) => {
-    setError("");
-    setSuccess("");
     const f = e.target.files?.[0];
     if (!f) return;
+    validateAndSetFile(f);
+  };
+
+  const validateAndSetFile = (f) => {
+    setError("");
+    setSuccess("");
     const allowed = [
       "application/pdf",
       "image/jpeg",
@@ -246,11 +260,20 @@ const DocumentUpload = ({ onUploadSuccess }) => {
       )}
 
       <form onSubmit={handleSubmit}>
-        <DropZone hasFile={!!file}>
+        <DropZone
+          hasFile={!!file}
+          $isDragging={isDragging}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          onClick={() => fileInputRef.current?.click()}
+        >
           <input
             type="file"
+            ref={fileInputRef}
             accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
             onChange={handleFile}
+            style={{ display: "none" }}
           />
           <div
             style={{

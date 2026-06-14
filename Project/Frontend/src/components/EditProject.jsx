@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { projectAPI } from "../services/api";
-import { Button, Card, Container, Flex, Grid, Input } from "./ui";
+import { Button, Card, Container, Flex, Grid, Input, ImageUpload } from "./ui";
 
 const EditWrapper = styled.div`
   padding: 4rem 0;
@@ -141,7 +141,11 @@ const EditProject = () => {
           image: p.image || null,
         });
         if (p.image && typeof p.image === "string") {
-          setImagePreview(p.image?.startsWith('http') ? p.image : `http://localhost:5000${p.image}`);
+          setImagePreview(
+            p.image?.startsWith("http")
+              ? p.image
+              : `http://localhost:5000${p.image}`,
+          );
         }
       } catch {
         toast.error("Failed to load campaign");
@@ -257,23 +261,38 @@ const EditProject = () => {
           <Button
             variant="outline"
             onClick={() => navigate(`/projects/${id}`)}
-            style={{ marginBottom: "2rem", padding: "0.5rem 1rem", fontSize: "0.9rem" }}
+            style={{
+              marginBottom: "2rem",
+              padding: "0.5rem 1rem",
+              fontSize: "0.9rem",
+            }}
           >
             <ArrowLeft size={16} style={{ marginRight: 8 }} /> Cancel Editing
           </Button>
 
           <Card style={{ padding: "3rem" }}>
-            <Flex justify="space-between" align="flex-start" style={{ marginBottom: "2.5rem" }}>
+            <Flex
+              justify="space-between"
+              align="flex-start"
+              style={{ marginBottom: "2.5rem" }}
+            >
               <div>
-                <h2 style={{ fontSize: "2rem", fontWeight: 800, marginBottom: "0.5rem", letterSpacing: "-1px" }}>
+                <h2
+                  style={{
+                    fontSize: "2rem",
+                    fontWeight: 800,
+                    marginBottom: "0.5rem",
+                    letterSpacing: "-1px",
+                  }}
+                >
                   Edit Campaign
                 </h2>
                 <p style={{ color: "#666" }}>
                   Update your venture details and funding strategy.
                 </p>
               </div>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 style={{ color: "#e53e3e", borderColor: "#fed7d7" }}
                 onClick={() => toast.info("Delete from the dashboard")}
               >
@@ -320,7 +339,9 @@ const EditProject = () => {
                     disabled={isLocked}
                   >
                     {CATEGORIES.map((c) => (
-                      <option key={c} value={c}>{c}</option>
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
                     ))}
                   </Select>
                 </div>
@@ -369,86 +390,56 @@ const EditProject = () => {
                 </div>
               </Grid>
 
-              {/* Cover Image Upload */}
               <div style={{ marginTop: "1rem", marginBottom: "2.5rem" }}>
                 <Label>Hero Image</Label>
-                {imagePreview ? (
-                  <div style={{ position: "relative", width: "100%", height: "300px", borderRadius: "24px", overflow: "hidden", boxShadow: "0 10px 30px rgba(0,0,0,0.015)", border: "1px solid #e3e0d8" }}>
-                    <img src={imagePreview} alt="Preview" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    {!isLocked && (
-                      <div style={{ position: "absolute", bottom: "1rem", right: "1rem", background: "white", borderRadius: "12px", padding: "0.6rem 1.25rem", boxShadow: "0 4px 12px rgba(0,0,0,0.05)", border: "1px solid #e3e0d8" }}>
-                        <label style={{ cursor: "pointer", margin: 0, fontWeight: 700, fontSize: "0.85rem", color: "#0071e3" }}>
-                          Change Cover Image
-                          <input type="file" name="newImage" accept="image/*" onChange={handleChange} style={{ display: "none" }} />
-                        </label>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div style={{ padding: "3rem", border: "1.5px dashed #e3e0d8", borderRadius: "20px", textAlign: "center", background: "#ffffff", transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)" }}>
-                    <Upload size={32} style={{ color: "#0071e3", marginBottom: "1rem" }} />
-                    <p style={{ fontSize: "0.9rem", fontWeight: 600, color: "#444" }}>Upload Campaign Cover Image</p>
-                    <input type="file" name="newImage" accept="image/*" onChange={handleChange} disabled={isLocked} style={{ marginTop: "1rem" }} />
-                  </div>
-                )}
+                <ImageUpload
+                  value={formData.image}
+                  onChange={(file) =>
+                    setFormData((prev) => ({ ...prev, image: file }))
+                  }
+                  onRemove={() =>
+                    setFormData((prev) => ({ ...prev, image: null }))
+                  }
+                  disabled={isLocked}
+                  maxSizeMB={5}
+                />
               </div>
 
               {/* Campaign Gallery */}
               <div style={{ marginBottom: "3rem" }}>
                 <Label>Campaign Gallery</Label>
-                
-                {campaignImages.length > 0 && (
-                  <div style={{ marginBottom: "2rem" }}>
-                    <p style={{ fontSize: "0.85rem", color: "#666", marginBottom: "1rem" }}>
-                      Existing Gallery Images ({campaignImages.length}):
-                    </p>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))", gap: "1rem" }}>
-                      {campaignImages.map((imgUrl, index) => (
-                        <div key={index} style={{ position: "relative", paddingBottom: "100%", background: "#f0f0f0", borderRadius: "8px", overflow: "hidden", border: "1px solid #ddd" }}>
-                          <img src={imgUrl.startsWith('http') ? imgUrl : `http://localhost:5000${imgUrl}`} alt={`Gallery ${index + 1}`} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-                          <button
-                            type="button"
-                            onClick={() => handleDeleteCampaignImage(imgUrl)}
-                            disabled={uploadingImages || isLocked}
-                            style={{ position: "absolute", top: "4px", right: "4px", background: "rgba(255,0,0,0.8)", color: "white", border: "none", borderRadius: "4px", width: "24px", height: "24px", cursor: (uploadingImages || isLocked) ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
-                          >
-                            ×
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                <div style={{ padding: "3rem", border: "1.5px dashed #e3e0d8", borderRadius: "20px", textAlign: "center", background: "#ffffff", transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)" }}>
-                  <Upload size={32} style={{ color: "#0071e3", marginBottom: "1rem" }} />
-                  <p style={{ fontSize: "0.9rem", fontWeight: 600, color: "#444" }}>
-                    {newCampaignImages.length > 0 ? `✓ ${newCampaignImages.length} new image(s) selected` : "Upload Additional Gallery Images"}
-                  </p>
-                  <input type="file" name="campaignImages" accept="image/*" onChange={handleChange} disabled={isLocked} multiple style={{ marginTop: "1rem" }} />
-                </div>
+                <ImageUpload
+                  value={newCampaignImages}
+                  existingImages={campaignImages}
+                  multiple={true}
+                  onChange={(files) =>
+                    setNewCampaignImages((prev) => [...prev, ...files])
+                  }
+                  onRemove={(index) =>
+                    setNewCampaignImages((prev) =>
+                      prev.filter((_, i) => i !== index),
+                    )
+                  }
+                  onDeleteExisting={handleDeleteCampaignImage}
+                  disabled={isLocked}
+                  maxSizeMB={5}
+                />
 
                 {newCampaignImages.length > 0 && (
-                  <>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))", gap: "1rem", marginTop: "1.5rem", marginBottom: "1.5rem" }}>
-                      {newCampaignImages.map((file, index) => (
-                        <div key={index} style={{ position: "relative", paddingBottom: "100%", background: "#fbf9f6", borderRadius: "12px", overflow: "hidden", border: "2px solid #0071e3" }}>
-                          <img src={URL.createObjectURL(file)} alt={`New Gallery ${index + 1}`} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-                          <button type="button" onClick={() => removeNewCampaignImage(index)} style={{ position: "absolute", top: "4px", right: "4px", background: "rgba(255,0,0,0.8)", color: "white", border: "none", borderRadius: "4px", width: "24px", height: "24px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            ×
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                    <Button
-                      type="button"
-                      onClick={handleUploadNewCampaignImages}
-                      disabled={uploadingImages || isLocked}
-                      style={{ width: "100%", padding: "1rem" }}
-                    >
-                      {uploadingImages ? "Uploading..." : "Upload New Gallery Images Now"}
-                    </Button>
-                  </>
+                  <Button
+                    type="button"
+                    onClick={handleUploadNewCampaignImages}
+                    disabled={uploadingImages || isLocked}
+                    style={{
+                      width: "100%",
+                      padding: "1rem",
+                      marginTop: "1rem",
+                    }}
+                  >
+                    {uploadingImages
+                      ? "Uploading..."
+                      : "Upload New Gallery Images Now"}
+                  </Button>
                 )}
               </div>
 
@@ -457,7 +448,8 @@ const EditProject = () => {
                 disabled={saving || isLocked}
                 style={{ width: "100%", padding: "1.2rem", fontSize: "1.1rem" }}
               >
-                {saving ? "Saving Changes..." : "Save & Publish Updates"} <Save size={18} style={{ marginLeft: 8 }} />
+                {saving ? "Saving Changes..." : "Save & Publish Updates"}{" "}
+                <Save size={18} style={{ marginLeft: 8 }} />
               </Button>
             </form>
           </Card>
