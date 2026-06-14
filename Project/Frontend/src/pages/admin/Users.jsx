@@ -432,6 +432,7 @@ const AdminUsers = () => {
                             <option value="investor">Investor</option>
                             <option value="mnc">MNC</option>
                             <option value="employee">Employee</option>
+                            <option value="admin">Admin</option>
                           </RoleSelect>
                         )}
                       </Flex>

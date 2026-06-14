@@ -17,6 +17,7 @@ import {
   Target,
   ChevronRight,
   ArrowRight,
+  ShieldAlert,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -461,11 +462,55 @@ const ProgressFill = styled.div`
   border-radius: 99px;
 `;
 
+const DisclaimerContainer = styled.div`
+  max-width: 520px;
+  margin: 8rem auto;
+  padding: 3rem;
+  background: #ffffff;
+  border-radius: 28px;
+  border: 1px solid #e3e0d8;
+  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.015);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+`;
+
+const IconWrapper = styled.div`
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(245, 158, 11, 0.08);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.15);
+  margin-bottom: 0.5rem;
+`;
+
+const DisclaimerTitle = styled.h2`
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #191919;
+  letter-spacing: -0.03em;
+  font-family: ${(props) => props.theme.fonts.serif};
+  margin: 0;
+`;
+
+const DisclaimerText = styled.p`
+  color: #6e6e73;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+`;
+
 /* ─── Dashboard Component Implementation ─────────────────────────── */
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { user } = useAuthStore();
+  const { user, adminAuthenticated, logout } = useAuthStore();
   const [projects, setProjects] = useState([]);
   const [investments, setInvestments] = useState([]);
   const [receivedInvestments, setReceivedInvestments] = useState([]);
@@ -473,7 +518,10 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
   const [stats, setStats] = useState({ total: 0, active: 0, pending: 0 });
 
+  const isAdmin = adminAuthenticated || user?.role === "admin";
+
   useEffect(() => {
+    if (isAdmin) return;
     if (user?.role === "startup") {
       fetchProjects();
     } else {
@@ -482,7 +530,41 @@ const Dashboard = () => {
         fetchMarketplaceProjects();
       }
     }
-  }, [user]);
+  }, [user, isAdmin]);
+
+  if (isAdmin) {
+    return (
+      <DashboardWrapper>
+        <DisclaimerContainer>
+          <IconWrapper>
+            <ShieldAlert size={36} />
+          </IconWrapper>
+          <DisclaimerTitle>Access Intercepted</DisclaimerTitle>
+          <DisclaimerText>
+            Standard member spaces (such as investment dashboards and campaign builders) are reserved for startup and investor roles. You are logged in with admin privileges.
+          </DisclaimerText>
+          <Flex gap="1rem" style={{ marginTop: "1rem", width: "100%" }}>
+            <PremiumBtn
+              $primary
+              style={{ flex: 1, justifyContent: "center" }}
+              onClick={() => navigate("/admin/dashboard")}
+            >
+              Go to Admin Portal
+            </PremiumBtn>
+            <PremiumBtn
+              style={{ flex: 1, justifyContent: "center" }}
+              onClick={() => {
+                logout();
+                navigate("/login");
+              }}
+            >
+              Sign Out
+            </PremiumBtn>
+          </Flex>
+        </DisclaimerContainer>
+      </DashboardWrapper>
+    );
+  }
 
   const fetchProjects = async () => {
     try {

@@ -117,7 +117,7 @@ const ErrorBox = styled.div`
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const { adminLogin, error, errorField } = useAuthStore();
+  const { adminLogin, error, errorField, isAuthenticated, user, logout } = useAuthStore();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
 
@@ -139,6 +139,71 @@ const AdminLogin = () => {
       setLoading(false);
     }
   };
+
+  const handleLogoutAndContinue = () => {
+    logout();
+  };
+
+  if (isAuthenticated && user?.role !== "admin") {
+    return (
+      <AdminLoginWrapper>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4 }}
+          style={{ width: "100%", maxWidth: "450px" }}
+        >
+          <AdminLogo>
+            <ShieldCheck size={32} style={{ color: "#191919" }} />
+            <h1
+              style={{
+                fontSize: "1.75rem",
+                fontWeight: 700,
+                letterSpacing: "-1px",
+                fontFamily: "var(--font-sans)",
+              }}
+            >
+              Admin Portal
+            </h1>
+          </AdminLogo>
+
+          <StyledCard style={{ textAlign: "center" }}>
+            <AlertCircle size={48} style={{ color: "#f59e0b", margin: "0 auto 1.5rem", display: "block" }} />
+            <FormTitle style={{ fontSize: "1.75rem" }}>Session Conflict</FormTitle>
+            <FormSubtitle style={{ marginBottom: "2rem" }}>
+              You are currently signed in as standard member <strong>{user?.name}</strong> ({user?.role}). The Admin Portal requires administrative credentials.
+            </FormSubtitle>
+
+            <Button
+              onClick={() => navigate("/dashboard")}
+              style={{
+                width: "100%",
+                background: "#191919",
+                color: "#ffffff",
+                border: "none",
+                marginBottom: "1rem",
+              }}
+            >
+              Go to Member Dashboard
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={handleLogoutAndContinue}
+              style={{
+                width: "100%",
+                borderColor: "#e3e0d8",
+                color: "#6e6e73",
+                background: "transparent",
+              }}
+            >
+              Logout & Sign In as Admin
+            </Button>
+          </StyledCard>
+        </motion.div>
+      </AdminLoginWrapper>
+    );
+  }
 
   return (
     <AdminLoginWrapper>

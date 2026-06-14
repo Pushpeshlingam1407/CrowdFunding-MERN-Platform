@@ -42,13 +42,15 @@ const Logo = styled(Link)`
 `;
 
 const Navbar = () => {
-  const { isAuthenticated, logout, user } = useAuthStore();
+  const { isAuthenticated, logout, user, adminAuthenticated } = useAuthStore();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
+
+  const isAdmin = adminAuthenticated || user?.role === "admin";
 
   return (
     <Nav>
@@ -60,14 +62,19 @@ const Navbar = () => {
             </Logo>
             <Flex gap="2rem">
               <NavLink to="/campaigns">Marketplace</NavLink>
-              {isAuthenticated && (
+              {isAuthenticated && !isAdmin && (
                 <NavLink to="/dashboard">Dashboard</NavLink>
+              )}
+              {isAdmin && (
+                <NavLink to="/admin/dashboard" style={{ color: "#f59e0b", fontWeight: 700 }}>
+                  Admin Portal
+                </NavLink>
               )}
             </Flex>
           </Flex>
 
           <Flex gap="1.5rem">
-            {!isAuthenticated ? (
+            {!isAuthenticated && !adminAuthenticated ? (
               <Flex gap="1.5rem">
                 <NavLink to="/login">Sign In</NavLink>
                 <Button
@@ -80,7 +87,7 @@ const Navbar = () => {
             ) : (
               <Flex gap="1.5rem">
                 <NavLink
-                  to="/profile"
+                  to={isAdmin ? "/admin/dashboard" : "/profile"}
                   style={{
                     fontWeight: 700,
                     display: "flex",
@@ -93,8 +100,8 @@ const Navbar = () => {
                       width: 28,
                       height: 28,
                       borderRadius: "8px",
-                      background: "rgba(0, 113, 227, 0.08)",
-                      color: "#0071e3",
+                      background: isAdmin ? "rgba(245, 158, 11, 0.08)" : "rgba(0, 113, 227, 0.08)",
+                      color: isAdmin ? "#f59e0b" : "#0071e3",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -102,9 +109,9 @@ const Navbar = () => {
                       fontWeight: 800,
                     }}
                   >
-                    {user?.name.charAt(0)}
+                    {user?.name?.charAt(0) || "A"}
                   </div>
-                  {user?.name.split(" ")[0]}
+                  {user?.name?.split(" ")[0] || "Admin"}
                 </NavLink>
                 <Button variant="outline" size="sm" onClick={handleLogout}>
                   Logout
