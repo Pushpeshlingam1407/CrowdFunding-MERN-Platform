@@ -30,8 +30,7 @@ public class ComplaintController {
     @PostMapping
     public ResponseEntity<?> createComplaint(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> payload
-    ) {
+            @RequestBody Map<String, Object> payload) {
         try {
             String type = (String) payload.get("type");
             String subject = (String) payload.get("subject");

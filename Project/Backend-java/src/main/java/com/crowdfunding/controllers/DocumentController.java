@@ -40,8 +40,7 @@ public class DocumentController {
             @RequestParam("projectName") String projectName,
             @RequestParam("location") String location,
             @RequestParam("documentType") String documentType,
-            @RequestParam("file") MultipartFile file
-    ) {
+            @RequestParam("file") MultipartFile file) {
         try {
             User user = userRepository.findById(userDetails.getId())
                     .orElseThrow(() -> new RuntimeException("User not found"));
@@ -55,8 +54,10 @@ public class DocumentController {
 
             // Determine userType
             String role = user.getRole();
-            String userType = ("individual".equalsIgnoreCase(role) || "institutional".equalsIgnoreCase(role) || "angel".equalsIgnoreCase(role))
-                    ? "investor" : "creator";
+            String userType = ("individual".equalsIgnoreCase(role) || "institutional".equalsIgnoreCase(role)
+                    || "angel".equalsIgnoreCase(role))
+                            ? "investor"
+                            : "creator";
 
             // Store file
             String filePath = fileStorageService.storeFile(file, "documents");
@@ -134,8 +135,7 @@ public class DocumentController {
     public ResponseEntity<?> verifyDocument(
             @PathVariable Long id,
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> payload
-    ) {
+            @RequestBody Map<String, Object> payload) {
         try {
             Document document = documentRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Document not found"));
@@ -167,13 +167,13 @@ public class DocumentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteDocument(
             @PathVariable Long id,
-            @AuthenticationPrincipal CustomUserDetails userDetails
-    ) {
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
         try {
             Document document = documentRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Document not found"));
 
-            if (!document.getUser().getId().equals(userDetails.getId()) && !"admin".equalsIgnoreCase(userDetails.getUser().getRole())) {
+            if (!document.getUser().getId().equals(userDetails.getId())
+                    && !"admin".equalsIgnoreCase(userDetails.getUser().getRole())) {
                 Map<String, Object> error = new HashMap<>();
                 error.put("success", false);
                 error.put("message", "Not authorized");

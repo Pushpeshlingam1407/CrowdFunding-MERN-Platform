@@ -1,16 +1,16 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    exclude: ['lucide-react'],
+    exclude: ["lucide-react"],
   },
   server: {
-    host: true,       // Bind to 0.0.0.0 — accessible from any browser/device on the network
+    host: true, // Bind to 0.0.0.0 — accessible from any browser/device on the network
     port: 5173,
     strictPort: false, // Don't crash if port is busy, try the next one
-    cors: true,        // Allow all cross-origin requests in dev
+    cors: true, // Allow all cross-origin requests in dev
 
     // ─── API Proxy ───────────────────────────────────────────────────────────
     // All /api and /socket.io calls are forwarded to the backend.
@@ -18,20 +18,20 @@ export default defineConfig({
     // which fixes Brave Shields, Edge security, and any other browser
     // that blocks cross-origin requests or WebSocket cross-port connections.
     proxy: {
-      '/api': {
-        target: 'http://localhost:5000',
+      "/api": {
+        target: "http://localhost:5000",
         changeOrigin: true,
         secure: false,
-        ws: true,   // Also proxy WebSocket upgrades
+        ws: true, // Also proxy WebSocket upgrades
       },
-      '/socket.io': {
-        target: 'http://localhost:5000',
+      "/socket.io": {
+        target: "http://localhost:5000",
         changeOrigin: true,
         secure: false,
-        ws: true,   // Critical for Socket.IO WebSocket handshake
+        ws: true, // Critical for Socket.IO WebSocket handshake
       },
-      '/uploads': {
-        target: 'http://localhost:5000',
+      "/uploads": {
+        target: "http://localhost:5000",
         changeOrigin: true,
         secure: false,
       },

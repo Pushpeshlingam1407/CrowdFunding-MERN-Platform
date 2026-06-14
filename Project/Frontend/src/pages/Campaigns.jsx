@@ -262,104 +262,150 @@ const Campaigns = () => {
 
       <Container>
         <CampaignGrid>
-          {loading ? (
-            Array(6).fill(0).map((_, i) => (
-              <CampaignCard key={i} style={{ padding: "1.5rem", minHeight: "400px" }}>
-                <div style={{ width: "100%", height: "200px", background: "#f0f0f0", borderRadius: "8px", marginBottom: "1rem" }} />
-                <div style={{ width: "40%", height: "16px", background: "#f0f0f0", borderRadius: "4px", marginBottom: "1rem" }} />
-                <div style={{ width: "80%", height: "24px", background: "#f0f0f0", borderRadius: "4px", marginBottom: "1rem" }} />
-                <div style={{ width: "100%", height: "48px", background: "#f0f0f0", borderRadius: "4px", marginBottom: "1rem" }} />
-                <div style={{ width: "100%", height: "6px", background: "#f0f0f0", borderRadius: "3px", marginTop: "auto" }} />
-              </CampaignCard>
-            ))
-          ) : (
-            filteredCampaigns.map((campaign) => {
-              const progress = Math.min(
-                100,
-                (campaign.currentAmount / campaign.targetAmount) * 100,
-              );
-              const daysLeft = calculateDaysLeft(campaign.endDate);
-              const isLocked = daysLeft === 0;
-
-              return (
-                <CampaignCard key={campaign._id}>
-                  <ImageWrapper>
-                    <img
-                      src={
-                        campaign.image?.startsWith("http")
-                          ? campaign.image
-                          : `http://localhost:5000${campaign.image}`
-                      }
-                      alt={campaign.title}
-                      onError={(e) => {
-                        e.target.src =
-                          "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&q=80&w=2070";
+          {loading
+            ? Array(6)
+                .fill(0)
+                .map((_, i) => (
+                  <CampaignCard
+                    key={i}
+                    style={{ padding: "1.5rem", minHeight: "400px" }}
+                  >
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "200px",
+                        background: "#f0f0f0",
+                        borderRadius: "8px",
+                        marginBottom: "1rem",
                       }}
                     />
-                    <Badge>
-                      {isLocked ? (
-                        <CheckCircle2
-                          size={12}
-                          style={{ marginRight: 4, display: "inline" }}
-                        />
-                      ) : (
-                        <Clock
-                          size={12}
-                          style={{ marginRight: 4, display: "inline" }}
-                        />
-                      )}
-                      {isLocked ? "COMPLETED" : `${daysLeft} DAYS LEFT`}
-                    </Badge>
-                  </ImageWrapper>
-                  <Content>
-                    <Category>{campaign.category}</Category>
-                    <Title>{campaign.title}</Title>
-                    <Description>{campaign.description}</Description>
+                    <div
+                      style={{
+                        width: "40%",
+                        height: "16px",
+                        background: "#f0f0f0",
+                        borderRadius: "4px",
+                        marginBottom: "1rem",
+                      }}
+                    />
+                    <div
+                      style={{
+                        width: "80%",
+                        height: "24px",
+                        background: "#f0f0f0",
+                        borderRadius: "4px",
+                        marginBottom: "1rem",
+                      }}
+                    />
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "48px",
+                        background: "#f0f0f0",
+                        borderRadius: "4px",
+                        marginBottom: "1rem",
+                      }}
+                    />
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "6px",
+                        background: "#f0f0f0",
+                        borderRadius: "3px",
+                        marginTop: "auto",
+                      }}
+                    />
+                  </CampaignCard>
+                ))
+            : filteredCampaigns.map((campaign) => {
+                const progress = Math.min(
+                  100,
+                  (campaign.currentAmount / campaign.targetAmount) * 100,
+                );
+                const daysLeft = calculateDaysLeft(campaign.endDate);
+                const isLocked = daysLeft === 0;
 
-                    <ProgressInfo>
-                      <Flex
-                        justify="space-between"
-                        style={{ marginBottom: "0.25rem", fontSize: "0.85rem" }}
+                return (
+                  <CampaignCard key={campaign._id}>
+                    <ImageWrapper>
+                      <img
+                        src={
+                          campaign.image?.startsWith("http")
+                            ? campaign.image
+                            : `http://localhost:5000${campaign.image}`
+                        }
+                        alt={campaign.title}
+                        onError={(e) => {
+                          e.target.src =
+                            "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&q=80&w=2070";
+                        }}
+                      />
+                      <Badge>
+                        {isLocked ? (
+                          <CheckCircle2
+                            size={12}
+                            style={{ marginRight: 4, display: "inline" }}
+                          />
+                        ) : (
+                          <Clock
+                            size={12}
+                            style={{ marginRight: 4, display: "inline" }}
+                          />
+                        )}
+                        {isLocked ? "COMPLETED" : `${daysLeft} DAYS LEFT`}
+                      </Badge>
+                    </ImageWrapper>
+                    <Content>
+                      <Category>{campaign.category}</Category>
+                      <Title>{campaign.title}</Title>
+                      <Description>{campaign.description}</Description>
+
+                      <ProgressInfo>
+                        <Flex
+                          justify="space-between"
+                          style={{
+                            marginBottom: "0.25rem",
+                            fontSize: "0.85rem",
+                          }}
+                        >
+                          <span style={{ fontWeight: 600 }}>
+                            {progress.toFixed(1)}% funded
+                          </span>
+                          <span style={{ color: "#666" }}>
+                            Target: ₹{campaign.targetAmount.toLocaleString()}
+                          </span>
+                        </Flex>
+                        <ProgressBarBase>
+                          <ProgressBarFill progress={progress} />
+                        </ProgressBarBase>
+                      </ProgressInfo>
+
+                      <StatsGrid>
+                        <StatItem>
+                          <Users size={16} />
+                          <span>
+                            {campaign.creator?.name || "Vetted Startup"}
+                          </span>
+                        </StatItem>
+                        <StatItem style={{ justifyContent: "flex-end" }}>
+                          <DollarSign size={16} />
+                          <span>Equity: {campaign.equity}</span>
+                        </StatItem>
+                      </StatsGrid>
+
+                      <Link
+                        to={`/projects/${campaign._id}`}
+                        style={{ textDecoration: "none", marginTop: "1.5rem" }}
                       >
-                        <span style={{ fontWeight: 600 }}>
-                          {progress.toFixed(1)}% funded
-                        </span>
-                        <span style={{ color: "#666" }}>
-                          Target: ₹{campaign.targetAmount.toLocaleString()}
-                        </span>
-                      </Flex>
-                      <ProgressBarBase>
-                        <ProgressBarFill progress={progress} />
-                      </ProgressBarBase>
-                    </ProgressInfo>
-
-                    <StatsGrid>
-                      <StatItem>
-                        <Users size={16} />
-                        <span>
-                          {campaign.creator?.name || "Vetted Startup"}
-                        </span>
-                      </StatItem>
-                      <StatItem style={{ justifyContent: "flex-end" }}>
-                        <DollarSign size={16} />
-                        <span>Equity: {campaign.equity}</span>
-                      </StatItem>
-                    </StatsGrid>
-
-                    <Link
-                      to={`/projects/${campaign._id}`}
-                      style={{ textDecoration: "none", marginTop: "1.5rem" }}
-                    >
-                      <Button style={{ width: "100%" }}>
-                        View Portfolio{" "}
-                        <ArrowRight size={18} style={{ marginLeft: 8 }} />
-                      </Button>
-                    </Link>
-                  </Content>
-                </CampaignCard>
-              );
-            })
-          )}
+                        <Button style={{ width: "100%" }}>
+                          View Portfolio{" "}
+                          <ArrowRight size={18} style={{ marginLeft: 8 }} />
+                        </Button>
+                      </Link>
+                    </Content>
+                  </CampaignCard>
+                );
+              })}
         </CampaignGrid>
       </Container>
     </>

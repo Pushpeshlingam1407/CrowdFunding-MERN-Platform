@@ -40,7 +40,7 @@ public class AdminController {
     @Autowired
     private MessageRepository messageRepository;
 
-    @GetMapping({"/stats", "/dashboard"})
+    @GetMapping({ "/stats", "/dashboard" })
     public ResponseEntity<?> getDashboardStats() {
         try {
             long totalUsers = userRepository.count();
@@ -62,7 +62,8 @@ public class AdminController {
 
             // Calculate Platform Revenue (e.g., 5% fee on completed investments)
             double platformRevenue = investmentRepository.findAll().stream()
-                    .filter(i -> "completed".equalsIgnoreCase(i.getStatus()) || "approved".equalsIgnoreCase(i.getStatus()))
+                    .filter(i -> "completed".equalsIgnoreCase(i.getStatus())
+                            || "approved".equalsIgnoreCase(i.getStatus()))
                     .mapToDouble(i -> i.getAmount() * 0.05)
                     .sum();
 
@@ -134,7 +135,7 @@ public class AdminController {
         }
     }
 
-    @PutMapping({"/projects/{id}/status", "/projects/{id}"})
+    @PutMapping({ "/projects/{id}/status", "/projects/{id}" })
     public ResponseEntity<?> updateProjectStatus(@PathVariable Long id, @RequestBody Map<String, String> payload) {
         try {
             String status = payload.get("status");
@@ -208,7 +209,7 @@ public class AdminController {
                 if (companyOpt.isPresent()) {
                     Company company = companyOpt.get();
                     company.setVerified(true);
-                    
+
                     Company.ActivityLogItem log = Company.ActivityLogItem.builder()
                             .milestone("Earned Official Platform Verification Badge")
                             .type("automatic")
@@ -343,32 +344,34 @@ public class AdminController {
 
             // 1. Delete associated complaints (author or targeted user company)
             complaintRepository.findAll().stream()
-                    .filter(c -> (c.getAuthor() != null && c.getAuthor().getId().equals(id)) || 
-                                 (c.getTargetCompany() != null && c.getTargetCompany().getId().equals(id)))
+                    .filter(c -> (c.getAuthor() != null && c.getAuthor().getId().equals(id)) ||
+                            (c.getTargetCompany() != null && c.getTargetCompany().getId().equals(id)))
                     .forEach(c -> complaintRepository.delete(c));
 
             // 2. Delete reviews (author or targeted user company)
             reviewRepository.findAll().stream()
-                    .filter(r -> (r.getAuthor() != null && r.getAuthor().getId().equals(id)) || 
-                                 (r.getCompany() != null && r.getCompany().getId().equals(id)))
+                    .filter(r -> (r.getAuthor() != null && r.getAuthor().getId().equals(id)) ||
+                            (r.getCompany() != null && r.getCompany().getId().equals(id)))
                     .forEach(r -> reviewRepository.delete(r));
 
             // 3. Delete messages (sent or received by the user)
             messageRepository.findAll().stream()
-                    .filter(m -> (m.getSender() != null && m.getSender().getId().equals(id)) || 
-                                 (m.getReceiver() != null && m.getReceiver().getId().equals(id)))
+                    .filter(m -> (m.getSender() != null && m.getSender().getId().equals(id)) ||
+                            (m.getReceiver() != null && m.getReceiver().getId().equals(id)))
                     .forEach(m -> messageRepository.delete(m));
 
-            // 4. Delete investments (made by the user, or made in projects created by the user)
+            // 4. Delete investments (made by the user, or made in projects created by the
+            // user)
             investmentRepository.findAll().stream()
-                    .filter(i -> (i.getInvestor() != null && i.getInvestor().getId().equals(id)) || 
-                                 (i.getProject() != null && i.getProject().getCreator() != null && i.getProject().getCreator().getId().equals(id)))
+                    .filter(i -> (i.getInvestor() != null && i.getInvestor().getId().equals(id)) ||
+                            (i.getProject() != null && i.getProject().getCreator() != null
+                                    && i.getProject().getCreator().getId().equals(id)))
                     .forEach(i -> investmentRepository.delete(i));
 
             // 5. Delete documents (owned or verified by this user)
             documentRepository.findAll().stream()
                     .filter(d -> (d.getUser() != null && d.getUser().getId().equals(id)) ||
-                                 (d.getVerifiedBy() != null && d.getVerifiedBy().getId().equals(id)))
+                            (d.getVerifiedBy() != null && d.getVerifiedBy().getId().equals(id)))
                     .forEach(d -> documentRepository.delete(d));
 
             // 6. Delete projects (created by the user)

@@ -67,8 +67,7 @@ public class ProjectController {
             @RequestParam("targetAmount") double targetAmount,
             @RequestParam("startDate") String startDate,
             @RequestParam("endDate") String endDate,
-            @RequestParam(value = "image", required = false) MultipartFile image
-    ) {
+            @RequestParam(value = "image", required = false) MultipartFile image) {
         try {
             User creator = userRepository.findById(userDetails.getId())
                     .orElseThrow(() -> new RuntimeException("User not found"));
@@ -159,8 +158,7 @@ public class ProjectController {
             @RequestParam(value = "targetAmount", required = false) Double targetAmount,
             @RequestParam(value = "startDate", required = false) String startDate,
             @RequestParam(value = "endDate", required = false) String endDate,
-            @RequestParam(value = "image", required = false) MultipartFile image
-    ) {
+            @RequestParam(value = "image", required = false) MultipartFile image) {
         try {
             Project project = projectRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Project not found"));
@@ -172,20 +170,28 @@ public class ProjectController {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
             }
 
-            if (!project.getCreator().getId().equals(userDetails.getId()) && !"admin".equalsIgnoreCase(userDetails.getUser().getRole())) {
+            if (!project.getCreator().getId().equals(userDetails.getId())
+                    && !"admin".equalsIgnoreCase(userDetails.getUser().getRole())) {
                 Map<String, Object> error = new HashMap<>();
                 error.put("success", false);
                 error.put("message", "Not authorized to update this project");
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
             }
 
-            if (title != null) project.setTitle(title);
-            if (description != null) project.setDescription(description);
-            if (equity != null) project.setEquity(equity);
-            if (category != null) project.setCategory(category);
-            if (targetAmount != null) project.setTargetAmount(targetAmount);
-            if (startDate != null) project.setStartDate(parseIsoDate(startDate));
-            if (endDate != null) project.setEndDate(parseIsoDate(endDate));
+            if (title != null)
+                project.setTitle(title);
+            if (description != null)
+                project.setDescription(description);
+            if (equity != null)
+                project.setEquity(equity);
+            if (category != null)
+                project.setCategory(category);
+            if (targetAmount != null)
+                project.setTargetAmount(targetAmount);
+            if (startDate != null)
+                project.setStartDate(parseIsoDate(startDate));
+            if (endDate != null)
+                project.setEndDate(parseIsoDate(endDate));
 
             if (image != null && !image.isEmpty()) {
                 String imageUrl = fileStorageService.storeFile(image, "projects");
@@ -212,13 +218,13 @@ public class ProjectController {
     public ResponseEntity<?> uploadCampaignImages(
             @PathVariable Long id,
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestParam("campaignImages") MultipartFile[] files
-    ) {
+            @RequestParam("campaignImages") MultipartFile[] files) {
         try {
             Project project = projectRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Project not found"));
 
-            if (!project.getCreator().getId().equals(userDetails.getId()) && !"admin".equalsIgnoreCase(userDetails.getUser().getRole())) {
+            if (!project.getCreator().getId().equals(userDetails.getId())
+                    && !"admin".equalsIgnoreCase(userDetails.getUser().getRole())) {
                 Map<String, Object> error = new HashMap<>();
                 error.put("success", false);
                 error.put("message", "Not authorized to upload images to this project");
@@ -262,13 +268,13 @@ public class ProjectController {
     public ResponseEntity<?> deleteCampaignImage(
             @PathVariable Long id,
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, String> payload
-    ) {
+            @RequestBody Map<String, String> payload) {
         try {
             Project project = projectRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Project not found"));
 
-            if (!project.getCreator().getId().equals(userDetails.getId()) && !"admin".equalsIgnoreCase(userDetails.getUser().getRole())) {
+            if (!project.getCreator().getId().equals(userDetails.getId())
+                    && !"admin".equalsIgnoreCase(userDetails.getUser().getRole())) {
                 Map<String, Object> error = new HashMap<>();
                 error.put("success", false);
                 error.put("message", "Not authorized to delete images from this project");
@@ -305,13 +311,13 @@ public class ProjectController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProject(
             @PathVariable Long id,
-            @AuthenticationPrincipal CustomUserDetails userDetails
-    ) {
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
         try {
             Project project = projectRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Project not found"));
 
-            if (!project.getCreator().getId().equals(userDetails.getId()) && !"admin".equalsIgnoreCase(userDetails.getUser().getRole())) {
+            if (!project.getCreator().getId().equals(userDetails.getId())
+                    && !"admin".equalsIgnoreCase(userDetails.getUser().getRole())) {
                 Map<String, Object> error = new HashMap<>();
                 error.put("success", false);
                 error.put("message", "Not authorized to delete this project");

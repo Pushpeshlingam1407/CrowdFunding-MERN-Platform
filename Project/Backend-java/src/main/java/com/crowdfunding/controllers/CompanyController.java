@@ -59,8 +59,7 @@ public class CompanyController {
     public ResponseEntity<?> updateCompany(
             @PathVariable Long id,
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> payload
-    ) {
+            @RequestBody Map<String, Object> payload) {
         try {
             Company company = companyRepository.findById(id)
                     .or(() -> companyRepository.findByUserId(id))
@@ -70,26 +69,36 @@ public class CompanyController {
                                 .orElseThrow(() -> new RuntimeException("User not found"));
                         return Company.builder()
                                 .user(user)
-                                .name(user.getCompanyName() != null && !user.getCompanyName().isBlank() ? user.getCompanyName() : user.getName() + "'s Company")
+                                .name(user.getCompanyName() != null && !user.getCompanyName().isBlank()
+                                        ? user.getCompanyName()
+                                        : user.getName() + "'s Company")
                                 .website(user.getCompanyWebsite())
                                 .build();
                     });
 
             // Allow the company owner or admin to update
-            if (company.getUser() != null && !company.getUser().getId().equals(userDetails.getId()) && !"admin".equalsIgnoreCase(userDetails.getUser().getRole())) {
+            if (company.getUser() != null && !company.getUser().getId().equals(userDetails.getId())
+                    && !"admin".equalsIgnoreCase(userDetails.getUser().getRole())) {
                 Map<String, Object> error = new HashMap<>();
                 error.put("success", false);
                 error.put("message", "Not authorized to update this company profile");
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
             }
 
-            if (payload.containsKey("name")) company.setName((String) payload.get("name"));
-            if (payload.containsKey("logo")) company.setLogo((String) payload.get("logo"));
-            if (payload.containsKey("website")) company.setWebsite((String) payload.get("website"));
-            if (payload.containsKey("bio")) company.setBio((String) payload.get("bio"));
-            if (payload.containsKey("location")) company.setLocation((String) payload.get("location"));
-            if (payload.containsKey("foundedDate")) company.setFoundedDate((String) payload.get("foundedDate"));
-            if (payload.containsKey("teamSize")) company.setTeamSize((String) payload.get("teamSize"));
+            if (payload.containsKey("name"))
+                company.setName((String) payload.get("name"));
+            if (payload.containsKey("logo"))
+                company.setLogo((String) payload.get("logo"));
+            if (payload.containsKey("website"))
+                company.setWebsite((String) payload.get("website"));
+            if (payload.containsKey("bio"))
+                company.setBio((String) payload.get("bio"));
+            if (payload.containsKey("location"))
+                company.setLocation((String) payload.get("location"));
+            if (payload.containsKey("foundedDate"))
+                company.setFoundedDate((String) payload.get("foundedDate"));
+            if (payload.containsKey("teamSize"))
+                company.setTeamSize((String) payload.get("teamSize"));
 
             if (payload.containsKey("industry")) {
                 Object rawIndustry = payload.get("industry");
@@ -109,10 +118,14 @@ public class CompanyController {
                 if (rawBranding instanceof Map<?, ?>) {
                     Map<?, ?> brandingMap = (Map<?, ?>) rawBranding;
                     Company.Branding branding = company.getBranding();
-                    if (branding == null) branding = new Company.Branding();
-                    if (brandingMap.containsKey("logo")) branding.setBrandingLogo((String) brandingMap.get("logo"));
-                    if (brandingMap.containsKey("primaryColor")) branding.setPrimaryColor((String) brandingMap.get("primaryColor"));
-                    if (brandingMap.containsKey("slogan")) branding.setSlogan((String) brandingMap.get("slogan"));
+                    if (branding == null)
+                        branding = new Company.Branding();
+                    if (brandingMap.containsKey("logo"))
+                        branding.setBrandingLogo((String) brandingMap.get("logo"));
+                    if (brandingMap.containsKey("primaryColor"))
+                        branding.setPrimaryColor((String) brandingMap.get("primaryColor"));
+                    if (brandingMap.containsKey("slogan"))
+                        branding.setSlogan((String) brandingMap.get("slogan"));
                     company.setBranding(branding);
                 }
             }
@@ -122,10 +135,14 @@ public class CompanyController {
                 if (rawVS instanceof Map<?, ?>) {
                     Map<?, ?> vsMap = (Map<?, ?>) rawVS;
                     Company.VisibilitySettings vs = company.getVisibilitySettings();
-                    if (vs == null) vs = new Company.VisibilitySettings();
-                    if (vsMap.containsKey("showPortfolio")) vs.setShowPortfolio((Boolean) vsMap.get("showPortfolio"));
-                    if (vsMap.containsKey("showMetrics")) vs.setShowMetrics((Boolean) vsMap.get("showMetrics"));
-                    if (vsMap.containsKey("showJourney")) vs.setShowJourney((Boolean) vsMap.get("showJourney"));
+                    if (vs == null)
+                        vs = new Company.VisibilitySettings();
+                    if (vsMap.containsKey("showPortfolio"))
+                        vs.setShowPortfolio((Boolean) vsMap.get("showPortfolio"));
+                    if (vsMap.containsKey("showMetrics"))
+                        vs.setShowMetrics((Boolean) vsMap.get("showMetrics"));
+                    if (vsMap.containsKey("showJourney"))
+                        vs.setShowJourney((Boolean) vsMap.get("showJourney"));
                     company.setVisibilitySettings(vs);
                 }
             }
@@ -135,10 +152,14 @@ public class CompanyController {
                 if (rawSL instanceof Map<?, ?>) {
                     Map<?, ?> slMap = (Map<?, ?>) rawSL;
                     Company.SocialLinks sl = company.getSocialLinks();
-                    if (sl == null) sl = new Company.SocialLinks();
-                    if (slMap.containsKey("linkedin")) sl.setLinkedin((String) slMap.get("linkedin"));
-                    if (slMap.containsKey("twitter")) sl.setTwitter((String) slMap.get("twitter"));
-                    if (slMap.containsKey("github")) sl.setGithub((String) slMap.get("github"));
+                    if (sl == null)
+                        sl = new Company.SocialLinks();
+                    if (slMap.containsKey("linkedin"))
+                        sl.setLinkedin((String) slMap.get("linkedin"));
+                    if (slMap.containsKey("twitter"))
+                        sl.setTwitter((String) slMap.get("twitter"));
+                    if (slMap.containsKey("github"))
+                        sl.setGithub((String) slMap.get("github"));
                     company.setSocialLinks(sl);
                 }
             }
@@ -171,7 +192,8 @@ public class CompanyController {
                     for (Object obj : (java.util.Collection<?>) rawPartners) {
                         if (obj instanceof Map<?, ?>) {
                             Map<?, ?> p = (Map<?, ?>) obj;
-                            Long profileId = p.get("profileId") != null ? Long.parseLong(p.get("profileId").toString()) : null;
+                            Long profileId = p.get("profileId") != null ? Long.parseLong(p.get("profileId").toString())
+                                    : null;
                             items.add(Company.PartnerHistoryItem.builder()
                                     .name((String) p.get("name"))
                                     .logo((String) p.get("logo"))
