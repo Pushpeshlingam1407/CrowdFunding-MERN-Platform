@@ -1,13 +1,9 @@
 import {
   DollarSign,
   TrendingUp,
-  Users,
   Search,
-  CheckCircle2,
-  Clock,
   Building2,
   Download,
-  Filter,
 } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
@@ -17,21 +13,26 @@ import { Button, Input, Flex } from "../../components/ui";
 import { exportToCSV } from "../../utils/export";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+
 const PageHeader = styled.div`
   margin-bottom: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 `;
 
 const Title = styled.h1`
   font-size: 1.8rem;
   font-weight: 800;
-  color: #0f172a;
-  letter-spacing: -0.5px;
+  color: #191919;
+  font-family: ${(props) => props.theme.fonts.serif};
+  letter-spacing: -0.02em;
 `;
+
 const Subtitle = styled.p`
-  color: #64748b;
+  color: #6e6e73;
   font-size: 0.95rem;
 `;
 
@@ -43,57 +44,71 @@ const StatsGrid = styled.div`
 `;
 
 const StatCard = styled(motion.div)`
-  background: #ffffff;
-  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 24px;
   padding: 1.5rem;
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border: 1px solid #f1f5f9;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    transform: translateY(-4px) scale(1.015);
+    box-shadow: 0px 24px 48px rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 113, 227, 0.1);
+  }
 
   .icon-box {
     width: 48px;
     height: 48px;
-    border-radius: 12px;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: ${(p) => p.$bg || "rgba(37, 99, 235, 0.1)"};
-    color: ${(p) => p.$color || "#2563eb"};
+    background: ${(p) => p.$bg || "rgba(0, 113, 227, 0.08)"};
+    color: ${(p) => p.$color || "#0071e3"};
   }
 
   .stat-info {
     h3 {
       font-size: 1.5rem;
       font-weight: 800;
-      color: #0f172a;
+      color: #191919;
       margin-bottom: 0.25rem;
+      font-family: ${(props) => props.theme.fonts.mono};
+      letter-spacing: -0.02em;
     }
     p {
-      color: #64748b;
-      font-size: 0.85rem;
-      font-weight: 600;
+      color: #86868b;
+      font-size: 0.72rem;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      font-family: var(--font-sans);
     }
   }
 `;
 
 const TableCard = styled.div`
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border: 1px solid #f1f5f9;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 24px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
   overflow: hidden;
 `;
 
 const TableHeader = styled.div`
   padding: 1.5rem;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 `;
 
 const TableWrapper = styled.div`
@@ -112,25 +127,25 @@ const TableWrapper = styled.div`
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #64748b;
-    background: #f8fafc;
-    border-bottom: 1px solid #e2e8f0;
+    color: #86868b;
+    background: transparent;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
 
   td {
     padding: 1rem 1.5rem;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     font-size: 0.9rem;
-    color: #334155;
+    color: #1d1d1f;
     vertical-align: middle;
   }
 
   tbody tr {
-    transition: background 0.2s;
+    transition: background 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
   
   tbody tr:hover {
-    background: #f8fafc;
+    background: rgba(0, 0, 0, 0.02);
   }
 `;
 
@@ -138,14 +153,53 @@ const StatusBadge = styled.span`
   padding: 0.25rem 0.75rem;
   border-radius: 99px;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
   background: ${(props) =>
     props.status === "completed"
       ? "rgba(16, 185, 129, 0.1)"
       : "rgba(245, 158, 11, 0.1)"};
   color: ${(props) =>
     props.status === "completed" ? "#10b981" : "#f59e0b"};
+`;
+
+const SearchInput = styled(Input)`
+  border-radius: 99px;
+  padding-left: 2.5rem;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(255,255,255,0.7);
+  font-size: 0.85rem;
+  height: 2.5rem;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:focus {
+    border-color: #191919;
+    background: #ffffff;
+  }
+`;
+
+const CapsuleSelect = styled.select`
+  padding: 0.35rem 1.75rem 0.35rem 1rem;
+  border-radius: 99px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.7);
+  color: #191919;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%236e6e73%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 10px) center;
+  height: 2.5rem;
+
+  &:focus {
+    border-color: #191919;
+    background-color: #ffffff;
+  }
 `;
 
 const AdminFinancials = () => {
@@ -227,7 +281,16 @@ const AdminFinancials = () => {
           <Title>Financial Overview</Title>
           <Subtitle>Monitor platform-wide fundraising and platform revenue</Subtitle>
         </div>
-        <Button onClick={handleExport}>
+        <Button
+          onClick={handleExport}
+          style={{
+            borderRadius: "99px",
+            background: "#191919",
+            color: "#ffffff",
+            border: "none",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.05)"
+          }}
+        >
           <Download size={16} style={{ marginRight: 8 }} />
           Export CSV Ledger
         </Button>
@@ -235,7 +298,7 @@ const AdminFinancials = () => {
 
       <StatsGrid>
         <StatCard>
-          <div className="icon-box" $bg="rgba(16, 185, 129, 0.1)" $color="#10b981">
+          <div className="icon-box" $bg="rgba(16, 185, 129, 0.08)" $color="#10b981">
             <DollarSign size={24} />
           </div>
           <div className="stat-info">
@@ -245,7 +308,7 @@ const AdminFinancials = () => {
         </StatCard>
         
         <StatCard>
-          <div className="icon-box" $bg="rgba(16, 185, 129, 0.1)" $color="#10b981">
+          <div className="icon-box" $bg="rgba(16, 185, 129, 0.08)" $color="#10b981">
             <DollarSign size={24} />
           </div>
           <div className="stat-info">
@@ -255,7 +318,7 @@ const AdminFinancials = () => {
         </StatCard>
         
         <StatCard>
-          <div className="icon-box" $bg="rgba(56, 189, 248, 0.1)" $color="#0284c7">
+          <div className="icon-box" $bg="rgba(0, 113, 227, 0.08)" $color="#0071e3">
             <TrendingUp size={24} />
           </div>
           <div className="stat-info">
@@ -265,7 +328,7 @@ const AdminFinancials = () => {
         </StatCard>
 
         <StatCard>
-          <div className="icon-box" $bg="rgba(139, 92, 246, 0.1)" $color="#7c3aed">
+          <div className="icon-box" $bg="rgba(139, 92, 246, 0.08)" $color="#8b5cf6">
             <Building2 size={24} />
           </div>
           <div className="stat-info">
@@ -277,7 +340,7 @@ const AdminFinancials = () => {
 
       <TableCard>
         <TableHeader>
-          <h3 style={{ fontSize: "1.1rem", fontWeight: 700, color: "#0f172a" }}>
+          <h3 style={{ fontSize: "1.1rem", fontWeight: 850, color: "#191919", fontFamily: "var(--font-sans)" }}>
             Recent Transactions
           </h3>
           <Flex gap="1rem">
@@ -289,27 +352,17 @@ const AdminFinancials = () => {
                   left: "1rem",
                   top: "50%",
                   transform: "translateY(-50%)",
-                  color: "#94a3b8",
+                  color: "#86868b",
+                  zIndex: 2,
                 }}
               />
-              <Input
-                style={{ paddingLeft: "2.5rem" }}
+              <SearchInput
                 placeholder="Search ledger..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <select
-              style={{
-                padding: "0.75rem 1rem",
-                borderRadius: "8px",
-                border: "1px solid #e2e8f0",
-                background: "#f8fafc",
-                color: "#475569",
-                fontWeight: 600,
-                outline: "none",
-                cursor: "pointer"
-              }}
+            <CapsuleSelect
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
@@ -317,7 +370,7 @@ const AdminFinancials = () => {
               <option value="completed">Completed</option>
               <option value="pending">Pending</option>
               <option value="failed">Failed</option>
-            </select>
+            </CapsuleSelect>
           </Flex>
         </TableHeader>
         
@@ -342,7 +395,7 @@ const AdminFinancials = () => {
                 </tr>
               ) : filteredInvestments.length === 0 ? (
                 <tr>
-                  <td colSpan="6" style={{ textAlign: "center", padding: "3rem", color: "#64748b" }}>
+                  <td colSpan="6" style={{ textAlign: "center", padding: "3rem", color: "#86868b" }}>
                     No investments found.
                   </td>
                 </tr>
@@ -350,21 +403,21 @@ const AdminFinancials = () => {
                 filteredInvestments.map((inv) => (
                   <tr key={inv._id}>
                     <td>
-                      <div style={{ fontWeight: 600, color: "#0f172a" }}>
+                      <div style={{ fontWeight: 700, color: "#191919" }}>
                         {inv.investor?.name || "Unknown"}
                       </div>
-                      <div style={{ fontSize: "0.8rem", color: "#64748b" }}>
+                      <div style={{ fontSize: "0.8rem", color: "#86868b" }}>
                         {inv.investor?.role || "Investor"}
                       </div>
                     </td>
-                    <td style={{ fontWeight: 700, color: "#10b981" }}>
+                    <td style={{ fontWeight: 800, color: "#10b981", fontFamily: "var(--font-mono)" }}>
                       {new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(inv.amount)}
                     </td>
-                    <td style={{ fontWeight: 500 }}>
+                    <td style={{ fontWeight: 600 }}>
                       {inv.project?.title || "Unknown Project"}
                     </td>
                     <td>
-                      <div style={{ fontWeight: 500, color: "#334155" }}>
+                      <div style={{ fontWeight: 600, color: "#1d1d1f" }}>
                         {inv.project?.creator?.name || "Unknown"}
                       </div>
                     </td>
@@ -373,7 +426,7 @@ const AdminFinancials = () => {
                         {inv.status}
                       </StatusBadge>
                     </td>
-                    <td style={{ color: "#64748b" }}>
+                    <td style={{ color: "#86868b", fontFamily: "var(--font-mono)" }}>
                       {new Intl.DateTimeFormat("en-IN", {
                         year: "numeric",
                         month: "short",

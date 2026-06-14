@@ -8,10 +8,7 @@ import {
   Trash2,
   ShieldCheck,
   ShieldAlert,
-  Settings,
-  MoreVertical,
   Mail,
-  UserCheck,
   RefreshCw,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -19,12 +16,13 @@ import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
 
 const TableWrapper = styled.div`
-  background: #ffffff;
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
   overflow: hidden;
-  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.04);
   margin-top: 1.5rem;
-  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
 
   table {
     width: 100%;
@@ -38,28 +36,27 @@ const TableWrapper = styled.div`
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #a3aed0;
-    background: #ffffff;
-    border-bottom: 1px solid #f1f5f9;
+    color: #86868b;
+    background: transparent;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
 
   td {
     padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     font-size: 0.9rem;
-    color: #475569;
+    color: #1d1d1f;
     vertical-align: middle;
   }
 
   tbody tr {
-    background: #ffffff;
-    transition: all 0.2s;
+    background: transparent;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   tbody tr:hover {
-    background: #f4f7fe;
+    background: rgba(0, 0, 0, 0.02);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(112, 144, 176, 0.08);
   }
 
   tr:last-child td {
@@ -71,74 +68,87 @@ const RoleBadge = styled.span`
   padding: 0.35rem 0.75rem;
   border-radius: 99px;
   font-size: 0.7rem;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.8px;
 
   ${(props) =>
     props.role === "startup"
-      ? `background: rgba(67, 24, 255, 0.1); color: #4318FF;`
+      ? `background: rgba(0, 113, 227, 0.1); color: #0071e3;`
       : props.role === "investor"
-        ? `background: rgba(5, 205, 153, 0.1); color: #05CD99;`
+        ? `background: rgba(16, 185, 129, 0.1); color: #10b981;`
         : props.role === "mnc"
-          ? `background: rgba(168, 85, 247, 0.1); color: #A855F7;`
+          ? `background: rgba(139, 92, 246, 0.1); color: #8b5cf6;`
           : props.role === "admin"
-            ? `background: rgba(255, 181, 71, 0.1); color: #FFB547;`
-            : `background: rgba(163, 174, 208, 0.1); color: #A3AED0;`}
+            ? `background: rgba(245, 158, 11, 0.1); color: #f59e0b;`
+            : `background: rgba(110, 110, 115, 0.1); color: #6e6e73;`}
 `;
 
 const VerifiedBadge = styled.span`
   padding: 0.25rem 0.6rem;
   border-radius: 99px;
   font-size: 0.68rem;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 
   ${(props) =>
     props.$verified
-      ? `background: rgba(5, 205, 153, 0.1); color: #05CD99;`
-      : `background: rgba(227, 26, 26, 0.1); color: #E31A1A;`}
+      ? `background: rgba(16, 185, 129, 0.1); color: #10b981;`
+      : `background: rgba(239, 68, 68, 0.1); color: #ef4444;`}
 `;
 
 const ActionBtn = styled.button`
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
-  padding: 0.4rem 0.85rem;
-  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  border-radius: 99px;
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   border: 1px solid;
-  transition: all 0.15s;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   background: #ffffff;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
 
   ${(props) =>
     props.$variant === "verify"
-      ? `color: #05CD99; border-color: rgba(5,205,153,0.3); &:hover { background: rgba(5,205,153,0.1); }`
+      ? `color: #10b981; border-color: rgba(16,185,129,0.3); &:hover { background: rgba(16,185,129,0.1); }`
       : props.$variant === "ban"
-        ? `color: #FFB547; border-color: rgba(255,181,71,0.3); &:hover { background: rgba(255,181,71,0.1); }`
+        ? `color: #f59e0b; border-color: rgba(245,158,11,0.3); &:hover { background: rgba(245,158,11,0.1); }`
         : props.$variant === "delete"
-          ? `color: #E31A1A; border-color: rgba(227,26,26,0.3); &:hover { background: rgba(227,26,26,0.1); }`
-          : `color: #4318FF; border-color: rgba(67,24,255,0.3); &:hover { background: rgba(67,24,255,0.1); }`}
+          ? `color: #ef4444; border-color: rgba(239,68,68,0.3); &:hover { background: rgba(239,68,68,0.1); }`
+          : `color: #191919; border-color: rgba(0,0,0,0.15); &:hover { background: rgba(0,0,0,0.05); }`}
 `;
 
 const RoleSelect = styled.select`
-  padding: 0.35rem 0.5rem;
-  border-radius: 8px;
+  padding: 0.35rem 1.5rem 0.35rem 0.75rem;
+  border-radius: 99px;
   font-size: 0.78rem;
-  font-weight: 600;
-  background: #ffffff;
-  color: #2b3674;
-  border: 1px solid #e2e8f0;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.7);
+  color: #191919;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   cursor: pointer;
   outline: none;
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%236e6e73%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 8px) center;
 
   &:focus {
-    border-color: #4318ff;
-    box-shadow: 0 0 0 3px rgba(67, 24, 255, 0.1);
+    border-color: #191919;
+    background-color: #ffffff;
   }
 `;
 
@@ -151,28 +161,31 @@ const SearchBar = styled.div`
     left: 1.25rem;
     top: 50%;
     transform: translateY(-50%);
-    color: #a3aed0;
+    color: #86868b;
     pointer-events: none;
   }
 
   input {
     width: 100%;
     padding: 0.85rem 1rem 0.85rem 3rem;
-    background: #ffffff;
-    border: none;
-    border-radius: 20px;
-    color: #2b3674;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    border-radius: 99px;
+    color: #191919;
     font-size: 0.9rem;
     font-weight: 500;
     outline: none;
-    transition: all 0.2s;
-    box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
 
     &::placeholder {
-      color: #a3aed0;
+      color: #86868b;
     }
     &:focus {
-      box-shadow: 0px 18px 40px rgba(67, 24, 255, 0.2);
+      background: #ffffff;
+      border-color: #191919;
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.03);
     }
   }
 `;
@@ -180,7 +193,7 @@ const SearchBar = styled.div`
 const EmptyState = styled.div`
   padding: 5rem 2rem;
   text-align: center;
-  color: #a3aed0;
+  color: #86868b;
 
   svg {
     margin: 0 auto 1rem;
@@ -197,7 +210,7 @@ const Avatar = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #4318ff 0%, #868cff 100%);
+  background: #191919;
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -205,7 +218,12 @@ const Avatar = styled.div`
   font-weight: 800;
   font-size: 1rem;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(67, 24, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 const AdminUsers = () => {
@@ -333,13 +351,15 @@ const AdminUsers = () => {
             style={{
               whiteSpace: "nowrap",
               padding: "0 1.5rem",
-              borderRadius: 20,
-              border: "none",
-              background: "#ffffff",
-              boxShadow: "0px 18px 40px rgba(112, 144, 176, 0.12)",
+              borderRadius: 99,
+              border: "1px solid rgba(0,0,0,0.1)",
+              background: "rgba(255, 255, 255, 0.7)",
+              backdropFilter: "blur(20px)",
+              boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.01)",
+              height: "3rem",
             }}
           >
-            <RefreshCw size={16} className={loading ? "spin" : ""} /> Refresh
+            <RefreshCw size={16} className={loading ? "spin" : ""} style={{ marginRight: 6 }} /> Refresh
           </ActionBtn>
         </Flex>
 
@@ -379,9 +399,9 @@ const AdminUsers = () => {
                         <div>
                           <h4
                             style={{
-                              fontWeight: 700,
+                              fontWeight: 800,
                               marginBottom: "0.15rem",
-                              color: "#2B3674",
+                              color: "#191919",
                             }}
                           >
                             {user.name}
@@ -389,7 +409,7 @@ const AdminUsers = () => {
                           <p
                             style={{
                               fontSize: "0.8rem",
-                              color: "#A3AED0",
+                              color: "#86868b",
                               fontWeight: 500,
                             }}
                           >
@@ -405,7 +425,7 @@ const AdminUsers = () => {
                           <RoleSelect
                             value={user.role}
                             onChange={(e) =>
-                              handleRoleChange(user._id, e.target.value)
+                                handleRoleChange(user._id, e.target.value)
                             }
                           >
                             <option value="startup">Startup</option>
@@ -424,7 +444,7 @@ const AdminUsers = () => {
                       </Flex>
                     </td>
                     <td>
-                      <p style={{ fontWeight: 600, color: "#2B3674" }}>
+                      <p style={{ fontWeight: 700, color: "#191919", fontFamily: "var(--font-mono)" }}>
                         {new Date(user.createdAt).toLocaleDateString("en-IN", {
                           month: "short",
                           day: "numeric",
@@ -434,7 +454,7 @@ const AdminUsers = () => {
                     </td>
                     <td>
                       <Flex gap="0.5rem">
-                        <ActionBtn title="Email User">
+                        <ActionBtn title="Email User" onClick={() => window.open(`mailto:${user.email}`)}>
                           <Mail size={14} />
                         </ActionBtn>
                         <ActionBtn
@@ -457,6 +477,7 @@ const AdminUsers = () => {
                         <ActionBtn
                           $variant="delete"
                           onClick={() => handleDeleteUser(user._id, user.name)}
+                          title="Delete User"
                         >
                           <Trash2 size={14} />
                         </ActionBtn>

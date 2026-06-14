@@ -34,16 +34,20 @@ const StatsGrid = styled.div`
 `;
 
 const StatCard = styled(motion.div)`
-  background: #ffffff;
-  border: none;
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 24px;
   padding: 1.5rem;
   position: relative;
   overflow: hidden;
-  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
-  transition: transform 0.2s;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
   &:hover {
-    transform: translateY(-4px);
+    transform: translateY(-4px) scale(1.015);
+    box-shadow: 0px 24px 48px rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 113, 227, 0.1);
   }
 `;
 
@@ -52,43 +56,47 @@ const StatLabel = styled.p`
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #a3aed0;
+  color: #86868b;
   margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-family: var(--font-sans);
 `;
 
 const StatValue = styled.h2`
   font-size: 2.25rem;
   font-weight: 800;
-  letter-spacing: -1px;
-  color: ${(p) => p.$color || "#2B3674"};
+  letter-spacing: -0.02em;
+  color: ${(p) => p.$color || "#191919"};
   margin-bottom: 0.25rem;
+  font-family: ${(props) => props.theme.fonts.mono};
 `;
 
 const StatSub = styled.p`
   font-size: 0.8rem;
-  color: #a3aed0;
+  color: #86868b;
   font-weight: 600;
 `;
 
 const SectionTitle = styled.h3`
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 800;
-  color: #2b3674;
+  color: #191919;
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-family: ${(props) => props.theme.fonts.serif};
 `;
 
 const ChartCard = styled.div`
-  background: #ffffff;
-  border: none;
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 24px;
   padding: 2rem;
-  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
 `;
 
 const BarContainer = styled.div`
@@ -106,15 +114,16 @@ const BarRow = styled.div`
 const BarLabel = styled.span`
   font-size: 0.85rem;
   font-weight: 700;
-  color: #a3aed0;
+  color: #86868b;
   min-width: 100px;
   text-align: right;
+  font-family: var(--font-sans);
 `;
 
 const BarTrack = styled.div`
   flex: 1;
   height: 28px;
-  background: #f4f7fe;
+  background: rgba(0, 0, 0, 0.03);
   border-radius: 8px;
   overflow: hidden;
   position: relative;
@@ -131,12 +140,14 @@ const BarFill = styled(motion.div)`
   font-size: 0.75rem;
   font-weight: 800;
   color: white;
+  font-family: var(--font-mono);
 `;
 
 const DonutContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 2rem;
+  flex-wrap: wrap;
 `;
 
 const DonutSVG = styled.svg`
@@ -150,6 +161,7 @@ const LegendItem = styled.div`
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 1rem;
+  min-width: 140px;
 `;
 
 const LegendDot = styled.div`
@@ -161,24 +173,26 @@ const LegendDot = styled.div`
 
 const LegendLabel = styled.span`
   font-size: 0.85rem;
-  color: #a3aed0;
+  color: #86868b;
   font-weight: 600;
 `;
 
 const LegendValue = styled.span`
   font-size: 0.85rem;
   font-weight: 800;
-  color: #2b3674;
+  color: #191919;
   margin-left: auto;
+  font-family: var(--font-mono);
 `;
 
 const TableCard = styled.div`
-  background: #ffffff;
-  border: none;
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 24px;
   overflow: hidden;
   margin-top: 1rem;
-  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
 
   table {
     width: 100%;
@@ -191,24 +205,22 @@ const TableCard = styled.div`
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #a3aed0;
-    background: #ffffff;
-    border-bottom: 1px solid #f1f5f9;
+    color: #86868b;
+    background: transparent;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
   td {
     padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     font-size: 0.9rem;
-    color: #475569;
+    color: #1d1d1f;
   }
   tbody tr {
-    transition: all 0.2s;
-    background: #ffffff;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
   tbody tr:hover {
-    background: #f4f7fe;
+    background: rgba(0, 0, 0, 0.02);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(112, 144, 176, 0.08);
   }
   tbody tr:last-child td {
     border-bottom: none;
@@ -227,16 +239,16 @@ const StatusDot = styled.span`
   letter-spacing: 0.5px;
   background: ${(p) =>
     p.$s === "approved"
-      ? "rgba(5, 205, 153, 0.1)"
+      ? "rgba(16, 185, 129, 0.1)"
       : p.$s === "pending"
-        ? "rgba(255, 181, 71, 0.1)"
-        : "rgba(227, 26, 26, 0.1)"};
+        ? "rgba(245, 158, 11, 0.1)"
+        : "rgba(239, 68, 68, 0.1)"};
   color: ${(p) =>
     p.$s === "approved"
-      ? "#05CD99"
+      ? "#10b981"
       : p.$s === "pending"
-        ? "#FFB547"
-        : "#E31A1A"};
+        ? "#f59e0b"
+        : "#ef4444"};
 `;
 
 const Skeleton = styled.div`
@@ -293,12 +305,12 @@ const AdminAnalytics = () => {
     return acc;
   }, {});
   const categoryColors = {
-    Technology: "#4318FF",
-    Education: "#05CD99",
-    Healthcare: "#FFB547",
-    Environment: "#01B574",
-    Social: "#A855F7",
-    Other: "#FF708B",
+    Technology: "#0071e3",
+    Education: "#10b981",
+    Healthcare: "#f59e0b",
+    Environment: "#05cd99",
+    Social: "#8b5cf6",
+    Other: "#6e6e73",
   };
   const categoryEntries = Object.entries(categoryBreakdown).sort(
     (a, b) => b[1] - a[1],
@@ -309,11 +321,11 @@ const AdminAnalytics = () => {
     return acc;
   }, {});
   const roleColors = {
-    startup: "#4318FF",
-    investor: "#05CD99",
-    mnc: "#A855F7",
-    employee: "#A3AED0",
-    admin: "#FFB547",
+    startup: "#0071e3",
+    investor: "#10b981",
+    mnc: "#8b5cf6",
+    employee: "#6e6e73",
+    admin: "#f59e0b",
   };
 
   const statusBreakdown = {
@@ -390,17 +402,23 @@ const AdminAnalytics = () => {
               display: "flex",
               alignItems: "center",
               gap: 6,
-              background: "#ffffff",
-              border: "none",
-              borderRadius: 20,
+              background: "rgba(255, 255, 255, 0.7)",
+              backdropFilter: "blur(20px)",
+              border: "1px solid rgba(0,0,0,0.1)",
+              borderRadius: 99,
               padding: "0.5rem 1.5rem",
-              color: "#2B3674",
+              color: "#191919",
               fontWeight: 700,
               cursor: "pointer",
-              boxShadow: "0px 18px 40px rgba(112, 144, 176, 0.12)",
+              boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.01)",
+              transition: "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
             }}
+            onMouseDown={(e) => { e.currentTarget.style.transform = "scale(0.95)"; }}
+            onMouseUp={(e) => { e.currentTarget.style.transform = "scale(1.05)"; }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.05)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
           >
-            <RefreshCw size={14} /> Refresh Data
+            <RefreshCw size={14} className={loading ? "spin" : ""} /> Refresh Data
           </button>
         </Flex>
 
@@ -411,28 +429,28 @@ const AdminAnalytics = () => {
               icon: <DollarSign size={14} />,
               value: fmt(totalRaised),
               sub: `of ${fmt(totalTarget)} target`,
-              color: "#05CD99",
+              color: "#10b981",
             },
             {
               label: "Active Campaigns",
               icon: <Briefcase size={14} />,
               value: statusBreakdown.approved,
               sub: `${statusBreakdown.pending} pending review`,
-              color: "#4318FF",
+              color: "#0071e3",
             },
             {
               label: "Platform Users",
               icon: <Users size={14} />,
               value: stats?.totalUsers || users.length,
               sub: `${users.filter((u) => u.isVerified).length} verified`,
-              color: "#FFB547",
+              color: "#f59e0b",
             },
             {
               label: "Avg. Equity Offered",
               icon: <Activity size={14} />,
               value: `${avgEquity}%`,
               sub: `across ${projects.length} campaigns`,
-              color: "#A855F7",
+              color: "#8b5cf6",
             },
           ].map((c, i) => (
             <StatCard
@@ -460,7 +478,7 @@ const AdminAnalytics = () => {
         >
           <ChartCard>
             <SectionTitle>
-              <BarChart3 size={18} style={{ color: "#4318FF" }} /> Campaigns by
+              <BarChart3 size={18} style={{ color: "#0071e3" }} /> Campaigns by
               Category
             </SectionTitle>
             <BarContainer>
@@ -471,7 +489,7 @@ const AdminAnalytics = () => {
                     <BarLabel>{cat}</BarLabel>
                     <BarTrack>
                       <BarFill
-                        $color={categoryColors[cat] || "#A3AED0"}
+                        $color={categoryColors[cat] || "#6e6e73"}
                         initial={{ width: 0 }}
                         animate={{ width: `${Math.max(pct, 8)}%` }}
                         transition={{ delay: i * 0.1, duration: 0.5 }}
@@ -485,7 +503,7 @@ const AdminAnalytics = () => {
               {categoryEntries.length === 0 && (
                 <p
                   style={{
-                    color: "#A3AED0",
+                    color: "#86868b",
                     textAlign: "center",
                     padding: "2rem",
                   }}
@@ -498,7 +516,7 @@ const AdminAnalytics = () => {
 
           <ChartCard>
             <SectionTitle>
-              <PieChart size={18} style={{ color: "#05CD99" }} /> User
+              <PieChart size={18} style={{ color: "#10b981" }} /> User
               Composition
             </SectionTitle>
             <DonutContainer>
@@ -515,7 +533,7 @@ const AdminAnalytics = () => {
                       cy="80"
                       r="70"
                       fill="none"
-                      stroke={roleColors[role] || "#A3AED0"}
+                      stroke={roleColors[role] || "#6e6e73"}
                       strokeWidth="18"
                       strokeDasharray={`${dashLength} ${circumference - dashLength}`}
                       strokeDashoffset={-offset}
@@ -527,10 +545,11 @@ const AdminAnalytics = () => {
                   x="80"
                   y="76"
                   textAnchor="middle"
-                  fill="#2B3674"
+                  fill="#191919"
                   fontSize="28"
                   fontWeight="800"
                   transform="rotate(90, 80, 80)"
+                  style={{ fontFamily: "var(--font-sans)" }}
                 >
                   {users.length}
                 </text>
@@ -538,10 +557,11 @@ const AdminAnalytics = () => {
                   x="80"
                   y="96"
                   textAnchor="middle"
-                  fill="#A3AED0"
+                  fill="#86868b"
                   fontSize="10"
                   fontWeight="700"
                   transform="rotate(90, 80, 80)"
+                  style={{ fontFamily: "var(--font-sans)" }}
                 >
                   TOTAL
                 </text>
@@ -549,7 +569,7 @@ const AdminAnalytics = () => {
               <div>
                 {Object.entries(roleBreakdown).map(([role, count]) => (
                   <LegendItem key={role}>
-                    <LegendDot $color={roleColors[role] || "#A3AED0"} />
+                    <LegendDot $color={roleColors[role] || "#6e6e73"} />
                     <LegendLabel>
                       {role.charAt(0).toUpperCase() + role.slice(1)}
                     </LegendLabel>
@@ -573,19 +593,19 @@ const AdminAnalytics = () => {
             {
               label: "Approved",
               count: statusBreakdown.approved,
-              color: "#05CD99",
+              color: "#10b981",
               icon: <CheckCircle2 size={18} />,
             },
             {
               label: "Pending",
               count: statusBreakdown.pending,
-              color: "#FFB547",
+              color: "#f59e0b",
               icon: <Clock size={18} />,
             },
             {
               label: "Rejected",
               count: statusBreakdown.rejected,
-              color: "#E31A1A",
+              color: "#ef4444",
               icon: <XCircle size={18} />,
             },
           ].map((s, i) => (
@@ -595,11 +615,12 @@ const AdminAnalytics = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 + i * 0.08 }}
               style={{
-                background: "#ffffff",
-                border: "none",
-                borderRadius: 20,
+                background: "rgba(255, 255, 255, 0.75)",
+                backdropFilter: "blur(20px)",
+                border: "1px solid rgba(0, 0, 0, 0.04)",
+                borderRadius: 24,
                 padding: "1.5rem",
-                boxShadow: "0px 18px 40px rgba(112, 144, 176, 0.12)",
+                boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.02)",
               }}
             >
               <div
@@ -618,6 +639,7 @@ const AdminAnalytics = () => {
                     fontWeight: 800,
                     textTransform: "uppercase",
                     letterSpacing: "0.05em",
+                    fontFamily: "var(--font-sans)",
                   }}
                 >
                   {s.label}
@@ -627,8 +649,9 @@ const AdminAnalytics = () => {
                 style={{
                   fontSize: "2.25rem",
                   fontWeight: 800,
-                  color: "#2B3674",
-                  letterSpacing: "-1px",
+                  color: "#191919",
+                  letterSpacing: "-0.02em",
+                  fontFamily: "var(--font-mono)",
                 }}
               >
                 {s.count}
@@ -636,7 +659,7 @@ const AdminAnalytics = () => {
               <p
                 style={{
                   fontSize: "0.8rem",
-                  color: "#A3AED0",
+                  color: "#86868b",
                   fontWeight: 500,
                 }}
               >
@@ -649,7 +672,7 @@ const AdminAnalytics = () => {
         </div>
 
         <SectionTitle style={{ marginTop: "1.5rem" }}>
-          <TrendingUp size={18} style={{ color: "#FFB547" }} /> Top Campaigns by
+          <TrendingUp size={18} style={{ color: "#f59e0b" }} /> Top Campaigns by
           Funding
         </SectionTitle>
         <TableCard>
@@ -676,11 +699,11 @@ const AdminAnalytics = () => {
                 return (
                   <tr key={p._id}>
                     <td>
-                      <span style={{ fontWeight: 800, color: "#2B3674" }}>
+                      <span style={{ fontWeight: 800, color: "#191919" }}>
                         {p.title}
                       </span>
                     </td>
-                    <td style={{ fontWeight: 600, color: "#A3AED0" }}>
+                    <td style={{ fontWeight: 600, color: "#86868b" }}>
                       {p.creator?.name || "—"}
                     </td>
                     <td>
@@ -689,19 +712,21 @@ const AdminAnalytics = () => {
                           padding: "0.3rem 0.8rem",
                           borderRadius: 99,
                           fontSize: "0.72rem",
-                          fontWeight: 700,
+                          fontWeight: 800,
                           background:
-                            (categoryColors[p.category] || "#A3AED0") + "1A",
-                          color: categoryColors[p.category] || "#A3AED0",
+                            (categoryColors[p.category] || "#6e6e73") + "1A",
+                          color: categoryColors[p.category] || "#6e6e73",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.5px",
                         }}
                       >
                         {p.category}
                       </span>
                     </td>
-                    <td style={{ fontWeight: 800, color: "#2B3674" }}>
+                    <td style={{ fontWeight: 800, color: "#191919", fontFamily: "var(--font-mono)" }}>
                       {fmt(p.targetAmount)}
                     </td>
-                    <td style={{ fontWeight: 800, color: "#05CD99" }}>
+                    <td style={{ fontWeight: 800, color: "#10b981", fontFamily: "var(--font-mono)" }}>
                       {fmt(p.currentAmount || 0)}
                     </td>
                     <td>
@@ -716,7 +741,7 @@ const AdminAnalytics = () => {
                           style={{
                             flex: 1,
                             height: 8,
-                            background: "#F4F7FE",
+                            background: "rgba(0, 0, 0, 0.05)",
                             borderRadius: 4,
                             overflow: "hidden",
                           }}
@@ -726,7 +751,7 @@ const AdminAnalytics = () => {
                               height: "100%",
                               width: `${pct}%`,
                               background:
-                                "linear-gradient(90deg, #4318FF, #868CFF)",
+                                "linear-gradient(90deg, #0071e3, #8b5cf6)",
                               borderRadius: 4,
                             }}
                           />
@@ -735,8 +760,9 @@ const AdminAnalytics = () => {
                           style={{
                             fontSize: "0.78rem",
                             fontWeight: 800,
-                            color: "#A3AED0",
+                            color: "#86868b",
                             minWidth: "36px",
+                            fontFamily: "var(--font-mono)",
                           }}
                         >
                           {pct.toFixed(0)}%
@@ -756,7 +782,7 @@ const AdminAnalytics = () => {
                     style={{
                       textAlign: "center",
                       padding: "3rem",
-                      color: "#A3AED0",
+                      color: "#86868b",
                       fontWeight: 500,
                     }}
                   >

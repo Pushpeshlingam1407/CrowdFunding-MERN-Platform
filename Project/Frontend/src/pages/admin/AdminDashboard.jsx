@@ -26,15 +26,10 @@ const shimmer = keyframes`
   100% { background-position: 400px 0; }
 `;
 
-const pulse = keyframes`
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.6; }
-`;
-
 const PageBody = styled.div`
   max-width: 1280px;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: 1.5rem 0;
 `;
 
 const WelcomeSection = styled.div`
@@ -43,18 +38,19 @@ const WelcomeSection = styled.div`
 
 const WelcomeTitle = styled.h1`
   font-size: 2.25rem;
-  font-weight: 700;
-  letter-spacing: -1px;
-  color: #0f172a;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #191919;
+  font-family: ${(props) => props.theme.fonts.serif};
   margin-bottom: 0.5rem;
 
   span {
-    color: #2563eb;
+    color: #0071e3;
   }
 `;
 
 const WelcomeSub = styled.p`
-  color: #64748b;
+  color: #6e6e73;
   font-size: 1rem;
 `;
 
@@ -73,39 +69,44 @@ const StatsGrid = styled.div`
 `;
 
 const StatCard = styled(motion.div)`
-  background: #ffffff;
-  border: none;
-  border-radius: 20px;
-  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 24px;
+  padding: 1.75rem;
   position: relative;
   overflow: hidden;
-  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
-  transition: transform 0.2s;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
   &:hover {
-    transform: translateY(-4px);
+    transform: translateY(-4px) scale(1.015);
+    box-shadow: 0px 24px 48px rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 113, 227, 0.1);
   }
 `;
 
 const StatLabel = styled.p`
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #64748b;
+  color: #86868b;
   margin-bottom: 0.5rem;
 `;
 
 const StatValue = styled.h2`
   font-size: 2.25rem;
-  font-weight: 700;
-  letter-spacing: -1px;
-  color: #0f172a;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #191919;
+  font-family: ${(props) => props.theme.fonts.mono};
   margin-bottom: 0.25rem;
 `;
 
 const StatSub = styled.p`
   font-size: 0.8rem;
-  color: #94a3b8;
+  color: #86868b;
   font-weight: 500;
 `;
 
@@ -124,24 +125,30 @@ const ModulesGrid = styled.div`
 `;
 
 const ModuleCard = styled(motion.div)`
-  background: #ffffff;
-  border: none;
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 24px;
   padding: 1.75rem;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 22px 48px rgba(112, 144, 176, 0.18);
+    transform: translateY(-4px) scale(1.025);
+    box-shadow: 0px 24px 48px rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 113, 227, 0.1);
+  }
+
+  &:active {
+    transform: scale(0.975);
   }
 `;
 
 const ModuleIcon = styled.div`
   width: 50px;
   height: 50px;
-  border-radius: 12px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -152,14 +159,15 @@ const ModuleIcon = styled.div`
 
 const ModuleTitle = styled.h3`
   font-size: 1.1rem;
-  font-weight: 700;
-  color: #0f172a;
+  font-weight: 800;
+  color: #191919;
   margin-bottom: 0.5rem;
+  font-family: var(--font-sans);
 `;
 
 const ModuleDesc = styled.p`
   font-size: 0.85rem;
-  color: #64748b;
+  color: #6e6e73;
   line-height: 1.5;
   margin-bottom: 1.25rem;
 `;
@@ -169,22 +177,24 @@ const ModuleLink = styled.div`
   align-items: center;
   gap: 0.3rem;
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
   color: ${(p) => p.$color};
 `;
 
 const ActivityBar = styled.div`
-  background: #ffffff;
-  border: none;
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 24px;
   padding: 2rem;
-  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
 `;
 
 const ActivityTitle = styled.h3`
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #0f172a;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #191919;
+  font-family: ${(props) => props.theme.fonts.serif};
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
@@ -232,12 +242,6 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleLogout = () => {
-    adminLogout();
-    navigate("/admin/login");
-    toast.info("Admin session ended");
-  };
-
   const statCards = stats
     ? [
         {
@@ -280,55 +284,55 @@ const AdminDashboard = () => {
       title: "Campaign Moderation",
       desc: "Approve, reject, and manage all startup campaigns awaiting verification.",
       icon: <Briefcase size={22} />,
-      color: "#38bdf8",
-      bg: "rgba(56,189,248,0.1)",
+      color: "#0071e3",
+      bg: "rgba(0,113,227,0.08)",
       path: "/admin/projects",
     },
     {
       title: "User Ecosystem",
       desc: "Manage startups, investors, MNCs and platform members.",
       icon: <Users size={22} />,
-      color: "#4ade80",
-      bg: "rgba(74,222,128,0.1)",
+      color: "#10b981",
+      bg: "rgba(16,185,129,0.08)",
       path: "/admin/users",
     },
     {
       title: "Platform Analytics",
       desc: "Deep-dive into investment trends, growth metrics and KPIs.",
       icon: <BarChart3 size={22} />,
-      color: "#fb923c",
-      bg: "rgba(251,146,60,0.1)",
+      color: "#8b5cf6",
+      bg: "rgba(139,92,246,0.08)",
       path: "/admin/analytics",
     },
     {
       title: "Compliance Reports",
       desc: "Review bug reports, fraud allegations and user complaints.",
       icon: <AlertCircle size={22} />,
-      color: "#f87171",
-      bg: "rgba(248,113,113,0.1)",
+      color: "#ef4444",
+      bg: "rgba(239,68,68,0.08)",
       path: "/admin/complaints",
     },
     {
       title: "Admin Settings",
       desc: "Configure platform-wide policies, security and access.",
       icon: <Settings size={22} />,
-      color: "#a78bfa",
-      bg: "rgba(167,139,250,0.1)",
+      color: "#6e6e73",
+      bg: "rgba(110,110,115,0.08)",
       path: "/admin/settings",
     },
     {
       title: "Financial Activity",
       desc: "Monitor platform-wide fundraising and investments.",
       icon: <DollarSign size={22} />,
-      color: "#10b981",
-      bg: "rgba(16,185,129,0.1)",
+      color: "#f59e0b",
+      bg: "rgba(245,158,11,0.08)",
       path: "/admin/financials",
     },
   ];
 
   return (
     <AdminLayout title="Dashboard">
-      <div>
+      <PageBody>
         <WelcomeSection>
           <WelcomeTitle>
             Welcome back,&nbsp;<span>{adminUser?.name || "Admin"}</span>
@@ -343,15 +347,13 @@ const AdminDashboard = () => {
             ? Array(4)
                 .fill(0)
                 .map((_, i) => (
-                  <div key={i} style={{ borderRadius: 18, overflow: "hidden" }}>
+                  <div key={i} style={{ borderRadius: 24, overflow: "hidden" }}>
                     <Skeleton $h="128px" />
                   </div>
                 ))
             : statCards.map((card, i) => (
                 <StatCard
                   key={i}
-                  $from={card.from}
-                  $to={card.to}
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.08 }}
@@ -366,11 +368,12 @@ const AdminDashboard = () => {
         <h2
           style={{
             fontSize: "0.85rem",
-            fontWeight: 600,
-            color: "#64748b",
+            fontWeight: 700,
+            color: "#86868b",
             textTransform: "uppercase",
-            letterSpacing: "1px",
+            letterSpacing: "1.5px",
             marginBottom: "1.25rem",
+            fontFamily: "var(--font-sans)",
           }}
         >
           Admin Modules
@@ -379,7 +382,6 @@ const AdminDashboard = () => {
           {modules.map((m, i) => (
             <ModuleCard
               key={i}
-              $accent={m.color}
               onClick={() => navigate(m.path)}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -399,7 +401,7 @@ const AdminDashboard = () => {
 
         <ActivityBar>
           <ActivityTitle>
-            <TrendingUp size={20} style={{ color: "#2563eb" }} />
+            <TrendingUp size={20} style={{ color: "#191919" }} />
             Platform Summary
           </ActivityTitle>
           {loadingStats ? (
@@ -429,41 +431,42 @@ const AdminDashboard = () => {
                   {
                     label: "Approved Ventures",
                     value: stats.approvedProjects,
-                    color: "#059669",
+                    color: "#10b981",
                   },
                   {
                     label: "Pending KYC Docs",
                     value: stats.pendingDocuments,
-                    color: "#d97706",
+                    color: "#f59e0b",
                   },
                   {
                     label: "Total Investments",
                     value: stats.totalInvestments,
-                    color: "#2563eb",
+                    color: "#0071e3",
                   },
                   {
                     label: "Total Raised",
                     value: `₹${(stats.totalInvestedAmount / 100000).toFixed(1)}L`,
-                    color: "#7c3aed",
+                    color: "#8b5cf6",
                   },
                 ].map((item, i) => (
                   <div
                     key={i}
                     style={{
-                      background: "#f8fafc",
-                      borderRadius: 12,
+                      background: "rgba(255, 255, 255, 0.4)",
+                      borderRadius: 16,
                       padding: "1.5rem",
-                      border: "1px solid #e2e8f0",
+                      border: "1px solid rgba(0, 0, 0, 0.04)",
                     }}
                   >
                     <p
                       style={{
                         fontSize: "0.75rem",
-                        fontWeight: 600,
+                        fontWeight: 700,
                         textTransform: "uppercase",
                         letterSpacing: "0.5px",
-                        color: "#64748b",
+                        color: "#86868b",
                         marginBottom: 8,
+                        fontFamily: "var(--font-sans)",
                       }}
                     >
                       {item.label}
@@ -471,9 +474,10 @@ const AdminDashboard = () => {
                     <p
                       style={{
                         fontSize: "2rem",
-                        fontWeight: 700,
+                        fontWeight: 800,
                         color: item.color,
-                        letterSpacing: "-0.5px",
+                        letterSpacing: "-0.02em",
+                        fontFamily: "var(--font-mono)",
                       }}
                     >
                       {item.value}
@@ -484,7 +488,7 @@ const AdminDashboard = () => {
             )
           )}
         </ActivityBar>
-      </div>
+      </PageBody>
     </AdminLayout>
   );
 };

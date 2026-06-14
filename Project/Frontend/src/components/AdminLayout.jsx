@@ -19,20 +19,24 @@ import { Flex } from "./ui";
 const LayoutWrapper = styled.div`
   display: flex;
   min-height: 100vh;
-  background-color: #f4f7fe; /* Premium Horizon UI Background */
+  background: radial-gradient(circle at 10% 20%, rgba(0, 119, 182, 0.04) 0%, rgba(244, 247, 254, 0.4) 90%);
   font-family: inherit;
 `;
 
 const Sidebar = styled.aside`
   width: 280px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
   display: flex;
   flex-direction: column;
   padding: 2rem 1.5rem;
-  border-right: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.02);
   position: sticky;
-  top: 0;
-  height: 100vh;
+  top: 1.5rem;
+  height: calc(100vh - 3rem);
+  margin: 1.5rem 0 1.5rem 1.5rem;
   z-index: 50;
 `;
 
@@ -42,13 +46,14 @@ const LogoArea = styled.div`
   gap: 0.75rem;
   padding-bottom: 2rem;
   margin-bottom: 2rem;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     font-weight: 800;
-    letter-spacing: -0.05em;
-    color: #2b3674;
+    letter-spacing: -0.03em;
+    color: #191919;
+    font-family: var(--font-sans);
     margin: 0;
   }
 `;
@@ -56,7 +61,7 @@ const LogoArea = styled.div`
 const NavList = styled.nav`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.35rem;
   flex: 1;
 `;
 
@@ -64,17 +69,27 @@ const NavItem = styled(Link)`
   display: flex;
   align-items: center;
   gap: 0.875rem;
-  padding: 0.875rem 1rem;
-  border-radius: 12px;
+  padding: 0.8rem 1.25rem;
+  border-radius: 99px;
   text-decoration: none;
-  font-weight: ${(p) => (p.$active ? 700 : 600)};
-  color: ${(p) => (p.$active ? "#4318FF" : "#A3AED0")};
-  background: ${(p) => (p.$active ? "rgba(67, 24, 255, 0.05)" : "transparent")};
-  transition: all 0.2s ease;
+  font-weight: ${(p) => (p.$active ? 700 : 500)};
+  color: ${(p) => (p.$active ? "#191919" : "#6e6e73")};
+  background: ${(p) => (p.$active ? "rgba(0, 0, 0, 0.05)" : "transparent")};
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
 
   &:hover {
-    background: rgba(67, 24, 255, 0.03);
-    color: #4318ff;
+    background: ${(p) => (p.$active ? "rgba(0, 0, 0, 0.05)" : "rgba(0, 0, 0, 0.03)")};
+    color: #191919;
+    transform: scale(1.02);
+  }
+
+  &:active {
+    transform: scale(0.97);
   }
 `;
 
@@ -89,24 +104,21 @@ const TopHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem 2.5rem;
+  padding: 2.5rem 2.5rem 1.5rem 2.5rem;
   background: transparent;
-  backdrop-filter: blur(10px);
-  position: sticky;
-  top: 0;
-  z-index: 40;
 `;
 
 const HeaderGreeting = styled.div`
   h1 {
     font-size: 2.1rem;
     font-weight: 800;
-    color: #2b3674;
-    letter-spacing: -1px;
+    color: #191919;
+    letter-spacing: -0.03em;
     margin-bottom: 0.25rem;
+    font-family: ${(props) => props.theme.fonts.serif};
   }
   p {
-    color: #707eae;
+    color: #86868b;
     font-weight: 500;
     font-size: 0.95rem;
   }
@@ -116,29 +128,39 @@ const HeaderActions = styled.div`
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.04);
   padding: 0.5rem 0.5rem 0.5rem 1.5rem;
-  border-radius: 30px;
-  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+  border-radius: 99px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.015);
 `;
 
 const SearchBox = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: #f4f7fe;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.03);
+  padding: 0.5rem 1.25rem;
+  border-radius: 99px;
+  border: 1px solid transparent;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:focus-within {
+    background: #ffffff;
+    border-color: #191919;
+  }
 
   input {
     border: none;
     background: transparent;
     outline: none;
-    color: #2b3674;
+    color: #191919;
     font-weight: 500;
     font-size: 0.85rem;
+    width: 150px;
     &::placeholder {
-      color: #8f9bba;
+      color: #86868b;
     }
   }
 `;
@@ -146,14 +168,20 @@ const SearchBox = styled.div`
 const ActionBtn = styled.button`
   background: transparent;
   border: none;
-  color: #a3aed0;
+  color: #86868b;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
   &:hover {
-    color: #4318ff;
+    color: #191919;
+    transform: scale(1.08);
+  }
+
+  &:active {
+    transform: scale(0.95);
   }
 `;
 
@@ -161,7 +189,7 @@ const Avatar = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #4318ff 0%, #868cff 100%);
+  background: #191919;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -169,7 +197,11 @@ const Avatar = styled.div`
   font-weight: 800;
   font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(67, 24, 255, 0.2);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 const PageContainer = styled.div`
@@ -210,7 +242,7 @@ const AdminLayout = ({
         <LogoArea>
           <div
             style={{
-              background: "linear-gradient(135deg, #4318FF, #868CFF)",
+              background: "#191919",
               borderRadius: "10px",
               width: "32px",
               height: "32px",
@@ -219,11 +251,12 @@ const AdminLayout = ({
               justifyContent: "center",
               color: "white",
               fontWeight: 800,
+              fontFamily: "var(--font-sans)",
             }}
           >
-            S
+            A
           </div>
-          <h2>Admin Shell</h2>
+          <h2>Admin Portal</h2>
         </LogoArea>
         <NavList>
           {menu.map((item) => {
@@ -261,7 +294,7 @@ const AdminLayout = ({
           </HeaderGreeting>
           <HeaderActions>
             <SearchBox>
-              <Search size={16} color="#2B3674" />
+              <Search size={16} color="#86868b" />
               <input type="text" placeholder="Search..." />
             </SearchBox>
             <ActionBtn>

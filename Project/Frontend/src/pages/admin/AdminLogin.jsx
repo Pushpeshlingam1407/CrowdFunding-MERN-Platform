@@ -2,16 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import {
-  ShieldCheck,
-  Mail,
-  Lock,
-  LogIn,
-  ArrowLeft,
-  AlertCircle,
-} from "lucide-react";
+import { ShieldCheck, LogIn, ArrowLeft, AlertCircle } from "lucide-react";
 import { toast } from "react-hot-toast";
-import { Button, Input, Card, Container, Flex } from "../../components/ui";
+import { Button, Input } from "../../components/ui";
 import useAuthStore from "../../store/authStore";
 
 const AdminLoginWrapper = styled.div`
@@ -123,7 +116,6 @@ const AdminLogin = () => {
         toast.success("Admin authenticated successfully");
         navigate("/admin/dashboard");
       }
-      // errors are shown inline via errorField — no generic toast needed
     } catch (err) {
       toast.error("Authentication Error");
     } finally {
@@ -140,19 +132,20 @@ const AdminLogin = () => {
         style={{ width: "100%", maxWidth: "450px" }}
       >
         <AdminLogo>
-          <ShieldCheck size={32} style={{ color: "#2563eb" }} />
+          <ShieldCheck size={32} style={{ color: "#191919" }} />
           <h1
             style={{
               fontSize: "1.75rem",
               fontWeight: 700,
               letterSpacing: "-1px",
+              fontFamily: "var(--font-sans)",
             }}
           >
             Admin Portal
           </h1>
         </AdminLogo>
 
-        <AdminCard>
+        <StyledCard>
           <FormTitle>Admin Sign In</FormTitle>
           <FormSubtitle>
             Sign in to access the administrator dashboard.
@@ -161,9 +154,6 @@ const AdminLogin = () => {
           <form onSubmit={handleSubmit}>
             <FormGroup>
               <Label>Email Address</Label>
-              <FormIcon>
-                <Mail size={18} />
-              </FormIcon>
               <LightInput
                 type="email"
                 placeholder="admin@crowdfunding.com"
@@ -184,9 +174,6 @@ const AdminLogin = () => {
 
             <FormGroup>
               <Label>Password</Label>
-              <FormIcon>
-                <Lock size={18} />
-              </FormIcon>
               <LightInput
                 type="password"
                 placeholder="••••••••"
@@ -211,12 +198,9 @@ const AdminLogin = () => {
               style={{
                 width: "100%",
                 marginTop: "1rem",
-                background: "#2563eb",
+                background: "#191919",
                 color: "#ffffff",
                 border: "none",
-                padding: "0.75rem",
-                borderRadius: "8px",
-                fontWeight: 600,
               }}
             >
               <LogIn size={18} style={{ marginRight: 8 }} />
@@ -229,18 +213,15 @@ const AdminLogin = () => {
             style={{
               width: "100%",
               marginTop: "1.5rem",
-              borderColor: "#cbd5e1",
-              color: "#64748b",
+              borderColor: "#e3e0d8",
+              color: "#6e6e73",
               background: "transparent",
-              padding: "0.75rem",
-              borderRadius: "8px",
-              fontWeight: 600,
             }}
             onClick={() => navigate("/")}
           >
             <ArrowLeft size={16} style={{ marginRight: 8 }} /> Return to Website
           </Button>
-        </AdminCard>
+        </StyledCard>
       </motion.div>
     </AdminLoginWrapper>
   );
