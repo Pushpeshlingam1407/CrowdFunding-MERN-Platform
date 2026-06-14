@@ -27,7 +27,9 @@ import { projectAPI } from "../services/api";
 
 const ProjectWrapper = styled.div`
   padding: 4rem 0;
-  background: #fafafa;
+  background-color: #fbf9f6;
+  background-image: radial-gradient(#e3e0d8 1px, transparent 1px);
+  background-size: 32px 32px;
   min-height: calc(100vh - 80px);
 `;
 
@@ -36,12 +38,16 @@ const HeroCard = styled(Card)`
   overflow: hidden;
   margin-bottom: 2rem;
   border-radius: 24px;
+  border: 1px solid #e3e0d8;
+  background: #ffffff;
+  box-shadow: 0px 10px 30px rgba(0,0,0,0.015);
 `;
 
 const ImageContainer = styled.div`
   height: 400px;
   width: 100%;
   position: relative;
+  border-bottom: 1px solid #e3e0d8;
   img {
     width: 100%;
     height: 100%;
@@ -53,22 +59,25 @@ const StatusOverlay = styled.div`
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0.35rem 0.8rem;
   background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(20px);
   border-radius: 99px;
-  font-weight: 700;
-  font-size: 0.85rem;
+  font-weight: 800;
+  font-size: 0.72rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   color: ${(props) =>
     props.status === "completed"
-      ? "#05CD99"
+      ? "#10b981"
       : props.locked
-        ? "#e53e3e"
-        : props.theme.colors.primary};
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        ? "#ef4444"
+        : "#0071e3"};
+  border: 1px solid #e3e0d8;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 `;
 
 const ProjectInfo = styled.div`
@@ -76,11 +85,11 @@ const ProjectInfo = styled.div`
 `;
 
 const Category = styled.span`
-  color: ${(props) => props.theme.colors.primary};
-  font-weight: 800;
+  color: #6e6e73;
+  font-weight: 850;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  font-size: 0.75rem;
   margin-bottom: 1rem;
   display: block;
 `;
@@ -88,16 +97,16 @@ const Category = styled.span`
 const ProjectTitle = styled.h1`
   font-size: 3rem;
   font-weight: 800;
-  letter-spacing: -2px;
+  letter-spacing: -0.03em;
   margin-bottom: 1.5rem;
-  color: ${(props) => props.theme.colors.text};
+  color: #191919;
   font-family: ${(props) => props.theme.fonts.serif};
 `;
 
 const Description = styled.p`
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   line-height: 1.7;
-  color: #555;
+  color: #6e6e73;
   margin-bottom: 2.5rem;
   font-family: ${(props) => props.theme.fonts.serif};
 `;
@@ -105,20 +114,24 @@ const Description = styled.p`
 const SidebarCard = styled(Card)`
   position: sticky;
   top: 100px;
-  padding: 2rem;
+  padding: 2.5rem;
+  border-radius: 24px;
+  border: 1px solid #e3e0d8;
+  background: #ffffff;
+  box-shadow: 0px 10px 30px rgba(0,0,0,0.015);
 `;
 
 const ProgressTrack = styled.div`
-  height: 12px;
-  background: #eee;
-  border-radius: 6px;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 99px;
   overflow: hidden;
   margin: 1.5rem 0;
 `;
 
 const ProgressFill = styled.div`
   height: 100%;
-  background: ${(props) => props.theme.colors.primary};
+  background: #10b981;
   width: ${(props) => props.progress}%;
   transition: width 0.6s ease;
 `;
@@ -128,29 +141,30 @@ const CreatorInfo = styled.div`
   align-items: center;
   gap: 1rem;
   padding: 1.5rem 0;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid #e3e0d8;
   margin-top: 2rem;
 `;
 
 const CreatorDetails = styled.div`
   h4 {
     font-size: 1rem;
-    font-weight: 700;
+    font-weight: 800;
     margin-bottom: 0.25rem;
+    color: #191919;
   }
   p {
     font-size: 0.85rem;
-    color: #888;
+    color: #6e6e73;
+    font-weight: 500;
   }
 `;
 
-/* ── Gallery image tile ── */
 const GalleryTile = styled.div`
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
   aspect-ratio: 4/3;
-  background: #f0f0f0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background: #fbf9f6;
+  border: 1px solid #e3e0d8;
   cursor: pointer;
   position: relative;
 
@@ -159,7 +173,7 @@ const GalleryTile = styled.div`
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   &:hover img {
@@ -182,11 +196,10 @@ const GalleryTile = styled.div`
   }
 `;
 
-/* ── Lightbox ── */
 const LightboxOverlay = styled(motion.div)`
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.92);
+  background: rgba(0, 0, 0, 0.95);
   z-index: 2000;
   display: flex;
   align-items: center;
@@ -197,7 +210,7 @@ const LightboxOverlay = styled(motion.div)`
 const LightboxImg = styled(motion.img)`
   max-width: 90vw;
   max-height: 88vh;
-  border-radius: 12px;
+  border-radius: 16px;
   object-fit: contain;
   box-shadow: 0 8px 60px rgba(0, 0, 0, 0.6);
 `;
@@ -243,11 +256,10 @@ const LightboxNav = styled.button`
   }
 `;
 
-/* ── Report Modal ── */
 const ModalOverlay = styled(motion.div)`
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(4px);
   z-index: 1500;
   display: flex;
@@ -257,13 +269,14 @@ const ModalOverlay = styled(motion.div)`
 `;
 
 const ModalBox = styled(motion.div)`
-  background: white;
-  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid #e3e0d8;
+  border-radius: 24px;
   padding: 2.5rem;
   max-width: 480px;
   width: 100%;
   position: relative;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.05);
 `;
 
 const ModalClose = styled.button`
@@ -273,56 +286,76 @@ const ModalClose = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  color: #999;
+  color: #86868b;
   &:hover {
-    color: #333;
+    color: #191919;
   }
 `;
 
 const Label = styled.label`
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  color: #444;
+  color: #6e6e73;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   margin-bottom: 0.5rem;
 `;
 
 const Select = styled.select`
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  padding: 0.75rem 2.25rem 0.75rem 1rem;
+  border: 1px solid #dcdad2;
+  border-radius: 12px;
   font-family: inherit;
   font-size: 0.95rem;
-  background: white;
+  font-weight: 500;
+  background: #ffffff;
   margin-bottom: 1.25rem;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%236e6e73%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 12px) center;
+  outline: none;
+
+  &:focus {
+    border-color: #191919;
+  }
 `;
 
 const InputField = styled.input`
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  border: 1px solid #dcdad2;
+  border-radius: 12px;
   font-family: inherit;
   font-size: 0.95rem;
   margin-bottom: 1.25rem;
   box-sizing: border-box;
+  outline: none;
+
+  &:focus {
+    border-color: #191919;
+  }
 `;
 
 const TextAreaField = styled.textarea`
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  border: 1px solid #dcdad2;
+  border-radius: 12px;
   font-family: inherit;
   font-size: 0.95rem;
   min-height: 100px;
   resize: vertical;
   margin-bottom: 1.25rem;
   box-sizing: border-box;
-`;
+  outline: none;
 
-/* ─── Component ─────────────────────────────────────────────── */
+  &:focus {
+    border-color: #191919;
+  }
+`;
 
 const ProjectDetails = () => {
   const { id } = useParams();
@@ -473,12 +506,11 @@ const ProjectDetails = () => {
     return (
       <ProjectWrapper>
         <Container>
-          <div style={{ padding: "8rem", display: "flex", justifyContent: "center" }}>
+          <div style={{ padding: "8rem 0", display: "flex", justifyContent: "center" }}>
             <div style={{ width: "100%", maxWidth: "800px", display: "flex", flexDirection: "column", gap: "2rem" }}>
-              <div style={{ width: "100%", height: "400px", background: "#f0f0f0", borderRadius: "24px" }} />
+              <div style={{ width: "100%", height: "400px", background: "#fbf9f6", borderRadius: "24px", border: "1px solid #e3e0d8" }} />
               <div style={{ width: "30%", height: "24px", background: "#f0f0f0", borderRadius: "8px" }} />
               <div style={{ width: "80%", height: "48px", background: "#f0f0f0", borderRadius: "8px" }} />
-              <div style={{ width: "100%", height: "120px", background: "#f0f0f0", borderRadius: "8px" }} />
             </div>
           </div>
         </Container>
@@ -486,7 +518,7 @@ const ProjectDetails = () => {
     );
   if (!project)
     return (
-      <div style={{ padding: "8rem", textAlign: "center" }}>
+      <div style={{ padding: "8rem", textAlign: "center", color: "#191919", fontFamily: "var(--font-serif)", fontSize: "1.25rem" }}>
         Project Not Found
       </div>
     );
@@ -513,8 +545,11 @@ const ProjectDetails = () => {
           onClick={() => navigate("/campaigns")}
           style={{
             marginBottom: "2rem",
-            padding: "0.5rem 1rem",
-            fontSize: "0.9rem",
+            padding: "0.5rem 1.25rem",
+            fontSize: "0.85rem",
+            borderColor: "#e3e0d8",
+            color: "#6e6e73",
+            background: "transparent"
           }}
         >
           <ArrowLeft size={16} style={{ marginRight: 8 }} /> Back to Marketplace
@@ -560,59 +595,64 @@ const ProjectDetails = () => {
                   <Flex direction="column" align="flex-start" gap="0.5rem">
                     <span
                       style={{
-                        color: "#888",
-                        fontSize: "0.8rem",
-                        fontWeight: 600,
+                        color: "#86868b",
+                        fontSize: "0.75rem",
+                        fontWeight: 700,
                         textTransform: "uppercase",
+                        letterSpacing: "0.5px",
+                        fontFamily: "var(--font-sans)",
                       }}
                     >
                       Equity Offered
                     </span>
-                    <span style={{ fontSize: "1.25rem", fontWeight: 700 }}>
+                    <span style={{ fontSize: "1.25rem", fontWeight: 800, fontFamily: "var(--font-mono)", color: "#191919" }}>
                       {project.equity}%
                     </span>
                   </Flex>
                   <Flex direction="column" align="flex-start" gap="0.5rem">
                     <span
                       style={{
-                        color: "#888",
-                        fontSize: "0.8rem",
-                        fontWeight: 600,
+                        color: "#86868b",
+                        fontSize: "0.75rem",
+                        fontWeight: 700,
                         textTransform: "uppercase",
+                        letterSpacing: "0.5px",
+                        fontFamily: "var(--font-sans)",
                       }}
                     >
                       Target Goal
                     </span>
-                    <span style={{ fontSize: "1.25rem", fontWeight: 700 }}>
-                      ₹{project.targetAmount.toLocaleString()}
+                    <span style={{ fontSize: "1.25rem", fontWeight: 800, fontFamily: "var(--font-mono)", color: "#191919" }}>
+                      ₹{project.targetAmount.toLocaleString("en-IN")}
                     </span>
                   </Flex>
                   <Flex direction="column" align="flex-start" gap="0.5rem">
                     <span
                       style={{
-                        color: "#888",
-                        fontSize: "0.8rem",
-                        fontWeight: 600,
+                        color: "#86868b",
+                        fontSize: "0.75rem",
+                        fontWeight: 700,
                         textTransform: "uppercase",
+                        letterSpacing: "0.5px",
+                        fontFamily: "var(--font-sans)",
                       }}
                     >
                       Min Investment
                     </span>
-                    <span style={{ fontSize: "1.25rem", fontWeight: 700 }}>
+                    <span style={{ fontSize: "1.25rem", fontWeight: 800, fontFamily: "var(--font-mono)", color: "#191919" }}>
                       ₹10,000
                     </span>
                   </Flex>
                 </Grid>
 
                 <CreatorInfo>
-                  {/* Avatar with initials */}
                   <div
                     style={{
                       width: 48,
                       height: 48,
                       borderRadius: "50%",
-                      background: "#0077b615",
-                      color: "#0077b6",
+                      background: "rgba(0, 0, 0, 0.05)",
+                      color: "#191919",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -634,11 +674,12 @@ const ProjectDetails = () => {
                       onClick={() =>
                         navigate(`/company/${project.creator?._id}`)
                       }
+                      style={{ borderColor: "#e3e0d8", color: "#6e6e73", background: "transparent" }}
                     >
                       Visit Profile
                     </Button>
                     {!isCreator && (
-                      <Button size="sm">
+                      <Button size="sm" style={{ background: "#191919", color: "#ffffff", border: "none" }}>
                         <MessageSquare size={16} style={{ marginRight: 8 }} />{" "}
                         Connect
                       </Button>
@@ -656,7 +697,9 @@ const ProjectDetails = () => {
                     fontSize: "1.5rem",
                     fontWeight: 800,
                     marginBottom: "1.25rem",
-                    letterSpacing: "-0.5px",
+                    letterSpacing: "-0.02em",
+                    fontFamily: "var(--font-serif)",
+                    color: "#191919",
                   }}
                 >
                   Campaign Gallery
@@ -695,7 +738,9 @@ const ProjectDetails = () => {
                     fontSize: "1.5rem",
                     fontWeight: 800,
                     marginBottom: "1.25rem",
-                    letterSpacing: "-0.5px",
+                    letterSpacing: "-0.02em",
+                    fontFamily: "var(--font-serif)",
+                    color: "#191919",
                   }}
                 >
                   Recent Investments
@@ -708,7 +753,7 @@ const ProjectDetails = () => {
                   }}
                 >
                   {completedInvestments.map((inv) => (
-                    <Card key={inv._id} style={{ padding: "1.25rem" }}>
+                    <Card key={inv._id} style={{ padding: "1.25rem", border: "1px solid #e3e0d8", borderRadius: "16px", boxShadow: "0 4px 12px rgba(0,0,0,0.01)" }}>
                       <Flex justify="space-between" align="center">
                         <Flex gap="1rem" align="center">
                           <div
@@ -716,8 +761,8 @@ const ProjectDetails = () => {
                               width: 40,
                               height: 40,
                               borderRadius: "50%",
-                              background: "#0077b615",
-                              color: "#0077b6",
+                              background: "rgba(0, 0, 0, 0.05)",
+                              color: "#191919",
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
@@ -734,6 +779,7 @@ const ProjectDetails = () => {
                                 margin: 0,
                                 fontSize: "0.95rem",
                                 fontWeight: 700,
+                                color: "#191919"
                               }}
                             >
                               {inv.investor?.name || "Anonymous Investor"}
@@ -742,7 +788,8 @@ const ProjectDetails = () => {
                               style={{
                                 margin: 0,
                                 fontSize: "0.8rem",
-                                color: "#888",
+                                color: "#86868b",
+                                fontFamily: "var(--font-mono)"
                               }}
                             >
                               {new Date(
@@ -759,10 +806,11 @@ const ProjectDetails = () => {
                           style={{
                             fontWeight: 800,
                             fontSize: "1.1rem",
-                            color: "#2f855a",
+                            color: "#10b981",
+                            fontFamily: "var(--font-mono)"
                           }}
                         >
-                          ₹{inv.amount.toLocaleString()}
+                          ₹{inv.amount.toLocaleString("en-IN")}
                         </div>
                       </Flex>
                     </Card>
@@ -773,12 +821,15 @@ const ProjectDetails = () => {
 
             {/* ── Action bar ── */}
             <Flex gap="1rem" style={{ marginTop: "1.5rem" }}>
-              <Button variant="outline">
+              <Button
+                variant="outline"
+                style={{ borderColor: "#e3e0d8", color: "#6e6e73", background: "transparent" }}
+              >
                 <Share2 size={18} style={{ marginRight: 8 }} /> Share
               </Button>
               <Button
                 variant="outline"
-                style={{ color: "#e53e3e", borderColor: "#fed7d7" }}
+                style={{ color: "#ef4444", borderColor: "rgba(239,68,68,0.2)", background: "transparent" }}
                 onClick={() => {
                   if (!isAuthenticated) {
                     toast.error("Please login to report");
@@ -800,25 +851,29 @@ const ProjectDetails = () => {
                   fontSize: "1.5rem",
                   fontWeight: 800,
                   marginBottom: "0.5rem",
+                  color: "#191919",
+                  fontFamily: "var(--font-sans)",
+                  letterSpacing: "-0.02em"
                 }}
               >
                 Funding Status
               </h2>
               <p
                 style={{
-                  color: "#666",
+                  color: "#6e6e73",
                   fontSize: "0.9rem",
                   marginBottom: "2rem",
+                  fontFamily: "var(--font-serif)"
                 }}
               >
                 Join the pool of professional investors.
               </p>
 
-              <Flex justify="space-between">
-                <span style={{ fontSize: "2rem", fontWeight: 800 }}>
-                  ₹{project.currentAmount.toLocaleString()}
+              <Flex justify="space-between" align="center">
+                <span style={{ fontSize: "2rem", fontWeight: 800, color: "#191919", fontFamily: "var(--font-mono)", letterSpacing: "-0.02em" }}>
+                  ₹{project.currentAmount.toLocaleString("en-IN")}
                 </span>
-                <span style={{ color: "#0077b6", fontWeight: 700 }}>
+                <span style={{ color: "#10b981", fontWeight: 800, fontFamily: "var(--font-mono)" }}>
                   {progress.toFixed(1)}%
                 </span>
               </Flex>
@@ -828,18 +883,18 @@ const ProjectDetails = () => {
 
               <Grid cols={2} gap="1rem" style={{ marginBottom: "2.5rem" }}>
                 <Flex direction="column" align="flex-start">
-                  <span style={{ fontSize: "1rem", fontWeight: 700 }}>
+                  <span style={{ fontSize: "1rem", fontWeight: 800, fontFamily: "var(--font-mono)", color: "#191919" }}>
                     ₹
                     {(
                       project.targetAmount - project.currentAmount
-                    ).toLocaleString()}
+                    ).toLocaleString("en-IN")}
                   </span>
-                  <span style={{ color: "#888", fontSize: "0.8rem" }}>
+                  <span style={{ color: "#86868b", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px" }}>
                     Still Needed
                   </span>
                 </Flex>
                 <Flex direction="column" align="flex-start">
-                  <span style={{ fontSize: "1rem", fontWeight: 700 }}>
+                  <span style={{ fontSize: "1rem", fontWeight: 800, fontFamily: "var(--font-mono)", color: "#191919" }}>
                     {new Date(project.endDate) > new Date()
                       ? Math.ceil(
                           (new Date(project.endDate) - new Date()) /
@@ -847,7 +902,7 @@ const ProjectDetails = () => {
                         )
                       : 0}
                   </span>
-                  <span style={{ color: "#888", fontSize: "0.8rem" }}>
+                  <span style={{ color: "#86868b", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px" }}>
                     Days Left
                   </span>
                 </Flex>
@@ -855,7 +910,13 @@ const ProjectDetails = () => {
 
               <Button
                 size="lg"
-                style={{ width: "100%", padding: "1.25rem" }}
+                style={{
+                  width: "100%",
+                  padding: "1rem",
+                  background: "#191919",
+                  color: "#ffffff",
+                  border: "none",
+                }}
                 disabled={
                   project.isLocked ||
                   isCreator ||
@@ -874,7 +935,13 @@ const ProjectDetails = () => {
                 <Button
                   variant="outline"
                   size="lg"
-                  style={{ width: "100%", marginTop: "1rem" }}
+                  style={{
+                    width: "100%",
+                    marginTop: "1rem",
+                    borderColor: "#e3e0d8",
+                    color: "#6e6e73",
+                    background: "transparent",
+                  }}
                   onClick={() => navigate(`/projects/${id}/edit`)}
                 >
                   Manage Campaign
@@ -985,7 +1052,7 @@ const ProjectDetails = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <AlertCircle size={20} color="#e53e3e" />
+                  <AlertCircle size={20} color="#ef4444" />
                 </div>
                 <div>
                   <h2
@@ -993,11 +1060,12 @@ const ProjectDetails = () => {
                       fontSize: "1.25rem",
                       fontWeight: 800,
                       marginBottom: "0.25rem",
+                      color: "#191919"
                     }}
                   >
                     Report Campaign
                   </h2>
-                  <p style={{ fontSize: "0.85rem", color: "#666" }}>
+                  <p style={{ fontSize: "0.85rem", color: "#6e6e73" }}>
                     Your report goes directly to the compliance team.
                   </p>
                 </div>
@@ -1044,7 +1112,7 @@ const ProjectDetails = () => {
                   <Button
                     type="button"
                     variant="outline"
-                    style={{ flex: 1 }}
+                    style={{ flex: 1, borderColor: "#e3e0d8", color: "#6e6e73", background: "transparent" }}
                     onClick={() => setReportOpen(false)}
                   >
                     Cancel
@@ -1053,8 +1121,9 @@ const ProjectDetails = () => {
                     type="submit"
                     style={{
                       flex: 2,
-                      background: "#e53e3e",
-                      borderColor: "#e53e3e",
+                      background: "#ef4444",
+                      color: "#ffffff",
+                      border: "none",
                     }}
                     disabled={reportSubmitting}
                   >
