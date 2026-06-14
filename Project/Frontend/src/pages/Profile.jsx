@@ -49,6 +49,7 @@ const SectionTitle = styled.h3`
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  font-family: ${(props) => props.theme.fonts.serif};
 `;
 
 const Profile = () => {
@@ -201,6 +202,7 @@ const Profile = () => {
                   fontWeight: 800,
                   letterSpacing: "-1.5px",
                   marginBottom: "0.5rem",
+                  fontFamily: '"Crimson Pro", Lora, Georgia, serif',
                 }}
               >
                 Professional Identity

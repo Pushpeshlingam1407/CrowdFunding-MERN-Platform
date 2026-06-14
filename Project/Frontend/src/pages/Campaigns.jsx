@@ -15,10 +15,10 @@ import { Button, Card, Container, Flex, Grid, Input } from "../components/ui";
 import { projectAPI } from "../services/api";
 
 const PageHeader = styled.div`
-  padding: 4rem 0;
+  padding: 5rem 0;
   text-align: center;
-  background: white;
-  border-bottom: 1px solid #f0f0f0;
+  background: radial-gradient(circle at top, rgba(0, 119, 182, 0.04) 0%, #ffffff 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 `;
 
 const FilterSection = styled.div`
@@ -30,7 +30,7 @@ const FilterSection = styled.div`
 const CampaignGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 2rem;
+  gap: 2.5rem;
   padding: 4rem 0;
 `;
 
@@ -39,6 +39,14 @@ const CampaignCard = styled(Card)`
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.01);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    transform: translateY(-6px) scale(1.015);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.08);
+  }
 `;
 
 const ImageWrapper = styled.div`
@@ -52,11 +60,11 @@ const ImageWrapper = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   ${CampaignCard}:hover & img {
-    transform: scale(1.05);
+    transform: scale(1.06);
   }
 `;
 
@@ -65,13 +73,13 @@ const Badge = styled.span`
   top: 1rem;
   right: 1rem;
   padding: 0.35rem 0.75rem;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(4px);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
   border-radius: 99px;
   font-size: 0.75rem;
   font-weight: 700;
   color: ${(props) => props.theme.colors.primary};
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
 `;
 
 const Content = styled.div`
@@ -93,9 +101,41 @@ const Category = styled.span`
 
 const Title = styled.h3`
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 800;
   margin-bottom: 0.75rem;
   color: ${(props) => props.theme.colors.text};
+  font-family: ${(props) => props.theme.fonts.serif};
+  letter-spacing: -0.02em;
+`;
+
+/* Apple-Style Segmented Toggle Control */
+const SegmentedControl = styled.div`
+  display: flex;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 3px;
+  border-radius: 99px;
+  border: 1px solid rgba(0, 0, 0, 0.01);
+  align-items: center;
+  width: fit-content;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+`;
+
+const SegmentButton = styled.button`
+  background: ${(props) => (props.$active ? "#ffffff" : "transparent")};
+  color: ${(props) => (props.$active ? "#1d1d1f" : "#6e6e73")};
+  border: none;
+  padding: 0.5rem 1.4rem;
+  border-radius: 99px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: ${(props) => (props.$active ? "0px 3px 8px rgba(0, 0, 0, 0.08)" : "none")};
+  outline: none;
+
+  &:hover {
+    color: #1d1d1f;
+  }
 `;
 
 const Description = styled.p`
@@ -240,18 +280,17 @@ const Campaigns = () => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-              <Flex gap="0.5rem">
+              <SegmentedControl>
                 {categories.map((cat) => (
-                  <Button
+                  <SegmentButton
                     key={cat}
-                    variant={selectedCategory === cat ? "primary" : "outline"}
-                    size="sm"
+                    $active={selectedCategory === cat}
                     onClick={() => setSelectedCategory(cat)}
                   >
                     {cat}
-                  </Button>
+                  </SegmentButton>
                 ))}
-              </Flex>
+              </SegmentedControl>
             </Flex>
             <div style={{ color: "#666", fontSize: "0.9rem", fontWeight: 500 }}>
               Showing {filteredCampaigns.length} campaigns

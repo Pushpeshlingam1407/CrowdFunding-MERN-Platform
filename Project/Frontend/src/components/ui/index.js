@@ -7,15 +7,16 @@ export const Button = styled.button`
     props.variant === "outline" ? props.theme.colors.primary : "#ffffff"};
   border: ${(props) =>
     props.variant === "outline"
-      ? `2px solid ${props.theme.colors.primary}`
+      ? `1px solid ${props.theme.colors.primary}`
       : "none"};
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+  padding: 0.65rem 1.6rem;
+  border-radius: 99px;
   font-family: inherit;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -24,18 +25,18 @@ export const Button = styled.button`
   &:hover {
     background-color: ${(props) =>
       props.variant === "outline"
-        ? `${props.theme.colors.primary}11`
+        ? `${props.theme.colors.primary}0c`
         : props.theme.colors.accent};
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 119, 182, 0.2);
+    transform: scale(1.025);
+    box-shadow: 0 4px 16px rgba(0, 119, 182, 0.15);
   }
 
   &:active {
-    transform: translateY(0);
+    transform: scale(0.965);
   }
 
   &:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
