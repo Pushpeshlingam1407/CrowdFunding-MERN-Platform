@@ -7,11 +7,9 @@ import {
   Navigate,
   useLocation,
 } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
 import { ToastContainer } from "react-toastify";
 import { Toaster as HotToaster } from "react-hot-toast";
 import { Toaster as SonnerToaster } from "sonner";
-import { theme, GlobalStyle } from "./theme/theme";
 import Navbar from "./components/ui/Navbar";
 import Footer from "./components/ui/Footer";
 import "react-toastify/dist/ReactToastify.css";
@@ -230,12 +228,9 @@ const AppContent = () => {
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <Router>
-        <AppContent />
-      </Router>
-    </ThemeProvider>
+    <Router>
+      <AppContent />
+    </Router>
   );
 }
 

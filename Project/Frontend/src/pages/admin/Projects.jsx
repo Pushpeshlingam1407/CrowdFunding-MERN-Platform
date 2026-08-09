@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -16,7 +15,9 @@ import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
 import "./Projects.css";
 
-const TableWrapper = styled.div`
+/* Component styles live in Projects.css. */
+/*
+const TableWrapper = legacy.div`
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(20px);
   border-radius: 24px;
@@ -65,7 +66,7 @@ const TableWrapper = styled.div`
   }
 `;
 
-const StatusBadge = styled.span`
+const StatusBadge = legacy.span`
   padding: 0.35rem 0.8rem;
   border-radius: 99px;
   font-size: 0.72rem;
@@ -81,7 +82,7 @@ const StatusBadge = styled.span`
         : `background: rgba(239, 68, 68, 0.1); color: #ef4444;`}
 `;
 
-const SearchBar = styled.div`
+const SearchBar = legacy.div`
   position: relative;
   flex: 1;
 
@@ -119,7 +120,7 @@ const SearchBar = styled.div`
   }
 `;
 
-const ActionBtn = styled.button`
+const ActionBtn = legacy.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -151,7 +152,7 @@ const ActionBtn = styled.button`
           : `color: #191919; border-color: rgba(0,0,0,0.15); &:hover { background: rgba(0,0,0,0.05); }`}
 `;
 
-const EmptyState = styled.div`
+const EmptyState = legacy.div`
   padding: 5rem 2rem;
   text-align: center;
   color: #86868b;
@@ -167,7 +168,7 @@ const EmptyState = styled.div`
   }
 `;
 
-const SegmentedControl = styled.div`
+const SegmentedControl = legacy.div`
   display: inline-flex;
   background: rgba(0, 0, 0, 0.05);
   padding: 4px;
@@ -175,7 +176,7 @@ const SegmentedControl = styled.div`
   margin-bottom: 1.5rem;
 `;
 
-const SegmentButton = styled.button`
+const SegmentButton = legacy.button`
   padding: 0.5rem 1.5rem;
   border-radius: 99px;
   border: none;
@@ -192,6 +193,7 @@ const SegmentButton = styled.button`
   }
 `;
 
+*/
 const AdminProjects = () => {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);

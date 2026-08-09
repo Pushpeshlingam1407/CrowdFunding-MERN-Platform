@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -352,16 +351,17 @@ const Register = () => {
                     ].map((opt) => {
                       const Icon = opt.icon;
                       return (
-                        <RoleCard
+                        <button
                           key={opt.value}
-                          $active={formData.role === opt.value}
+                          type="button"
+                          className={`register-role-card ${formData.role === opt.value ? "active" : ""}`}
                           onClick={() =>
                             setFormData({ ...formData, role: opt.value })
                           }
                         >
                           <Icon size={16} />
                           {opt.label}
-                        </div>
+                        </button>
                       );
                     })}
                   </div>

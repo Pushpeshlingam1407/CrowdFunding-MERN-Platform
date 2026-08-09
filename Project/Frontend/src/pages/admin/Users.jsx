@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -15,217 +14,6 @@ import { toast } from "sonner";
 import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
 import "./Users.css";
-
-const TableWrapper = styled.div`
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(20px);
-  border-radius: 24px;
-  overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  margin-top: 1.5rem;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  th {
-    padding: 1.25rem 1.5rem;
-    text-align: left;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #86868b;
-    background: transparent;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  }
-
-  td {
-    padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    font-size: 0.9rem;
-    color: #1d1d1f;
-    vertical-align: middle;
-  }
-
-  tbody tr {
-    background: transparent;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  tbody tr:hover {
-    background: rgba(0, 0, 0, 0.02);
-    transform: translateY(-2px);
-  }
-
-  tr:last-child td {
-    border-bottom: none;
-  }
-`;
-
-const RoleBadge = styled.span`
-  padding: 0.35rem 0.75rem;
-  border-radius: 99px;
-  font-size: 0.7rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-
-  ${(props) =>
-    props.role === "startup"
-      ? `background: rgba(0, 113, 227, 0.1); color: #0071e3;`
-      : props.role === "investor"
-        ? `background: rgba(16, 185, 129, 0.1); color: #10b981;`
-        : props.role === "mnc"
-          ? `background: rgba(139, 92, 246, 0.1); color: #8b5cf6;`
-          : props.role === "admin"
-            ? `background: rgba(245, 158, 11, 0.1); color: #f59e0b;`
-            : `background: rgba(110, 110, 115, 0.1); color: #6e6e73;`}
-`;
-
-const VerifiedBadge = styled.span`
-  padding: 0.25rem 0.6rem;
-  border-radius: 99px;
-  font-size: 0.68rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-
-  ${(props) =>
-    props.$verified
-      ? `background: rgba(16, 185, 129, 0.1); color: #10b981;`
-      : `background: rgba(239, 68, 68, 0.1); color: #ef4444;`}
-`;
-
-const ActionBtn = styled.button`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  padding: 0.5rem 1rem;
-  border-radius: 99px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  cursor: pointer;
-  border: 1px solid;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  background: #ffffff;
-
-  &:hover {
-    transform: scale(1.05);
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
-
-  ${(props) =>
-    props.$variant === "verify"
-      ? `color: #10b981; border-color: rgba(16,185,129,0.3); &:hover { background: rgba(16,185,129,0.1); }`
-      : props.$variant === "ban"
-        ? `color: #f59e0b; border-color: rgba(245,158,11,0.3); &:hover { background: rgba(245,158,11,0.1); }`
-        : props.$variant === "delete"
-          ? `color: #ef4444; border-color: rgba(239,68,68,0.3); &:hover { background: rgba(239,68,68,0.1); }`
-          : `color: #191919; border-color: rgba(0,0,0,0.15); &:hover { background: rgba(0,0,0,0.05); }`}
-`;
-
-const RoleSelect = styled.select`
-  padding: 0.35rem 1.5rem 0.35rem 0.75rem;
-  border-radius: 99px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  background: rgba(255, 255, 255, 0.7);
-  color: #191919;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  outline: none;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%236e6e73%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
-  background-repeat: no-repeat;
-  background-position: calc(100% - 8px) center;
-
-  &:focus {
-    border-color: #191919;
-    background-color: #ffffff;
-  }
-`;
-
-const SearchBar = styled.div`
-  position: relative;
-  flex: 1;
-
-  svg {
-    position: absolute;
-    left: 1.25rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #86868b;
-    pointer-events: none;
-  }
-
-  input {
-    width: 100%;
-    padding: 0.85rem 1rem 0.85rem 3rem;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(0, 0, 0, 0.04);
-    border-radius: 99px;
-    color: #191919;
-    font-size: 0.9rem;
-    font-weight: 500;
-    outline: none;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
-
-    &::placeholder {
-      color: #86868b;
-    }
-    &:focus {
-      background: #ffffff;
-      border-color: #191919;
-      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.03);
-    }
-  }
-`;
-
-const EmptyState = styled.div`
-  padding: 5rem 2rem;
-  text-align: center;
-  color: #86868b;
-
-  svg {
-    margin: 0 auto 1rem;
-    display: block;
-    opacity: 0.4;
-  }
-  p {
-    font-size: 0.95rem;
-    font-weight: 500;
-  }
-`;
-
-const Avatar = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: #191919;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 1rem;
-  flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-
-  &:hover {
-    transform: scale(1.05);
-  }
-`;
 
 const AdminUsers = () => {
   const navigate = useNavigate();
@@ -339,34 +127,34 @@ const AdminUsers = () => {
     >
       <div>
         <Flex gap="1rem" className="filters-row-users">
-          <SearchBar>
+          <div className="users-search-bar">
             <Search size={18} />
             <input
               placeholder="Refine by name, email, company, or role..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-          </SearchBar>
-          <ActionBtn onClick={fetchUsers} className="btn-refresh-users">
+          </div>
+          <button onClick={fetchUsers} className="users-action-btn default btn-refresh-users">
             <RefreshCw
               size={16}
               className={loading ? "spin icon-mr-sm" : "icon-mr-sm"}
             />{" "}
             Refresh
-          </ActionBtn>
+          </button>
         </Flex>
 
-        <TableWrapper>
+        <div className="users-table-wrapper">
           {loading ? (
-            <EmptyState>
+            <div className="users-empty-state">
               <RefreshCw size={32} className="spin" />
               <p>Loading ecosystem...</p>
-            </EmptyState>
+            </div>
           ) : filtered.length === 0 ? (
-            <EmptyState>
+            <div className="users-empty-state">
               <UsersIcon size={36} />
               <p>No users found in the ecosystem.</p>
-            </EmptyState>
+            </div>
           ) : (
             <table>
               <thead>
@@ -388,7 +176,7 @@ const AdminUsers = () => {
                   >
                     <td className="col-user-max-w">
                       <Flex gap="1rem">
-                        <Avatar>{user.name?.charAt(0) || "?"}</Avatar>
+                        <div className="users-avatar">{user.name?.charAt(0) || "?"}</div>
                         <div>
                           <h4 className="user-name-text">{user.name}</h4>
                           <p className="user-meta-text">
@@ -399,9 +187,10 @@ const AdminUsers = () => {
                     </td>
                     <td>
                       <Flex gap="0.75rem" align="center">
-                        <RoleBadge role={user.role}>{user.role}</RoleBadge>
+                        <span className={`users-role-badge ${["startup", "investor", "mnc", "admin"].includes(user.role) ? user.role : "default"}`}>{user.role}</span>
                         {user.role !== "admin" && (
-                          <RoleSelect
+                          <select
+                            className="users-role-select"
                             value={user.role}
                             onChange={(e) =>
                               handleRoleChange(user._id, e.target.value)
@@ -412,15 +201,15 @@ const AdminUsers = () => {
                             <option value="mnc">MNC</option>
                             <option value="employee">Employee</option>
                             <option value="admin">Admin</option>
-                          </RoleSelect>
+                          </select>
                         )}
                       </Flex>
                     </td>
                     <td>
                       <Flex gap="0.75rem" align="center">
-                        <VerifiedBadge $verified={user.isVerified}>
+                        <span className={`users-verified-badge ${user.isVerified ? "verified" : "unverified"}`}>
                           {user.isVerified ? "Verified User" : "Unverified"}
-                        </VerifiedBadge>
+                        </span>
                       </Flex>
                     </td>
                     <td>
@@ -434,15 +223,16 @@ const AdminUsers = () => {
                     </td>
                     <td>
                       <Flex gap="0.5rem">
-                        <ActionBtn
+                        <button
+                          className="users-action-btn default"
                           title="Email User"
                           onClick={() => window.open(`mailto:${user.email}`)}
                         >
                           <Mail size={14} />
-                        </ActionBtn>
+                        </button>
                         {user.role !== "admin" && (
-                          <ActionBtn
-                            $variant={user.isVerified ? "ban" : "verify"}
+                          <button
+                            className={`users-action-btn ${user.isVerified ? "ban" : "verify"}`}
                             onClick={() =>
                               handleVerifyToggle(user._id, user.isVerified)
                             }
@@ -457,18 +247,18 @@ const AdminUsers = () => {
                             ) : (
                               <ShieldCheck size={14} />
                             )}
-                          </ActionBtn>
+                          </button>
                         )}
                         {user.role !== "admin" && (
-                          <ActionBtn
-                            $variant="delete"
+                          <button
+                            className="users-action-btn delete"
                             onClick={() =>
                               handleDeleteUser(user._id, user.name)
                             }
                             title="Delete User"
                           >
                             <Trash2 size={14} />
-                          </ActionBtn>
+                          </button>
                         )}
                       </Flex>
                     </td>
@@ -477,7 +267,7 @@ const AdminUsers = () => {
               </tbody>
             </table>
           )}
-        </TableWrapper>
+        </div>
       </div>
     </AdminLayout>
   );

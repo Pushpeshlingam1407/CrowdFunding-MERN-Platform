@@ -1,119 +1,57 @@
-import styled from "styled-components";
+import React from "react";
+import "./ui.css";
 
-export const Button = styled.button`
-  background-color: ${(props) =>
-    props.variant === "outline" ? "transparent" : props.theme.colors.primary};
-  color: ${(props) =>
-    props.variant === "outline" ? props.theme.colors.primary : "#ffffff"};
-  border: ${(props) =>
-    props.variant === "outline"
-      ? `1px solid ${props.theme.colors.primary}`
-      : "none"};
-  padding: 0.65rem 1.6rem;
-  border-radius: 99px;
-  font-family: inherit;
-  font-size: 0.92rem;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+const joinClasses = (...classes) => classes.filter(Boolean).join(" ");
 
-  &:hover {
-    background-color: ${(props) =>
-      props.variant === "outline"
-        ? `${props.theme.colors.primary}0c`
-        : props.theme.colors.accent};
-    transform: scale(1.025);
-    box-shadow: 0 4px 16px rgba(0, 119, 182, 0.15);
-  }
+export const Button = ({ variant, className, ...props }) => (
+  <button
+    className={joinClasses("ui-button", variant === "outline" && "ui-button-outline", className)}
+    {...props}
+  />
+);
 
-  &:active {
-    transform: scale(0.965);
-  }
+export const Input = ({ className, ...props }) => (
+  <input className={joinClasses("ui-input", className)} {...props} />
+);
 
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-  }
-`;
+export const Card = ({ className, ...props }) => (
+  <div className={joinClasses("ui-card", className)} {...props} />
+);
 
-export const Input = styled.input`
-  width: 100%;
-  padding: 0.85rem 1.25rem;
-  border: 1px solid #dcdad2;
-  border-radius: 12px;
-  font-family: inherit;
-  font-size: 0.95rem;
-  height: 3rem;
-  background: #ffffff;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+export const Container = ({ className, ...props }) => (
+  <div className={joinClasses("ui-container", className)} {...props} />
+);
 
-  &:focus {
-    outline: none;
-    border-color: ${(props) => props.theme.colors.primary};
-    background-color: #ffffff;
-    box-shadow: 0 0 0 4px rgba(25, 25, 25, 0.04);
-  }
+export const Flex = ({
+  align = "center",
+  justify = "flex-start",
+  gap = "1rem",
+  direction = "row",
+  wrap = "nowrap",
+  className,
+  style,
+  ...props
+}) => (
+  <div
+    className={joinClasses("ui-flex", className)}
+    style={{ alignItems: align, justifyContent: justify, gap, flexDirection: direction, flexWrap: wrap, ...style }}
+    {...props}
+  />
+);
 
-  &::placeholder {
-    color: #86868b;
-  }
-`;
+export const Grid = ({ cols = 1, gap = "2rem", className, style, ...props }) => {
+  const gridTemplateColumns = typeof cols === "string" && cols.includes("fr")
+    ? cols
+    : `repeat(${cols}, 1fr)`;
+  const mobileColumns = typeof cols === "number" && cols > 2 ? "repeat(2, 1fr)" : "1fr";
 
-export const Card = styled.div`
-  background: #ffffff;
-  border-radius: 24px;
-  border: 1px solid #e3e0d8;
-  padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.015);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-
-  &:hover {
-    transform: translateY(-4px) scale(1.01);
-    border-color: ${(props) => props.theme.colors.primary};
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.035);
-  }
-`;
-
-export const Container = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-`;
-
-export const Flex = styled.div`
-  display: flex;
-  align-items: ${(props) => props.align || "center"};
-  justify-content: ${(props) => props.justify || "flex-start"};
-  gap: ${(props) => props.gap || "1rem"};
-  flex-direction: ${(props) => props.direction || "row"};
-  flex-wrap: ${(props) => props.wrap || "nowrap"};
-`;
-
-export const Grid = styled.div`
-  display: grid;
-  grid-template-columns: ${(props) => {
-    if (typeof props.cols === "string" && props.cols.includes("fr")) {
-      return props.cols;
-    }
-    return `repeat(${props.cols || 1}, 1fr)`;
-  }};
-  gap: ${(props) => props.gap || "2rem"};
-
-  @media (max-width: 992px) {
-    grid-template-columns: ${(props) =>
-      props.cols > 2 ? "repeat(2, 1fr)" : "1fr"};
-  }
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
-`;
+  return (
+    <div
+      className={joinClasses("ui-grid", className)}
+      style={{ gridTemplateColumns, gap, "--ui-grid-tablet-columns": mobileColumns, ...style }}
+      {...props}
+    />
+  );
+};
 
 export { default as ImageUpload } from "./ImageUpload";
