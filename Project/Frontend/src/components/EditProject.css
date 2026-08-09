@@ -1,0 +1,70 @@
+/* EditProject.css */
+
+.edit-loading {
+  text-align: center;
+  padding-top: 4rem;
+  color: #666;
+}
+
+.btn-cancel-edit {
+  margin-bottom: 2rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+.icon-mr {
+  margin-right: 8px;
+}
+
+.icon-ml {
+  margin-left: 8px;
+}
+
+.form-card {
+  padding: 3rem;
+}
+
+.edit-header-flex {
+  margin-bottom: 2.5rem;
+}
+
+.step-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  letter-spacing: -1px;
+}
+
+.step-subtitle-no-mb {
+  color: #666;
+}
+
+.btn-outline-danger {
+  color: #e53e3e;
+  border-color: #fed7d7;
+}
+
+.input-spacing {
+  margin-bottom: 1.5rem;
+}
+
+.hero-image-upload {
+  margin-top: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.gallery-upload {
+  margin-bottom: 3rem;
+}
+
+.btn-upload-gallery {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.btn-save-publish {
+  width: 100%;
+  padding: 1.2rem;
+  font-size: 1.1rem;
+}

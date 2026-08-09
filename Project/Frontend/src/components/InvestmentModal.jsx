@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { X, Info } from "lucide-react";
 import { Button, Card, Flex, Input } from "./ui";
+import "./InvestmentModal.css";
 
 const ModalOverlay = styled(motion.div)`
   position: fixed;
@@ -183,20 +184,13 @@ const InvestmentModal = ({ isOpen, onClose, project, onProceed }) => {
             }}
             min="1000"
             step="1000"
+            className="investment-input"
             style={{
-              padding: "1rem",
-              fontSize: "1rem",
               borderColor: error ? "#e53e3e" : "#e0e0e0",
             }}
           />
           {error && (
-            <p
-              style={{
-                color: "#e53e3e",
-                fontSize: "0.85rem",
-                marginTop: "0.5rem",
-              }}
-            >
+            <p className="error-message">
               {error}
             </p>
           )}
@@ -215,18 +209,18 @@ const InvestmentModal = ({ isOpen, onClose, project, onProceed }) => {
           </EquityInfo>
         )}
 
-        <Flex gap="1rem" style={{ marginTop: "2rem" }}>
+        <Flex gap="1rem" className="modal-actions">
           <Button
             variant="outline"
             onClick={onClose}
-            style={{ flex: 1 }}
+            className="btn-flex-1"
             disabled={loading}
           >
             Cancel
           </Button>
           <Button
             onClick={handleProceed}
-            style={{ flex: 1 }}
+            className="btn-flex-1"
             disabled={loading || !amount || Number(amount) <= 0}
           >
             {loading ? "Processing..." : "Proceed to Payment"}

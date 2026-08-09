@@ -13,6 +13,7 @@ import {
 import { toast } from "react-hot-toast";
 import { projectAPI } from "../services/api";
 import { Button, Card, Container, Flex, Grid, Input, ImageUpload } from "./ui";
+import "./EditProject.css";
 
 const EditWrapper = styled.div`
   padding: 4rem 0;
@@ -243,7 +244,7 @@ const EditProject = () => {
   if (loading) {
     return (
       <EditWrapper>
-        <div style={{ textAlign: "center", paddingTop: "4rem", color: "#666" }}>
+        <div className="edit-loading">
           Loading campaign…
         </div>
       </EditWrapper>
@@ -261,42 +262,31 @@ const EditProject = () => {
           <Button
             variant="outline"
             onClick={() => navigate(`/projects/${id}`)}
-            style={{
-              marginBottom: "2rem",
-              padding: "0.5rem 1rem",
-              fontSize: "0.9rem",
-            }}
+            className="btn-cancel-edit"
           >
-            <ArrowLeft size={16} style={{ marginRight: 8 }} /> Cancel Editing
+            <ArrowLeft size={16} className="icon-mr" /> Cancel Editing
           </Button>
 
-          <Card style={{ padding: "3rem" }}>
+          <Card className="form-card">
             <Flex
               justify="space-between"
               align="flex-start"
-              style={{ marginBottom: "2.5rem" }}
+              className="edit-header-flex"
             >
               <div>
-                <h2
-                  style={{
-                    fontSize: "2rem",
-                    fontWeight: 800,
-                    marginBottom: "0.5rem",
-                    letterSpacing: "-1px",
-                  }}
-                >
+                <h2 className="step-title">
                   Edit Campaign
                 </h2>
-                <p style={{ color: "#666" }}>
+                <p className="step-subtitle-no-mb">
                   Update your venture details and funding strategy.
                 </p>
               </div>
               <Button
                 variant="outline"
-                style={{ color: "#e53e3e", borderColor: "#fed7d7" }}
+                className="btn-outline-danger"
                 onClick={() => toast.info("Delete from the dashboard")}
               >
-                <Trash2 size={16} style={{ marginRight: 8 }} /> Delete
+                <Trash2 size={16} className="icon-mr" /> Delete
               </Button>
             </Flex>
 
@@ -314,7 +304,7 @@ const EditProject = () => {
                 value={formData.title}
                 onChange={handleChange}
                 placeholder="e.g. GreenTech Solar Solutions"
-                style={{ marginBottom: "1.5rem" }}
+                className="input-spacing"
                 required
                 disabled={isLocked}
               />
@@ -355,7 +345,7 @@ const EditProject = () => {
                     placeholder="e.g. 5"
                     min="0"
                     max="100"
-                    style={{ marginBottom: "1.5rem" }}
+                    className="input-spacing"
                     required
                     disabled={isLocked}
                   />
@@ -371,7 +361,7 @@ const EditProject = () => {
                     value={formData.targetAmount}
                     onChange={handleChange}
                     placeholder="e.g. 5000000"
-                    style={{ marginBottom: "1.5rem" }}
+                    className="input-spacing"
                     required
                     disabled={isLocked}
                   />
@@ -383,14 +373,14 @@ const EditProject = () => {
                     name="endDate"
                     value={formData.endDate}
                     onChange={handleChange}
-                    style={{ marginBottom: "1.5rem" }}
+                    className="input-spacing"
                     required
                     disabled={isLocked}
                   />
                 </div>
               </Grid>
 
-              <div style={{ marginTop: "1rem", marginBottom: "2.5rem" }}>
+              <div className="hero-image-upload">
                 <Label>Hero Image</Label>
                 <ImageUpload
                   value={formData.image}
@@ -406,7 +396,7 @@ const EditProject = () => {
               </div>
 
               {/* Campaign Gallery */}
-              <div style={{ marginBottom: "3rem" }}>
+              <div className="gallery-upload">
                 <Label>Campaign Gallery</Label>
                 <ImageUpload
                   value={newCampaignImages}
@@ -430,11 +420,7 @@ const EditProject = () => {
                     type="button"
                     onClick={handleUploadNewCampaignImages}
                     disabled={uploadingImages || isLocked}
-                    style={{
-                      width: "100%",
-                      padding: "1rem",
-                      marginTop: "1rem",
-                    }}
+                    className="btn-upload-gallery"
                   >
                     {uploadingImages
                       ? "Uploading..."
@@ -446,10 +432,10 @@ const EditProject = () => {
               <Button
                 type="submit"
                 disabled={saving || isLocked}
-                style={{ width: "100%", padding: "1.2rem", fontSize: "1.1rem" }}
+                className="btn-save-publish"
               >
                 {saving ? "Saving Changes..." : "Save & Publish Updates"}{" "}
-                <Save size={18} style={{ marginLeft: 8 }} />
+                <Save size={18} className="icon-ml" />
               </Button>
             </form>
           </Card>

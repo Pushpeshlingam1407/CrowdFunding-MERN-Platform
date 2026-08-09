@@ -1,0 +1,20 @@
+/* InvestmentModal.css */
+
+.investment-input {
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+.error-message {
+  color: #e53e3e;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.modal-actions {
+  margin-top: 2rem;
+}
+
+.btn-flex-1 {
+  flex: 1;
+}

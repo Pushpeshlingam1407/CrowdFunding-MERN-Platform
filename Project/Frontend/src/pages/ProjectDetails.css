@@ -1,0 +1,276 @@
+/* ProjectDetails.css — ProjectDetails specific styles */
+
+.project-loading-wrapper {
+  padding: 8rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.project-loading-container {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.skeleton-hero {
+  width: 100%;
+  height: 400px;
+  background: #fbf9f6;
+  border-radius: 24px;
+  border: 1px solid #e3e0d8;
+}
+
+.skeleton-title {
+  width: 30%;
+  height: 24px;
+  background: #f0f0f0;
+  border-radius: 8px;
+}
+
+.skeleton-desc {
+  width: 80%;
+  height: 48px;
+  background: #f0f0f0;
+  border-radius: 8px;
+}
+
+.project-not-found {
+  padding: 8rem;
+  text-align: center;
+  color: #191919;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+}
+
+.btn-back-margin {
+  margin-bottom: 2rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.85rem;
+}
+
+.metric-label {
+  color: #86868b;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: var(--font-sans);
+}
+
+.metric-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: #191919;
+}
+
+.creator-avatar-large {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+  color: #191919;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.creator-actions {
+  margin-left: auto;
+}
+
+.gallery-section {
+  margin-bottom: 2rem;
+}
+
+.section-heading-sm {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.02em;
+  font-family: var(--font-serif);
+  color: #191919;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.investments-section {
+  margin-bottom: 2rem;
+  margin-top: 3rem;
+}
+
+.investments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.investment-card {
+  padding: 1.25rem;
+  border: 1px solid #e3e0d8;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
+}
+
+.investor-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+  color: #191919;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.investor-name {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #191919;
+}
+
+.investor-date {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #86868b;
+  font-family: var(--font-mono);
+}
+
+.investment-amount {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #10b981;
+  font-family: var(--font-mono);
+}
+
+.project-actions-bar {
+  margin-top: 1.5rem;
+}
+
+.btn-outline-danger {
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.2);
+  background: transparent;
+}
+
+.sidebar-heading {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  color: #191919;
+  font-family: var(--font-sans);
+  letter-spacing: -0.02em;
+}
+
+.sidebar-subheading {
+  color: #6e6e73;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  font-family: var(--font-serif);
+}
+
+.raised-amount {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #191919;
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
+}
+
+.raised-percentage {
+  color: #10b981;
+  font-weight: 800;
+  font-family: var(--font-mono);
+}
+
+.sidebar-stats-grid {
+  margin-bottom: 2.5rem;
+}
+
+.stat-value {
+  font-size: 1rem;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: #191919;
+}
+
+.stat-label {
+  color: #86868b;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-invest-main {
+  width: 100%;
+  padding: 1rem;
+  background: #191919;
+  color: #ffffff;
+  border: none;
+}
+
+.btn-manage-campaign {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.lightbox-counter {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.report-header-flex {
+  margin-bottom: 1.5rem;
+}
+
+.report-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #fff5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.report-heading {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+  color: #191919;
+}
+
+.report-subheading {
+  font-size: 0.85rem;
+  color: #6e6e73;
+}
+
+.report-cancel-btn {
+  flex: 1;
+}
+
+.report-submit-btn {
+  flex: 2;
+  background: #ef4444;
+  color: #ffffff;
+  border: none;
+}

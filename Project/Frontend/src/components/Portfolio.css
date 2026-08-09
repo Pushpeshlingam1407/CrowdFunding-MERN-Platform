@@ -1,0 +1,20 @@
+/* Portfolio.css */
+
+.portfolio-loading {
+  text-align: center;
+  padding: 4rem;
+}
+
+.portfolio-stats-grid {
+  margin-bottom: 3rem;
+}
+
+.portfolio-section-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+}
+
+.icon-ml {
+  margin-left: 8px;
+}

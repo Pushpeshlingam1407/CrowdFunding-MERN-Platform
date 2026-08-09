@@ -17,6 +17,7 @@ import {
 import { toast } from "react-hot-toast";
 import { Button, Card, Container, Flex, Grid, Input, ImageUpload } from "./ui";
 import { projectAPI } from "../services/api";
+import "./CreateProject.css";
 
 const CreateWrapper = styled.div`
   padding: 4rem 0;
@@ -279,21 +280,14 @@ const CreateProject = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <Card style={{ padding: "3rem" }}>
+          <Card className="form-card">
             <form onSubmit={handleSubmit}>
               {currentStep === 1 && (
                 <>
-                  <h2
-                    style={{
-                      fontSize: "2rem",
-                      fontWeight: 800,
-                      marginBottom: "0.5rem",
-                      letterSpacing: "-1px",
-                    }}
-                  >
+                  <h2 className="step-title">
                     Project Identity
                   </h2>
-                  <p style={{ color: "#666", marginBottom: "2.5rem" }}>
+                  <p className="step-subtitle">
                     Define the core vision of your venture.
                   </p>
 
@@ -303,7 +297,7 @@ const CreateProject = () => {
                     placeholder="e.g. Next-Gen AI Logistics"
                     value={formData.title}
                     onChange={handleChange}
-                    style={{ marginBottom: "1.5rem" }}
+                    className="input-spacing"
                     required
                   />
 
@@ -334,17 +328,10 @@ const CreateProject = () => {
 
               {currentStep === 2 && (
                 <>
-                  <h2
-                    style={{
-                      fontSize: "2rem",
-                      fontWeight: 800,
-                      marginBottom: "0.5rem",
-                      letterSpacing: "-1px",
-                    }}
-                  >
+                  <h2 className="step-title">
                     Funding Strategy
                   </h2>
-                  <p style={{ color: "#666", marginBottom: "2.5rem" }}>
+                  <p className="step-subtitle">
                     Set your financial goals and timeline.
                   </p>
 
@@ -373,7 +360,7 @@ const CreateProject = () => {
                     </div>
                   </Grid>
 
-                  <Grid cols={2} gap="1.5rem" style={{ marginTop: "1.5rem" }}>
+                  <Grid cols={2} gap="1.5rem" className="grid-mt">
                     <div>
                       <Label>Launch Date</Label>
                       <Input
@@ -410,17 +397,10 @@ const CreateProject = () => {
 
               {currentStep === 3 && (
                 <>
-                  <h2
-                    style={{
-                      fontSize: "2rem",
-                      fontWeight: 800,
-                      marginBottom: "0.5rem",
-                      letterSpacing: "-1px",
-                    }}
-                  >
+                  <h2 className="step-title">
                     Cover Image
                   </h2>
-                  <p style={{ color: "#666", marginBottom: "2.5rem" }}>
+                  <p className="step-subtitle">
                     Upload your campaign cover image that will be displayed
                     prominently.
                   </p>
@@ -434,16 +414,9 @@ const CreateProject = () => {
                     maxSizeMB={5}
                   />
 
-                  <Flex
-                    gap="1rem"
-                    style={{
-                      padding: "1.5rem",
-                      background: "#f8f9fa",
-                      borderRadius: "12px",
-                    }}
-                  >
-                    <ShieldCheck size={20} style={{ color: "#2f855a" }} />
-                    <span style={{ fontSize: "0.85rem", color: "#666" }}>
+                  <Flex gap="1rem" className="form-security-box">
+                    <ShieldCheck size={20} className="icon-secure" />
+                    <span className="security-text">
                       Your data is protected by StartupFund's enterprise
                       security protocols.
                     </span>
@@ -453,17 +426,10 @@ const CreateProject = () => {
 
               {currentStep === 4 && (
                 <>
-                  <h2
-                    style={{
-                      fontSize: "2rem",
-                      fontWeight: 800,
-                      marginBottom: "0.5rem",
-                      letterSpacing: "-1px",
-                    }}
-                  >
+                  <h2 className="step-title">
                     Campaign Gallery
                   </h2>
-                  <p style={{ color: "#666", marginBottom: "2.5rem" }}>
+                  <p className="step-subtitle">
                     Upload additional images to showcase your campaign
                     (optional). Upload up to 10 images.
                   </p>
@@ -482,16 +448,9 @@ const CreateProject = () => {
                     maxSizeMB={5}
                   />
 
-                  <Flex
-                    gap="1rem"
-                    style={{
-                      padding: "1.5rem",
-                      background: "#f8f9fa",
-                      borderRadius: "12px",
-                    }}
-                  >
-                    <ShieldCheck size={20} style={{ color: "#2f855a" }} />
-                    <span style={{ fontSize: "0.85rem", color: "#666" }}>
+                  <Flex gap="1rem" className="form-security-box">
+                    <ShieldCheck size={20} className="icon-secure" />
+                    <span className="security-text">
                       Gallery images are optional. You can add them later from
                       your dashboard.
                     </span>
@@ -499,13 +458,13 @@ const CreateProject = () => {
                 </>
               )}
 
-              <Flex gap="1rem" style={{ marginTop: "3rem" }}>
+              <Flex gap="1rem" className="form-actions">
                 {currentStep > 1 && (
                   <Button
                     variant="outline"
                     type="button"
                     onClick={prevStep}
-                    style={{ flexGrow: 1 }}
+                    className="btn-flex-1"
                   >
                     Back
                   </Button>
@@ -514,18 +473,18 @@ const CreateProject = () => {
                   <Button
                     type="button"
                     onClick={nextStep}
-                    style={{ flexGrow: 2 }}
+                    className="btn-flex-2"
                   >
-                    Continue <ArrowRight size={18} style={{ marginLeft: 8 }} />
+                    Continue <ArrowRight size={18} className="icon-ml" />
                   </Button>
                 ) : (
                   <Button
                     type="submit"
                     disabled={loading}
-                    style={{ flexGrow: 2 }}
+                    className="btn-flex-2"
                   >
                     {loading ? "Launching..." : "Launch Campaign"}{" "}
-                    <Rocket size={18} style={{ marginLeft: 8 }} />
+                    <Rocket size={18} className="icon-ml" />
                   </Button>
                 )}
               </Flex>

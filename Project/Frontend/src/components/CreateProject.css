@@ -1,0 +1,56 @@
+/* CreateProject.css */
+
+.form-card {
+  padding: 3rem;
+}
+
+.step-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  letter-spacing: -1px;
+}
+
+.step-subtitle {
+  color: #666;
+  margin-bottom: 2.5rem;
+}
+
+.input-spacing {
+  margin-bottom: 1.5rem;
+}
+
+.grid-mt {
+  margin-top: 1.5rem;
+}
+
+.form-security-box {
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.icon-secure {
+  color: #2f855a;
+}
+
+.security-text {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.form-actions {
+  margin-top: 3rem;
+}
+
+.btn-flex-1 {
+  flex-grow: 1;
+}
+
+.btn-flex-2 {
+  flex-grow: 2;
+}
+
+.icon-ml {
+  margin-left: 8px;
+}

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Loader, Check, AlertCircle } from "lucide-react";
 import { Button, Card, Flex, Input } from "./ui";
+import "./PaymentModal.css";
 
 const ModalOverlay = styled(motion.div)`
   position: fixed;
@@ -354,7 +355,7 @@ const PaymentModal = ({
               {status === "processing" && (
                 <Loader
                   size={20}
-                  style={{ animation: "spin 1s linear infinite" }}
+                  className="spin-animation"
                 />
               )}
               {status === "success" && <Check size={20} />}
@@ -367,13 +368,7 @@ const PaymentModal = ({
         {!status || status === "error" ? (
           <>
             <FormSection>
-              <h3
-                style={{
-                  fontSize: "1rem",
-                  fontWeight: 700,
-                  marginBottom: "1rem",
-                }}
-              >
+              <h3 className="payment-method-title">
                 Select Payment Method
               </h3>
               <PaymentMethodsGrid>
@@ -388,7 +383,7 @@ const PaymentModal = ({
                     whileHover={{ y: -2 }}
                     disabled={loading}
                   >
-                    <span style={{ fontSize: "1.5rem" }}>{method.icon}</span>
+                    <span className="payment-method-icon">{method.icon}</span>
                     <span>{method.label}</span>
                   </PaymentMethodButton>
                 ))}
@@ -415,7 +410,7 @@ const PaymentModal = ({
                     })
                   }
                   maxLength="16"
-                  style={{ marginBottom: "1rem", padding: "0.75rem" }}
+                  className="input-payment-spacing"
                   disabled={loading}
                 />
 
@@ -433,7 +428,7 @@ const PaymentModal = ({
                         })
                       }
                       maxLength="5"
-                      style={{ padding: "0.75rem" }}
+                      className="input-payment"
                       disabled={loading}
                     />
                   </div>
@@ -450,7 +445,7 @@ const PaymentModal = ({
                         })
                       }
                       maxLength="3"
-                      style={{ padding: "0.75rem" }}
+                      className="input-payment"
                       disabled={loading}
                     />
                   </div>
@@ -470,7 +465,7 @@ const PaymentModal = ({
                   placeholder="your.upi@bank"
                   value={upiData.upiId}
                   onChange={(e) => setUpiData({ upiId: e.target.value })}
-                  style={{ padding: "0.75rem" }}
+                  className="input-payment"
                   disabled={loading}
                 />
               </FormSection>
@@ -493,7 +488,7 @@ const PaymentModal = ({
                       bankName: e.target.value,
                     })
                   }
-                  style={{ marginBottom: "1rem", padding: "0.75rem" }}
+                  className="input-payment-spacing"
                   disabled={loading}
                 />
                 <Label>Account Number</Label>
@@ -507,7 +502,7 @@ const PaymentModal = ({
                       accountNumber: e.target.value,
                     })
                   }
-                  style={{ padding: "0.75rem" }}
+                  className="input-payment"
                   disabled={loading}
                 />
               </FormSection>
@@ -528,18 +523,18 @@ const PaymentModal = ({
               </FormSection>
             )}
 
-            <Flex gap="1rem" style={{ marginTop: "2rem" }}>
+            <Flex gap="1rem" className="modal-actions-payment">
               <Button
                 variant="outline"
                 onClick={onClose}
-                style={{ flex: 1 }}
+                className="btn-flex-1"
                 disabled={loading}
               >
                 Cancel
               </Button>
               <Button
                 onClick={handlePaymentSubmit}
-                style={{ flex: 1 }}
+                className="btn-flex-1"
                 disabled={loading || !selectedMethod}
               >
                 {loading

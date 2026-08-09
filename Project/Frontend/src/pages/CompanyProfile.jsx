@@ -28,6 +28,7 @@ import StarRating from "../components/ui/StarRating";
 import ComplaintBox from "../components/ui/ComplaintBox";
 import useAuthStore from "../store/authStore";
 import { b2bAPI, userAPI, projectAPI } from "../services/api";
+import "./CompanyProfile.css";
 
 const ProfileWrapper = styled.div`
   padding: 4rem 0;
@@ -202,38 +203,15 @@ const CompanyProfile = () => {
     return (
       <ProfileWrapper>
         <Container>
-          <div
-            style={{
-              padding: "8rem 0",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <div
-              style={{
-                width: "100%",
-                maxWidth: "800px",
-                height: "300px",
-                background: "#ffffff",
-                borderRadius: "24px",
-                border: "1px solid #e3e0d8",
-              }}
-            />
+          <div className="profile-loading-wrapper">
+            <div className="profile-loading-skeleton" />
           </div>
         </Container>
       </ProfileWrapper>
     );
   if (!profile)
     return (
-      <div
-        style={{
-          padding: "8rem",
-          textAlign: "center",
-          color: "#191919",
-          fontFamily: "var(--font-serif)",
-          fontSize: "1.25rem",
-        }}
-      >
+      <div className="profile-not-found">
         Profile Not Found
       </div>
     );
@@ -244,41 +222,17 @@ const CompanyProfile = () => {
         <ProfileHeader>
           <Flex align="flex-start" wrap="wrap" gap="2rem">
             <Avatar>{profile.name.charAt(0)}</Avatar>
-            <div style={{ flexGrow: 1, minWidth: "280px" }}>
+            <div className="profile-header-content">
               <Badge>{profile.role}</Badge>
-              <h1
-                style={{
-                  fontSize: "2.5rem",
-                  fontWeight: 800,
-                  marginBottom: "0.5rem",
-                  letterSpacing: "-0.03em",
-                  fontFamily: "var(--font-serif)",
-                  color: "#191919",
-                }}
-              >
+              <h1 className="profile-name">
                 {profile.companyName || profile.name}
               </h1>
               {profile.branding?.slogan && (
-                <p
-                  style={{
-                    fontSize: "1.1rem",
-                    color: "#6e6e73",
-                    marginBottom: "1.5rem",
-                    fontWeight: 500,
-                    fontFamily: "var(--font-serif)",
-                  }}
-                >
+                <p className="profile-slogan">
                   "{profile.branding.slogan}"
                 </p>
               )}
-              <Flex
-                gap="1.5rem"
-                style={{
-                  color: "#6e6e73",
-                  marginBottom: "1.5rem",
-                  flexWrap: "wrap",
-                }}
-              >
+              <Flex gap="1.5rem" className="profile-info-flex">
                 <Flex gap="0.5rem">
                   <Globe size={18} /> {profile.companyWebsite || "N/A"}
                 </Flex>
@@ -286,109 +240,59 @@ const CompanyProfile = () => {
                   <Mail size={18} /> {profile.email}
                 </Flex>
                 <Flex gap="0.5rem">
-                  <ShieldCheck size={18} style={{ color: "#10b981" }} />{" "}
+                  <ShieldCheck size={18} className="icon-success" />{" "}
                   Verified Member
                 </Flex>
               </Flex>
               <Flex gap="1rem" wrap="wrap">
                 <Button
                   onClick={() => navigate(`/messages/${id}`)}
-                  style={{
-                    background: "#191919",
-                    color: "#ffffff",
-                    border: "none",
-                  }}
+                  className="btn-message"
                 >
-                  <MessageSquare size={18} style={{ marginRight: 8 }} /> Message
+                  <MessageSquare size={18} className="icon-mr" /> Message
                   / Connect
                 </Button>
                 <Button
                   variant="outline"
                   onClick={() => setShowReviewModal(true)}
-                  style={{
-                    borderColor: "#e3e0d8",
-                    color: "#6e6e73",
-                    background: "transparent",
-                  }}
+                  className="btn-outline-subtle"
                 >
-                  <Star size={18} style={{ marginRight: 8 }} /> Leave a Review
+                  <Star size={18} className="icon-mr" /> Leave a Review
                 </Button>
                 <Button
                   variant="outline"
-                  style={{
-                    color: "#ef4444",
-                    borderColor: "rgba(239,68,68,0.2)",
-                    background: "transparent",
-                  }}
+                  className="btn-outline-danger"
                   onClick={() => setShowComplaintBox(true)}
                 >
                   <Flag size={18} />
                 </Button>
               </Flex>
             </div>
-            <div style={{ textAlign: "right" }}>
-              <h2
-                style={{
-                  fontSize: "2.75rem",
-                  fontWeight: 800,
-                  fontFamily: "var(--font-mono)",
-                  color: "#191919",
-                }}
-              >
+            <div className="profile-rating-section">
+              <h2 className="profile-rating-value">
                 {profile.stars?.toFixed(1) || "0.0"}
               </h2>
               <StarRating rating={Math.round(profile.stars || 0)} readonly />
-              <p
-                style={{
-                  color: "#86868b",
-                  marginTop: "0.5rem",
-                  fontSize: "0.85rem",
-                  fontWeight: 600,
-                }}
-              >
+              <p className="profile-reviews-count">
                 {profile.reviewsCount || 0} Collaborative Reviews
               </p>
             </div>
           </Flex>
 
           {/* Dynamic Trust Bar */}
-          <Grid
-            cols={4}
-            gap="1rem"
-            style={{
-              marginTop: "3rem",
-              paddingTop: "2.5rem",
-              borderTop: "1px solid #e3e0d8",
-            }}
-          >
+          <Grid cols={4} gap="1rem" className="trust-bar-grid">
             <Flex
               gap="1rem"
               direction="column"
               align="center"
-              style={{ textAlign: "center" }}
+              className="trust-bar-item"
             >
-              <Users size={24} style={{ color: "#0071e3" }} />
+              <Users size={24} className="icon-primary" />
               <div>
-                <h4
-                  style={{
-                    fontSize: "1.5rem",
-                    fontWeight: 800,
-                    fontFamily: "var(--font-mono)",
-                    color: "#191919",
-                  }}
-                >
+                <h4 className="trust-bar-value">
                   {profile.dynamicMetrics?.trustedByCount || 0}+
                 </h4>
-                <p
-                  style={{
-                    fontSize: "0.75rem",
-                    color: "#86868b",
-                    textTransform: "uppercase",
-                    fontWeight: 700,
-                    letterSpacing: "0.5px",
-                    fontFamily: "var(--font-sans)",
-                  }}
-                >
+                <p className="trust-bar-label">
                   Trusted by Entities
                 </p>
               </div>
@@ -397,18 +301,11 @@ const CompanyProfile = () => {
               gap="1rem"
               direction="column"
               align="center"
-              style={{ textAlign: "center" }}
+              className="trust-bar-item"
             >
-              <TrendingUp size={24} style={{ color: "#10b981" }} />
+              <TrendingUp size={24} className="icon-success" />
               <div>
-                <h4
-                  style={{
-                    fontSize: "1.5rem",
-                    fontWeight: 800,
-                    fontFamily: "var(--font-mono)",
-                    color: "#191919",
-                  }}
-                >
+                <h4 className="trust-bar-value">
                   {profile.dynamicMetrics?.collaborationsCount || 0}
                 </h4>
                 <p
@@ -429,18 +326,11 @@ const CompanyProfile = () => {
               gap="1rem"
               direction="column"
               align="center"
-              style={{ textAlign: "center" }}
+              className="trust-bar-item"
             >
-              <Briefcase size={24} style={{ color: "#0071e3" }} />
+              <Briefcase size={24} className="icon-primary" />
               <div>
-                <h4
-                  style={{
-                    fontSize: "1.5rem",
-                    fontWeight: 800,
-                    fontFamily: "var(--font-mono)",
-                    color: "#191919",
-                  }}
-                >
+                <h4 className="trust-bar-value">
                   {profile.dynamicMetrics?.projectsCount || 0}
                 </h4>
                 <p
@@ -461,18 +351,11 @@ const CompanyProfile = () => {
               gap="1rem"
               direction="column"
               align="center"
-              style={{ textAlign: "center" }}
+              className="trust-bar-item"
             >
-              <ShieldCheck size={24} style={{ color: "#10b981" }} />
+              <ShieldCheck size={24} className="icon-success" />
               <div>
-                <h4
-                  style={{
-                    fontSize: "1.5rem",
-                    fontWeight: 800,
-                    fontFamily: "var(--font-mono)",
-                    color: "#191919",
-                  }}
-                >
+                <h4 className="trust-bar-value">
                   100%
                 </h4>
                 <p
@@ -510,51 +393,21 @@ const CompanyProfile = () => {
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: 20, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
-                style={{
-                  width: "100%",
-                  maxWidth: "500px",
-                  padding: "2.5rem",
-                  border: "1px solid #e3e0d8",
-                  borderRadius: "24px",
-                }}
+                className="review-modal-card"
               >
-                <h2
-                  style={{
-                    fontSize: "1.5rem",
-                    fontWeight: 800,
-                    marginBottom: "0.5rem",
-                    color: "#191919",
-                    fontFamily: "var(--font-serif)",
-                  }}
-                >
+                <h2 className="review-modal-title">
                   Professional Review
                 </h2>
-                <p
-                  style={{
-                    color: "#6e6e73",
-                    marginBottom: "2rem",
-                    fontSize: "0.9rem",
-                  }}
-                >
+                <p className="review-modal-subtitle">
                   Your feedback helps maintain high standards in our
                   crowdfunding ecosystem.
                 </p>
 
                 <form onSubmit={handlePostReview}>
-                  <label
-                    style={{
-                      fontSize: "0.78rem",
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.05em",
-                      color: "#6e6e73",
-                      marginBottom: "0.5rem",
-                      display: "block",
-                    }}
-                  >
+                  <label className="form-label-small">
                     Rating
                   </label>
-                  <div style={{ marginBottom: "1.5rem" }}>
+                  <div className="star-rating-wrapper">
                     <StarRating
                       rating={newReview.rating}
                       onChange={(r) =>
@@ -563,17 +416,7 @@ const CompanyProfile = () => {
                     />
                   </div>
 
-                  <label
-                    style={{
-                      fontSize: "0.78rem",
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.05em",
-                      color: "#6e6e73",
-                      marginBottom: "0.5rem",
-                      display: "block",
-                    }}
-                  >
+                  <label className="form-label-small">
                     Comment
                   </label>
                   <TextArea
@@ -587,17 +430,7 @@ const CompanyProfile = () => {
 
                   <Grid cols={2} gap="1rem">
                     <div>
-                      <label
-                        style={{
-                          fontSize: "0.78rem",
-                          fontWeight: 700,
-                          textTransform: "uppercase",
-                          letterSpacing: "0.05em",
-                          color: "#6e6e73",
-                          marginBottom: "0.5rem",
-                          display: "block",
-                        }}
-                      >
+                      <label className="form-label-small">
                         Appreciation
                       </label>
                       <Input
@@ -612,17 +445,7 @@ const CompanyProfile = () => {
                       />
                     </div>
                     <div>
-                      <label
-                        style={{
-                          fontSize: "0.78rem",
-                          fontWeight: 700,
-                          textTransform: "uppercase",
-                          letterSpacing: "0.05em",
-                          color: "#6e6e73",
-                          marginBottom: "0.5rem",
-                          display: "block",
-                        }}
-                      >
+                      <label className="form-label-small">
                         Feedback
                       </label>
                       <Input
@@ -638,28 +461,18 @@ const CompanyProfile = () => {
                     </div>
                   </Grid>
 
-                  <Flex gap="1rem" style={{ marginTop: "2rem" }}>
+                  <Flex gap="1rem" className="review-modal-actions">
                     <Button
                       variant="outline"
                       type="button"
-                      style={{
-                        flexGrow: 1,
-                        borderColor: "#e3e0d8",
-                        color: "#6e6e73",
-                        background: "transparent",
-                      }}
+                      className="btn-flex-1 btn-outline-subtle"
                       onClick={() => setShowReviewModal(false)}
                     >
                       Cancel
                     </Button>
                     <Button
                       type="submit"
-                      style={{
-                        flexGrow: 2,
-                        background: "#191919",
-                        color: "#ffffff",
-                        border: "none",
-                      }}
+                      className="btn-flex-2 btn-message"
                     >
                       Submit Review
                     </Button>
@@ -672,46 +485,16 @@ const CompanyProfile = () => {
 
         <Grid cols="2fr 1fr" gap="2rem">
           <div>
-            <Card
-              style={{
-                padding: "2.5rem",
-                marginBottom: "2rem",
-                border: "1px solid #e3e0d8",
-                borderRadius: "24px",
-              }}
-            >
-              <h3
-                style={{
-                  fontSize: "1.25rem",
-                  fontWeight: 800,
-                  marginBottom: "1.5rem",
-                  color: "#191919",
-                  fontFamily: "var(--font-sans)",
-                }}
-              >
+            <Card className="about-card">
+              <h3 className="section-title-md">
                 About the Company
               </h3>
-              <p
-                style={{
-                  color: "#6e6e73",
-                  lineHeight: "1.7",
-                  marginBottom: "2rem",
-                  fontFamily: "var(--font-serif)",
-                }}
-              >
+              <p className="about-bio">
                 {profile.bio ||
                   "This company has not provided a detailed description yet."}
               </p>
 
-              <h4
-                style={{
-                  fontSize: "1rem",
-                  fontWeight: 800,
-                  marginBottom: "1rem",
-                  color: "#191919",
-                  fontFamily: "var(--font-sans)",
-                }}
-              >
+              <h4 className="subsection-title">
                 Services Offered
               </h4>
               <Flex gap="0.75rem" wrap="wrap">
@@ -720,7 +503,7 @@ const CompanyProfile = () => {
                     <ServiceTag key={i}>{service}</ServiceTag>
                   ))
                 ) : (
-                  <p style={{ color: "#86868b", fontWeight: 500 }}>
+                  <p className="no-services-text">
                     No services specified.
                   </p>
                 )}
@@ -730,25 +513,10 @@ const CompanyProfile = () => {
             {/* Active Campaigns */}
             {projects.length > 0 && (
               <>
-                <h3
-                  style={{
-                    fontSize: "1.5rem",
-                    fontWeight: 800,
-                    marginBottom: "1.25rem",
-                    color: "#191919",
-                    fontFamily: "var(--font-serif)",
-                  }}
-                >
+                <h3 className="section-heading-sm">
                   Active Campaigns
                 </h3>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "1rem",
-                    marginBottom: "3rem",
-                  }}
-                >
+                <div className="active-campaigns-list">
                   {projects.map((proj) => {
                     const progress = Math.min(
                       100,
@@ -757,24 +525,8 @@ const CompanyProfile = () => {
                     return (
                       <Card
                         key={proj._id}
-                        style={{
-                          padding: "1.5rem",
-                          display: "flex",
-                          gap: "1.25rem",
-                          alignItems: "center",
-                          cursor: "pointer",
-                          border: "1px solid #e3e0d8",
-                          borderRadius: "24px",
-                          transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
-                          boxShadow: "0 4px 15px rgba(0,0,0,0.015)",
-                        }}
+                        className="campaign-card-inline"
                         onClick={() => navigate(`/projects/${proj._id}`)}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.borderColor = "#191919";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.borderColor = "#e3e0d8";
-                        }}
                       >
                         <img
                           src={
@@ -783,40 +535,22 @@ const CompanyProfile = () => {
                               : `http://localhost:5000${proj.image}`
                           }
                           alt={proj.title}
-                          style={{
-                            width: 72,
-                            height: 72,
-                            borderRadius: 12,
-                            objectFit: "cover",
-                            flexShrink: 0,
-                            border: "1px solid rgba(0,0,0,0.05)",
-                          }}
+                          className="campaign-card-img"
                           onError={(e) => {
                             e.target.style.display = "none";
                           }}
                         />
-                        <div style={{ flexGrow: 1 }}>
+                        <div className="flex-grow-1">
                           <Flex
                             justify="space-between"
-                            style={{ marginBottom: "0.4rem" }}
+                            align="flex-start"
+                            className="campaign-title-row"
                           >
-                            <h4
-                              style={{
-                                fontWeight: 800,
-                                fontSize: "1rem",
-                                color: "#191919",
-                              }}
-                            >
+                            <h4 className="campaign-title">
                               {proj.title}
                             </h4>
                             <span
                               style={{
-                                padding: "0.25rem 0.65rem",
-                                borderRadius: 99,
-                                fontSize: "0.72rem",
-                                fontWeight: 800,
-                                textTransform: "uppercase",
-                                letterSpacing: "0.5px",
                                 background:
                                   proj.status === "approved"
                                     ? "rgba(16, 185, 129, 0.1)"
@@ -826,60 +560,34 @@ const CompanyProfile = () => {
                                     ? "#10b981"
                                     : "#f59e0b",
                               }}
+                              className="campaign-status-badge"
                             >
                               {proj.status}
                             </span>
                           </Flex>
-                          <p
-                            style={{
-                              fontSize: "0.85rem",
-                              color: "#86868b",
-                              marginBottom: "0.6rem",
-                              fontWeight: 500,
-                            }}
-                          >
+                          <p className="campaign-category">
                             {proj.category} ·{" "}
-                            <span
-                              style={{
-                                fontFamily: "var(--font-mono)",
-                                fontWeight: 700,
-                              }}
-                            >
+                            <span className="campaign-goal">
                               ₹{proj.targetAmount?.toLocaleString("en-IN")} goal
                             </span>
                           </p>
-                          <div
-                            style={{
-                              height: 6,
-                              background: "rgba(0,0,0,0.05)",
-                              borderRadius: 3,
-                            }}
-                          >
+                          <div className="progress-track-sm">
                             <div
                               style={{
-                                height: "100%",
                                 width: `${progress}%`,
-                                background: "#10b981",
-                                borderRadius: 3,
                               }}
+                              className="progress-fill-sm"
                             />
                           </div>
-                          <p
-                            style={{
-                              fontSize: "0.8rem",
-                              color: "#6e6e73",
-                              marginTop: "0.4rem",
-                              fontWeight: 600,
-                            }}
-                          >
-                            <span style={{ fontFamily: "var(--font-mono)" }}>
+                          <p className="campaign-stats">
+                            <span className="font-mono">
                               ₹
                               {(proj.currentAmount || 0).toLocaleString(
                                 "en-IN",
                               )}
                             </span>{" "}
                             raised ·{" "}
-                            <span style={{ fontFamily: "var(--font-mono)" }}>
+                            <span className="font-mono">
                               {progress.toFixed(0)}%
                             </span>
                           </p>
@@ -891,47 +599,20 @@ const CompanyProfile = () => {
               </>
             )}
 
-            <h3
-              style={{
-                fontSize: "1.5rem",
-                fontWeight: 800,
-                marginBottom: "1.5rem",
-                color: "#191919",
-                fontFamily: "var(--font-serif)",
-              }}
-            >
+            <h3 className="section-heading-sm">
               Legit Works & Portfolio
             </h3>
-            <Grid cols={2} gap="1.5rem" style={{ marginBottom: "3rem" }}>
+            <Grid cols={2} gap="1.5rem" className="portfolio-grid">
               {profile.portfolio?.map((work, i) => (
                 <Card
                   key={i}
-                  style={{
-                    padding: "0",
-                    overflow: "hidden",
-                    border: "1px solid #e3e0d8",
-                    borderRadius: "24px",
-                  }}
+                  className="portfolio-card"
                 >
-                  <div
-                    style={{
-                      height: "160px",
-                      background: "#fbf9f6",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "#ddd",
-                      borderBottom: "1px solid #e3e0d8",
-                    }}
-                  >
+                  <div className="portfolio-img-container">
                     {work.image ? (
                       <img
                         src={work.image}
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                        }}
+                        className="portfolio-img"
                       />
                     ) : (
                       <Briefcase
@@ -940,27 +621,11 @@ const CompanyProfile = () => {
                       />
                     )}
                   </div>
-                  <div style={{ padding: "1.5rem" }}>
-                    <h4
-                      style={{
-                        fontSize: "1.1rem",
-                        fontWeight: 800,
-                        marginBottom: "0.5rem",
-                        color: "#191919",
-                        fontFamily: "var(--font-sans)",
-                      }}
-                    >
+                  <div className="portfolio-content">
+                    <h4 className="portfolio-title">
                       {work.title}
                     </h4>
-                    <p
-                      style={{
-                        fontSize: "0.9rem",
-                        color: "#6e6e73",
-                        marginBottom: "1rem",
-                        lineHeight: "1.5",
-                        fontFamily: "var(--font-serif)",
-                      }}
-                    >
+                    <p className="portfolio-desc">
                       {work.description}
                     </p>
                     {work.link && (
@@ -968,157 +633,69 @@ const CompanyProfile = () => {
                         variant="outline"
                         size="sm"
                         onClick={() => window.open(work.link, "_blank")}
-                        style={{
-                          borderColor: "#e3e0d8",
-                          color: "#6e6e73",
-                          background: "transparent",
-                        }}
+                        className="btn-outline-subtle"
                       >
                         View Project{" "}
-                        <ExternalLink size={14} style={{ marginLeft: 8 }} />
+                        <ExternalLink size={14} className="icon-ml" />
                       </Button>
                     )}
                   </div>
                 </Card>
               ))}
               {(!profile.portfolio || profile.portfolio.length === 0) && (
-                <p style={{ color: "#86868b", fontStyle: "italic" }}>
+                <p className="no-portfolio-text">
                   No portfolio items uploaded yet.
                 </p>
               )}
             </Grid>
 
-            <h3
-              style={{
-                fontSize: "1.5rem",
-                fontWeight: 800,
-                marginBottom: "1.5rem",
-                color: "#191919",
-                fontFamily: "var(--font-serif)",
-              }}
-            >
+            <h3 className="section-heading-sm">
               Collaborator Feedbacks
             </h3>
             {reviews.map((review) => (
               <ReviewCard key={review._id}>
                 <Flex
                   justify="space-between"
-                  style={{ marginBottom: "1.5rem" }}
+                  className="review-header-flex"
                 >
                   <Flex gap="1rem" align="center">
-                    <div
-                      style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: "50%",
-                        background: "rgba(0,0,0,0.05)",
-                        color: "#191919",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontWeight: 800,
-                        fontSize: "0.95rem",
-                      }}
-                    >
+                    <div className="reviewer-avatar">
                       {review.author?.name?.charAt(0) || "?"}
                     </div>
                     <div>
-                      <h4
-                        style={{
-                          fontSize: "1rem",
-                          fontWeight: 800,
-                          color: "#191919",
-                        }}
-                      >
+                      <h4 className="reviewer-name">
                         {review.author?.name}
                       </h4>
-                      <p
-                        style={{
-                          fontSize: "0.8rem",
-                          color: "#86868b",
-                          fontFamily: "var(--font-mono)",
-                        }}
-                      >
+                      <p className="reviewer-date">
                         {new Date(review.createdAt).toLocaleDateString("en-IN")}
                       </p>
                     </div>
                   </Flex>
                   <StarRating rating={review.rating} readonly />
                 </Flex>
-                <p
-                  style={{
-                    color: "#6e6e73",
-                    lineHeight: "1.6",
-                    marginBottom: "1.5rem",
-                    fontFamily: "var(--font-serif)",
-                  }}
-                >
+                <p className="review-comment">
                   {review.comment}
                 </p>
                 <Grid cols={2} gap="1rem">
-                  <div
-                    style={{
-                      background: "rgba(16, 185, 129, 0.04)",
-                      padding: "1rem",
-                      borderRadius: "12px",
-                      borderLeft: "3px solid #10b981",
-                      border: "1px solid rgba(16, 185, 129, 0.08)",
-                      borderLeftWidth: "3px",
-                    }}
-                  >
+                  <div className="review-appreciation-box">
                     <Flex
                       gap="0.5rem"
-                      style={{
-                        marginBottom: "0.5rem",
-                        color: "#10b981",
-                        fontWeight: 800,
-                        fontSize: "0.72rem",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.5px",
-                      }}
+                      className="review-box-title-success"
                     >
                       <ThumbsUp size={14} /> APPRECIATION
                     </Flex>
-                    <p
-                      style={{
-                        fontSize: "0.9rem",
-                        color: "#10b981",
-                        fontWeight: 500,
-                      }}
-                    >
+                    <p className="review-box-text-success">
                       {review.appreciation || "N/A"}
                     </p>
                   </div>
-                  <div
-                    style={{
-                      background: "rgba(239, 68, 68, 0.04)",
-                      padding: "1rem",
-                      borderRadius: "12px",
-                      borderLeft: "3px solid #ef4444",
-                      border: "1px solid rgba(239, 68, 68, 0.08)",
-                      borderLeftWidth: "3px",
-                    }}
-                  >
+                  <div className="review-feedback-box">
                     <Flex
                       gap="0.5rem"
-                      style={{
-                        marginBottom: "0.5rem",
-                        color: "#ef4444",
-                        fontWeight: 800,
-                        fontSize: "0.72rem",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.5px",
-                      }}
+                      className="review-box-title-danger"
                     >
                       <Heart size={14} /> FEEDBACK
                     </Flex>
-                    <p
-                      style={{
-                        fontSize: "0.9rem",
-                        color: "#ef4444",
-                        fontWeight: 500,
-                      }}
-                    >
+                    <p className="review-box-text-danger">
                       {review.feedback || "N/A"}
                     </p>
                   </div>
@@ -1126,28 +703,14 @@ const CompanyProfile = () => {
               </ReviewCard>
             ))}
             {reviews.length === 0 && (
-              <p
-                style={{
-                  textAlign: "center",
-                  padding: "3rem",
-                  color: "#86868b",
-                  fontWeight: 500,
-                }}
-              >
+              <p className="no-reviews-text">
                 No reviews yet. Be the first to leave one!
               </p>
             )}
           </div>
 
           <div>
-            <Card
-              style={{
-                padding: "1.5rem",
-                marginBottom: "2rem",
-                border: "1px solid #e3e0d8",
-                borderRadius: "24px",
-              }}
-            >
+            <Card className="summary-card">
               <h3
                 style={{
                   fontSize: "1.1rem",
@@ -1158,68 +721,35 @@ const CompanyProfile = () => {
               >
                 Review Summary
               </h3>
-              <div
-                style={{
-                  paddingBottom: "1.5rem",
-                  borderBottom: "1px solid rgba(0,0,0,0.05)",
-                }}
-              >
+              <div className="summary-chart-container">
                 {[5, 4, 3, 2, 1].map((star) => (
                   <Flex
                     key={star}
                     gap="1rem"
-                    style={{ marginBottom: "0.5rem" }}
+                    className="star-row"
                   >
-                    <span
-                      style={{
-                        fontSize: "0.85rem",
-                        width: "40px",
-                        fontWeight: 600,
-                      }}
-                    >
+                    <span className="star-label">
                       {star} star
                     </span>
-                    <div
-                      style={{
-                        flexGrow: 1,
-                        height: "6px",
-                        background: "rgba(0,0,0,0.05)",
-                        borderRadius: "99px",
-                        overflow: "hidden",
-                      }}
-                    >
+                    <div className="star-track">
                       <div
                         style={{
-                          height: "100%",
                           width: star === 5 ? "80%" : "5%",
-                          background: "#ffc107",
-                          borderRadius: "99px",
                         }}
+                        className="star-fill"
                       />
                     </div>
                   </Flex>
                 ))}
               </div>
-              <div style={{ marginTop: "1.5rem" }}>
-                <p
-                  style={{
-                    fontSize: "0.9rem",
-                    color: "#6e6e73",
-                    marginBottom: "1.5rem",
-                    fontFamily: "var(--font-serif)",
-                  }}
-                >
+              <div className="summary-footer">
+                <p className="summary-policy-text">
                   Our operations are governed by verified crowdfunding
                   protocols.
                 </p>
                 <Button
                   variant="outline"
-                  style={{
-                    width: "100%",
-                    borderColor: "#e3e0d8",
-                    color: "#6e6e73",
-                    background: "transparent",
-                  }}
+                  className="btn-full-width btn-outline-subtle"
                   onClick={() => navigate("/terms")}
                 >
                   View Policies
@@ -1227,13 +757,7 @@ const CompanyProfile = () => {
               </div>
             </Card>
 
-            <Card
-              style={{
-                padding: "1.5rem",
-                border: "1px solid #e3e0d8",
-                borderRadius: "24px",
-              }}
-            >
+            <Card className="journey-card">
               <h3
                 style={{
                   fontSize: "1.1rem",
@@ -1244,50 +768,26 @@ const CompanyProfile = () => {
               >
                 Professional Journey
               </h3>
-              <div
-                style={{
-                  position: "relative",
-                  paddingLeft: "1.5rem",
-                  borderLeft: "2px solid rgba(0,0,0,0.05)",
-                }}
-              >
+              <div className="journey-timeline">
                 {profile.activityLog
                   ?.slice()
                   .reverse()
                   .map((log, i) => (
                     <div
                       key={i}
-                      style={{ position: "relative", marginBottom: "1.5rem" }}
+                      className="journey-item"
                     >
                       <div
                         style={{
-                          position: "absolute",
-                          left: "-1.9rem",
-                          top: "0.2rem",
-                          width: "10px",
-                          height: "10px",
-                          borderRadius: "50%",
                           background:
                             log.type === "automatic" ? "#0071e3" : "#6e6e73",
                         }}
+                        className="journey-dot"
                       />
-                      <h5
-                        style={{
-                          fontSize: "0.9rem",
-                          fontWeight: 800,
-                          marginBottom: "0.25rem",
-                          color: "#191919",
-                        }}
-                      >
+                      <h5 className="journey-title">
                         {log.milestone}
                       </h5>
-                      <p
-                        style={{
-                          fontSize: "0.75rem",
-                          color: "#86868b",
-                          fontFamily: "var(--font-mono)",
-                        }}
-                      >
+                      <p className="journey-date">
                         {new Date(log.date).toLocaleDateString("en-IN")}
                       </p>
                     </div>

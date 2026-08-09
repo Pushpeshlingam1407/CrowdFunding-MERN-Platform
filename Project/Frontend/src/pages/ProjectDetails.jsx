@@ -22,6 +22,7 @@ import InvestmentModal from "../components/InvestmentModal";
 import PaymentModal from "../components/PaymentModal";
 import useAuthStore from "../store/authStore";
 import { projectAPI } from "../services/api";
+import "./ProjectDetails.css";
 
 /* ─── Styled Components ─────────────────────────────────────── */
 
@@ -512,66 +513,18 @@ const ProjectDetails = () => {
     return (
       <ProjectWrapper>
         <Container>
-          <div
-            style={{
-              padding: "8rem 0",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <div
-              style={{
-                width: "100%",
-                maxWidth: "800px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "2rem",
-              }}
-            >
-              <div
-                style={{
-                  width: "100%",
-                  height: "400px",
-                  background: "#fbf9f6",
-                  borderRadius: "24px",
-                  border: "1px solid #e3e0d8",
-                }}
-              />
-              <div
-                style={{
-                  width: "30%",
-                  height: "24px",
-                  background: "#f0f0f0",
-                  borderRadius: "8px",
-                }}
-              />
-              <div
-                style={{
-                  width: "80%",
-                  height: "48px",
-                  background: "#f0f0f0",
-                  borderRadius: "8px",
-                }}
-              />
+          <div className="project-loading-wrapper">
+            <div className="project-loading-container">
+              <div className="skeleton-hero" />
+              <div className="skeleton-title" />
+              <div className="skeleton-desc" />
             </div>
           </div>
         </Container>
       </ProjectWrapper>
     );
   if (!project)
-    return (
-      <div
-        style={{
-          padding: "8rem",
-          textAlign: "center",
-          color: "#191919",
-          fontFamily: "var(--font-serif)",
-          fontSize: "1.25rem",
-        }}
-      >
-        Project Not Found
-      </div>
-    );
+    return <div className="project-not-found">Project Not Found</div>;
 
   const progress = Math.min(
     100,
@@ -596,16 +549,9 @@ const ProjectDetails = () => {
         <Button
           variant="outline"
           onClick={() => navigate("/campaigns")}
-          style={{
-            marginBottom: "2rem",
-            padding: "0.5rem 1.25rem",
-            fontSize: "0.85rem",
-            borderColor: "#e3e0d8",
-            color: "#6e6e73",
-            background: "transparent",
-          }}
+          className="btn-outline-subtle btn-back-margin"
         >
-          <ArrowLeft size={16} style={{ marginRight: 8 }} /> Back to Marketplace
+          <ArrowLeft size={16} className="icon-mr" /> Back to Marketplace
         </Button>
 
         <Grid cols="2fr 1fr" gap="2rem">
@@ -646,127 +592,43 @@ const ProjectDetails = () => {
 
                 <Grid cols={3} gap="2rem">
                   <Flex direction="column" align="flex-start" gap="0.5rem">
-                    <span
-                      style={{
-                        color: "#86868b",
-                        fontSize: "0.75rem",
-                        fontWeight: 700,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.5px",
-                        fontFamily: "var(--font-sans)",
-                      }}
-                    >
-                      Equity Offered
-                    </span>
-                    <span
-                      style={{
-                        fontSize: "1.25rem",
-                        fontWeight: 800,
-                        fontFamily: "var(--font-mono)",
-                        color: "#191919",
-                      }}
-                    >
-                      {project.equity}%
-                    </span>
+                    <span className="metric-label">Equity Offered</span>
+                    <span className="metric-value">{project.equity}%</span>
                   </Flex>
                   <Flex direction="column" align="flex-start" gap="0.5rem">
-                    <span
-                      style={{
-                        color: "#86868b",
-                        fontSize: "0.75rem",
-                        fontWeight: 700,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.5px",
-                        fontFamily: "var(--font-sans)",
-                      }}
-                    >
-                      Target Goal
-                    </span>
-                    <span
-                      style={{
-                        fontSize: "1.25rem",
-                        fontWeight: 800,
-                        fontFamily: "var(--font-mono)",
-                        color: "#191919",
-                      }}
-                    >
+                    <span className="metric-label">Target Goal</span>
+                    <span className="metric-value">
                       ₹{project.targetAmount.toLocaleString("en-IN")}
                     </span>
                   </Flex>
                   <Flex direction="column" align="flex-start" gap="0.5rem">
-                    <span
-                      style={{
-                        color: "#86868b",
-                        fontSize: "0.75rem",
-                        fontWeight: 700,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.5px",
-                        fontFamily: "var(--font-sans)",
-                      }}
-                    >
-                      Min Investment
-                    </span>
-                    <span
-                      style={{
-                        fontSize: "1.25rem",
-                        fontWeight: 800,
-                        fontFamily: "var(--font-mono)",
-                        color: "#191919",
-                      }}
-                    >
-                      ₹10,000
-                    </span>
+                    <span className="metric-label">Min Investment</span>
+                    <span className="metric-value">₹10,000</span>
                   </Flex>
                 </Grid>
 
                 <CreatorInfo>
-                  <div
-                    style={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: "50%",
-                      background: "rgba(0, 0, 0, 0.05)",
-                      color: "#191919",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontWeight: 800,
-                      fontSize: "1.1rem",
-                      flexShrink: 0,
-                    }}
-                  >
+                  <div className="creator-avatar-large">
                     {project.creator?.name?.charAt(0) || "?"}
                   </div>
                   <CreatorDetails>
                     <h4>{project.creator?.name}</h4>
                     <p>{project.creator?.role || "Verified Startup"}</p>
                   </CreatorDetails>
-                  <Flex gap="1rem" style={{ marginLeft: "auto" }}>
+                  <Flex gap="1rem" className="creator-actions">
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() =>
                         navigate(`/company/${project.creator?._id}`)
                       }
-                      style={{
-                        borderColor: "#e3e0d8",
-                        color: "#6e6e73",
-                        background: "transparent",
-                      }}
+                      className="btn-outline-subtle"
                     >
                       Visit Profile
                     </Button>
                     {!isCreator && (
-                      <Button
-                        size="sm"
-                        style={{
-                          background: "#191919",
-                          color: "#ffffff",
-                          border: "none",
-                        }}
-                      >
-                        <MessageSquare size={16} style={{ marginRight: 8 }} />{" "}
-                        Connect
+                      <Button size="sm" className="btn-primary-dark">
+                        <MessageSquare size={16} className="icon-mr" /> Connect
                       </Button>
                     )}
                   </Flex>
@@ -776,27 +638,9 @@ const ProjectDetails = () => {
 
             {/* ── Campaign Gallery ── */}
             {images.length > 0 && (
-              <div style={{ marginBottom: "2rem" }}>
-                <h3
-                  style={{
-                    fontSize: "1.5rem",
-                    fontWeight: 800,
-                    marginBottom: "1.25rem",
-                    letterSpacing: "-0.02em",
-                    fontFamily: "var(--font-serif)",
-                    color: "#191919",
-                  }}
-                >
-                  Campaign Gallery
-                </h3>
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns:
-                      "repeat(auto-fill, minmax(180px, 1fr))",
-                    gap: "1rem",
-                  }}
-                >
+              <div className="gallery-section">
+                <h3 className="section-heading-sm">Campaign Gallery</h3>
+                <div className="gallery-grid">
                   {images.map((img, i) => (
                     <GalleryTile key={i} onClick={() => setLightboxIndex(i)}>
                       <img
@@ -817,74 +661,21 @@ const ProjectDetails = () => {
 
             {/* ── Investment History ── */}
             {completedInvestments.length > 0 && (
-              <div style={{ marginBottom: "2rem", marginTop: "3rem" }}>
-                <h3
-                  style={{
-                    fontSize: "1.5rem",
-                    fontWeight: 800,
-                    marginBottom: "1.25rem",
-                    letterSpacing: "-0.02em",
-                    fontFamily: "var(--font-serif)",
-                    color: "#191919",
-                  }}
-                >
-                  Recent Investments
-                </h3>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "1rem",
-                  }}
-                >
+              <div className="investments-section">
+                <h3 className="section-heading-sm">Recent Investments</h3>
+                <div className="investments-list">
                   {completedInvestments.map((inv) => (
-                    <Card
-                      key={inv._id}
-                      style={{
-                        padding: "1.25rem",
-                        border: "1px solid #e3e0d8",
-                        borderRadius: "16px",
-                        boxShadow: "0 4px 12px rgba(0,0,0,0.01)",
-                      }}
-                    >
+                    <Card key={inv._id} className="investment-card">
                       <Flex justify="space-between" align="center">
                         <Flex gap="1rem" align="center">
-                          <div
-                            style={{
-                              width: 40,
-                              height: 40,
-                              borderRadius: "50%",
-                              background: "rgba(0, 0, 0, 0.05)",
-                              color: "#191919",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              fontWeight: 800,
-                              fontSize: "1rem",
-                              flexShrink: 0,
-                            }}
-                          >
+                          <div className="investor-avatar">
                             {inv.investor?.name?.charAt(0) || "?"}
                           </div>
                           <div>
-                            <h4
-                              style={{
-                                margin: 0,
-                                fontSize: "0.95rem",
-                                fontWeight: 700,
-                                color: "#191919",
-                              }}
-                            >
+                            <h4 className="investor-name">
                               {inv.investor?.name || "Anonymous Investor"}
                             </h4>
-                            <p
-                              style={{
-                                margin: 0,
-                                fontSize: "0.8rem",
-                                color: "#86868b",
-                                fontFamily: "var(--font-mono)",
-                              }}
-                            >
+                            <p className="investor-date">
                               {new Date(
                                 inv.completedAt || inv.createdAt,
                               ).toLocaleDateString("en-IN", {
@@ -895,14 +686,7 @@ const ProjectDetails = () => {
                             </p>
                           </div>
                         </Flex>
-                        <div
-                          style={{
-                            fontWeight: 800,
-                            fontSize: "1.1rem",
-                            color: "#10b981",
-                            fontFamily: "var(--font-mono)",
-                          }}
-                        >
+                        <div className="investment-amount">
                           ₹{inv.amount.toLocaleString("en-IN")}
                         </div>
                       </Flex>
@@ -913,24 +697,13 @@ const ProjectDetails = () => {
             )}
 
             {/* ── Action bar ── */}
-            <Flex gap="1rem" style={{ marginTop: "1.5rem" }}>
-              <Button
-                variant="outline"
-                style={{
-                  borderColor: "#e3e0d8",
-                  color: "#6e6e73",
-                  background: "transparent",
-                }}
-              >
-                <Share2 size={18} style={{ marginRight: 8 }} /> Share
+            <Flex gap="1rem" className="project-actions-bar">
+              <Button variant="outline" className="btn-outline-subtle">
+                <Share2 size={18} className="icon-mr" /> Share
               </Button>
               <Button
                 variant="outline"
-                style={{
-                  color: "#ef4444",
-                  borderColor: "rgba(239,68,68,0.2)",
-                  background: "transparent",
-                }}
+                className="btn-outline-danger"
                 onClick={() => {
                   if (!isAuthenticated) {
                     toast.error("Please login to report");
@@ -939,7 +712,7 @@ const ProjectDetails = () => {
                   setReportOpen(true);
                 }}
               >
-                <Flag size={18} style={{ marginRight: 8 }} /> Report / Flag
+                <Flag size={18} className="icon-mr" /> Report / Flag
               </Button>
             </Flex>
           </div>
@@ -947,48 +720,16 @@ const ProjectDetails = () => {
           {/* ── Sidebar ── */}
           <div>
             <SidebarCard>
-              <h2
-                style={{
-                  fontSize: "1.5rem",
-                  fontWeight: 800,
-                  marginBottom: "0.5rem",
-                  color: "#191919",
-                  fontFamily: "var(--font-sans)",
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                Funding Status
-              </h2>
-              <p
-                style={{
-                  color: "#6e6e73",
-                  fontSize: "0.9rem",
-                  marginBottom: "2rem",
-                  fontFamily: "var(--font-serif)",
-                }}
-              >
+              <h2 className="sidebar-heading">Funding Status</h2>
+              <p className="sidebar-subheading">
                 Join the pool of professional investors.
               </p>
 
               <Flex justify="space-between" align="center">
-                <span
-                  style={{
-                    fontSize: "2rem",
-                    fontWeight: 800,
-                    color: "#191919",
-                    fontFamily: "var(--font-mono)",
-                    letterSpacing: "-0.02em",
-                  }}
-                >
+                <span className="raised-amount">
                   ₹{project.currentAmount.toLocaleString("en-IN")}
                 </span>
-                <span
-                  style={{
-                    color: "#10b981",
-                    fontWeight: 800,
-                    fontFamily: "var(--font-mono)",
-                  }}
-                >
+                <span className="raised-percentage">
                   {progress.toFixed(1)}%
                 </span>
               </Flex>
@@ -996,7 +737,7 @@ const ProjectDetails = () => {
                 <ProgressFill progress={progress} />
               </ProgressTrack>
 
-              <Grid cols={2} gap="1rem" style={{ marginBottom: "2.5rem" }}>
+              <Grid cols={2} gap="1rem" className="sidebar-stats-grid">
                 <Flex direction="column" align="flex-start">
                   <span
                     style={{
@@ -1055,13 +796,7 @@ const ProjectDetails = () => {
 
               <Button
                 size="lg"
-                style={{
-                  width: "100%",
-                  padding: "1rem",
-                  background: "#191919",
-                  color: "#ffffff",
-                  border: "none",
-                }}
+                className="btn-invest-main"
                 disabled={
                   project.isLocked ||
                   isCreator ||
@@ -1088,13 +823,7 @@ const ProjectDetails = () => {
                 <Button
                   variant="outline"
                   size="lg"
-                  style={{
-                    width: "100%",
-                    marginTop: "1rem",
-                    borderColor: "#e3e0d8",
-                    color: "#6e6e73",
-                    background: "transparent",
-                  }}
+                  className="btn-manage-campaign btn-outline-subtle"
                   onClick={() => navigate(`/projects/${id}/edit`)}
                 >
                   Manage Campaign
@@ -1157,17 +886,7 @@ const ProjectDetails = () => {
             )}
 
             {/* Counter */}
-            <div
-              style={{
-                position: "fixed",
-                bottom: "1.5rem",
-                left: "50%",
-                transform: "translateX(-50%)",
-                color: "rgba(255,255,255,0.7)",
-                fontSize: "0.9rem",
-                fontWeight: 600,
-              }}
-            >
+            <div className="lightbox-counter">
               {lightboxIndex + 1} / {images.length}
             </div>
           </LightboxOverlay>
@@ -1193,32 +912,13 @@ const ProjectDetails = () => {
                 <X size={20} />
               </ModalClose>
 
-              <Flex gap="0.75rem" style={{ marginBottom: "1.5rem" }}>
-                <div
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 10,
-                    background: "#fff5f5",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
+              <Flex gap="0.75rem" className="report-header-flex">
+                <div className="report-icon-box">
                   <AlertCircle size={20} color="#ef4444" />
                 </div>
                 <div>
-                  <h2
-                    style={{
-                      fontSize: "1.25rem",
-                      fontWeight: 800,
-                      marginBottom: "0.25rem",
-                      color: "#191919",
-                    }}
-                  >
-                    Report Campaign
-                  </h2>
-                  <p style={{ fontSize: "0.85rem", color: "#6e6e73" }}>
+                  <h2 className="report-heading">Report Campaign</h2>
+                  <p className="report-subheading">
                     Your report goes directly to the compliance team.
                   </p>
                 </div>
@@ -1265,27 +965,17 @@ const ProjectDetails = () => {
                   <Button
                     type="button"
                     variant="outline"
-                    style={{
-                      flex: 1,
-                      borderColor: "#e3e0d8",
-                      color: "#6e6e73",
-                      background: "transparent",
-                    }}
+                    className="report-cancel-btn btn-outline-subtle"
                     onClick={() => setReportOpen(false)}
                   >
                     Cancel
                   </Button>
                   <Button
                     type="submit"
-                    style={{
-                      flex: 2,
-                      background: "#ef4444",
-                      color: "#ffffff",
-                      border: "none",
-                    }}
+                    className="report-submit-btn"
                     disabled={reportSubmitting}
                   >
-                    <Send size={16} style={{ marginRight: 8 }} />
+                    <Send size={16} className="icon-mr" />
                     {reportSubmitting ? "Submitting..." : "Submit Report"}
                   </Button>
                 </Flex>

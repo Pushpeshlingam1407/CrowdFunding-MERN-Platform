@@ -64,9 +64,7 @@ const ProjectView = () => {
       <Card className="border-0 shadow-sm">
         <Row className="g-0">
           <Col md={6}>
-            <div
-              className="position-relative h-100 project-view-image-container"
-            >
+            <div className="position-relative h-100 project-view-image-container">
               <img
                 src={
                   project.image?.startsWith("http")
