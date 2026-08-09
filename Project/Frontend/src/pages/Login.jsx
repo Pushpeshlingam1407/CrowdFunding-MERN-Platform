@@ -6,6 +6,7 @@ import { LogIn, Mail, Lock, AlertCircle, ShieldCheck } from "lucide-react";
 import { Button, Input, Card, Container, Flex } from "../components/ui";
 import { toast } from "react-hot-toast";
 import useAuthStore from "../store/authStore";
+import "./Login.css";
 
 const LoginWrapper = styled.div`
   min-height: calc(100vh - 80px);
@@ -180,7 +181,7 @@ const Login = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
-            style={{ width: "100%", maxWidth: "440px" }}
+            className="auth-form-wrapper"
           >
             <StyledCard>
               <FormTitle>Welcome Back</FormTitle>
@@ -235,27 +236,18 @@ const Login = () => {
                 <Button
                   type="submit"
                   disabled={isLoading}
-                  style={{
-                    width: "100%",
-                    marginBottom: "1.5rem",
-                    background: "#191919",
-                    color: "#ffffff",
-                  }}
+                  className="login-submit-btn btn-primary-dark"
                 >
-                  <LogIn size={18} style={{ marginRight: 8 }} />
+                  <LogIn size={18} className="icon-mr" />
                   {isLoading ? "Signing in..." : "Sign in"}
                 </Button>
 
-                <div style={{ textAlign: "center" }}>
-                  <span style={{ fontSize: "0.9rem", color: "#6e6e73" }}>
+                <div className="login-link-container">
+                  <span className="text-muted-sm">
                     New to StartupFund?{" "}
                     <Link
                       to="/register"
-                      style={{
-                        color: "#191919",
-                        fontWeight: 600,
-                        textDecoration: "none",
-                      }}
+                      className="login-signup-link"
                     >
                       Get started
                     </Link>

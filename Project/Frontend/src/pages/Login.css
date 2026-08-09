@@ -1,0 +1,18 @@
+/* Login.css — Login page-specific styles */
+
+.login-link-container {
+  text-align: center;
+}
+
+.login-signup-link {
+  color: #191919;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-submit-btn {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  background: #191919;
+  color: #ffffff;
+}

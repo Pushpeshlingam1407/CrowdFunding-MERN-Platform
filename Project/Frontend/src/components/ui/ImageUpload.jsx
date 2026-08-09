@@ -3,6 +3,7 @@ import { Button } from "./index";
 import styled from "styled-components";
 import { Upload, X, FileText, Image as ImageIcon } from "lucide-react";
 import { toast } from "react-hot-toast";
+import "./ImageUpload.css";
 
 const UploadContainer = styled.div`
   width: 100%;
@@ -239,7 +240,7 @@ const ImageUpload = ({
         onChange={handleFileChange}
         accept={accept}
         multiple={multiple}
-        style={{ display: "none" }}
+        className="hidden-input"
         disabled={disabled}
       />
 
@@ -261,14 +262,7 @@ const ImageUpload = ({
                 type="button"
                 variant="outline"
                 onClick={onRemove}
-                style={{
-                  background: "#ffffff",
-                  color: "#e31a1a",
-                  borderColor: "#e3e0d8",
-                  padding: "0.5rem 1rem",
-                  fontSize: "0.8rem",
-                  fontWeight: 700,
-                }}
+                className="image-upload-change-btn"
               >
                 Change Photo
               </Button>
@@ -304,14 +298,14 @@ const ImageUpload = ({
             {!isDragging && (
               <>
                 or{" "}
-                <span style={{ color: "#0071e3", fontWeight: 700 }}>
+                <span className="browse-link">
                   browse files
                 </span>{" "}
                 from your computer
               </>
             )}
           </SubText>
-          <SubText style={{ marginTop: "0.5rem", fontSize: "0.72rem" }}>
+          <SubText className="image-upload-subtext-note">
             Supports JPG, PNG, WEBP · Max {maxSizeMB}MB
           </SubText>
         </DropZone>
@@ -321,17 +315,8 @@ const ImageUpload = ({
       {multiple &&
         (existingImages.length > 0 ||
           (Array.isArray(value) && value.length > 0)) && (
-          <div style={{ marginTop: "1.5rem" }}>
-            <p
-              style={{
-                fontSize: "0.8rem",
-                fontWeight: 700,
-                color: "#6e6e73",
-                textTransform: "uppercase",
-                letterSpacing: "0.5px",
-                marginBottom: "0.75rem",
-              }}
-            >
+          <div className="image-upload-gallery-wrapper">
+            <p className="gallery-label">
               Gallery Images (
               {existingImages.length +
                 (Array.isArray(value) ? value.length : 0)}

@@ -5,6 +5,7 @@ import { ArrowRight, Zap, Target, Briefcase } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Flex, Grid, Card } from "../components/ui";
 import useAuthStore from "../store/authStore";
+import "./Home.css";
 
 const HeroSection = styled.section`
   padding: 9rem 0 7rem 0;
@@ -187,24 +188,16 @@ const Home = () => {
               <Button
                 size="lg"
                 onClick={handleGetStarted}
-                style={{
-                  background: "#191919",
-                  color: "#ffffff",
-                  border: "none",
-                }}
+                className="btn-primary-dark"
               >
                 {user ? "Go to Dashboard" : "Join the Network"}{" "}
-                <ArrowRight size={18} style={{ marginLeft: 8 }} />
+                <ArrowRight size={18} className="icon-ml" />
               </Button>
               <Button
                 variant="outline"
                 size="lg"
                 onClick={() => navigate("/campaigns")}
-                style={{
-                  borderColor: "#e3e0d8",
-                  color: "#6e6e73",
-                  background: "transparent",
-                }}
+                className="btn-outline-subtle"
               >
                 Explore Campaigns
               </Button>
@@ -213,7 +206,7 @@ const Home = () => {
         </Container>
       </HeroSection>
 
-      <section style={{ padding: "7rem 0", backgroundColor: "#ffffff" }}>
+      <section className="home-features-section">
         <Container>
           <SectionHeader>
             <h2>One Platform, Endless Possibilities</h2>
@@ -254,13 +247,7 @@ const Home = () => {
         </Container>
       </section>
 
-      <section
-        style={{
-          padding: "6rem 0",
-          background: "#fbf9f6",
-          borderTop: "1px solid #e3e0d8",
-        }}
-      >
+      <section className="home-cta-section">
         <Container>
           <CTAPanel
             initial={{ opacity: 0, scale: 0.98 }}
@@ -274,11 +261,7 @@ const Home = () => {
               in your vision.
             </p>
             <Button
-              style={{
-                background: "#ffffff",
-                color: "#191919",
-                border: "none",
-              }}
+              className="home-cta-btn"
               size="lg"
               onClick={handleGetStarted}
             >

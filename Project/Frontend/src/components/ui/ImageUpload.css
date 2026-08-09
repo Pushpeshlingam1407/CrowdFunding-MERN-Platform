@@ -1,0 +1,19 @@
+/* ImageUpload.css — ImageUpload-specific styles */
+
+.image-upload-change-btn {
+  background: #ffffff;
+  color: #e31a1a;
+  border-color: #e3e0d8;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.image-upload-subtext-note {
+  margin-top: 0.5rem;
+  font-size: 0.72rem;
+}
+
+.image-upload-gallery-wrapper {
+  margin-top: 1.5rem;
+}

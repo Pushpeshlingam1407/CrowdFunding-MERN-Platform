@@ -1,0 +1,37 @@
+/* DocumentUpload.css (ui) — DocumentUpload-specific styles */
+
+.doc-upload-heading {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.doc-upload-description {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.doc-upload-dropzone-text {
+  font-weight: 600;
+  color: #191919;
+  margin-bottom: 0.25rem;
+}
+
+.doc-upload-dropzone-subtext {
+  font-size: 0.8rem;
+  color: #6e6e73;
+}
+
+.doc-upload-security-box {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.doc-upload-security-text {
+  font-size: 0.85rem;
+  color: #666;
+}

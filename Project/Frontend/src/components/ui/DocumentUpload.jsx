@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { Button, Flex } from "./index";
+import "./DocumentUpload.css";
 
 /* ─── Styled ──────────────────────────── */
 const DropZone = styled.div`
@@ -233,32 +234,23 @@ const DocumentUpload = ({ onUploadSuccess }) => {
 
   return (
     <div>
-      <h3
-        style={{ fontSize: "1.25rem", fontWeight: 800, marginBottom: "0.5rem" }}
-      >
+      <h3 className="doc-upload-heading">
         Secure Document Portal
       </h3>
-      <p
-        style={{
-          color: "#666",
-          fontSize: "0.9rem",
-          marginBottom: "2rem",
-          lineHeight: 1.6,
-        }}
-      >
+      <p className="doc-upload-description">
         Upload KYC, financial statements, or project documents. Accepted: PDF,
         JPEG, PNG, DOC (max 9 MB).
       </p>
 
       {error && (
         <Alert variant="error">
-          <AlertCircle size={18} style={{ flexShrink: 0 }} />
+          <AlertCircle size={18} className="icon-shrink-0" />
           {error}
         </Alert>
       )}
       {success && (
         <Alert variant="success">
-          <CheckCircle2 size={18} style={{ flexShrink: 0 }} />
+          <CheckCircle2 size={18} className="icon-shrink-0" />
           {success}
         </Alert>
       )}
@@ -277,37 +269,22 @@ const DocumentUpload = ({ onUploadSuccess }) => {
             ref={fileInputRef}
             accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
             onChange={handleFile}
-            style={{ display: "none" }}
+            className="hidden-input"
           />
-          <div
-            style={{
-              background: "rgba(0, 113, 227, 0.08)",
-              color: "#0071e3",
-              padding: "1rem",
-              borderRadius: "50%",
-              display: "inline-block",
-              marginBottom: "1rem",
-            }}
-          >
+          <div className="upload-icon-circle">
             <Upload size={28} />
           </div>
-          <p
-            style={{
-              fontWeight: 600,
-              color: "#191919",
-              marginBottom: "0.25rem",
-            }}
-          >
+          <p className="doc-upload-dropzone-text">
             {file ? file.name : "Drag & drop or click to select"}
           </p>
-          <p style={{ fontSize: "0.8rem", color: "#6e6e73" }}>
+          <p className="doc-upload-dropzone-subtext">
             {file ? fmt(file.size) : "PDF, JPEG, PNG, DOC/DOCX · Max 9 MB"}
           </p>
         </DropZone>
 
         {file && (
           <FilePill>
-            <FileText size={20} color="#0071e3" style={{ flexShrink: 0 }} />
+            <FileText size={20} color="#0071e3" className="icon-shrink-0" />
             <span className="name">{file.name}</span>
             <span className="size">{fmt(file.size)}</span>
             <button
@@ -316,13 +293,7 @@ const DocumentUpload = ({ onUploadSuccess }) => {
                 setFile(null);
                 setError("");
               }}
-              style={{
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                color: "#999",
-                padding: 0,
-              }}
+              className="clear-btn"
             >
               <X size={16} />
             </button>
@@ -356,7 +327,7 @@ const DocumentUpload = ({ onUploadSuccess }) => {
         <Button
           type="submit"
           size="lg"
-          style={{ width: "100%" }}
+          className="btn-full"
           disabled={loading || !file || !docType}
         >
           {loading ? "Uploading…" : "Upload Document"}
@@ -365,15 +336,10 @@ const DocumentUpload = ({ onUploadSuccess }) => {
 
       <Flex
         gap="1rem"
-        style={{
-          marginTop: "2rem",
-          padding: "1rem",
-          background: "#f8f9fa",
-          borderRadius: "12px",
-        }}
+        className="doc-upload-security-box"
       >
-        <ShieldCheck size={20} style={{ color: "#2f855a", flexShrink: 0 }} />
-        <span style={{ fontSize: "0.85rem", color: "#666" }}>
+        <ShieldCheck size={20} className="security-icon" />
+        <span className="doc-upload-security-text">
           Documents are encrypted and stored in compliance with our crowdfunding
           data isolation policies.
         </span>
