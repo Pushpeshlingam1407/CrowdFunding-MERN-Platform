@@ -12,6 +12,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Card, Container, Flex, Input } from "../components/ui";
 import { projectAPI } from "../services/api";
+import "./Campaigns.css";
 
 const PageHeader = styled.div`
   padding: 6rem 0 5rem 0;
@@ -275,27 +276,10 @@ const Campaigns = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <h1
-              style={{
-                fontSize: "2.75rem",
-                fontWeight: 800,
-                marginBottom: "1rem",
-                letterSpacing: "-0.03em",
-                fontFamily: "var(--font-serif)",
-                color: "#191919",
-              }}
-            >
+            <h1 className="page-heading">
               Campaign Marketplace
             </h1>
-            <p
-              style={{
-                color: "#6e6e73",
-                fontSize: "1.1rem",
-                maxWidth: "600px",
-                margin: "0 auto",
-                fontFamily: "var(--font-serif)",
-              }}
-            >
+            <p className="page-subtitle">
               Browse active fundraising rounds and support emerging startups.
             </p>
           </motion.div>
@@ -326,14 +310,7 @@ const Campaigns = () => {
                 ))}
               </SegmentedControl>
             </Flex>
-            <div
-              style={{
-                color: "#6e6e73",
-                fontSize: "0.88rem",
-                fontWeight: 700,
-                fontFamily: "var(--font-sans)",
-              }}
-            >
+            <div className="campaign-count">
               Showing {filteredCampaigns.length} campaigns
             </div>
           </Flex>
@@ -348,45 +325,12 @@ const Campaigns = () => {
                 .map((_, i) => (
                   <CampaignCard
                     key={i}
-                    style={{ padding: "1.5rem", minHeight: "400px" }}
+                    className="campaign-skeleton-card"
                   >
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "200px",
-                        background: "#fbf9f6",
-                        borderRadius: "16px",
-                        marginBottom: "1rem",
-                        border: "1px solid #e3e0d8",
-                      }}
-                    />
-                    <div
-                      style={{
-                        width: "40%",
-                        height: "16px",
-                        background: "#f0f0f0",
-                        borderRadius: "4px",
-                        marginBottom: "1rem",
-                      }}
-                    />
-                    <div
-                      style={{
-                        width: "80%",
-                        height: "24px",
-                        background: "#f0f0f0",
-                        borderRadius: "4px",
-                        marginBottom: "1rem",
-                      }}
-                    />
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "48px",
-                        background: "#f0f0f0",
-                        borderRadius: "4px",
-                        marginBottom: "1rem",
-                      }}
-                    />
+                    <div className="campaign-skeleton-img" />
+                    <div className="campaign-skeleton-line-sm" />
+                    <div className="campaign-skeleton-line-md" />
+                    <div className="campaign-skeleton-line-lg" />
                   </CampaignCard>
                 ))
             : filteredCampaigns.map((campaign) => {
@@ -416,12 +360,12 @@ const Campaigns = () => {
                         {isLocked ? (
                           <CheckCircle2
                             size={12}
-                            style={{ marginRight: 4, display: "inline" }}
+                            className="campaign-badge-icon"
                           />
                         ) : (
                           <Clock
                             size={12}
-                            style={{ marginRight: 4, display: "inline" }}
+                            className="campaign-badge-icon"
                           />
                         )}
                         {isLocked ? "COMPLETED" : `${daysLeft} DAYS LEFT`}
@@ -435,27 +379,12 @@ const Campaigns = () => {
                       <ProgressInfo>
                         <Flex
                           justify="space-between"
-                          style={{
-                            marginBottom: "0.4rem",
-                            fontSize: "0.85rem",
-                          }}
+                          className="campaign-progress-row"
                         >
-                          <span
-                            style={{
-                              fontWeight: 800,
-                              color: "#10b981",
-                              fontFamily: "var(--font-mono)",
-                            }}
-                          >
+                          <span className="campaign-funded">
                             {progress.toFixed(1)}% funded
                           </span>
-                          <span
-                            style={{
-                              color: "#6e6e73",
-                              fontFamily: "var(--font-mono)",
-                              fontWeight: 700,
-                            }}
-                          >
+                          <span className="campaign-target">
                             Target: ₹
                             {campaign.targetAmount.toLocaleString("en-IN")}
                           </span>
@@ -467,37 +396,23 @@ const Campaigns = () => {
 
                       <StatsGrid>
                         <StatItem>
-                          <Users size={16} style={{ color: "#86868b" }} />
+                          <Users size={16} className="campaign-stat-icon" />
                           <span>
                             {campaign.creator?.name || "Vetted Startup"}
                           </span>
                         </StatItem>
-                        <StatItem
-                          style={{
-                            justifyContent: "flex-end",
-                            fontFamily: "var(--font-mono)",
-                            fontWeight: 700,
-                            color: "#191919",
-                          }}
-                        >
+                        <StatItem className="campaign-equity-stat">
                           <span>Equity: {campaign.equity}%</span>
                         </StatItem>
                       </StatsGrid>
 
                       <Link
                         to={`/projects/${campaign._id}`}
-                        style={{ textDecoration: "none", marginTop: "1.5rem" }}
+                        className="campaign-link-wrapper"
                       >
-                        <Button
-                          style={{
-                            width: "100%",
-                            background: "#191919",
-                            color: "#ffffff",
-                            border: "none",
-                          }}
-                        >
+                        <Button className="btn-primary-dark btn-full">
                           View Portfolio{" "}
-                          <ArrowRight size={18} style={{ marginLeft: 8 }} />
+                          <ArrowRight size={18} className="icon-ml" />
                         </Button>
                       </Link>
                     </Content>

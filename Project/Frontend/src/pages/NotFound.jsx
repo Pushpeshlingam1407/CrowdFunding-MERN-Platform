@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Button, Container, Flex } from "../components/ui";
+import "./NotFound.css";
 
 const Wrapper = styled.div`
   min-height: calc(100vh - 80px);
@@ -65,7 +66,7 @@ const NotFound = () => {
             </Text>
             <Button
               onClick={() => navigate("/")}
-              style={{ padding: "0.8rem 2rem", fontSize: "0.95rem" }}
+              className="not-found-return-btn"
             >
               Return to Registry
             </Button>

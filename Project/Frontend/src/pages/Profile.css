@@ -1,0 +1,49 @@
+/* Profile.css — Profile page specific styles */
+
+.profile-header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.profile-input-locked {
+  opacity: 0.6;
+}
+
+.profile-bio-container {
+  margin-top: 1.5rem;
+}
+
+.profile-portfolio-desc {
+  margin-bottom: 1.5rem;
+}
+
+.profile-portfolio-card {
+  margin-bottom: 1.5rem;
+  background: #fcfcfc;
+  border: 1px dashed #ddd;
+}
+
+.profile-portfolio-header {
+  margin-bottom: 1rem;
+}
+
+.profile-portfolio-title {
+  font-weight: 800;
+}
+
+.profile-portfolio-delete-btn {
+  color: #e53e3e;
+  border-color: #fed7d7;
+}
+
+.profile-portfolio-input-spacing {
+  margin-top: 1rem;
+}
+
+.profile-save-btn {
+  margin-top: 3.5rem;
+}
+
+.profile-security-box {
+  margin-top: 2.5rem;
+}

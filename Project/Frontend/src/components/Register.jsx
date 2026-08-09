@@ -19,6 +19,7 @@ import { toast as hotToast } from "react-hot-toast";
 import { toast as sonnerToast } from "sonner";
 import { Button, Input, Card, Container, Flex, Grid } from "./ui";
 import api from "../services/api";
+import "./Register.css";
 
 const RegisterWrapper = styled.div`
   min-height: calc(100vh - 80px);
@@ -309,7 +310,7 @@ const Register = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            style={{ width: "100%", maxWidth: "500px" }}
+            className="auth-form-wrapper-wide"
           >
             <StyledCard>
               <FormTitle>Create Account</FormTitle>
@@ -482,7 +483,7 @@ const Register = () => {
                   )}
                 </FormGroup>
 
-                <FormGroup style={{ marginBottom: "2.5rem" }}>
+                <FormGroup className="register-role-group">
                   <Label>I am a...</Label>
                   <RoleGrid>
                     {[
@@ -532,22 +533,14 @@ const Register = () => {
                     I agree to the{" "}
                     <Link
                       to="/terms"
-                      style={{
-                        color: "#191919",
-                        textDecoration: "none",
-                        fontWeight: 600,
-                      }}
+                      className="register-link"
                     >
                       Terms of Service
                     </Link>
                     ,
                     <Link
                       to="/privacy"
-                      style={{
-                        color: "#191919",
-                        textDecoration: "none",
-                        fontWeight: 600,
-                      }}
+                      className="register-link"
                     >
                       {" "}
                       Privacy Policy
@@ -555,11 +548,7 @@ const Register = () => {
                     , and
                     <Link
                       to="/agreement"
-                      style={{
-                        color: "#191919",
-                        textDecoration: "none",
-                        fontWeight: 600,
-                      }}
+                      className="register-link"
                     >
                       {" "}
                       User Agreement
@@ -571,27 +560,18 @@ const Register = () => {
                 <Button
                   type="submit"
                   disabled={loading}
-                  style={{
-                    width: "100%",
-                    marginBottom: "1.5rem",
-                    background: "#191919",
-                    color: "#ffffff",
-                  }}
+                  className="register-submit-btn btn-primary-dark"
                 >
-                  <UserPlus size={18} style={{ marginRight: 8 }} />
+                  <UserPlus size={18} className="icon-mr" />
                   {loading ? "Creating Account..." : "Join StartupFund"}
                 </Button>
 
-                <div style={{ textAlign: "center" }}>
-                  <span style={{ fontSize: "0.9rem", color: "#6e6e73" }}>
+                <div className="register-link-container">
+                  <span className="text-muted-sm">
                     Already have an account?{" "}
                     <Link
                       to="/login"
-                      style={{
-                        color: "#191919",
-                        fontWeight: 600,
-                        textDecoration: "none",
-                      }}
+                      className="register-link"
                     >
                       Log in
                     </Link>

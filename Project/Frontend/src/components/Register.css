@@ -1,0 +1,25 @@
+/* Register.css — Register page specific styles */
+
+.auth-form-wrapper-wide {
+  width: 100%;
+  max-width: 500px;
+}
+
+.register-role-group {
+  margin-bottom: 2.5rem;
+}
+
+.register-link {
+  color: #191919;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-submit-btn {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.register-link-container {
+  text-align: center;
+}

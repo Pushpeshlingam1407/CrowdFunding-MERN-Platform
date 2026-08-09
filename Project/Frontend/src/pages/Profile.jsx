@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { Button, Card, Container, Flex, Grid, Input } from "../components/ui";
 import useAuthStore from "../store/authStore";
 import { userAPI, b2bAPI } from "../services/api";
+import "./Profile.css";
 
 const ProfileWrapper = styled.div`
   padding: 4rem 0;
@@ -178,37 +179,14 @@ const Profile = () => {
           transition={{ duration: 0.4 }}
         >
           <ProfileCard>
-            <header style={{ marginBottom: "3rem", textAlign: "center" }}>
-              <div
-                style={{
-                  width: 80,
-                  height: 80,
-                  borderRadius: "24px",
-                  background: "rgba(0, 113, 227, 0.08)",
-                  color: "#0071e3",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "2.5rem",
-                  fontWeight: 800,
-                  margin: "0 auto 1.5rem",
-                  border: "1px solid rgba(0, 113, 227, 0.15)",
-                }}
-              >
+            <header className="profile-header">
+              <div className="profile-avatar">
                 {user?.name.charAt(0)}
               </div>
-              <h1
-                style={{
-                  fontSize: "2.25rem",
-                  fontWeight: 800,
-                  letterSpacing: "-1.5px",
-                  marginBottom: "0.5rem",
-                  fontFamily: '"Crimson Pro", Lora, Georgia, serif',
-                }}
-              >
+              <h1 className="profile-title">
                 Professional Identity
               </h1>
-              <p style={{ color: "#666" }}>
+              <p className="text-muted">
                 Manage your personal and company metadata for the crowdfunding
                 ecosystem.
               </p>
@@ -233,7 +211,7 @@ const Profile = () => {
                   <Input
                     value={user?.email}
                     disabled
-                    style={{ opacity: 0.6 }}
+                    className="profile-input-locked"
                   />
                 </div>
               </Grid>
@@ -261,21 +239,14 @@ const Profile = () => {
                   />
                 </div>
               </Grid>
-              <div style={{ marginTop: "1.5rem" }}>
+              <div className="profile-bio-container">
                 <Label>Company Bio / Vision</Label>
                 <textarea
                   name="bio"
                   value={formData.bio}
                   onChange={handleChange}
                   placeholder="Describe your company's role in the ecosystem..."
-                  style={{
-                    width: "100%",
-                    padding: "1rem",
-                    borderRadius: "8px",
-                    border: "1px solid #e0e0e0",
-                    minHeight: "100px",
-                    fontFamily: "inherit",
-                  }}
+                  className="textarea-field"
                 />
               </div>
 
@@ -306,36 +277,26 @@ const Profile = () => {
               <SectionTitle>
                 <Briefcase size={20} /> Portfolio & Legit Works
               </SectionTitle>
-              <p
-                style={{
-                  color: "#666",
-                  fontSize: "0.9rem",
-                  marginBottom: "1.5rem",
-                }}
-              >
+              <p className="text-muted profile-portfolio-desc">
                 Showcase your past projects and successful collaborations.
               </p>
 
               {formData.portfolio.map((item, index) => (
                 <Card
                   key={index}
-                  style={{
-                    marginBottom: "1.5rem",
-                    background: "#fcfcfc",
-                    border: "1px dashed #ddd",
-                  }}
+                  className="profile-portfolio-card"
                 >
                   <Flex
                     justify="space-between"
-                    style={{ marginBottom: "1rem" }}
+                    className="profile-portfolio-header"
                   >
-                    <h4 style={{ fontWeight: 800 }}>Project #{index + 1}</h4>
+                    <h4 className="profile-portfolio-title">Project #{index + 1}</h4>
                     <Button
                       variant="outline"
                       size="sm"
                       type="button"
                       onClick={() => removePortfolioItem(index)}
-                      style={{ color: "#e53e3e", borderColor: "#fed7d7" }}
+                      className="profile-portfolio-delete-btn"
                     >
                       <Trash2 size={14} />
                     </Button>
@@ -362,7 +323,7 @@ const Profile = () => {
                       />
                     </div>
                   </Grid>
-                  <div style={{ marginTop: "1rem" }}>
+                  <div className="profile-portfolio-input-spacing">
                     <Label>Description of Work</Label>
                     <Input
                       value={item.description}
@@ -382,9 +343,9 @@ const Profile = () => {
                 variant="outline"
                 type="button"
                 onClick={addPortfolioItem}
-                style={{ width: "100%" }}
+                className="btn-full"
               >
-                <Plus size={18} style={{ marginRight: 8 }} /> Add Portfolio Item
+                <Plus size={18} className="icon-mr" /> Add Portfolio Item
               </Button>
 
               <SectionTitle>
@@ -422,25 +383,20 @@ const Profile = () => {
 
               <Button
                 size="lg"
-                style={{ width: "100%", marginTop: "3.5rem" }}
+                className="btn-full profile-save-btn"
                 disabled={loading}
               >
-                <Save size={18} style={{ marginRight: 8 }} />
+                <Save size={18} className="icon-mr" />
                 {loading ? "Saving Identity..." : "Update Ecosystem Profile"}
               </Button>
             </form>
 
             <Flex
               gap="1rem"
-              style={{
-                marginTop: "2.5rem",
-                padding: "1.5rem",
-                background: "#f8f9fa",
-                borderRadius: "16px",
-              }}
+              className="security-info-box profile-security-box"
             >
-              <ShieldCheck size={20} style={{ color: "#2f855a" }} />
-              <span style={{ fontSize: "0.85rem", color: "#666" }}>
+              <ShieldCheck size={20} className="security-icon" />
+              <span className="security-text">
                 Your information is verified and secured using industry-standard
                 crowdfunding protocols.
               </span>

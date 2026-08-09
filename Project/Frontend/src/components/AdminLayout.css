@@ -1,0 +1,29 @@
+/* AdminLayout.css — Admin layout specific styles */
+
+.admin-logo-icon {
+  background: #191919;
+  border-radius: 10px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 800;
+  font-family: var(--font-sans);
+}
+
+.admin-sidebar-bottom {
+  margin-top: auto;
+  padding-top: 2rem;
+}
+
+.admin-logout-btn {
+  width: 100%;
+  justify-content: flex-start;
+  color: #e31a1a;
+}
+
+.admin-logout-icon {
+  color: #e31a1a;
+}

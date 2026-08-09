@@ -25,6 +25,7 @@ import { Button, Flex } from "../components/ui";
 import DocumentUpload from "../components/ui/DocumentUpload";
 import useAuthStore from "../store/authStore";
 import { projectAPI, investmentAPI } from "../services/api";
+import "./Dashboard.css";
 
 /* ─── Global Styled Components ─────────────────────────────────────── */
 
@@ -550,16 +551,16 @@ const Dashboard = () => {
             builders) are reserved for startup and investor roles. You are
             logged in with admin privileges.
           </DisclaimerText>
-          <Flex gap="1rem" style={{ marginTop: "1rem", width: "100%" }}>
+          <Flex className="dashboard-intercept-actions">
             <PremiumBtn
               $primary
-              style={{ flex: 1, justifyContent: "center" }}
+              className="dashboard-intercept-btn"
               onClick={() => navigate("/admin/dashboard")}
             >
               Go to Admin Portal
             </PremiumBtn>
             <PremiumBtn
-              style={{ flex: 1, justifyContent: "center" }}
+              className="dashboard-intercept-btn"
               onClick={() => {
                 logout();
                 navigate("/login");
@@ -658,7 +659,7 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <div className="icon-box" style={{ color: "#10b981" }}>
+            <div className="icon-box icon-box-success">
               <CheckCircle2 size={20} />
             </div>
             <div className="stat-info">
@@ -671,7 +672,7 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <div className="icon-box" style={{ color: "#f59e0b" }}>
+            <div className="icon-box icon-box-warning">
               <Clock size={20} />
             </div>
             <div className="stat-info">
@@ -702,7 +703,7 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <div className="icon-box" style={{ color: "#10b981" }}>
+            <div className="icon-box icon-box-success">
               <CheckCircle2 size={20} />
             </div>
             <div className="stat-info">
@@ -733,7 +734,7 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <div className="icon-box" style={{ color: "#10b981" }}>
+            <div className="icon-box icon-box-success">
               <Target size={20} />
             </div>
             <div className="stat-info">
@@ -764,7 +765,7 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <div className="icon-box" style={{ color: "#10b981" }}>
+            <div className="icon-box icon-box-success">
               <CheckCircle2 size={20} />
             </div>
             <div className="stat-info">
@@ -785,15 +786,8 @@ const Dashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <Flex justify="space-between" style={{ marginBottom: "1.5rem" }}>
-            <h2
-              style={{
-                fontSize: "1.25rem",
-                fontWeight: 800,
-                color: "#191919",
-                fontFamily: "var(--font-serif)",
-              }}
-            >
+          <Flex className="dashboard-section-header">
+            <h2 className="card-title">
               Recent Campaigns
             </h2>
             <PremiumBtn onClick={() => setActiveTab("campaigns")}>
@@ -814,19 +808,13 @@ const Dashboard = () => {
               <tbody>
                 {projects.slice(0, 5).map((project) => (
                   <tr key={project._id}>
-                    <td style={{ fontWeight: 800, color: "#191919" }}>
+                    <td className="td-bold">
                       {project.title}
                     </td>
-                    <td style={{ fontWeight: 600, color: "#6e6e73" }}>
+                    <td className="td-muted">
                       {project.category}
                     </td>
-                    <td
-                      style={{
-                        fontWeight: 800,
-                        color: "#191919",
-                        fontFamily: "var(--font-mono)",
-                      }}
-                    >
+                    <td className="td-amount">
                       ₹{project.targetAmount?.toLocaleString("en-IN")}
                     </td>
                     <td>
@@ -865,12 +853,7 @@ const Dashboard = () => {
                   <tr>
                     <td
                       colSpan="5"
-                      style={{
-                        textAlign: "center",
-                        padding: "3rem",
-                        color: "#86868b",
-                        fontWeight: 600,
-                      }}
+                      className="empty-state"
                     >
                       No campaigns found. Start by creating one!
                     </td>
@@ -908,15 +891,8 @@ const Dashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Flex justify="space-between" style={{ marginBottom: "1.5rem" }}>
-            <h2
-              style={{
-                fontSize: "1.25rem",
-                fontWeight: 800,
-                color: "#191919",
-                fontFamily: "var(--font-serif)",
-              }}
-            >
+          <Flex className="dashboard-section-header">
+            <h2 className="card-title">
               {title}
             </h2>
             {user?.role !== "investor" && (
@@ -939,25 +915,13 @@ const Dashboard = () => {
               <tbody>
                 {investments.slice(0, 5).map((inv) => (
                   <tr key={inv._id}>
-                    <td style={{ fontWeight: 800, color: "#191919" }}>
+                    <td className="td-bold">
                       {inv.project?.title || "—"}
                     </td>
-                    <td
-                      style={{
-                        color: "#10b981",
-                        fontWeight: 800,
-                        fontFamily: "var(--font-mono)",
-                      }}
-                    >
+                    <td className="td-amount-green">
                       ₹{inv.amount?.toLocaleString("en-IN")}
                     </td>
-                    <td
-                      style={{
-                        fontWeight: 600,
-                        color: "#6e6e73",
-                        fontFamily: "var(--font-mono)",
-                      }}
-                    >
+                    <td className="td-date">
                       {new Date(
                         inv.completedAt || inv.createdAt,
                       ).toLocaleDateString("en-IN")}
@@ -985,12 +949,7 @@ const Dashboard = () => {
                   <tr>
                     <td
                       colSpan="5"
-                      style={{
-                        textAlign: "center",
-                        padding: "3rem",
-                        color: "#86868b",
-                        fontWeight: 600,
-                      }}
+                      className="empty-state"
                     >
                       {emptyMsg}
                     </td>
@@ -1018,15 +977,8 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <Flex justify="space-between" style={{ marginBottom: "1.5rem" }}>
-              <h2
-                style={{
-                  fontSize: "1.25rem",
-                  fontWeight: 800,
-                  color: "#191919",
-                  fontFamily: "var(--font-serif)",
-                }}
-              >
+            <Flex className="dashboard-section-header">
+              <h2 className="card-title">
                 Donors & Backers
               </h2>
             </Flex>
@@ -1044,36 +996,19 @@ const Dashboard = () => {
                 <tbody>
                   {receivedInvestments.map((inv) => (
                     <tr key={inv._id}>
-                      <td style={{ fontWeight: 800, color: "#191919" }}>
+                      <td className="td-bold">
                         {inv.investor?.name || "Anonymous"}
                       </td>
-                      <td
-                        style={{
-                          fontWeight: 600,
-                          textTransform: "capitalize",
-                          color: "#6e6e73",
-                        }}
-                      >
+                      <td className="td-muted text-capitalize">
                         {inv.investor?.role || "—"}
                       </td>
-                      <td
-                        style={{
-                          fontWeight: 800,
-                          color: "#10b981",
-                          fontFamily: "var(--font-mono)",
-                        }}
-                      >
+                      <td className="td-amount-green">
                         ₹{inv.amount?.toLocaleString("en-IN")}
                       </td>
-                      <td style={{ fontWeight: 600, color: "#191919" }}>
+                      <td className="td-semi-bold">
                         {inv.project?.title || "—"}
                       </td>
-                      <td
-                        style={{
-                          color: "#86868b",
-                          fontFamily: "var(--font-mono)",
-                        }}
-                      >
+                      <td className="td-date">
                         {new Date(inv.createdAt).toLocaleDateString("en-IN", {
                           year: "numeric",
                           month: "short",
@@ -1124,13 +1059,13 @@ const Dashboard = () => {
             >
               Account Configuration
             </h3>
-            <p style={{ color: "#86868b", fontWeight: 500 }}>
+            <p className="settings-text-muted">
               Settings and credentials are configured directly in the Profile
               section.
             </p>
             <PremiumBtn
               $primary
-              style={{ marginTop: "1.5rem" }}
+              className="btn-mt-large"
               onClick={() => navigate("/profile")}
             >
               Go to Profile
@@ -1154,7 +1089,7 @@ const Dashboard = () => {
       <motion.div
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}
+        className="dashboard-investor-overview"
       >
         {/* Total Wealth Asset Card */}
         <AssetCard>
@@ -1178,9 +1113,7 @@ const Dashboard = () => {
             </AssetDetailItem>
             <AssetDetailItem>
               <h4>Verification Status</h4>
-              <p
-                style={{ fontSize: "1rem", color: "#10b981", fontWeight: 800 }}
-              >
+              <p className="verified-badge">
                 VERIFIED
               </p>
             </AssetDetailItem>
@@ -1192,29 +1125,18 @@ const Dashboard = () => {
           <Flex
             justify="space-between"
             align="center"
-            style={{ marginBottom: "1.25rem" }}
+            className="discovery-section-spacing"
           >
-            <h3
-              style={{
-                fontSize: "1.35rem",
-                fontWeight: 800,
-                fontFamily: "var(--font-serif)",
-                color: "#191919",
-              }}
-            >
+            <h3 className="discovery-heading">
               Venture Discovery Feed
             </h3>
             <Button
               variant="outline"
               size="sm"
               onClick={() => navigate("/campaigns")}
-              style={{
-                borderColor: "#e3e0d8",
-                color: "#6e6e73",
-                background: "transparent",
-              }}
+              className="btn-outline-subtle"
             >
-              Browse All <ArrowRight size={14} style={{ marginLeft: 6 }} />
+              Browse All <ArrowRight size={14} className="icon-ml" />
             </Button>
           </Flex>
 
@@ -1238,12 +1160,7 @@ const Dashboard = () => {
                   <div>
                     <Flex
                       justify="space-between"
-                      style={{
-                        fontSize: "0.75rem",
-                        fontWeight: 700,
-                        color: "#86868b",
-                        fontFamily: "var(--font-mono)",
-                      }}
+                      className="discovery-progress-info"
                     >
                       <span>
                         ₹{p.currentAmount?.toLocaleString("en-IN")} raised
@@ -1258,7 +1175,7 @@ const Dashboard = () => {
               );
             })}
             {marketplaceProjects.length === 0 && (
-              <p style={{ color: "#86868b", fontStyle: "italic" }}>
+              <p className="no-marketplace-text">
                 No active marketplace campaigns found.
               </p>
             )}
@@ -1289,28 +1206,12 @@ const Dashboard = () => {
       <DashboardWrapper>
         <InvestorLayout>
           {/* Custom Single-Column Header */}
-          <header
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              borderBottom: "1px solid #e3e0d8",
-              paddingBottom: "1.5rem",
-            }}
-          >
+          <header className="investor-header">
             <div>
-              <h1
-                style={{
-                  fontSize: "2.5rem",
-                  fontWeight: 800,
-                  fontFamily: "var(--font-serif)",
-                  color: "#191919",
-                  letterSpacing: "-1.5px",
-                }}
-              >
+              <h1 className="dashboard-welcome-heading">
                 Welcome back, {user?.name?.split(" ")[0]}!
               </h1>
-              <p style={{ color: "#6e6e73", fontSize: "0.95rem" }}>
+              <p className="dashboard-welcome-sub">
                 Monitor your startup investment portfolio and allocation.
               </p>
             </div>
@@ -1383,22 +1284,8 @@ const Dashboard = () => {
     <DashboardWrapper>
       <DashboardLayout>
         <Sidebar>
-          <div
-            style={{
-              paddingBottom: "1.5rem",
-              marginBottom: "1.5rem",
-              borderBottom: "1px solid #e3e0d8",
-            }}
-          >
-            <h2
-              style={{
-                fontSize: "1.2rem",
-                fontWeight: 800,
-                color: "#191919",
-                fontFamily: "var(--font-serif)",
-                letterSpacing: "-0.5px",
-              }}
-            >
+          <div className="dashboard-sidebar-header">
+            <h2 className="dashboard-sidebar-title">
               Workspaces
             </h2>
           </div>
@@ -1418,33 +1305,12 @@ const Dashboard = () => {
         </Sidebar>
 
         <MainContent>
-          <header
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
+          <header className="dashboard-header">
             <div>
-              <h1
-                style={{
-                  fontSize: "2.5rem",
-                  fontWeight: 800,
-                  fontFamily: "var(--font-serif)",
-                  color: "#191919",
-                  letterSpacing: "-1.5px",
-                  marginBottom: "0.25rem",
-                }}
-              >
+              <h1 className="dashboard-welcome-heading-main">
                 Welcome back, {user?.name?.split(" ")[0]}!
               </h1>
-              <p
-                style={{
-                  color: "#6e6e73",
-                  fontWeight: 500,
-                  fontSize: "0.95rem",
-                }}
-              >
+              <p className="dashboard-welcome-sub">
                 {user?.role === "startup"
                   ? "Manage and track funding statuses of your campaigns."
                   : user?.role === "mnc"
@@ -1454,7 +1320,7 @@ const Dashboard = () => {
             </div>
             {user?.role === "startup" && (
               <PremiumBtn $primary onClick={() => navigate("/projects/new")}>
-                <Plus size={18} style={{ marginRight: 6 }} /> Create Campaign
+                <Plus size={18} className="icon-mr" /> Create Campaign
               </PremiumBtn>
             )}
           </header>

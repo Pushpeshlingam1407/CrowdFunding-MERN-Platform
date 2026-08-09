@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import useAuthStore from "../store/authStore";
 import { Flex } from "./ui";
+import "./AdminLayout.css";
 
 const LayoutWrapper = styled.div`
   display: flex;
@@ -244,20 +245,7 @@ const AdminLayout = ({
     <LayoutWrapper>
       <Sidebar>
         <LogoArea>
-          <div
-            style={{
-              background: "#191919",
-              borderRadius: "10px",
-              width: "32px",
-              height: "32px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-              fontWeight: 800,
-              fontFamily: "var(--font-sans)",
-            }}
-          >
+          <div className="admin-logo-icon">
             A
           </div>
           <h2>Admin Portal</h2>
@@ -274,7 +262,7 @@ const AdminLayout = ({
             );
           })}
         </NavList>
-        <div style={{ marginTop: "auto", paddingTop: "2rem" }}>
+        <div className="admin-sidebar-bottom">
           <NavItem
             as="button"
             onClick={handleLogout}
@@ -308,7 +296,7 @@ const AdminLayout = ({
             <ActionBtn
               onClick={handleLogout}
               title="Sign Out"
-              style={{ color: "#E31A1A" }}
+              className="admin-logout-icon"
             >
               <LogOut size={20} />
             </ActionBtn>
