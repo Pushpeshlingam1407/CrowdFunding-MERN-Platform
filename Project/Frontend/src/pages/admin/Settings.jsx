@@ -207,7 +207,6 @@ const AdminSettings = () => {
     defaultCurrency: "INR",
     sessionTimeout: 30,
     maxLoginAttempts: 5,
-    currentAdminPassword: "",
     adminPassword: "",
   });
 
@@ -229,11 +228,10 @@ const AdminSettings = () => {
     setSaving(true);
     try {
       const toSave = { ...settings };
-      delete toSave.currentAdminPassword;
       delete toSave.adminPassword;
       localStorage.setItem("adminPlatformSettings", JSON.stringify(toSave));
 
-      if (settings.currentAdminPassword || settings.adminPassword) {
+      if (settings.adminPassword) {
         const token =
           localStorage.getItem("adminToken") || localStorage.getItem("token");
         const res = await fetch(
@@ -244,16 +242,12 @@ const AdminSettings = () => {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify({
-              currentPassword: settings.currentAdminPassword,
-              newPassword: settings.adminPassword,
-            }),
+            body: JSON.stringify({ newPassword: settings.adminPassword }),
           },
         );
         const result = await res.json();
         if (!res.ok)
           throw new Error(result.message || "Failed to update password");
-        update("currentAdminPassword", "");
         update("adminPassword", "");
       }
 
@@ -585,13 +579,6 @@ const AdminSettings = () => {
               <p>Securely change your administrator account password</p>
             </SettingLabel>
             <div style={{ display: "flex", gap: "0.75rem" }}>
-              <InputField
-                type={showPassword ? "text" : "password"}
-                $w="220px"
-                placeholder="Current password"
-                value={settings.currentAdminPassword}
-                onChange={(e) => update("currentAdminPassword", e.target.value)}
-              />
               <InputField
                 type={showPassword ? "text" : "password"}
                 $w="220px"

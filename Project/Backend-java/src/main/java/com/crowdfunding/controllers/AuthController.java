@@ -37,38 +37,31 @@ public class AuthController {
     private JwtUtils jwtUtils;
 
     // ── Validation helpers ────────────────────────────────────────────────────
-    private static final java.util.regex.Pattern EMAIL_PATTERN =
-            java.util.regex.Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+    private static final java.util.regex.Pattern EMAIL_PATTERN = java.util.regex.Pattern
+            .compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
 
-    private static final java.util.regex.Pattern PASSWORD_PATTERN =
-            java.util.regex.Pattern.compile(
-                    "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':,.<>?]).{8,}$");
+    private static final java.util.regex.Pattern PASSWORD_PATTERN = java.util.regex.Pattern.compile(
+            "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':,.<>?]).{8,}$");
 
     @PutMapping("/admin/password")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> changeAdminPassword(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody Map<String, String> payload) {
-        String currentPassword = payload.get("currentPassword");
         String newPassword = payload.get("newPassword");
 
-        if (currentPassword == null || newPassword == null
-                || currentPassword.isBlank() || newPassword.isBlank()) {
+        if (newPassword == null || newPassword.isBlank()) {
             return ResponseEntity.badRequest().body(Map.of("success", false,
-                    "message", "Current and new passwords are required"));
+                    "message", "A new password is required"));
         }
         if (!PASSWORD_PATTERN.matcher(newPassword).matches()) {
             return ResponseEntity.badRequest().body(Map.of("success", false,
-                    "message", "New password must be at least 8 characters and include an uppercase letter, a number, and a special character"));
+                    "message",
+                    "New password must be at least 8 characters and include an uppercase letter, a number, and a special character"));
         }
 
         User admin = userRepository.findById(userDetails.getId())
                 .orElseThrow(() -> new RuntimeException("Admin user not found"));
-        if (!passwordEncoder.matches(currentPassword, admin.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("success", false,
-                    "message", "Current password is incorrect"));
-        }
-
         admin.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(admin);
         return ResponseEntity.ok(Map.of("success", true, "message", "Password updated successfully"));
@@ -92,11 +85,11 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Map<String, Object> payload) {
         try {
-            String name     = (String) payload.get("name");
-            String email    = (String) payload.get("email");
+            String name = (String) payload.get("name");
+            String email = (String) payload.get("email");
             String password = (String) payload.get("password");
-            String role     = (String) payload.get("role");
-            String companyName    = (String) payload.get("companyName");
+            String role = (String) payload.get("role");
+            String companyName = (String) payload.get("companyName");
             String companyWebsite = (String) payload.get("companyWebsite");
 
             // ── Required field check ──────────────────────────────────────────
@@ -132,7 +125,8 @@ public class AuthController {
                 Map<String, Object> error = new HashMap<>();
                 error.put("success", false);
                 error.put("field", "password");
-                error.put("message", "Password must be at least 8 characters and include an uppercase letter, a number, and a special character (!@#$%^&*)");
+                error.put("message",
+                        "Password must be at least 8 characters and include an uppercase letter, a number, and a special character (!@#$%^&*)");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
             }
 
@@ -182,7 +176,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> payload) {
         try {
-            String email    = payload.get("email");
+            String email = payload.get("email");
             String password = payload.get("password");
 
             // ── Strict field validation ───────────────────────────────────────
@@ -277,16 +271,21 @@ public class AuthController {
 
     @PutMapping("/profile")
     public ResponseEntity<?> updateProfile(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                           @RequestBody Map<String, Object> payload) {
+            @RequestBody Map<String, Object> payload) {
         try {
             User user = userRepository.findById(userDetails.getId())
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
-            if (payload.containsKey("name")) user.setName((String) payload.get("name"));
-            if (payload.containsKey("bio")) user.setBio((String) payload.get("bio"));
-            if (payload.containsKey("profileImage")) user.setProfileImage((String) payload.get("profileImage"));
-            if (payload.containsKey("companyName")) user.setCompanyName((String) payload.get("companyName"));
-            if (payload.containsKey("companyWebsite")) user.setCompanyWebsite((String) payload.get("companyWebsite"));
+            if (payload.containsKey("name"))
+                user.setName((String) payload.get("name"));
+            if (payload.containsKey("bio"))
+                user.setBio((String) payload.get("bio"));
+            if (payload.containsKey("profileImage"))
+                user.setProfileImage((String) payload.get("profileImage"));
+            if (payload.containsKey("companyName"))
+                user.setCompanyName((String) payload.get("companyName"));
+            if (payload.containsKey("companyWebsite"))
+                user.setCompanyWebsite((String) payload.get("companyWebsite"));
 
             if (payload.containsKey("services")) {
                 Object rawServices = payload.get("services");
@@ -328,7 +327,8 @@ public class AuthController {
                     for (Object obj : (java.util.Collection<?>) rawPartners) {
                         if (obj instanceof Map<?, ?>) {
                             Map<?, ?> p = (Map<?, ?>) obj;
-                            Long profileId = p.get("profileId") != null ? Long.parseLong(p.get("profileId").toString()) : null;
+                            Long profileId = p.get("profileId") != null ? Long.parseLong(p.get("profileId").toString())
+                                    : null;
                             items.add(User.PartnerHistoryItem.builder()
                                     .name((String) p.get("name"))
                                     .logo((String) p.get("logo"))
