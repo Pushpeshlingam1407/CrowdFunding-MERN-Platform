@@ -1,1 +1,54 @@
 /* Footer.css — Footer-specific styles */
+.footer-wrapper {
+  background: #ffffff;
+  padding: 6rem 0 4rem;
+  border-top: 1px solid #f0f0f0;
+  color: #666;
+}
+
+.footer-link {
+  color: #666;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.footer-link:hover {
+  color: #0071e3;
+  transform: translateX(4px);
+}
+
+.footer-sub-heading {
+  color: #191919;
+  font-weight: 800;
+  margin-bottom: 1.75rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #191919;
+  text-decoration: none;
+  letter-spacing: -1.5px;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.footer-logo span {
+  color: #0071e3;
+}
+
+.footer-copyright {
+  margin-top: 6rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid #f0f0f0;
+  font-size: 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #999;
+}

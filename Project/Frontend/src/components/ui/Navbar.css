@@ -36,3 +36,40 @@
   background: rgba(0, 113, 227, 0.08);
   color: #0071e3;
 }
+
+.nav-container {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 1rem 0;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #191919;
+  font-weight: 500;
+  transition: color 0.2s;
+  font-size: 0.95rem;
+}
+
+.nav-link:hover {
+  color: #0071e3;
+}
+
+.nav-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #191919;
+  text-decoration: none;
+  letter-spacing: -1.5px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-logo span {
+  color: #0071e3;
+}

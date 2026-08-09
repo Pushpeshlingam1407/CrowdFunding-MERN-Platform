@@ -1,91 +1,34 @@
 import React from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { Container, Flex, Grid } from "./index";
-import "./Footer.css";
 
-const FooterWrapper = styled.footer`
-  background: #ffffff;
-  padding: 6rem 0 4rem;
-  border-top: 1px solid #f0f0f0;
-  color: #666;
-`;
-
-const FooterLink = styled(Link)`
-  color: #666;
-  text-decoration: none;
-  font-size: 0.95rem;
-  transition: all 0.2s;
-  cursor: pointer;
-
-  &:hover {
-    color: ${(props) => props.theme.colors.primary};
-    transform: translateX(4px);
-  }
-`;
-
-const SubHeading = styled.h4`
-  color: ${(props) => props.theme.colors.text};
-  font-weight: 800;
-  margin-bottom: 1.75rem;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-`;
-
-const Logo = styled(Link)`
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: ${(props) => props.theme.colors.text};
-  text-decoration: none;
-  letter-spacing: -1.5px;
-  margin-bottom: 1.5rem;
-  display: block;
-
-  span {
-    color: ${(props) => props.theme.colors.primary};
-  }
-`;
-
-const Copyright = styled.div`
-  margin-top: 6rem;
-  padding-top: 2.5rem;
-  border-top: 1px solid #f0f0f0;
-  font-size: 0.85rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #999;
-`;
 
 const Footer = () => {
   return (
-    <FooterWrapper>
+    <footer className="footer-wrapper">
       <Container>
         <Grid cols="1.5fr 1fr 1fr 1fr">
           <div>
-            <Logo to="/">
+            <Link to="/" className="footer-logo">
               Startup<span>Fund</span>
-            </Logo>
+            </Link>
             <p className="footer-description">
               The definitive crowdfunding infrastructure for the global startup
               ecosystem.
             </p>
             <Flex gap="1.5rem">
-              <FooterLink to="/admin/login" className="footer-small-link">
+              <Link to="/admin/login" className="footer-link footer-small-link">
                 Executive Terminal
-              </FooterLink>
+              </Link>
             </Flex>
           </div>
           <div>
-            <SubHeading>Ecosystem</SubHeading>
+            <h4 className="footer-sub-heading">Ecosystem</h4>
             <Flex direction="column" align="flex-start" gap="1rem">
-              <FooterLink to="/campaigns">Marketplace</FooterLink>
-              <FooterLink to="/dashboard">Dashboard</FooterLink>
+              <Link to="/campaigns" className="footer-link">Marketplace</Link>
+              <Link to="/dashboard" className="footer-link">Dashboard</Link>
             </Flex>
           </div>
           <div>
-            <SubHeading>Compliance</SubHeading>
+            <h4 className="footer-sub-heading">Compliance</h4>
             <Flex direction="column" align="flex-start" gap="1rem">
               <span className="footer-compliance-item">Secure Ledger</span>
               <span className="footer-compliance-item">Professional Terms</span>
@@ -93,11 +36,12 @@ const Footer = () => {
             </Flex>
           </div>
           <div>
-            <SubHeading>Connect</SubHeading>
+            <h4 className="footer-sub-heading">Connect</h4>
             <Flex direction="column" align="flex-start" gap="1rem">
-              <FooterLink to="#">Enterprise Support</FooterLink>
-              <FooterLink to="#">Documentation</FooterLink>
-              <FooterLink to="#">API Terminal</FooterLink>
+              <Link to="#" className="footer-link">Enterprise Support</Link>
+              <Link to="#" className="footer-link">Documentation</Link>
+              <Link to="#" className="footer-link">API Terminal</Link>
+              <Link to="#" className="footer-link">Security Disclosures</Link>
             </Flex>
           </div>
         </Grid>

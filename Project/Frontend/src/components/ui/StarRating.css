@@ -1,0 +1,27 @@
+/* StarRating.css */
+
+.rating-container {
+  display: flex;
+  gap: 0.15rem;
+}
+
+.star-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #e0e0e0;
+  transition: all 0.2s ease;
+  transform: scale(1);
+}
+.star-button.cursor-pointer {
+  cursor: pointer;
+}
+.star-button.cursor-default {
+  cursor: default;
+}
+.star-button.active {
+  color: #ffab00;
+}
+.star-button.hovered:not(.cursor-default) {
+  transform: scale(1.2);
+}

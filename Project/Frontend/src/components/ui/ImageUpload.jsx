@@ -175,7 +175,7 @@ const ImageUpload = ({
                   {!disabled && onDeleteExisting && (
                     <button
                       type="button"
-                      className="remove-btn"
+                      className="img-remove-btn"
                       onClick={(e) => {
                         e.stopPropagation();
                         onDeleteExisting(imgUrl);
@@ -195,7 +195,7 @@ const ImageUpload = ({
                     {!disabled && onRemove && (
                       <button
                         type="button"
-                        className="remove-btn"
+                        className="img-remove-btn"
                         onClick={(e) => {
                           e.stopPropagation();
                           onRemove(idx);

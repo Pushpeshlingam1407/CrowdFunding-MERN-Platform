@@ -1,46 +1,8 @@
 import React from "react";
-import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Container, Flex } from "./index";
 import useAuthStore from "../../store/authStore";
 import "./Navbar.css";
-
-const Nav = styled.nav`
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(8px);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  padding: 1rem 0;
-`;
-
-const NavLink = styled(Link)`
-  text-decoration: none;
-  color: ${(props) => props.theme.colors.text};
-  font-weight: 500;
-  transition: color 0.2s;
-  font-size: 0.95rem;
-
-  &:hover {
-    color: ${(props) => props.theme.colors.primary};
-  }
-`;
-
-const Logo = styled(Link)`
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: ${(props) => props.theme.colors.text};
-  text-decoration: none;
-  letter-spacing: -1.5px;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  span {
-    color: ${(props) => props.theme.colors.primary};
-  }
-`;
 
 const Navbar = () => {
   const { isAuthenticated, logout, user, adminAuthenticated } = useAuthStore();
@@ -54,22 +16,22 @@ const Navbar = () => {
   const isAdmin = adminAuthenticated || user?.role === "admin";
 
   return (
-    <Nav>
+    <nav className="nav-container">
       <Container>
         <Flex justify="space-between">
           <Flex gap="3rem">
-            <Logo to="/">
+            <Link to="/" className="nav-logo">
               Startup<span>Fund</span>
-            </Logo>
+            </Link>
             <Flex gap="2rem">
-              <NavLink to="/campaigns">Marketplace</NavLink>
+              <Link to="/campaigns" className="nav-link">Marketplace</Link>
               {isAuthenticated && !isAdmin && (
-                <NavLink to="/dashboard">Dashboard</NavLink>
+                <Link to="/dashboard" className="nav-link">Dashboard</Link>
               )}
               {isAdmin && (
-                <NavLink to="/admin/dashboard" className="nav-admin-link">
+                <Link to="/admin/dashboard" className="nav-link nav-admin-link">
                   Admin Portal
-                </NavLink>
+                </Link>
               )}
             </Flex>
           </Flex>
@@ -77,7 +39,7 @@ const Navbar = () => {
           <Flex gap="1.5rem">
             {!isAuthenticated && !adminAuthenticated ? (
               <Flex gap="1.5rem">
-                <NavLink to="/login">Sign In</NavLink>
+                <Link to="/login" className="nav-link">Sign In</Link>
                 <Button
                   onClick={() => navigate("/register")}
                   className="nav-get-started-btn"
@@ -87,9 +49,9 @@ const Navbar = () => {
               </Flex>
             ) : (
               <Flex gap="1.5rem">
-                <NavLink
+                <Link
                   to={isAdmin ? "/admin/dashboard" : "/profile"}
-                  className="nav-profile-link"
+                  className="nav-link nav-profile-link"
                 >
                   <div
                     className={`nav-avatar ${isAdmin ? "nav-avatar--admin" : "nav-avatar--user"}`}
@@ -97,7 +59,7 @@ const Navbar = () => {
                     {user?.name?.charAt(0) || "A"}
                   </div>
                   {user?.name?.split(" ")[0] || "Admin"}
-                </NavLink>
+                </Link>
                 <Button variant="outline" size="sm" onClick={handleLogout}>
                   Logout
                 </Button>
@@ -106,7 +68,7 @@ const Navbar = () => {
           </Flex>
         </Flex>
       </Container>
-    </Nav>
+    </nav>
   );
 };
 
