@@ -1,0 +1,509 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   shared.css — Reusable semantic utility classes
+   Extracted from repeated inline style patterns across the project.
+   Imported once in main.jsx. No !important rules. No specificity changes.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ─── Typography ─────────────────────────────────────────────────────── */
+
+.section-heading {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  letter-spacing: -1px;
+  color: #191919;
+  font-family: var(--font-serif);
+}
+
+.section-subtitle {
+  color: #666;
+  margin-bottom: 2.5rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #191919;
+  font-family: var(--font-serif);
+}
+
+.page-heading {
+  font-size: 2.75rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: -0.03em;
+  font-family: var(--font-serif);
+  color: #191919;
+}
+
+.page-subtitle {
+  color: #6e6e73;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: var(--font-serif);
+}
+
+.text-muted-sm {
+  font-size: 0.9rem;
+  color: #6e6e73;
+}
+
+.text-muted {
+  color: #666;
+}
+
+/* ─── Form Labels (Repeated in ComplaintBox ×4, DocumentUpload, etc.) ── */
+
+.form-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  display: block;
+  color: #444;
+}
+
+.form-label-uppercase {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6e6e73;
+  margin-bottom: 0.5rem;
+}
+
+/* ─── Buttons ────────────────────────────────────────────────────────── */
+
+.btn-full {
+  width: 100%;
+}
+
+.btn-primary-dark {
+  background: #191919;
+  color: #ffffff;
+  border: none;
+}
+
+.btn-outline-subtle {
+  border-color: #e3e0d8;
+  color: #6e6e73;
+  background: transparent;
+}
+
+.btn-danger-submit {
+  width: 100%;
+  background: #e53e3e;
+  color: white;
+}
+
+/* ─── Icon Spacing (Used 18+ times across the codebase) ──────────────── */
+
+.icon-mr {
+  margin-right: 8px;
+}
+
+.icon-ml {
+  margin-left: 8px;
+}
+
+.icon-shrink-0 {
+  flex-shrink: 0;
+}
+
+/* ─── Security/Info Box (Used in CreateProject, Profile, DocumentUpload) */
+
+.security-info-box {
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.security-icon {
+  color: #2f855a;
+  flex-shrink: 0;
+}
+
+.security-text {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* ─── Card Layouts ───────────────────────────────────────────────────── */
+
+.card-padded {
+  padding: 3rem;
+}
+
+/* ─── Form Elements ──────────────────────────────────────────────────── */
+
+.hidden-input {
+  display: none;
+}
+
+.textarea-field {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+/* ─── Links ──────────────────────────────────────────────────────────── */
+
+.link-dark {
+  color: #191919;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.link-dark:hover {
+  text-decoration: underline;
+}
+
+.link-unstyled {
+  text-decoration: none;
+}
+
+/* ─── Loading/Empty States ───────────────────────────────────────────── */
+
+.loading-center {
+  text-align: center;
+  padding: 4rem;
+  color: #666;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: #86868b;
+  font-weight: 600;
+}
+
+/* ─── Upload Components ──────────────────────────────────────────────── */
+
+.upload-icon-circle {
+  background: rgba(0, 113, 227, 0.08);
+  color: #0071e3;
+  padding: 1rem;
+  border-radius: 50%;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.dropzone-title {
+  font-weight: 600;
+  color: #191919;
+  margin-bottom: 0.25rem;
+}
+
+.dropzone-subtitle {
+  font-size: 0.8rem;
+  color: #6e6e73;
+}
+
+.browse-link {
+  color: #0071e3;
+  font-weight: 700;
+}
+
+.gallery-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #6e6e73;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.75rem;
+}
+
+.clear-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  padding: 0;
+}
+
+/* ─── Profile / Avatar ───────────────────────────────────────────────── */
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 24px;
+  background: rgba(0, 113, 227, 0.08);
+  color: #0071e3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0 auto 1.5rem;
+  border: 1px solid rgba(0, 113, 227, 0.15);
+}
+
+.profile-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  margin-bottom: 0.5rem;
+  font-family: "Crimson Pro", Lora, Georgia, serif;
+}
+
+/* ─── Dashboard ──────────────────────────────────────────────────────── */
+
+.dashboard-welcome-heading {
+  font-size: 2.5rem;
+  font-weight: 800;
+  font-family: var(--font-serif);
+  color: #191919;
+  letter-spacing: -1.5px;
+}
+
+.dashboard-welcome-sub {
+  color: #6e6e73;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.dashboard-sidebar-header {
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #e3e0d8;
+}
+
+.dashboard-sidebar-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #191919;
+  font-family: var(--font-serif);
+  letter-spacing: -0.5px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-section-header {
+  margin-bottom: 1.5rem;
+}
+
+/* ─── Table Cells (Dashboard tables) ─────────────────────────────────── */
+
+.td-bold {
+  font-weight: 800;
+  color: #191919;
+}
+
+.td-muted {
+  font-weight: 600;
+  color: #6e6e73;
+}
+
+.td-amount {
+  font-weight: 800;
+  color: #191919;
+  font-family: var(--font-mono);
+}
+
+.td-amount-green {
+  color: #10b981;
+  font-weight: 800;
+  font-family: var(--font-mono);
+}
+
+.td-date {
+  font-weight: 600;
+  color: #6e6e73;
+  font-family: var(--font-mono);
+}
+
+/* ─── Admin ──────────────────────────────────────────────────────────── */
+
+.admin-modules-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #86868b;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 1.25rem;
+  font-family: var(--font-sans);
+}
+
+.admin-portal-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  font-family: var(--font-sans);
+}
+
+.admin-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.admin-summary-card {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.admin-summary-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #86868b;
+  margin-bottom: 8px;
+  font-family: var(--font-sans);
+}
+
+.admin-summary-value {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-family: var(--font-mono);
+}
+
+/* ─── Skeleton Wrapper ───────────────────────────────────────────────── */
+
+.skeleton-wrapper {
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+/* ─── Campaigns Page ─────────────────────────────────────────────────── */
+
+.campaign-count {
+  color: #6e6e73;
+  font-size: 0.88rem;
+  font-weight: 700;
+  font-family: var(--font-sans);
+}
+
+.campaign-funded {
+  font-weight: 800;
+  color: #10b981;
+  font-family: var(--font-mono);
+}
+
+.campaign-target {
+  color: #6e6e73;
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.campaign-progress-row {
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+}
+
+/* ─── Misc Patterns ──────────────────────────────────────────────────── */
+
+.investor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e3e0d8;
+  padding-bottom: 1.5rem;
+}
+
+.flex-center-justify {
+  flex: 1;
+  justify-content: center;
+}
+
+.auth-form-wrapper {
+  width: 100%;
+  max-width: 440px;
+}
+
+.admin-form-wrapper {
+  width: 100%;
+  max-width: 450px;
+}
+
+.footer-description {
+  line-height: 1.6;
+  font-size: 0.95rem;
+  max-width: 240px;
+  margin-bottom: 2rem;
+}
+
+.footer-small-link {
+  font-size: 0.8rem;
+  opacity: 0.5;
+}
+
+.footer-compliance-item {
+  font-size: 0.95rem;
+}
+
+.footer-copyright-item {
+  font-size: 0.8rem;
+}
+
+/* ─── Investor Discovery ─────────────────────────────────────────────── */
+
+.discovery-heading {
+  font-size: 1.35rem;
+  font-weight: 800;
+  font-family: var(--font-serif);
+  color: #191919;
+}
+
+.discovery-progress-info {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #86868b;
+  font-family: var(--font-mono);
+}
+
+.discovery-section-spacing {
+  margin-bottom: 1.25rem;
+}
+
+/* ─── Investor Verification Badge ────────────────────────────────────── */
+
+.verified-badge {
+  font-size: 1rem;
+  color: #10b981;
+  font-weight: 800;
+}
+
+/* ─── Settings Card ──────────────────────────────────────────────────── */
+
+.settings-card-centered {
+  padding: 4rem;
+  text-align: center;
+}
+
+.settings-icon-muted {
+  color: #86868b;
+  margin-bottom: 1.5rem;
+  opacity: 0.3;
+}
+
+.settings-heading {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #191919;
+  font-family: var(--font-serif);
+  margin-bottom: 1rem;
+}
+
+.settings-text-muted {
+  color: #86868b;
+  font-weight: 500;
+}
+
+.no-marketplace-text {
+  color: #86868b;
+  font-style: italic;
+}

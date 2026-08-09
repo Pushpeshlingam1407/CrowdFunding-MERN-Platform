@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Container, Flex, Grid } from "./index";
+import "./Footer.css";
 
 const FooterWrapper = styled.footer`
   background: #ffffff;
@@ -66,21 +67,14 @@ const Footer = () => {
             <Logo to="/">
               Startup<span>Fund</span>
             </Logo>
-            <p
-              style={{
-                lineHeight: "1.6",
-                fontSize: "0.95rem",
-                maxWidth: "240px",
-                marginBottom: "2rem",
-              }}
-            >
+            <p className="footer-description">
               The definitive crowdfunding infrastructure for the global startup
               ecosystem.
             </p>
             <Flex gap="1.5rem">
               <FooterLink
                 to="/admin/login"
-                style={{ fontSize: "0.8rem", opacity: 0.5 }}
+                className="footer-small-link"
               >
                 Executive Terminal
               </FooterLink>
@@ -96,9 +90,9 @@ const Footer = () => {
           <div>
             <SubHeading>Compliance</SubHeading>
             <Flex direction="column" align="flex-start" gap="1rem">
-              <span style={{ fontSize: "0.95rem" }}>Secure Ledger</span>
-              <span style={{ fontSize: "0.95rem" }}>Professional Terms</span>
-              <span style={{ fontSize: "0.95rem" }}>Verification Audit</span>
+              <span className="footer-compliance-item">Secure Ledger</span>
+              <span className="footer-compliance-item">Professional Terms</span>
+              <span className="footer-compliance-item">Verification Audit</span>
             </Flex>
           </div>
           <div>
@@ -116,8 +110,8 @@ const Footer = () => {
             ISO 27001 Compliant.
           </span>
           <Flex gap="2rem">
-            <span style={{ fontSize: "0.8rem" }}>Cookie Policy</span>
-            <span style={{ fontSize: "0.8rem" }}>Data Ethics</span>
+            <span className="footer-copyright-item">Cookie Policy</span>
+            <span className="footer-copyright-item">Data Ethics</span>
           </Flex>
         </Copyright>
       </Container>

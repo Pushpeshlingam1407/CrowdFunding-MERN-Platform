@@ -4,6 +4,7 @@ import App from "./App";
 //import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
+import "./styles/shared.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

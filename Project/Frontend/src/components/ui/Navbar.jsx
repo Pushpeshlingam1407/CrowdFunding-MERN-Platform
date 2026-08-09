@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Container, Flex } from "./index";
 import useAuthStore from "../../store/authStore";
+import "./Navbar.css";
 
 const Nav = styled.nav`
   background: rgba(255, 255, 255, 0.8);
@@ -68,7 +69,7 @@ const Navbar = () => {
               {isAdmin && (
                 <NavLink
                   to="/admin/dashboard"
-                  style={{ color: "#f59e0b", fontWeight: 700 }}
+                  className="nav-admin-link"
                 >
                   Admin Portal
                 </NavLink>
@@ -82,7 +83,7 @@ const Navbar = () => {
                 <NavLink to="/login">Sign In</NavLink>
                 <Button
                   onClick={() => navigate("/register")}
-                  style={{ padding: "0.6rem 1.5rem" }}
+                  className="nav-get-started-btn"
                 >
                   Get Started
                 </Button>
@@ -91,28 +92,10 @@ const Navbar = () => {
               <Flex gap="1.5rem">
                 <NavLink
                   to={isAdmin ? "/admin/dashboard" : "/profile"}
-                  style={{
-                    fontWeight: 700,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                  }}
+                  className="nav-profile-link"
                 >
                   <div
-                    style={{
-                      width: 28,
-                      height: 28,
-                      borderRadius: "8px",
-                      background: isAdmin
-                        ? "rgba(245, 158, 11, 0.08)"
-                        : "rgba(0, 113, 227, 0.08)",
-                      color: isAdmin ? "#f59e0b" : "#0071e3",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: "0.75rem",
-                      fontWeight: 800,
-                    }}
+                    className={`nav-avatar ${isAdmin ? "nav-avatar--admin" : "nav-avatar--user"}`}
                   >
                     {user?.name?.charAt(0) || "A"}
                   </div>

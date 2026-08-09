@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import "./App.css";
 import {
   BrowserRouter as Router,
   Routes,
@@ -53,29 +54,18 @@ const AppContent = () => {
 
   if (isCheckingAuth) {
     return (
-      <div
-        style={{
-          height: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: "1.2rem",
-          fontWeight: 600,
-        }}
-      >
+      <div className="app-loading-screen">
         Loading StartupFund...
       </div>
     );
   }
 
   return (
-    <div
-      style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
-    >
+    <div className="app-wrapper">
       {/* Show navbar on all pages except admin pages */}
       {!isAdminPage && <Navbar />}
 
-      <main style={{ flexGrow: 1 }}>
+      <main className="app-main">
         <Routes>
           <Route
             path="/login"

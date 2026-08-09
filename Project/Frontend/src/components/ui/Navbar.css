@@ -1,0 +1,38 @@
+/* Navbar.css — Navbar-specific styles */
+
+.nav-admin-link {
+  color: #f59e0b;
+  font-weight: 700;
+}
+
+.nav-get-started-btn {
+  padding: 0.6rem 1.5rem;
+}
+
+.nav-profile-link {
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.nav-avatar--admin {
+  background: rgba(245, 158, 11, 0.08);
+  color: #f59e0b;
+}
+
+.nav-avatar--user {
+  background: rgba(0, 113, 227, 0.08);
+  color: #0071e3;
+}
