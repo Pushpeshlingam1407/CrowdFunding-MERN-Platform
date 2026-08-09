@@ -180,12 +180,8 @@ const Profile = () => {
         >
           <ProfileCard>
             <header className="profile-header">
-              <div className="profile-avatar">
-                {user?.name.charAt(0)}
-              </div>
-              <h1 className="profile-title">
-                Professional Identity
-              </h1>
+              <div className="profile-avatar">{user?.name.charAt(0)}</div>
+              <h1 className="profile-title">Professional Identity</h1>
               <p className="text-muted">
                 Manage your personal and company metadata for the crowdfunding
                 ecosystem.
@@ -282,15 +278,14 @@ const Profile = () => {
               </p>
 
               {formData.portfolio.map((item, index) => (
-                <Card
-                  key={index}
-                  className="profile-portfolio-card"
-                >
+                <Card key={index} className="profile-portfolio-card">
                   <Flex
                     justify="space-between"
                     className="profile-portfolio-header"
                   >
-                    <h4 className="profile-portfolio-title">Project #{index + 1}</h4>
+                    <h4 className="profile-portfolio-title">
+                      Project #{index + 1}
+                    </h4>
                     <Button
                       variant="outline"
                       size="sm"
@@ -391,10 +386,7 @@ const Profile = () => {
               </Button>
             </form>
 
-            <Flex
-              gap="1rem"
-              className="security-info-box profile-security-box"
-            >
+            <Flex gap="1rem" className="security-info-box profile-security-box">
               <ShieldCheck size={20} className="security-icon" />
               <span className="security-text">
                 Your information is verified and secured using industry-standard

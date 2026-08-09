@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 //import { Container, Row, Col, Card, Button, Badge, Spinner, Alert } from 'react-bootstrap';
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import "./ProjectView.css";
 
 const ProjectView = () => {
   const { id } = useParams();
@@ -64,8 +65,7 @@ const ProjectView = () => {
         <Row className="g-0">
           <Col md={6}>
             <div
-              className="position-relative h-100"
-              style={{ minHeight: "400px" }}
+              className="position-relative h-100 project-view-image-container"
             >
               <img
                 src={
@@ -74,8 +74,7 @@ const ProjectView = () => {
                     : `http://localhost:5000${project.image}`
                 }
                 alt={project.title}
-                className="w-100 h-100 object-fit-cover"
-                style={{ objectPosition: "center" }}
+                className="w-100 h-100 object-fit-cover project-view-image"
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src =
@@ -101,7 +100,7 @@ const ProjectView = () => {
                 </Badge>
               </div>
 
-              <Card.Text className="mb-4" style={{ fontSize: "1.1rem" }}>
+              <Card.Text className="mb-4 project-view-desc">
                 {project.description}
               </Card.Text>
 

@@ -245,10 +245,7 @@ const Login = () => {
                 <div className="login-link-container">
                   <span className="text-muted-sm">
                     New to StartupFund?{" "}
-                    <Link
-                      to="/register"
-                      className="login-signup-link"
-                    >
+                    <Link to="/register" className="login-signup-link">
                       Get started
                     </Link>
                   </span>

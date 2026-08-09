@@ -276,9 +276,7 @@ const Campaigns = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <h1 className="page-heading">
-              Campaign Marketplace
-            </h1>
+            <h1 className="page-heading">Campaign Marketplace</h1>
             <p className="page-subtitle">
               Browse active fundraising rounds and support emerging startups.
             </p>
@@ -323,10 +321,7 @@ const Campaigns = () => {
             ? Array(6)
                 .fill(0)
                 .map((_, i) => (
-                  <CampaignCard
-                    key={i}
-                    className="campaign-skeleton-card"
-                  >
+                  <CampaignCard key={i} className="campaign-skeleton-card">
                     <div className="campaign-skeleton-img" />
                     <div className="campaign-skeleton-line-sm" />
                     <div className="campaign-skeleton-line-md" />
@@ -363,10 +358,7 @@ const Campaigns = () => {
                             className="campaign-badge-icon"
                           />
                         ) : (
-                          <Clock
-                            size={12}
-                            className="campaign-badge-icon"
-                          />
+                          <Clock size={12} className="campaign-badge-icon" />
                         )}
                         {isLocked ? "COMPLETED" : `${daysLeft} DAYS LEFT`}
                       </Badge>

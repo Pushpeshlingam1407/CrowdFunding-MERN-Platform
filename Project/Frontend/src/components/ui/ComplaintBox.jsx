@@ -140,9 +140,7 @@ const ComplaintBox = ({ isOpen, onClose, targetCompanyId }) => {
             <header className="complaint-header">
               <Flex gap="0.75rem" className="complaint-header-row">
                 <ShieldAlert size={24} className="complaint-icon" />
-                <h2 className="complaint-title">
-                  Compliance Report
-                </h2>
+                <h2 className="complaint-title">Compliance Report</h2>
               </Flex>
               <p className="complaint-description">
                 Flagging a company for fraud, bugs, or unpaid services ensures a
@@ -151,9 +149,7 @@ const ComplaintBox = ({ isOpen, onClose, targetCompanyId }) => {
             </header>
 
             <form onSubmit={handleSubmit}>
-              <label className="form-label">
-                Report Type
-              </label>
+              <label className="form-label">Report Type</label>
               <Select
                 value={formData.type}
                 onChange={(e) =>
@@ -166,9 +162,7 @@ const ComplaintBox = ({ isOpen, onClose, targetCompanyId }) => {
                 <option value="other">Other Compliance Issue</option>
               </Select>
 
-              <label className="form-label">
-                Subject
-              </label>
+              <label className="form-label">Subject</label>
               <Input
                 placeholder="Brief summary of the issue"
                 className="complaint-input-spacing"
@@ -178,9 +172,7 @@ const ComplaintBox = ({ isOpen, onClose, targetCompanyId }) => {
                 }
               />
 
-              <label className="form-label">
-                Detailed Description
-              </label>
+              <label className="form-label">Detailed Description</label>
               <TextArea
                 placeholder="Provide as much detail as possible to help our team investigate..."
                 value={formData.description}

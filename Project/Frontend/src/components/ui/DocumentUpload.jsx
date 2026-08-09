@@ -234,9 +234,7 @@ const DocumentUpload = ({ onUploadSuccess }) => {
 
   return (
     <div>
-      <h3 className="doc-upload-heading">
-        Secure Document Portal
-      </h3>
+      <h3 className="doc-upload-heading">Secure Document Portal</h3>
       <p className="doc-upload-description">
         Upload KYC, financial statements, or project documents. Accepted: PDF,
         JPEG, PNG, DOC (max 9 MB).
@@ -334,10 +332,7 @@ const DocumentUpload = ({ onUploadSuccess }) => {
         </Button>
       </form>
 
-      <Flex
-        gap="1rem"
-        className="doc-upload-security-box"
-      >
+      <Flex gap="1rem" className="doc-upload-security-box">
         <ShieldCheck size={20} className="security-icon" />
         <span className="doc-upload-security-text">
           Documents are encrypted and stored in compliance with our crowdfunding

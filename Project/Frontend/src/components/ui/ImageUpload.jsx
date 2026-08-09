@@ -297,11 +297,8 @@ const ImageUpload = ({
           <SubText>
             {!isDragging && (
               <>
-                or{" "}
-                <span className="browse-link">
-                  browse files
-                </span>{" "}
-                from your computer
+                or <span className="browse-link">browse files</span> from your
+                computer
               </>
             )}
           </SubText>

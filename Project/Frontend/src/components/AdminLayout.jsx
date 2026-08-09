@@ -245,9 +245,7 @@ const AdminLayout = ({
     <LayoutWrapper>
       <Sidebar>
         <LogoArea>
-          <div className="admin-logo-icon">
-            A
-          </div>
+          <div className="admin-logo-icon">A</div>
           <h2>Admin Portal</h2>
         </LogoArea>
         <NavList>

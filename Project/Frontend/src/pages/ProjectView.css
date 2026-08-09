@@ -1,0 +1,13 @@
+/* ProjectView.css — ProjectView page specific styles */
+
+.project-view-image-container {
+  min-height: 400px;
+}
+
+.project-view-image {
+  object-position: center;
+}
+
+.project-view-desc {
+  font-size: 1.1rem;
+}

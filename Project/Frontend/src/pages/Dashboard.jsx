@@ -787,9 +787,7 @@ const Dashboard = () => {
           transition={{ delay: 0.4 }}
         >
           <Flex className="dashboard-section-header">
-            <h2 className="card-title">
-              Recent Campaigns
-            </h2>
+            <h2 className="card-title">Recent Campaigns</h2>
             <PremiumBtn onClick={() => setActiveTab("campaigns")}>
               View All
             </PremiumBtn>
@@ -808,12 +806,8 @@ const Dashboard = () => {
               <tbody>
                 {projects.slice(0, 5).map((project) => (
                   <tr key={project._id}>
-                    <td className="td-bold">
-                      {project.title}
-                    </td>
-                    <td className="td-muted">
-                      {project.category}
-                    </td>
+                    <td className="td-bold">{project.title}</td>
+                    <td className="td-muted">{project.category}</td>
                     <td className="td-amount">
                       ₹{project.targetAmount?.toLocaleString("en-IN")}
                     </td>
@@ -851,10 +845,7 @@ const Dashboard = () => {
                 ))}
                 {projects.length === 0 && (
                   <tr>
-                    <td
-                      colSpan="5"
-                      className="empty-state"
-                    >
+                    <td colSpan="5" className="empty-state">
                       No campaigns found. Start by creating one!
                     </td>
                   </tr>
@@ -892,9 +883,7 @@ const Dashboard = () => {
           transition={{ delay: 0.2 }}
         >
           <Flex className="dashboard-section-header">
-            <h2 className="card-title">
-              {title}
-            </h2>
+            <h2 className="card-title">{title}</h2>
             {user?.role !== "investor" && (
               <PremiumBtn onClick={() => setActiveTab(activeTabTarget)}>
                 View All
@@ -915,9 +904,7 @@ const Dashboard = () => {
               <tbody>
                 {investments.slice(0, 5).map((inv) => (
                   <tr key={inv._id}>
-                    <td className="td-bold">
-                      {inv.project?.title || "—"}
-                    </td>
+                    <td className="td-bold">{inv.project?.title || "—"}</td>
                     <td className="td-amount-green">
                       ₹{inv.amount?.toLocaleString("en-IN")}
                     </td>
@@ -947,10 +934,7 @@ const Dashboard = () => {
                 ))}
                 {investments.length === 0 && (
                   <tr>
-                    <td
-                      colSpan="5"
-                      className="empty-state"
-                    >
+                    <td colSpan="5" className="empty-state">
                       {emptyMsg}
                     </td>
                   </tr>
@@ -978,9 +962,7 @@ const Dashboard = () => {
             transition={{ delay: 0.1 }}
           >
             <Flex className="dashboard-section-header">
-              <h2 className="card-title">
-                Donors & Backers
-              </h2>
+              <h2 className="card-title">Donors & Backers</h2>
             </Flex>
             <TableWrapper>
               <table>
@@ -1113,9 +1095,7 @@ const Dashboard = () => {
             </AssetDetailItem>
             <AssetDetailItem>
               <h4>Verification Status</h4>
-              <p className="verified-badge">
-                VERIFIED
-              </p>
+              <p className="verified-badge">VERIFIED</p>
             </AssetDetailItem>
           </AssetDetailGrid>
         </AssetCard>
@@ -1127,9 +1107,7 @@ const Dashboard = () => {
             align="center"
             className="discovery-section-spacing"
           >
-            <h3 className="discovery-heading">
-              Venture Discovery Feed
-            </h3>
+            <h3 className="discovery-heading">Venture Discovery Feed</h3>
             <Button
               variant="outline"
               size="sm"
@@ -1285,9 +1263,7 @@ const Dashboard = () => {
       <DashboardLayout>
         <Sidebar>
           <div className="dashboard-sidebar-header">
-            <h2 className="dashboard-sidebar-title">
-              Workspaces
-            </h2>
+            <h2 className="dashboard-sidebar-title">Workspaces</h2>
           </div>
           {renderSidebarNav().map((nav) => (
             <NavItem

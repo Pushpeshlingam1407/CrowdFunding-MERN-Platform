@@ -531,25 +531,16 @@ const Register = () => {
                   />
                   <span>
                     I agree to the{" "}
-                    <Link
-                      to="/terms"
-                      className="register-link"
-                    >
+                    <Link to="/terms" className="register-link">
                       Terms of Service
                     </Link>
                     ,
-                    <Link
-                      to="/privacy"
-                      className="register-link"
-                    >
+                    <Link to="/privacy" className="register-link">
                       {" "}
                       Privacy Policy
                     </Link>
                     , and
-                    <Link
-                      to="/agreement"
-                      className="register-link"
-                    >
+                    <Link to="/agreement" className="register-link">
                       {" "}
                       User Agreement
                     </Link>
@@ -569,10 +560,7 @@ const Register = () => {
                 <div className="register-link-container">
                   <span className="text-muted-sm">
                     Already have an account?{" "}
-                    <Link
-                      to="/login"
-                      className="register-link"
-                    >
+                    <Link to="/login" className="register-link">
                       Log in
                     </Link>
                   </span>
