@@ -279,15 +279,15 @@ const AdminProjects = () => {
     <AdminLayout title="Campaigns" subtitle="Manage startup projects">
       <div>
         <Flex gap="1rem" className="filters-row">
-          <SearchBar>
+          <div className="projects-search-bar">
             <Search size={18} />
             <input
               placeholder="Search by title or creator…"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-          </SearchBar>
-          <ActionBtn
+          </div>
+          <button className="projects-action-btn default"
             onClick={fetchAdminProjects}
             className="btn-refresh-projects"
           >
@@ -296,32 +296,32 @@ const AdminProjects = () => {
               className={loading ? "spin icon-mr-sm" : "icon-mr-sm"}
             />{" "}
             Refresh
-          </ActionBtn>
+          </button>
         </Flex>
 
-        <SegmentedControl>
+        <div className="projects-segmented-control">
           {filterTabs.map((tab) => (
-            <SegmentButton
+            <button
               key={tab.key}
-              $active={filter === tab.key}
+              className={`projects-segment-btn ${filter === tab.key ? 'active' : ''}`}
               onClick={() => setFilter(tab.key)}
             >
               {tab.label}
-            </SegmentButton>
+            </button>
           ))}
-        </SegmentedControl>
+        </div>
 
-        <TableWrapper>
+        <div className="projects-table-wrapper">
           {loading ? (
-            <EmptyState>
+            <div className="projects-empty-state">
               <RefreshCw size={32} className="spin" />
               <p>Loading campaigns…</p>
-            </EmptyState>
+            </div>
           ) : filtered.length === 0 ? (
-            <EmptyState>
+            <div className="projects-empty-state">
               <Briefcase size={36} />
               <p>No campaigns match your filters.</p>
-            </EmptyState>
+            </div>
           ) : (
             <table>
               <thead>
@@ -387,69 +387,64 @@ const AdminProjects = () => {
                       <p className="equity-amount-text">{project.equity}%</p>
                     </td>
                     <td>
-                      <StatusBadge $status={project.status}>
+                      <span className={`projects-status-badge ${project.status || 'default'}`}>
                         {project.status}
-                      </StatusBadge>
+                      </span>
                     </td>
                     <td>
                       <Flex gap="0.5rem">
                         {project.status === "pending" && (
                           <>
-                            <ActionBtn
-                              $variant="approve"
+                            <button className="projects-action-btn approve"
                               onClick={() =>
                                 handleStatusChange(project._id, "approved")
                               }
                               title="Approve Campaign"
                             >
                               <CheckCircle2 size={14} />
-                            </ActionBtn>
-                            <ActionBtn
-                              $variant="reject"
+                            </button>
+                            <button className="projects-action-btn reject"
                               onClick={() =>
                                 handleStatusChange(project._id, "rejected")
                               }
                               title="Reject Campaign"
                             >
                               <XCircle size={14} />
-                            </ActionBtn>
+                            </button>
                           </>
                         )}
                         {project.status === "approved" && (
-                          <ActionBtn
-                            $variant="reject"
+                          <button className="projects-action-btn reject"
                             onClick={() =>
                               handleStatusChange(project._id, "rejected")
                             }
                             title="Reject Campaign"
                           >
                             <XCircle size={14} />
-                          </ActionBtn>
+                          </button>
                         )}
                         {project.status === "rejected" && (
-                          <ActionBtn
-                            $variant="approve"
+                          <button className="projects-action-btn approve"
                             onClick={() =>
                               handleStatusChange(project._id, "approved")
                             }
                             title="Approve Campaign"
                           >
                             <CheckCircle2 size={14} />
-                          </ActionBtn>
+                          </button>
                         )}
-                        <ActionBtn
+                        <button className="projects-action-btn default"
                           onClick={() => navigate(`/projects/${project._id}`)}
                           title="View Campaign"
                         >
                           <ExternalLink size={14} />
-                        </ActionBtn>
-                        <ActionBtn
-                          $variant="delete"
+                        </button>
+                        <button className="projects-action-btn delete"
                           onClick={() => handleDelete(project._id)}
                           title="Delete Campaign"
                         >
                           <Trash2 size={14} />
-                        </ActionBtn>
+                        </button>
                       </Flex>
                     </td>
                   </motion.tr>
@@ -457,7 +452,7 @@ const AdminProjects = () => {
               </tbody>
             </table>
           )}
-        </TableWrapper>
+        </div>
       </div>
     </AdminLayout>
   );
