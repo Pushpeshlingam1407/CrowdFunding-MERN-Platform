@@ -21,161 +21,7 @@ import { Button, Input, Card, Container, Flex, Grid } from "./ui";
 import api from "../services/api";
 import "./Register.css";
 
-const RegisterWrapper = styled.div`
-  min-height: calc(100vh - 80px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 0;
-  background-color: #fbf9f6;
-  background-image: radial-gradient(#d3d0c9 1px, transparent 1px);
-  background-size: 24px 24px;
-`;
 
-const StyledCard = styled.div`
-  background: #ffffff;
-  border: 1px solid #e3e0d8;
-  border-radius: 24px;
-  padding: 3.5rem;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.015);
-  width: 100%;
-`;
-
-const FormTitle = styled.h2`
-  font-size: 2.25rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  text-align: center;
-  letter-spacing: -0.03em;
-  font-family: ${(props) => props.theme.fonts.serif};
-  color: #191919;
-`;
-
-const FormSubtitle = styled.p`
-  color: #86868b;
-  text-align: center;
-  margin-bottom: 2.5rem;
-  font-size: 0.95rem;
-`;
-
-const FormGroup = styled.div`
-  margin-bottom: 1.25rem;
-  position: relative;
-`;
-
-const Label = styled.label`
-  display: block;
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #6e6e73;
-  margin-bottom: 0.5rem;
-`;
-
-const StyledInput = styled(Input)`
-  padding: 0.85rem 1.25rem;
-  border-radius: 12px;
-  border: 1px solid #dcdad2;
-  font-size: 0.95rem;
-  height: 3rem;
-  background: #ffffff;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  border-color: ${({ $hasError, $isValid }) =>
-    $hasError ? "#e53e3e" : $isValid ? "#38a169" : undefined};
-  width: 100%;
-
-  &:focus {
-    border-color: ${({ $hasError, $isValid }) =>
-      $hasError ? "#e53e3e" : $isValid ? "#38a169" : "#191919"};
-    background: #ffffff;
-    box-shadow: ${({ $hasError, $isValid }) =>
-      $hasError
-        ? "0 0 0 4px rgba(229,62,62,0.15)"
-        : $isValid
-          ? "0 0 0 4px rgba(56,161,105,0.1)"
-          : "0 0 0 4px rgba(25, 25, 25, 0.05)"};
-  }
-`;
-
-const RoleGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-  margin-top: 0.5rem;
-`;
-
-const RoleCard = styled.div`
-  background: ${(props) => (props.$active ? "#ffffff" : "rgba(0, 0, 0, 0.02)")};
-  color: ${(props) => (props.$active ? "#191919" : "#6e6e73")};
-  border: 1px solid ${(props) => (props.$active ? "#191919" : "#e3e0d8")};
-  border-radius: 12px;
-  padding: 0.75rem 1rem;
-  font-size: 0.88rem;
-  font-weight: 600;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: ${(props) => (props.$active ? "0 4px 12px rgba(0, 0, 0, 0.02)" : "none")};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-
-  &:hover {
-    background: ${(props) => (props.$active ? "#ffffff" : "rgba(0, 0, 0, 0.04)")};
-    border-color: ${(props) => (props.$active ? "#191919" : "#dcdad2")};
-  }
-
-  &:active {
-    transform: scale(0.97);
-  }
-`;
-
-const CheckboxContainer = styled.label`
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  margin-bottom: 2rem;
-  cursor: pointer;
-  font-size: 0.85rem;
-  color: #6e6e73;
-
-  input {
-    margin-top: 0.2rem;
-  }
-`;
-
-const ValidationIndicator = styled.div`
-  color: ${(props) => (props.$isValid ? "#38a169" : "#e53e3e")};
-  font-size: 0.8rem;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  margin-top: 0.4rem;
-`;
-
-const CriteriaList = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.4rem;
-  margin-top: 0.5rem;
-  padding: 0.75rem;
-  background: #f8f9fa;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-`;
-
-const CriteriaItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.76rem;
-  color: ${(props) => (props.$isValid ? "#38a169" : "#718096")};
-  font-weight: ${(props) => (props.$isValid ? "600" : "400")};
-  transition: all 0.2s;
-`;
 
 const Register = () => {
   const navigate = useNavigate();
@@ -303,7 +149,7 @@ const Register = () => {
   };
 
   return (
-    <RegisterWrapper>
+    <div className="register-wrapper">
       <Container>
         <Flex justify="center">
           <motion.div
@@ -312,28 +158,28 @@ const Register = () => {
             transition={{ duration: 0.4 }}
             className="auth-form-wrapper-wide"
           >
-            <StyledCard>
-              <FormTitle>Create Account</FormTitle>
-              <FormSubtitle>
+            <div className="register-card">
+              <h2 className="register-title">Create Account</h2>
+              <p className="register-subtitle">
                 Join the premium crowdfunding ecosystem
-              </FormSubtitle>
+              </p>
 
               <form onSubmit={handleSubmit}>
                 <Grid cols={2} gap="1rem">
-                  <FormGroup>
-                    <Label>First Name</Label>
-                    <StyledInput
+                  <div className="register-form-group">
+                    <label className="register-label">First Name</label>
+                    <input className={`register-input ${ firstNameTouched && isFirstNameValid ? "is-valid" : "" } ${ firstNameTouched && !isFirstNameValid ? "has-error" : "" }`} 
                       type="text"
                       name="firstName"
                       placeholder="Jane"
                       value={formData.firstName}
                       onChange={handleChange}
-                      $isValid={firstNameTouched && isFirstNameValid}
-                      $hasError={firstNameTouched && !isFirstNameValid}
+                      
+                      
                       required
-                    />
+                     />
                     {firstNameTouched && (
-                      <ValidationIndicator $isValid={isFirstNameValid}>
+                      <div className={`register-validation-indicator ${ isFirstNameValid ? "is-valid" : "has-error" }`}>
                         {isFirstNameValid ? (
                           <>
                             <Check size={14} /> First name{" "}
@@ -344,23 +190,23 @@ const Register = () => {
                             required
                           </>
                         )}
-                      </ValidationIndicator>
+                      </div>
                     )}
-                  </FormGroup>
-                  <FormGroup>
-                    <Label>Last Name</Label>
-                    <StyledInput
+                  </div>
+                  <div className="register-form-group">
+                    <label className="register-label">Last Name</label>
+                    <input className={`register-input ${ lastNameTouched && isLastNameValid ? "is-valid" : "" } ${ lastNameTouched && !isLastNameValid ? "has-error" : "" }`} 
                       type="text"
                       name="lastName"
                       placeholder="Doe"
                       value={formData.lastName}
                       onChange={handleChange}
-                      $isValid={lastNameTouched && isLastNameValid}
-                      $hasError={lastNameTouched && !isLastNameValid}
+                      
+                      
                       required
-                    />
+                     />
                     {lastNameTouched && (
-                      <ValidationIndicator $isValid={isLastNameValid}>
+                      <div className={`register-validation-indicator ${ isLastNameValid ? "is-valid" : "has-error" }`}>
                         {isLastNameValid ? (
                           <>
                             <Check size={14} /> Last name
@@ -371,26 +217,26 @@ const Register = () => {
                             required
                           </>
                         )}
-                      </ValidationIndicator>
+                      </div>
                     )}
-                  </FormGroup>
+                  </div>
                 </Grid>
 
-                <FormGroup>
-                  <Label>Email Address</Label>
-                  <StyledInput
+                <div className="register-form-group">
+                  <label className="register-label">Email Address</label>
+                  <input className={`register-input ${ emailTouched && isEmailValid && !emailExists ? "is-valid" : "" } ${ emailTouched && (!isEmailValid || emailExists) ? "has-error" : "" }`} 
                     type="email"
                     name="email"
                     placeholder="jane@company.com"
                     value={formData.email}
                     onChange={handleChange}
-                    $isValid={emailTouched && isEmailValid && !emailExists}
-                    $hasError={emailTouched && (!isEmailValid || emailExists)}
+                    
+                    
                     required
-                  />
+                   />
                   {emailTouched && (
-                    <ValidationIndicator
-                      $isValid={isEmailValid && !emailExists}
+                    <div
+                      className={`register-validation-indicator ${isEmailValid && !emailExists ? "is-valid" : "has-error"}`}
                     >
                       {checkingEmail ? (
                         <>
@@ -410,47 +256,47 @@ const Register = () => {
                           <Check size={14} /> Email address is valid
                         </>
                       )}
-                    </ValidationIndicator>
+                    </div>
                   )}
-                </FormGroup>
+                </div>
 
-                <FormGroup>
-                  <Label>Password</Label>
-                  <StyledInput
+                <div className="register-form-group">
+                  <label className="register-label">Password</label>
+                  <input className={`register-input ${ passwordTouched && isPasswordValid ? "is-valid" : "" } ${ passwordTouched && !isPasswordValid ? "has-error" : "" }`} 
                     type="password"
                     name="password"
                     placeholder="••••••••"
                     value={formData.password}
                     onChange={handleChange}
-                    $isValid={passwordTouched && isPasswordValid}
-                    $hasError={passwordTouched && !isPasswordValid}
+                    
+                    
                     required
-                  />
+                   />
                   {passwordTouched && (
-                    <CriteriaList>
-                      <CriteriaItem $isValid={hasMinLength}>
+                    <div className="register-criteria-list">
+                      <div className={`register-criteria-item ${ hasMinLength ? "is-valid" : "is-invalid" }`}>
                         {hasMinLength ? <Check size={12} /> : <X size={12} />}{" "}
                         At least 8 characters
-                      </CriteriaItem>
-                      <CriteriaItem $isValid={hasUppercase}>
+                      </div>
+                      <div className={`register-criteria-item ${ hasUppercase ? "is-valid" : "is-invalid" }`}>
                         {hasUppercase ? <Check size={12} /> : <X size={12} />}{" "}
                         One uppercase letter
-                      </CriteriaItem>
-                      <CriteriaItem $isValid={hasNumber}>
+                      </div>
+                      <div className={`register-criteria-item ${ hasNumber ? "is-valid" : "is-invalid" }`}>
                         {hasNumber ? <Check size={12} /> : <X size={12} />} One
                         number
-                      </CriteriaItem>
-                      <CriteriaItem $isValid={hasSpecial}>
+                      </div>
+                      <div className={`register-criteria-item ${ hasSpecial ? "is-valid" : "is-invalid" }`}>
                         {hasSpecial ? <Check size={12} /> : <X size={12} />} One
                         special character (!@#$%^&*)
-                      </CriteriaItem>
-                    </CriteriaList>
+                      </div>
+                    </div>
                   )}
-                </FormGroup>
+                </div>
 
-                <FormGroup>
-                  <Label>Confirm Password</Label>
-                  <StyledInput
+                <div className="register-form-group">
+                  <label className="register-label">Confirm Password</label>
+                  <input className={`register-input ${ false ? "is-valid" : "" } ${ false ? "has-error" : "" }`} 
                     type="password"
                     name="confirmPassword"
                     placeholder="••••••••"
@@ -465,10 +311,10 @@ const Register = () => {
                       formData.password !== formData.confirmPassword
                     }
                     required
-                  />
+                   />
                   {formData.confirmPassword && (
-                    <ValidationIndicator
-                      $isValid={formData.password === formData.confirmPassword}
+                    <div
+                      className={`register-validation-indicator ${formData.password === formData.confirmPassword ? "is-valid" : "has-error"}`}
                     >
                       {formData.password === formData.confirmPassword ? (
                         <>
@@ -479,13 +325,13 @@ const Register = () => {
                           <AlertCircle size={14} /> Passwords do not match
                         </>
                       )}
-                    </ValidationIndicator>
+                    </div>
                   )}
-                </FormGroup>
+                </div>
 
-                <FormGroup className="register-role-group">
-                  <Label>I am a...</Label>
-                  <RoleGrid>
+                <div className="register-form-group register-role-group">
+                  <label className="register-label">I am a...</label>
+                  <div className="register-role-grid">
                     {[
                       { value: "startup", label: "Startup", icon: Building2 },
                       {
@@ -515,13 +361,13 @@ const Register = () => {
                         >
                           <Icon size={16} />
                           {opt.label}
-                        </RoleCard>
+                        </div>
                       );
                     })}
-                  </RoleGrid>
-                </FormGroup>
+                  </div>
+                </div>
 
-                <CheckboxContainer>
+                <label className="register-checkbox-container">
                   <input
                     type="checkbox"
                     name="agreeToTerms"
@@ -546,7 +392,7 @@ const Register = () => {
                     </Link>
                     .
                   </span>
-                </CheckboxContainer>
+                </label>
 
                 <Button
                   type="submit"
@@ -566,11 +412,11 @@ const Register = () => {
                   </span>
                 </div>
               </form>
-            </StyledCard>
+            </div>
           </motion.div>
         </Flex>
       </Container>
-    </RegisterWrapper>
+    </div>
   );
 };
 

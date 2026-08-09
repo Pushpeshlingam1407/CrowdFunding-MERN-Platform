@@ -23,3 +23,195 @@
 .register-link-container {
   text-align: center;
 }
+
+.register-wrapper {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+  background-color: #fbf9f6;
+  background-image: radial-gradient(#d3d0c9 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.register-card {
+  background: #ffffff;
+  border: 1px solid #e3e0d8;
+  border-radius: 24px;
+  padding: 3.5rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.015);
+  width: 100%;
+}
+
+.register-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  letter-spacing: -0.03em;
+  font-family: var(--font-serif);
+  color: #191919;
+}
+
+.register-subtitle {
+  color: #86868b;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-size: 0.95rem;
+}
+
+.register-form-group {
+  margin-bottom: 1.25rem;
+  position: relative;
+}
+
+.register-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6e6e73;
+  margin-bottom: 0.5rem;
+}
+
+.register-input {
+  padding: 0.85rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid #dcdad2;
+  font-size: 0.95rem;
+  height: 3rem;
+  background: #ffffff;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+}
+
+.register-input.has-error {
+  border-color: #e53e3e;
+}
+
+.register-input.is-valid {
+  border-color: #38a169;
+}
+
+.register-input:focus {
+  border-color: #191919;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(25, 25, 25, 0.05);
+}
+
+.register-input.has-error:focus {
+  border-color: #e53e3e;
+  box-shadow: 0 0 0 4px rgba(229, 62, 62, 0.15);
+}
+
+.register-input.is-valid:focus {
+  border-color: #38a169;
+  box-shadow: 0 0 0 4px rgba(56, 161, 105, 0.1);
+}
+
+.register-role-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.register-role-card {
+  background: rgba(0, 0, 0, 0.02);
+  color: #6e6e73;
+  border: 1px solid #e3e0d8;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.register-role-card:hover {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: #dcdad2;
+}
+
+.register-role-card:active {
+  transform: scale(0.97);
+}
+
+.register-role-card.active {
+  background: #ffffff;
+  color: #191919;
+  border-color: #191919;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.register-role-card.active:hover {
+  background: #ffffff;
+  border-color: #191919;
+}
+
+.register-checkbox-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #6e6e73;
+}
+
+.register-checkbox-container input {
+  margin-top: 0.2rem;
+}
+
+.register-validation-indicator {
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.4rem;
+}
+
+.register-validation-indicator.is-valid {
+  color: #38a169;
+}
+
+.register-validation-indicator.has-error {
+  color: #e53e3e;
+}
+
+.register-criteria-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.register-criteria-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.76rem;
+  transition: all 0.2s;
+}
+
+.register-criteria-item.is-valid {
+  color: #38a169;
+  font-weight: 600;
+}
+
+.register-criteria-item.is-invalid {
+  color: #718096;
+  font-weight: 400;
+}
