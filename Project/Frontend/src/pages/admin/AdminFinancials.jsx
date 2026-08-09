@@ -143,7 +143,7 @@ const TableWrapper = styled.div`
   tbody tr {
     transition: background 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  
+
   tbody tr:hover {
     background: rgba(0, 0, 0, 0.02);
   }
@@ -160,15 +160,14 @@ const StatusBadge = styled.span`
     props.status === "completed"
       ? "rgba(16, 185, 129, 0.1)"
       : "rgba(245, 158, 11, 0.1)"};
-  color: ${(props) =>
-    props.status === "completed" ? "#10b981" : "#f59e0b"};
+  color: ${(props) => (props.status === "completed" ? "#10b981" : "#f59e0b")};
 `;
 
 const SearchInput = styled(Input)`
   border-radius: 99px;
   padding-left: 2.5rem;
-  border: 1px solid rgba(0,0,0,0.1);
-  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.7);
   font-size: 0.85rem;
   height: 2.5rem;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -232,14 +231,14 @@ const AdminFinancials = () => {
     const investorName = inv.investor?.name?.toLowerCase() || "";
     const projectName = inv.project?.title?.toLowerCase() || "";
     const creatorName = inv.project?.creator?.name?.toLowerCase() || "";
-    
-    const matchesSearch = 
+
+    const matchesSearch =
       investorName.includes(q) ||
       projectName.includes(q) ||
       creatorName.includes(q);
-      
+
     const matchesStatus = statusFilter === "all" || inv.status === statusFilter;
-    
+
     return matchesSearch && matchesStatus;
   });
 
@@ -248,16 +247,16 @@ const AdminFinancials = () => {
       toast.error("No data to export");
       return;
     }
-    
-    const exportData = filteredInvestments.map(inv => ({
+
+    const exportData = filteredInvestments.map((inv) => ({
       "Transaction ID": inv._id,
-      "Date": new Date(inv.createdAt).toLocaleDateString("en-IN"),
+      Date: new Date(inv.createdAt).toLocaleDateString("en-IN"),
       "Investor Name": inv.investor?.name || "Unknown",
       "Investor Role": inv.investor?.role || "Unknown",
       "Amount (INR)": inv.amount,
       "Project Title": inv.project?.title || "Unknown",
       "Creator Name": inv.project?.creator?.name || "Unknown",
-      "Status": inv.status
+      Status: inv.status,
     }));
 
     exportToCSV(exportData, `financial_ledger_${new Date().getTime()}.csv`);
@@ -267,11 +266,11 @@ const AdminFinancials = () => {
   const totalVolume = investments
     .filter((i) => i.status === "completed" || i.status === "approved")
     .reduce((acc, curr) => acc + curr.amount, 0);
-    
+
   const platformRevenue = totalVolume * 0.05; // 5% flat fee
-    
+
   const activeFundraisers = new Set(
-    investments.map((i) => i.project?.creator?._id)
+    investments.map((i) => i.project?.creator?._id),
   ).size;
 
   return (
@@ -279,7 +278,9 @@ const AdminFinancials = () => {
       <PageHeader>
         <div>
           <Title>Financial Overview</Title>
-          <Subtitle>Monitor platform-wide fundraising and platform revenue</Subtitle>
+          <Subtitle>
+            Monitor platform-wide fundraising and platform revenue
+          </Subtitle>
         </div>
         <Button
           onClick={handleExport}
@@ -288,7 +289,7 @@ const AdminFinancials = () => {
             background: "#191919",
             color: "#ffffff",
             border: "none",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.05)"
+            boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
           }}
         >
           <Download size={16} style={{ marginRight: 8 }} />
@@ -298,37 +299,71 @@ const AdminFinancials = () => {
 
       <StatsGrid>
         <StatCard>
-          <div className="icon-box" $bg="rgba(16, 185, 129, 0.08)" $color="#10b981">
+          <div
+            className="icon-box"
+            $bg="rgba(16, 185, 129, 0.08)"
+            $color="#10b981"
+          >
             <DollarSign size={24} />
           </div>
           <div className="stat-info">
-            <h3>{new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(totalVolume)}</h3>
+            <h3>
+              {new Intl.NumberFormat("en-IN", {
+                style: "currency",
+                currency: "INR",
+                maximumFractionDigits: 0,
+              }).format(totalVolume)}
+            </h3>
             <p>Total Capital Raised</p>
           </div>
         </StatCard>
-        
+
         <StatCard>
-          <div className="icon-box" $bg="rgba(16, 185, 129, 0.08)" $color="#10b981">
+          <div
+            className="icon-box"
+            $bg="rgba(16, 185, 129, 0.08)"
+            $color="#10b981"
+          >
             <DollarSign size={24} />
           </div>
           <div className="stat-info">
-            <h3>{new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(platformRevenue)}</h3>
+            <h3>
+              {new Intl.NumberFormat("en-IN", {
+                style: "currency",
+                currency: "INR",
+                maximumFractionDigits: 0,
+              }).format(platformRevenue)}
+            </h3>
             <p>Platform Revenue (5%)</p>
           </div>
         </StatCard>
-        
+
         <StatCard>
-          <div className="icon-box" $bg="rgba(0, 113, 227, 0.08)" $color="#0071e3">
+          <div
+            className="icon-box"
+            $bg="rgba(0, 113, 227, 0.08)"
+            $color="#0071e3"
+          >
             <TrendingUp size={24} />
           </div>
           <div className="stat-info">
-            <h3>{investments.filter((i) => i.status === "completed" || i.status === "approved").length}</h3>
+            <h3>
+              {
+                investments.filter(
+                  (i) => i.status === "completed" || i.status === "approved",
+                ).length
+              }
+            </h3>
             <p>Completed Transactions</p>
           </div>
         </StatCard>
 
         <StatCard>
-          <div className="icon-box" $bg="rgba(139, 92, 246, 0.08)" $color="#8b5cf6">
+          <div
+            className="icon-box"
+            $bg="rgba(139, 92, 246, 0.08)"
+            $color="#8b5cf6"
+          >
             <Building2 size={24} />
           </div>
           <div className="stat-info">
@@ -340,7 +375,14 @@ const AdminFinancials = () => {
 
       <TableCard>
         <TableHeader>
-          <h3 style={{ fontSize: "1.1rem", fontWeight: 850, color: "#191919", fontFamily: "var(--font-sans)" }}>
+          <h3
+            style={{
+              fontSize: "1.1rem",
+              fontWeight: 850,
+              color: "#191919",
+              fontFamily: "var(--font-sans)",
+            }}
+          >
             Recent Transactions
           </h3>
           <Flex gap="1rem">
@@ -373,7 +415,7 @@ const AdminFinancials = () => {
             </CapsuleSelect>
           </Flex>
         </TableHeader>
-        
+
         <TableWrapper>
           <table>
             <thead>
@@ -389,13 +431,23 @@ const AdminFinancials = () => {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="6" style={{ textAlign: "center", padding: "3rem" }}>
+                  <td
+                    colSpan="6"
+                    style={{ textAlign: "center", padding: "3rem" }}
+                  >
                     Loading financial data...
                   </td>
                 </tr>
               ) : filteredInvestments.length === 0 ? (
                 <tr>
-                  <td colSpan="6" style={{ textAlign: "center", padding: "3rem", color: "#86868b" }}>
+                  <td
+                    colSpan="6"
+                    style={{
+                      textAlign: "center",
+                      padding: "3rem",
+                      color: "#86868b",
+                    }}
+                  >
                     No investments found.
                   </td>
                 </tr>
@@ -410,8 +462,18 @@ const AdminFinancials = () => {
                         {inv.investor?.role || "Investor"}
                       </div>
                     </td>
-                    <td style={{ fontWeight: 800, color: "#10b981", fontFamily: "var(--font-mono)" }}>
-                      {new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(inv.amount)}
+                    <td
+                      style={{
+                        fontWeight: 800,
+                        color: "#10b981",
+                        fontFamily: "var(--font-mono)",
+                      }}
+                    >
+                      {new Intl.NumberFormat("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                        maximumFractionDigits: 0,
+                      }).format(inv.amount)}
                     </td>
                     <td style={{ fontWeight: 600 }}>
                       {inv.project?.title || "Unknown Project"}
@@ -426,7 +488,12 @@ const AdminFinancials = () => {
                         {inv.status}
                       </StatusBadge>
                     </td>
-                    <td style={{ color: "#86868b", fontFamily: "var(--font-mono)" }}>
+                    <td
+                      style={{
+                        color: "#86868b",
+                        fontFamily: "var(--font-mono)",
+                      }}
+                    >
                       {new Intl.DateTimeFormat("en-IN", {
                         year: "numeric",
                         month: "short",

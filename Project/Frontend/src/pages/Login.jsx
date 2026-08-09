@@ -86,7 +86,9 @@ const StyledInput = styled(Input)`
     border-color: ${({ $hasError }) => ($hasError ? "#e53e3e" : "#191919")};
     background: #ffffff;
     box-shadow: ${({ $hasError }) =>
-      $hasError ? "0 0 0 4px rgba(229,62,62,0.15)" : "0 0 0 4px rgba(25, 25, 25, 0.05)"};
+      $hasError
+        ? "0 0 0 4px rgba(229,62,62,0.15)"
+        : "0 0 0 4px rgba(25, 25, 25, 0.05)"};
   }
 `;
 
@@ -233,7 +235,12 @@ const Login = () => {
                 <Button
                   type="submit"
                   disabled={isLoading}
-                  style={{ width: "100%", marginBottom: "1.5rem", background: "#191919", color: "#ffffff" }}
+                  style={{
+                    width: "100%",
+                    marginBottom: "1.5rem",
+                    background: "#191919",
+                    color: "#ffffff",
+                  }}
                 >
                   <LogIn size={18} style={{ marginRight: 8 }} />
                   {isLoading ? "Signing in..." : "Sign in"}

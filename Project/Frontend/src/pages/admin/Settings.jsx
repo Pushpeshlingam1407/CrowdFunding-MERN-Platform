@@ -109,7 +109,7 @@ const Toggle = styled.button`
     border-radius: 50%;
     background: white;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   }
 `;
 

@@ -202,15 +202,38 @@ const CompanyProfile = () => {
     return (
       <ProfileWrapper>
         <Container>
-          <div style={{ padding: "8rem 0", display: "flex", justifyContent: "center" }}>
-            <div style={{ width: "100%", maxWidth: "800px", height: "300px", background: "#ffffff", borderRadius: "24px", border: "1px solid #e3e0d8" }} />
+          <div
+            style={{
+              padding: "8rem 0",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              style={{
+                width: "100%",
+                maxWidth: "800px",
+                height: "300px",
+                background: "#ffffff",
+                borderRadius: "24px",
+                border: "1px solid #e3e0d8",
+              }}
+            />
           </div>
         </Container>
       </ProfileWrapper>
     );
   if (!profile)
     return (
-      <div style={{ padding: "8rem", textAlign: "center", color: "#191919", fontFamily: "var(--font-serif)", fontSize: "1.25rem" }}>
+      <div
+        style={{
+          padding: "8rem",
+          textAlign: "center",
+          color: "#191919",
+          fontFamily: "var(--font-serif)",
+          fontSize: "1.25rem",
+        }}
+      >
         Profile Not Found
       </div>
     );
@@ -230,7 +253,7 @@ const CompanyProfile = () => {
                   marginBottom: "0.5rem",
                   letterSpacing: "-0.03em",
                   fontFamily: "var(--font-serif)",
-                  color: "#191919"
+                  color: "#191919",
                 }}
               >
                 {profile.companyName || profile.name}
@@ -250,7 +273,11 @@ const CompanyProfile = () => {
               )}
               <Flex
                 gap="1.5rem"
-                style={{ color: "#6e6e73", marginBottom: "1.5rem", flexWrap: "wrap" }}
+                style={{
+                  color: "#6e6e73",
+                  marginBottom: "1.5rem",
+                  flexWrap: "wrap",
+                }}
               >
                 <Flex gap="0.5rem">
                   <Globe size={18} /> {profile.companyWebsite || "N/A"}
@@ -266,20 +293,33 @@ const CompanyProfile = () => {
               <Flex gap="1rem" wrap="wrap">
                 <Button
                   onClick={() => navigate(`/messages/${id}`)}
-                  style={{ background: "#191919", color: "#ffffff", border: "none" }}
+                  style={{
+                    background: "#191919",
+                    color: "#ffffff",
+                    border: "none",
+                  }}
                 >
-                  <MessageSquare size={18} style={{ marginRight: 8 }} /> Message / Connect
+                  <MessageSquare size={18} style={{ marginRight: 8 }} /> Message
+                  / Connect
                 </Button>
                 <Button
                   variant="outline"
                   onClick={() => setShowReviewModal(true)}
-                  style={{ borderColor: "#e3e0d8", color: "#6e6e73", background: "transparent" }}
+                  style={{
+                    borderColor: "#e3e0d8",
+                    color: "#6e6e73",
+                    background: "transparent",
+                  }}
                 >
                   <Star size={18} style={{ marginRight: 8 }} /> Leave a Review
                 </Button>
                 <Button
                   variant="outline"
-                  style={{ color: "#ef4444", borderColor: "rgba(239,68,68,0.2)", background: "transparent" }}
+                  style={{
+                    color: "#ef4444",
+                    borderColor: "rgba(239,68,68,0.2)",
+                    background: "transparent",
+                  }}
                   onClick={() => setShowComplaintBox(true)}
                 >
                   <Flag size={18} />
@@ -287,11 +327,25 @@ const CompanyProfile = () => {
               </Flex>
             </div>
             <div style={{ textAlign: "right" }}>
-              <h2 style={{ fontSize: "2.75rem", fontWeight: 800, fontFamily: "var(--font-mono)", color: "#191919" }}>
+              <h2
+                style={{
+                  fontSize: "2.75rem",
+                  fontWeight: 800,
+                  fontFamily: "var(--font-mono)",
+                  color: "#191919",
+                }}
+              >
                 {profile.stars?.toFixed(1) || "0.0"}
               </h2>
               <StarRating rating={Math.round(profile.stars || 0)} readonly />
-              <p style={{ color: "#86868b", marginTop: "0.5rem", fontSize: "0.85rem", fontWeight: 600 }}>
+              <p
+                style={{
+                  color: "#86868b",
+                  marginTop: "0.5rem",
+                  fontSize: "0.85rem",
+                  fontWeight: 600,
+                }}
+              >
                 {profile.reviewsCount || 0} Collaborative Reviews
               </p>
             </div>
@@ -315,7 +369,14 @@ const CompanyProfile = () => {
             >
               <Users size={24} style={{ color: "#0071e3" }} />
               <div>
-                <h4 style={{ fontSize: "1.5rem", fontWeight: 800, fontFamily: "var(--font-mono)", color: "#191919" }}>
+                <h4
+                  style={{
+                    fontSize: "1.5rem",
+                    fontWeight: 800,
+                    fontFamily: "var(--font-mono)",
+                    color: "#191919",
+                  }}
+                >
                   {profile.dynamicMetrics?.trustedByCount || 0}+
                 </h4>
                 <p
@@ -340,7 +401,14 @@ const CompanyProfile = () => {
             >
               <TrendingUp size={24} style={{ color: "#10b981" }} />
               <div>
-                <h4 style={{ fontSize: "1.5rem", fontWeight: 800, fontFamily: "var(--font-mono)", color: "#191919" }}>
+                <h4
+                  style={{
+                    fontSize: "1.5rem",
+                    fontWeight: 800,
+                    fontFamily: "var(--font-mono)",
+                    color: "#191919",
+                  }}
+                >
                   {profile.dynamicMetrics?.collaborationsCount || 0}
                 </h4>
                 <p
@@ -365,7 +433,14 @@ const CompanyProfile = () => {
             >
               <Briefcase size={24} style={{ color: "#0071e3" }} />
               <div>
-                <h4 style={{ fontSize: "1.5rem", fontWeight: 800, fontFamily: "var(--font-mono)", color: "#191919" }}>
+                <h4
+                  style={{
+                    fontSize: "1.5rem",
+                    fontWeight: 800,
+                    fontFamily: "var(--font-mono)",
+                    color: "#191919",
+                  }}
+                >
                   {profile.dynamicMetrics?.projectsCount || 0}
                 </h4>
                 <p
@@ -390,7 +465,16 @@ const CompanyProfile = () => {
             >
               <ShieldCheck size={24} style={{ color: "#10b981" }} />
               <div>
-                <h4 style={{ fontSize: "1.5rem", fontWeight: 800, fontFamily: "var(--font-mono)", color: "#191919" }}>100%</h4>
+                <h4
+                  style={{
+                    fontSize: "1.5rem",
+                    fontWeight: 800,
+                    fontFamily: "var(--font-mono)",
+                    color: "#191919",
+                  }}
+                >
+                  100%
+                </h4>
                 <p
                   style={{
                     fontSize: "0.75rem",
@@ -426,7 +510,13 @@ const CompanyProfile = () => {
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: 20, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
-                style={{ width: "100%", maxWidth: "500px", padding: "2.5rem", border: "1px solid #e3e0d8", borderRadius: "24px" }}
+                style={{
+                  width: "100%",
+                  maxWidth: "500px",
+                  padding: "2.5rem",
+                  border: "1px solid #e3e0d8",
+                  borderRadius: "24px",
+                }}
               >
                 <h2
                   style={{
@@ -434,7 +524,7 @@ const CompanyProfile = () => {
                     fontWeight: 800,
                     marginBottom: "0.5rem",
                     color: "#191919",
-                    fontFamily: "var(--font-serif)"
+                    fontFamily: "var(--font-serif)",
                   }}
                 >
                   Professional Review
@@ -552,14 +642,24 @@ const CompanyProfile = () => {
                     <Button
                       variant="outline"
                       type="button"
-                      style={{ flexGrow: 1, borderColor: "#e3e0d8", color: "#6e6e73", background: "transparent" }}
+                      style={{
+                        flexGrow: 1,
+                        borderColor: "#e3e0d8",
+                        color: "#6e6e73",
+                        background: "transparent",
+                      }}
                       onClick={() => setShowReviewModal(false)}
                     >
                       Cancel
                     </Button>
                     <Button
                       type="submit"
-                      style={{ flexGrow: 2, background: "#191919", color: "#ffffff", border: "none" }}
+                      style={{
+                        flexGrow: 2,
+                        background: "#191919",
+                        color: "#ffffff",
+                        border: "none",
+                      }}
                     >
                       Submit Review
                     </Button>
@@ -572,7 +672,14 @@ const CompanyProfile = () => {
 
         <Grid cols="2fr 1fr" gap="2rem">
           <div>
-            <Card style={{ padding: "2.5rem", marginBottom: "2rem", border: "1px solid #e3e0d8", borderRadius: "24px" }}>
+            <Card
+              style={{
+                padding: "2.5rem",
+                marginBottom: "2rem",
+                border: "1px solid #e3e0d8",
+                borderRadius: "24px",
+              }}
+            >
               <h3
                 style={{
                   fontSize: "1.25rem",
@@ -613,7 +720,9 @@ const CompanyProfile = () => {
                     <ServiceTag key={i}>{service}</ServiceTag>
                   ))
                 ) : (
-                  <p style={{ color: "#86868b", fontWeight: 500 }}>No services specified.</p>
+                  <p style={{ color: "#86868b", fontWeight: 500 }}>
+                    No services specified.
+                  </p>
                 )}
               </Flex>
             </Card>
@@ -627,7 +736,7 @@ const CompanyProfile = () => {
                     fontWeight: 800,
                     marginBottom: "1.25rem",
                     color: "#191919",
-                    fontFamily: "var(--font-serif)"
+                    fontFamily: "var(--font-serif)",
                   }}
                 >
                   Active Campaigns
@@ -657,11 +766,15 @@ const CompanyProfile = () => {
                           border: "1px solid #e3e0d8",
                           borderRadius: "24px",
                           transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
-                          boxShadow: "0 4px 15px rgba(0,0,0,0.015)"
+                          boxShadow: "0 4px 15px rgba(0,0,0,0.015)",
                         }}
                         onClick={() => navigate(`/projects/${proj._id}`)}
-                        onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#191919"; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#e3e0d8"; }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.borderColor = "#191919";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.borderColor = "#e3e0d8";
+                        }}
                       >
                         <img
                           src={
@@ -676,7 +789,7 @@ const CompanyProfile = () => {
                             borderRadius: 12,
                             objectFit: "cover",
                             flexShrink: 0,
-                            border: "1px solid rgba(0,0,0,0.05)"
+                            border: "1px solid rgba(0,0,0,0.05)",
                           }}
                           onError={(e) => {
                             e.target.style.display = "none";
@@ -687,7 +800,13 @@ const CompanyProfile = () => {
                             justify="space-between"
                             style={{ marginBottom: "0.4rem" }}
                           >
-                            <h4 style={{ fontWeight: 800, fontSize: "1rem", color: "#191919" }}>
+                            <h4
+                              style={{
+                                fontWeight: 800,
+                                fontSize: "1rem",
+                                color: "#191919",
+                              }}
+                            >
                               {proj.title}
                             </h4>
                             <span
@@ -719,7 +838,15 @@ const CompanyProfile = () => {
                               fontWeight: 500,
                             }}
                           >
-                            {proj.category} · <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700 }}>₹{proj.targetAmount?.toLocaleString("en-IN")} goal</span>
+                            {proj.category} ·{" "}
+                            <span
+                              style={{
+                                fontFamily: "var(--font-mono)",
+                                fontWeight: 700,
+                              }}
+                            >
+                              ₹{proj.targetAmount?.toLocaleString("en-IN")} goal
+                            </span>
                           </p>
                           <div
                             style={{
@@ -745,8 +872,16 @@ const CompanyProfile = () => {
                               fontWeight: 600,
                             }}
                           >
-                            <span style={{ fontFamily: "var(--font-mono)" }}>₹{(proj.currentAmount || 0).toLocaleString("en-IN")}</span> raised
-                            · <span style={{ fontFamily: "var(--font-mono)" }}>{progress.toFixed(0)}%</span>
+                            <span style={{ fontFamily: "var(--font-mono)" }}>
+                              ₹
+                              {(proj.currentAmount || 0).toLocaleString(
+                                "en-IN",
+                              )}
+                            </span>{" "}
+                            raised ·{" "}
+                            <span style={{ fontFamily: "var(--font-mono)" }}>
+                              {progress.toFixed(0)}%
+                            </span>
                           </p>
                         </div>
                       </Card>
@@ -762,14 +897,22 @@ const CompanyProfile = () => {
                 fontWeight: 800,
                 marginBottom: "1.5rem",
                 color: "#191919",
-                fontFamily: "var(--font-serif)"
+                fontFamily: "var(--font-serif)",
               }}
             >
               Legit Works & Portfolio
             </h3>
             <Grid cols={2} gap="1.5rem" style={{ marginBottom: "3rem" }}>
               {profile.portfolio?.map((work, i) => (
-                <Card key={i} style={{ padding: "0", overflow: "hidden", border: "1px solid #e3e0d8", borderRadius: "24px" }}>
+                <Card
+                  key={i}
+                  style={{
+                    padding: "0",
+                    overflow: "hidden",
+                    border: "1px solid #e3e0d8",
+                    borderRadius: "24px",
+                  }}
+                >
                   <div
                     style={{
                       height: "160px",
@@ -778,7 +921,7 @@ const CompanyProfile = () => {
                       alignItems: "center",
                       justifyContent: "center",
                       color: "#ddd",
-                      borderBottom: "1px solid #e3e0d8"
+                      borderBottom: "1px solid #e3e0d8",
                     }}
                   >
                     {work.image ? (
@@ -791,7 +934,10 @@ const CompanyProfile = () => {
                         }}
                       />
                     ) : (
-                      <Briefcase size={48} style={{ color: "#86868b", opacity: 0.3 }} />
+                      <Briefcase
+                        size={48}
+                        style={{ color: "#86868b", opacity: 0.3 }}
+                      />
                     )}
                   </div>
                   <div style={{ padding: "1.5rem" }}>
@@ -801,7 +947,7 @@ const CompanyProfile = () => {
                         fontWeight: 800,
                         marginBottom: "0.5rem",
                         color: "#191919",
-                        fontFamily: "var(--font-sans)"
+                        fontFamily: "var(--font-sans)",
                       }}
                     >
                       {work.title}
@@ -812,7 +958,7 @@ const CompanyProfile = () => {
                         color: "#6e6e73",
                         marginBottom: "1rem",
                         lineHeight: "1.5",
-                        fontFamily: "var(--font-serif)"
+                        fontFamily: "var(--font-serif)",
                       }}
                     >
                       {work.description}
@@ -822,7 +968,11 @@ const CompanyProfile = () => {
                         variant="outline"
                         size="sm"
                         onClick={() => window.open(work.link, "_blank")}
-                        style={{ borderColor: "#e3e0d8", color: "#6e6e73", background: "transparent" }}
+                        style={{
+                          borderColor: "#e3e0d8",
+                          color: "#6e6e73",
+                          background: "transparent",
+                        }}
                       >
                         View Project{" "}
                         <ExternalLink size={14} style={{ marginLeft: 8 }} />
@@ -844,14 +994,17 @@ const CompanyProfile = () => {
                 fontWeight: 800,
                 marginBottom: "1.5rem",
                 color: "#191919",
-                fontFamily: "var(--font-serif)"
+                fontFamily: "var(--font-serif)",
               }}
             >
               Collaborator Feedbacks
             </h3>
             {reviews.map((review) => (
               <ReviewCard key={review._id}>
-                <Flex justify="space-between" style={{ marginBottom: "1.5rem" }}>
+                <Flex
+                  justify="space-between"
+                  style={{ marginBottom: "1.5rem" }}
+                >
                   <Flex gap="1rem" align="center">
                     <div
                       style={{
@@ -864,16 +1017,28 @@ const CompanyProfile = () => {
                         alignItems: "center",
                         justifyContent: "center",
                         fontWeight: 800,
-                        fontSize: "0.95rem"
+                        fontSize: "0.95rem",
                       }}
                     >
                       {review.author?.name?.charAt(0) || "?"}
                     </div>
                     <div>
-                      <h4 style={{ fontSize: "1rem", fontWeight: 800, color: "#191919" }}>
+                      <h4
+                        style={{
+                          fontSize: "1rem",
+                          fontWeight: 800,
+                          color: "#191919",
+                        }}
+                      >
                         {review.author?.name}
                       </h4>
-                      <p style={{ fontSize: "0.8rem", color: "#86868b", fontFamily: "var(--font-mono)" }}>
+                      <p
+                        style={{
+                          fontSize: "0.8rem",
+                          color: "#86868b",
+                          fontFamily: "var(--font-mono)",
+                        }}
+                      >
                         {new Date(review.createdAt).toLocaleDateString("en-IN")}
                       </p>
                     </div>
@@ -885,7 +1050,7 @@ const CompanyProfile = () => {
                     color: "#6e6e73",
                     lineHeight: "1.6",
                     marginBottom: "1.5rem",
-                    fontFamily: "var(--font-serif)"
+                    fontFamily: "var(--font-serif)",
                   }}
                 >
                   {review.comment}
@@ -898,7 +1063,7 @@ const CompanyProfile = () => {
                       borderRadius: "12px",
                       borderLeft: "3px solid #10b981",
                       border: "1px solid rgba(16, 185, 129, 0.08)",
-                      borderLeftWidth: "3px"
+                      borderLeftWidth: "3px",
                     }}
                   >
                     <Flex
@@ -909,12 +1074,18 @@ const CompanyProfile = () => {
                         fontWeight: 800,
                         fontSize: "0.72rem",
                         textTransform: "uppercase",
-                        letterSpacing: "0.5px"
+                        letterSpacing: "0.5px",
                       }}
                     >
                       <ThumbsUp size={14} /> APPRECIATION
                     </Flex>
-                    <p style={{ fontSize: "0.9rem", color: "#10b981", fontWeight: 500 }}>
+                    <p
+                      style={{
+                        fontSize: "0.9rem",
+                        color: "#10b981",
+                        fontWeight: 500,
+                      }}
+                    >
                       {review.appreciation || "N/A"}
                     </p>
                   </div>
@@ -925,7 +1096,7 @@ const CompanyProfile = () => {
                       borderRadius: "12px",
                       borderLeft: "3px solid #ef4444",
                       border: "1px solid rgba(239, 68, 68, 0.08)",
-                      borderLeftWidth: "3px"
+                      borderLeftWidth: "3px",
                     }}
                   >
                     <Flex
@@ -936,12 +1107,18 @@ const CompanyProfile = () => {
                         fontWeight: 800,
                         fontSize: "0.72rem",
                         textTransform: "uppercase",
-                        letterSpacing: "0.5px"
+                        letterSpacing: "0.5px",
                       }}
                     >
                       <Heart size={14} /> FEEDBACK
                     </Flex>
-                    <p style={{ fontSize: "0.9rem", color: "#ef4444", fontWeight: 500 }}>
+                    <p
+                      style={{
+                        fontSize: "0.9rem",
+                        color: "#ef4444",
+                        fontWeight: 500,
+                      }}
+                    >
                       {review.feedback || "N/A"}
                     </p>
                   </div>
@@ -950,7 +1127,12 @@ const CompanyProfile = () => {
             ))}
             {reviews.length === 0 && (
               <p
-                style={{ textAlign: "center", padding: "3rem", color: "#86868b", fontWeight: 500 }}
+                style={{
+                  textAlign: "center",
+                  padding: "3rem",
+                  color: "#86868b",
+                  fontWeight: 500,
+                }}
               >
                 No reviews yet. Be the first to leave one!
               </p>
@@ -958,13 +1140,20 @@ const CompanyProfile = () => {
           </div>
 
           <div>
-            <Card style={{ padding: "1.5rem", marginBottom: "2rem", border: "1px solid #e3e0d8", borderRadius: "24px" }}>
+            <Card
+              style={{
+                padding: "1.5rem",
+                marginBottom: "2rem",
+                border: "1px solid #e3e0d8",
+                borderRadius: "24px",
+              }}
+            >
               <h3
                 style={{
                   fontSize: "1.1rem",
                   fontWeight: 800,
                   marginBottom: "1.5rem",
-                  color: "#191919"
+                  color: "#191919",
                 }}
               >
                 Review Summary
@@ -981,7 +1170,13 @@ const CompanyProfile = () => {
                     gap="1rem"
                     style={{ marginBottom: "0.5rem" }}
                   >
-                    <span style={{ fontSize: "0.85rem", width: "40px", fontWeight: 600 }}>
+                    <span
+                      style={{
+                        fontSize: "0.85rem",
+                        width: "40px",
+                        fontWeight: 600,
+                      }}
+                    >
                       {star} star
                     </span>
                     <div
@@ -990,7 +1185,7 @@ const CompanyProfile = () => {
                         height: "6px",
                         background: "rgba(0,0,0,0.05)",
                         borderRadius: "99px",
-                        overflow: "hidden"
+                        overflow: "hidden",
                       }}
                     >
                       <div
@@ -1011,7 +1206,7 @@ const CompanyProfile = () => {
                     fontSize: "0.9rem",
                     color: "#6e6e73",
                     marginBottom: "1.5rem",
-                    fontFamily: "var(--font-serif)"
+                    fontFamily: "var(--font-serif)",
                   }}
                 >
                   Our operations are governed by verified crowdfunding
@@ -1019,7 +1214,12 @@ const CompanyProfile = () => {
                 </p>
                 <Button
                   variant="outline"
-                  style={{ width: "100%", borderColor: "#e3e0d8", color: "#6e6e73", background: "transparent" }}
+                  style={{
+                    width: "100%",
+                    borderColor: "#e3e0d8",
+                    color: "#6e6e73",
+                    background: "transparent",
+                  }}
                   onClick={() => navigate("/terms")}
                 >
                   View Policies
@@ -1027,13 +1227,19 @@ const CompanyProfile = () => {
               </div>
             </Card>
 
-            <Card style={{ padding: "1.5rem", border: "1px solid #e3e0d8", borderRadius: "24px" }}>
+            <Card
+              style={{
+                padding: "1.5rem",
+                border: "1px solid #e3e0d8",
+                borderRadius: "24px",
+              }}
+            >
               <h3
                 style={{
                   fontSize: "1.1rem",
                   fontWeight: 800,
                   marginBottom: "1.5rem",
-                  color: "#191919"
+                  color: "#191919",
                 }}
               >
                 Professional Journey
@@ -1070,12 +1276,18 @@ const CompanyProfile = () => {
                           fontSize: "0.9rem",
                           fontWeight: 800,
                           marginBottom: "0.25rem",
-                          color: "#191919"
+                          color: "#191919",
                         }}
                       >
                         {log.milestone}
                       </h5>
-                      <p style={{ fontSize: "0.75rem", color: "#86868b", fontFamily: "var(--font-mono)" }}>
+                      <p
+                        style={{
+                          fontSize: "0.75rem",
+                          color: "#86868b",
+                          fontFamily: "var(--font-mono)",
+                        }}
+                      >
                         {new Date(log.date).toLocaleDateString("en-IN")}
                       </p>
                     </div>

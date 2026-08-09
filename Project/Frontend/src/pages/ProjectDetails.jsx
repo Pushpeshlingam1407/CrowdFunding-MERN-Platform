@@ -40,7 +40,7 @@ const HeroCard = styled(Card)`
   border-radius: 24px;
   border: 1px solid #e3e0d8;
   background: #ffffff;
-  box-shadow: 0px 10px 30px rgba(0,0,0,0.015);
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.015);
 `;
 
 const ImageContainer = styled.div`
@@ -118,7 +118,7 @@ const SidebarCard = styled(Card)`
   border-radius: 24px;
   border: 1px solid #e3e0d8;
   background: #ffffff;
-  box-shadow: 0px 10px 30px rgba(0,0,0,0.015);
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.015);
 `;
 
 const ProgressTrack = styled.div`
@@ -446,7 +446,9 @@ const ProjectDetails = () => {
       return;
     }
     if (project.status !== "approved" && project.status !== "active") {
-      toast.error("This campaign is not active yet and cannot receive investments.");
+      toast.error(
+        "This campaign is not active yet and cannot receive investments.",
+      );
       return;
     }
     setInvestmentModalOpen(true);
@@ -510,11 +512,47 @@ const ProjectDetails = () => {
     return (
       <ProjectWrapper>
         <Container>
-          <div style={{ padding: "8rem 0", display: "flex", justifyContent: "center" }}>
-            <div style={{ width: "100%", maxWidth: "800px", display: "flex", flexDirection: "column", gap: "2rem" }}>
-              <div style={{ width: "100%", height: "400px", background: "#fbf9f6", borderRadius: "24px", border: "1px solid #e3e0d8" }} />
-              <div style={{ width: "30%", height: "24px", background: "#f0f0f0", borderRadius: "8px" }} />
-              <div style={{ width: "80%", height: "48px", background: "#f0f0f0", borderRadius: "8px" }} />
+          <div
+            style={{
+              padding: "8rem 0",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              style={{
+                width: "100%",
+                maxWidth: "800px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "2rem",
+              }}
+            >
+              <div
+                style={{
+                  width: "100%",
+                  height: "400px",
+                  background: "#fbf9f6",
+                  borderRadius: "24px",
+                  border: "1px solid #e3e0d8",
+                }}
+              />
+              <div
+                style={{
+                  width: "30%",
+                  height: "24px",
+                  background: "#f0f0f0",
+                  borderRadius: "8px",
+                }}
+              />
+              <div
+                style={{
+                  width: "80%",
+                  height: "48px",
+                  background: "#f0f0f0",
+                  borderRadius: "8px",
+                }}
+              />
             </div>
           </div>
         </Container>
@@ -522,7 +560,15 @@ const ProjectDetails = () => {
     );
   if (!project)
     return (
-      <div style={{ padding: "8rem", textAlign: "center", color: "#191919", fontFamily: "var(--font-serif)", fontSize: "1.25rem" }}>
+      <div
+        style={{
+          padding: "8rem",
+          textAlign: "center",
+          color: "#191919",
+          fontFamily: "var(--font-serif)",
+          fontSize: "1.25rem",
+        }}
+      >
         Project Not Found
       </div>
     );
@@ -531,7 +577,10 @@ const ProjectDetails = () => {
     100,
     (project.currentAmount / project.targetAmount) * 100,
   );
-  const isCreator = user?.id === project.creator?._id || user?._id === project.creator?._id || user?.email === project.creator?.email;
+  const isCreator =
+    user?.id === project.creator?._id ||
+    user?._id === project.creator?._id ||
+    user?.email === project.creator?.email;
   const completedInvestments = investments.filter(
     (i) => i.status === "completed",
   );
@@ -553,7 +602,7 @@ const ProjectDetails = () => {
             fontSize: "0.85rem",
             borderColor: "#e3e0d8",
             color: "#6e6e73",
-            background: "transparent"
+            background: "transparent",
           }}
         >
           <ArrowLeft size={16} style={{ marginRight: 8 }} /> Back to Marketplace
@@ -609,7 +658,14 @@ const ProjectDetails = () => {
                     >
                       Equity Offered
                     </span>
-                    <span style={{ fontSize: "1.25rem", fontWeight: 800, fontFamily: "var(--font-mono)", color: "#191919" }}>
+                    <span
+                      style={{
+                        fontSize: "1.25rem",
+                        fontWeight: 800,
+                        fontFamily: "var(--font-mono)",
+                        color: "#191919",
+                      }}
+                    >
                       {project.equity}%
                     </span>
                   </Flex>
@@ -626,7 +682,14 @@ const ProjectDetails = () => {
                     >
                       Target Goal
                     </span>
-                    <span style={{ fontSize: "1.25rem", fontWeight: 800, fontFamily: "var(--font-mono)", color: "#191919" }}>
+                    <span
+                      style={{
+                        fontSize: "1.25rem",
+                        fontWeight: 800,
+                        fontFamily: "var(--font-mono)",
+                        color: "#191919",
+                      }}
+                    >
                       ₹{project.targetAmount.toLocaleString("en-IN")}
                     </span>
                   </Flex>
@@ -643,7 +706,14 @@ const ProjectDetails = () => {
                     >
                       Min Investment
                     </span>
-                    <span style={{ fontSize: "1.25rem", fontWeight: 800, fontFamily: "var(--font-mono)", color: "#191919" }}>
+                    <span
+                      style={{
+                        fontSize: "1.25rem",
+                        fontWeight: 800,
+                        fontFamily: "var(--font-mono)",
+                        color: "#191919",
+                      }}
+                    >
                       ₹10,000
                     </span>
                   </Flex>
@@ -678,12 +748,23 @@ const ProjectDetails = () => {
                       onClick={() =>
                         navigate(`/company/${project.creator?._id}`)
                       }
-                      style={{ borderColor: "#e3e0d8", color: "#6e6e73", background: "transparent" }}
+                      style={{
+                        borderColor: "#e3e0d8",
+                        color: "#6e6e73",
+                        background: "transparent",
+                      }}
                     >
                       Visit Profile
                     </Button>
                     {!isCreator && (
-                      <Button size="sm" style={{ background: "#191919", color: "#ffffff", border: "none" }}>
+                      <Button
+                        size="sm"
+                        style={{
+                          background: "#191919",
+                          color: "#ffffff",
+                          border: "none",
+                        }}
+                      >
                         <MessageSquare size={16} style={{ marginRight: 8 }} />{" "}
                         Connect
                       </Button>
@@ -757,7 +838,15 @@ const ProjectDetails = () => {
                   }}
                 >
                   {completedInvestments.map((inv) => (
-                    <Card key={inv._id} style={{ padding: "1.25rem", border: "1px solid #e3e0d8", borderRadius: "16px", boxShadow: "0 4px 12px rgba(0,0,0,0.01)" }}>
+                    <Card
+                      key={inv._id}
+                      style={{
+                        padding: "1.25rem",
+                        border: "1px solid #e3e0d8",
+                        borderRadius: "16px",
+                        boxShadow: "0 4px 12px rgba(0,0,0,0.01)",
+                      }}
+                    >
                       <Flex justify="space-between" align="center">
                         <Flex gap="1rem" align="center">
                           <div
@@ -783,7 +872,7 @@ const ProjectDetails = () => {
                                 margin: 0,
                                 fontSize: "0.95rem",
                                 fontWeight: 700,
-                                color: "#191919"
+                                color: "#191919",
                               }}
                             >
                               {inv.investor?.name || "Anonymous Investor"}
@@ -793,7 +882,7 @@ const ProjectDetails = () => {
                                 margin: 0,
                                 fontSize: "0.8rem",
                                 color: "#86868b",
-                                fontFamily: "var(--font-mono)"
+                                fontFamily: "var(--font-mono)",
                               }}
                             >
                               {new Date(
@@ -811,7 +900,7 @@ const ProjectDetails = () => {
                             fontWeight: 800,
                             fontSize: "1.1rem",
                             color: "#10b981",
-                            fontFamily: "var(--font-mono)"
+                            fontFamily: "var(--font-mono)",
                           }}
                         >
                           ₹{inv.amount.toLocaleString("en-IN")}
@@ -827,13 +916,21 @@ const ProjectDetails = () => {
             <Flex gap="1rem" style={{ marginTop: "1.5rem" }}>
               <Button
                 variant="outline"
-                style={{ borderColor: "#e3e0d8", color: "#6e6e73", background: "transparent" }}
+                style={{
+                  borderColor: "#e3e0d8",
+                  color: "#6e6e73",
+                  background: "transparent",
+                }}
               >
                 <Share2 size={18} style={{ marginRight: 8 }} /> Share
               </Button>
               <Button
                 variant="outline"
-                style={{ color: "#ef4444", borderColor: "rgba(239,68,68,0.2)", background: "transparent" }}
+                style={{
+                  color: "#ef4444",
+                  borderColor: "rgba(239,68,68,0.2)",
+                  background: "transparent",
+                }}
                 onClick={() => {
                   if (!isAuthenticated) {
                     toast.error("Please login to report");
@@ -857,7 +954,7 @@ const ProjectDetails = () => {
                   marginBottom: "0.5rem",
                   color: "#191919",
                   fontFamily: "var(--font-sans)",
-                  letterSpacing: "-0.02em"
+                  letterSpacing: "-0.02em",
                 }}
               >
                 Funding Status
@@ -867,17 +964,31 @@ const ProjectDetails = () => {
                   color: "#6e6e73",
                   fontSize: "0.9rem",
                   marginBottom: "2rem",
-                  fontFamily: "var(--font-serif)"
+                  fontFamily: "var(--font-serif)",
                 }}
               >
                 Join the pool of professional investors.
               </p>
 
               <Flex justify="space-between" align="center">
-                <span style={{ fontSize: "2rem", fontWeight: 800, color: "#191919", fontFamily: "var(--font-mono)", letterSpacing: "-0.02em" }}>
+                <span
+                  style={{
+                    fontSize: "2rem",
+                    fontWeight: 800,
+                    color: "#191919",
+                    fontFamily: "var(--font-mono)",
+                    letterSpacing: "-0.02em",
+                  }}
+                >
                   ₹{project.currentAmount.toLocaleString("en-IN")}
                 </span>
-                <span style={{ color: "#10b981", fontWeight: 800, fontFamily: "var(--font-mono)" }}>
+                <span
+                  style={{
+                    color: "#10b981",
+                    fontWeight: 800,
+                    fontFamily: "var(--font-mono)",
+                  }}
+                >
                   {progress.toFixed(1)}%
                 </span>
               </Flex>
@@ -887,18 +998,40 @@ const ProjectDetails = () => {
 
               <Grid cols={2} gap="1rem" style={{ marginBottom: "2.5rem" }}>
                 <Flex direction="column" align="flex-start">
-                  <span style={{ fontSize: "1rem", fontWeight: 800, fontFamily: "var(--font-mono)", color: "#191919" }}>
+                  <span
+                    style={{
+                      fontSize: "1rem",
+                      fontWeight: 800,
+                      fontFamily: "var(--font-mono)",
+                      color: "#191919",
+                    }}
+                  >
                     ₹
                     {(
                       project.targetAmount - project.currentAmount
                     ).toLocaleString("en-IN")}
                   </span>
-                  <span style={{ color: "#86868b", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                  <span
+                    style={{
+                      color: "#86868b",
+                      fontSize: "0.75rem",
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.5px",
+                    }}
+                  >
                     Still Needed
                   </span>
                 </Flex>
                 <Flex direction="column" align="flex-start">
-                  <span style={{ fontSize: "1rem", fontWeight: 800, fontFamily: "var(--font-mono)", color: "#191919" }}>
+                  <span
+                    style={{
+                      fontSize: "1rem",
+                      fontWeight: 800,
+                      fontFamily: "var(--font-mono)",
+                      color: "#191919",
+                    }}
+                  >
                     {new Date(project.endDate) > new Date()
                       ? Math.ceil(
                           (new Date(project.endDate) - new Date()) /
@@ -906,7 +1039,15 @@ const ProjectDetails = () => {
                         )
                       : 0}
                   </span>
-                  <span style={{ color: "#86868b", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                  <span
+                    style={{
+                      color: "#86868b",
+                      fontSize: "0.75rem",
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.5px",
+                    }}
+                  >
                     Days Left
                   </span>
                 </Flex>
@@ -937,7 +1078,8 @@ const ProjectDetails = () => {
                       ? "Awaiting Admin Approval"
                       : project.status === "rejected"
                         ? "Campaign Rejected"
-                        : (project.status !== "approved" && project.status !== "active")
+                        : project.status !== "approved" &&
+                            project.status !== "active"
                           ? "Campaign Inactive"
                           : "Invest in Startup"}
               </Button>
@@ -1071,7 +1213,7 @@ const ProjectDetails = () => {
                       fontSize: "1.25rem",
                       fontWeight: 800,
                       marginBottom: "0.25rem",
-                      color: "#191919"
+                      color: "#191919",
                     }}
                   >
                     Report Campaign
@@ -1123,7 +1265,12 @@ const ProjectDetails = () => {
                   <Button
                     type="button"
                     variant="outline"
-                    style={{ flex: 1, borderColor: "#e3e0d8", color: "#6e6e73", background: "transparent" }}
+                    style={{
+                      flex: 1,
+                      borderColor: "#e3e0d8",
+                      color: "#6e6e73",
+                      background: "transparent",
+                    }}
                     onClick={() => setReportOpen(false)}
                   >
                     Cancel

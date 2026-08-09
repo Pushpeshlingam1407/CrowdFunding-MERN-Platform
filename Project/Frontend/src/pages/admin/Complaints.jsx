@@ -256,21 +256,53 @@ const AdminComplaints = () => {
             style={{ flexWrap: "wrap" }}
           >
             <Flex gap="2rem" style={{ flexWrap: "wrap" }}>
-              <Flex gap="0.75rem" style={{ color: "#ef4444", fontWeight: 800, fontFamily: "var(--font-sans)", fontSize: "0.9rem" }}>
+              <Flex
+                gap="0.75rem"
+                style={{
+                  color: "#ef4444",
+                  fontWeight: 800,
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "0.9rem",
+                }}
+              >
                 <ShieldAlert size={20} />
                 {pending} PENDING
               </Flex>
               <div
-                style={{ height: "24px", width: "1px", background: "rgba(0,0,0,0.08)" }}
+                style={{
+                  height: "24px",
+                  width: "1px",
+                  background: "rgba(0,0,0,0.08)",
+                }}
               />
-              <Flex gap="0.75rem" style={{ color: "#10b981", fontWeight: 800, fontFamily: "var(--font-sans)", fontSize: "0.9rem" }}>
+              <Flex
+                gap="0.75rem"
+                style={{
+                  color: "#10b981",
+                  fontWeight: 800,
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "0.9rem",
+                }}
+              >
                 <CheckCircle2 size={20} />
                 {resolved} RESOLVED
               </Flex>
               <div
-                style={{ height: "24px", width: "1px", background: "rgba(0,0,0,0.08)" }}
+                style={{
+                  height: "24px",
+                  width: "1px",
+                  background: "rgba(0,0,0,0.08)",
+                }}
               />
-              <Flex gap="0.75rem" style={{ color: "#191919", fontWeight: 800, fontFamily: "var(--font-sans)", fontSize: "0.9rem" }}>
+              <Flex
+                gap="0.75rem"
+                style={{
+                  color: "#191919",
+                  fontWeight: 800,
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "0.9rem",
+                }}
+              >
                 <Flag size={20} />
                 {complaints.length} TOTAL
               </Flex>
@@ -302,10 +334,18 @@ const AdminComplaints = () => {
                 boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.01)",
                 transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
               }}
-              onMouseDown={(e) => { e.currentTarget.style.transform = "scale(0.95)"; }}
-              onMouseUp={(e) => { e.currentTarget.style.transform = "scale(1.05)"; }}
-              onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.05)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
+              onMouseDown={(e) => {
+                e.currentTarget.style.transform = "scale(0.95)";
+              }}
+              onMouseUp={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+              }}
             >
               <RefreshCw size={14} className={loading ? "spin" : ""} /> Refresh
             </button>
@@ -449,7 +489,7 @@ const AdminComplaints = () => {
                           color: "#191919",
                           fontSize: "0.85rem",
                           fontWeight: 700,
-                          fontFamily: "var(--font-mono)"
+                          fontFamily: "var(--font-mono)",
                         }}
                       >
                         <Clock size={14} style={{ color: "#86868b" }} />

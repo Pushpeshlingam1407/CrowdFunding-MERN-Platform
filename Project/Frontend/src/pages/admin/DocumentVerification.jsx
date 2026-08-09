@@ -253,7 +253,11 @@ const AdminDocumentVerification = () => {
                 </p>
               </div>
               <div
-                style={{ height: "40px", width: "1px", background: "rgba(0,0,0,0.08)" }}
+                style={{
+                  height: "40px",
+                  width: "1px",
+                  background: "rgba(0,0,0,0.08)",
+                }}
               />
               <div style={{ textAlign: "center" }}>
                 <h3
@@ -304,10 +308,18 @@ const AdminDocumentVerification = () => {
                 boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.01)",
                 transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
               }}
-              onMouseDown={(e) => { e.currentTarget.style.transform = "scale(0.95)"; }}
-              onMouseUp={(e) => { e.currentTarget.style.transform = "scale(1.05)"; }}
-              onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.05)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
+              onMouseDown={(e) => {
+                e.currentTarget.style.transform = "scale(0.95)";
+              }}
+              onMouseUp={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+              }}
             >
               <RefreshCw size={14} className={loading ? "spin" : ""} /> Refresh
             </button>
@@ -396,7 +408,7 @@ const AdminDocumentVerification = () => {
                           fontSize: "0.85rem",
                           color: "#191919",
                           fontWeight: 700,
-                          fontFamily: "var(--font-mono)"
+                          fontFamily: "var(--font-mono)",
                         }}
                       >
                         <Calendar size={14} style={{ color: "#86868b" }} /> Aug
@@ -416,7 +428,7 @@ const AdminDocumentVerification = () => {
                           borderRadius: 99,
                           display: "inline-flex",
                           textTransform: "uppercase",
-                          letterSpacing: "0.5px"
+                          letterSpacing: "0.5px",
                         }}
                       >
                         <ShieldCheck size={16} /> SAFE

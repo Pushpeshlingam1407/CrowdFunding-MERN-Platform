@@ -19,7 +19,11 @@ import { Flex } from "./ui";
 const LayoutWrapper = styled.div`
   display: flex;
   min-height: 100vh;
-  background: radial-gradient(circle at 10% 20%, rgba(0, 119, 182, 0.04) 0%, rgba(244, 247, 254, 0.4) 90%);
+  background: radial-gradient(
+    circle at 10% 20%,
+    rgba(0, 119, 182, 0.04) 0%,
+    rgba(244, 247, 254, 0.4) 90%
+  );
   font-family: inherit;
 `;
 

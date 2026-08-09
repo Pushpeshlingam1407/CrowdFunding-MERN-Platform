@@ -27,7 +27,7 @@ const Badge = styled.div`
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 2rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 `;
 
 const Title = styled(motion.h1)`
@@ -75,14 +75,14 @@ const StyledCard = styled(Card)`
   border: 1px solid #e3e0d8;
   border-radius: 24px;
   padding: 2.5rem;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.015);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.015);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   text-align: left;
 
   &:hover {
     transform: translateY(-4px) scale(1.015);
     border-color: #191919;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
 
     ${FeatureIcon} {
       background: #191919;
@@ -133,7 +133,7 @@ const CTAPanel = styled(motion.div)`
   padding: 5rem 4rem;
   border-radius: 32px;
   border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
 
   h2 {
     font-size: 2.75rem;
@@ -180,7 +180,8 @@ const Home = () => {
               Empowering Startups to <br /> <span>Raise Capital</span> & Scale
             </Title>
             <Subtitle>
-              Launch campaigns, discover high-potential startups, and manage your investment portfolio all in one platform.
+              Launch campaigns, discover high-potential startups, and manage
+              your investment portfolio all in one platform.
             </Subtitle>
             <Flex justify="center" gap="1rem">
               <Button
@@ -225,7 +226,8 @@ const Home = () => {
               </FeatureIcon>
               <FeatureTitle>Launch Campaigns</FeatureTitle>
               <FeatureText>
-                Raise capital quickly with transparent equity offerings and attract the right investors for your vision.
+                Raise capital quickly with transparent equity offerings and
+                attract the right investors for your vision.
               </FeatureText>
             </StyledCard>
             <StyledCard>
@@ -234,7 +236,8 @@ const Home = () => {
               </FeatureIcon>
               <FeatureTitle>Discover Opportunities</FeatureTitle>
               <FeatureText>
-                Browse verified startups, review comprehensive metrics, and invest in high-potential ventures.
+                Browse verified startups, review comprehensive metrics, and
+                invest in high-potential ventures.
               </FeatureText>
             </StyledCard>
             <StyledCard>
@@ -243,14 +246,21 @@ const Home = () => {
               </FeatureIcon>
               <FeatureTitle>Manage Portfolio</FeatureTitle>
               <FeatureText>
-                Track your investments, view campaign progress, and securely monitor your equity in real-time.
+                Track your investments, view campaign progress, and securely
+                monitor your equity in real-time.
               </FeatureText>
             </StyledCard>
           </Grid>
         </Container>
       </section>
 
-      <section style={{ padding: "6rem 0", background: "#fbf9f6", borderTop: "1px solid #e3e0d8" }}>
+      <section
+        style={{
+          padding: "6rem 0",
+          background: "#fbf9f6",
+          borderTop: "1px solid #e3e0d8",
+        }}
+      >
         <Container>
           <CTAPanel
             initial={{ opacity: 0, scale: 0.98 }}
@@ -260,7 +270,8 @@ const Home = () => {
           >
             <h2>Start Your Fundraising Journey</h2>
             <p>
-              Create your account today and connect with investors who believe in your vision.
+              Create your account today and connect with investors who believe
+              in your vision.
             </p>
             <Button
               style={{

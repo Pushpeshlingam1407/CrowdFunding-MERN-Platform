@@ -66,7 +66,10 @@ const Navbar = () => {
                 <NavLink to="/dashboard">Dashboard</NavLink>
               )}
               {isAdmin && (
-                <NavLink to="/admin/dashboard" style={{ color: "#f59e0b", fontWeight: 700 }}>
+                <NavLink
+                  to="/admin/dashboard"
+                  style={{ color: "#f59e0b", fontWeight: 700 }}
+                >
                   Admin Portal
                 </NavLink>
               )}
@@ -100,7 +103,9 @@ const Navbar = () => {
                       width: 28,
                       height: 28,
                       borderRadius: "8px",
-                      background: isAdmin ? "rgba(245, 158, 11, 0.08)" : "rgba(0, 113, 227, 0.08)",
+                      background: isAdmin
+                        ? "rgba(245, 158, 11, 0.08)"
+                        : "rgba(0, 113, 227, 0.08)",
                       color: isAdmin ? "#f59e0b" : "#0071e3",
                       display: "flex",
                       alignItems: "center",

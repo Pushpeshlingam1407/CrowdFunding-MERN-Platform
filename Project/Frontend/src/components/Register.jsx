@@ -487,16 +487,30 @@ const Register = () => {
                   <RoleGrid>
                     {[
                       { value: "startup", label: "Startup", icon: Building2 },
-                      { value: "investor", label: "Single Investor", icon: User },
-                      { value: "mnc", label: "MNC / Enterprise", icon: Briefcase },
-                      { value: "employee", label: "Individual Employee", icon: Briefcase },
+                      {
+                        value: "investor",
+                        label: "Single Investor",
+                        icon: User,
+                      },
+                      {
+                        value: "mnc",
+                        label: "MNC / Enterprise",
+                        icon: Briefcase,
+                      },
+                      {
+                        value: "employee",
+                        label: "Individual Employee",
+                        icon: Briefcase,
+                      },
                     ].map((opt) => {
                       const Icon = opt.icon;
                       return (
                         <RoleCard
                           key={opt.value}
                           $active={formData.role === opt.value}
-                          onClick={() => setFormData({ ...formData, role: opt.value })}
+                          onClick={() =>
+                            setFormData({ ...formData, role: opt.value })
+                          }
                         >
                           <Icon size={16} />
                           {opt.label}
@@ -518,14 +532,22 @@ const Register = () => {
                     I agree to the{" "}
                     <Link
                       to="/terms"
-                      style={{ color: "#191919", textDecoration: "none", fontWeight: 600 }}
+                      style={{
+                        color: "#191919",
+                        textDecoration: "none",
+                        fontWeight: 600,
+                      }}
                     >
                       Terms of Service
                     </Link>
                     ,
                     <Link
                       to="/privacy"
-                      style={{ color: "#191919", textDecoration: "none", fontWeight: 600 }}
+                      style={{
+                        color: "#191919",
+                        textDecoration: "none",
+                        fontWeight: 600,
+                      }}
                     >
                       {" "}
                       Privacy Policy
@@ -533,7 +555,11 @@ const Register = () => {
                     , and
                     <Link
                       to="/agreement"
-                      style={{ color: "#191919", textDecoration: "none", fontWeight: 600 }}
+                      style={{
+                        color: "#191919",
+                        textDecoration: "none",
+                        fontWeight: 600,
+                      }}
                     >
                       {" "}
                       User Agreement
@@ -545,7 +571,12 @@ const Register = () => {
                 <Button
                   type="submit"
                   disabled={loading}
-                  style={{ width: "100%", marginBottom: "1.5rem", background: "#191919", color: "#ffffff" }}
+                  style={{
+                    width: "100%",
+                    marginBottom: "1.5rem",
+                    background: "#191919",
+                    color: "#ffffff",
+                  }}
                 >
                   <UserPlus size={18} style={{ marginRight: 8 }} />
                   {loading ? "Creating Account..." : "Join StartupFund"}

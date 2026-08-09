@@ -92,7 +92,8 @@ const PaymentMethodsGrid = styled.div`
 
 const PaymentMethodButton = styled(motion.button)`
   background: ${(props) => (props.selected ? "rgba(0, 113, 227, 0.05)" : "#fff")};
-  border: 2px solid ${(props) => (props.selected ? (props.theme.colors.accent || "#0071e3") : "#e3e0d8")};
+  border: 2px solid
+    ${(props) => (props.selected ? props.theme.colors.accent || "#0071e3" : "#e3e0d8")};
   border-radius: 16px;
   padding: 1.5rem;
   cursor: pointer;
@@ -108,7 +109,7 @@ const PaymentMethodButton = styled(motion.button)`
   }
 
   svg {
-    color: ${(props) => (props.selected ? (props.theme.colors.accent || "#0071e3") : "#6e6e73")};
+    color: ${(props) => (props.selected ? props.theme.colors.accent || "#0071e3" : "#6e6e73")};
     width: 28px;
     height: 28px;
   }

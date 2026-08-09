@@ -299,7 +299,12 @@ const AdminProjects = () => {
               height: "3rem",
             }}
           >
-            <RefreshCw size={16} className={loading ? "spin" : ""} style={{ marginRight: 6 }} /> Refresh
+            <RefreshCw
+              size={16}
+              className={loading ? "spin" : ""}
+              style={{ marginRight: 6 }}
+            />{" "}
+            Refresh
           </ActionBtn>
         </Flex>
 
@@ -423,12 +428,24 @@ const AdminProjects = () => {
                       </p>
                     </td>
                     <td>
-                      <p style={{ fontWeight: 800, color: "#191919", fontFamily: "var(--font-mono)" }}>
+                      <p
+                        style={{
+                          fontWeight: 800,
+                          color: "#191919",
+                          fontFamily: "var(--font-mono)",
+                        }}
+                      >
                         ₹{Number(project.targetAmount).toLocaleString("en-IN")}
                       </p>
                     </td>
                     <td>
-                      <p style={{ color: "#191919", fontWeight: 700, fontFamily: "var(--font-mono)" }}>
+                      <p
+                        style={{
+                          color: "#191919",
+                          fontWeight: 700,
+                          fontFamily: "var(--font-mono)",
+                        }}
+                      >
                         {project.equity}%
                       </p>
                     </td>

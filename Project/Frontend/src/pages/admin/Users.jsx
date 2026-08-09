@@ -359,7 +359,12 @@ const AdminUsers = () => {
               height: "3rem",
             }}
           >
-            <RefreshCw size={16} className={loading ? "spin" : ""} style={{ marginRight: 6 }} /> Refresh
+            <RefreshCw
+              size={16}
+              className={loading ? "spin" : ""}
+              style={{ marginRight: 6 }}
+            />{" "}
+            Refresh
           </ActionBtn>
         </Flex>
 
@@ -425,7 +430,7 @@ const AdminUsers = () => {
                           <RoleSelect
                             value={user.role}
                             onChange={(e) =>
-                                handleRoleChange(user._id, e.target.value)
+                              handleRoleChange(user._id, e.target.value)
                             }
                           >
                             <option value="startup">Startup</option>
@@ -445,7 +450,13 @@ const AdminUsers = () => {
                       </Flex>
                     </td>
                     <td>
-                      <p style={{ fontWeight: 700, color: "#191919", fontFamily: "var(--font-mono)" }}>
+                      <p
+                        style={{
+                          fontWeight: 700,
+                          color: "#191919",
+                          fontFamily: "var(--font-mono)",
+                        }}
+                      >
                         {new Date(user.createdAt).toLocaleDateString("en-IN", {
                           month: "short",
                           day: "numeric",
@@ -455,7 +466,10 @@ const AdminUsers = () => {
                     </td>
                     <td>
                       <Flex gap="0.5rem">
-                        <ActionBtn title="Email User" onClick={() => window.open(`mailto:${user.email}`)}>
+                        <ActionBtn
+                          title="Email User"
+                          onClick={() => window.open(`mailto:${user.email}`)}
+                        >
                           <Mail size={14} />
                         </ActionBtn>
                         {user.role !== "admin" && (
@@ -480,7 +494,9 @@ const AdminUsers = () => {
                         {user.role !== "admin" && (
                           <ActionBtn
                             $variant="delete"
-                            onClick={() => handleDeleteUser(user._id, user.name)}
+                            onClick={() =>
+                              handleDeleteUser(user._id, user.name)
+                            }
                             title="Delete User"
                           >
                             <Trash2 size={14} />

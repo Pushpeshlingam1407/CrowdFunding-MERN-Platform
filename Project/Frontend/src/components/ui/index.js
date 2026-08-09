@@ -117,4 +117,3 @@ export const Grid = styled.div`
 `;
 
 export { default as ImageUpload } from "./ImageUpload";
-

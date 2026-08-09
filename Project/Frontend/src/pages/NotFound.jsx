@@ -60,7 +60,8 @@ const NotFound = () => {
             <Code>404</Code>
             <Title>Identity Lost</Title>
             <Text>
-              The resource you are looking for has either been moved, updated, or does not exist in our system registry.
+              The resource you are looking for has either been moved, updated,
+              or does not exist in our system registry.
             </Text>
             <Button
               onClick={() => navigate("/")}

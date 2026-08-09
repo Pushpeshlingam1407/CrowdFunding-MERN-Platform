@@ -185,13 +185,13 @@ const TableWrapper = styled.div`
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     background: #ffffff;
   }
-  
+
   tbody tr:hover {
     background: #fbf9f6;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.015);
   }
-  
+
   tbody tr:last-child td {
     border-bottom: none;
   }
@@ -232,7 +232,8 @@ const StatusBadge = styled.span`
         return "#6e6e73";
     }
   }};
-  border: 1px solid ${(props) => {
+  border: 1px solid
+    ${(props) => {
     switch (props.status) {
       case "active":
       case "approved":
@@ -349,10 +350,14 @@ const AssetCard = styled.div`
     right: -20%;
     width: 300px;
     height: 300px;
-    background: radial-gradient(circle, rgba(0, 113, 227, 0.15) 0%, transparent 70%);
+    background: radial-gradient(
+      circle,
+      rgba(0, 113, 227, 0.15) 0%,
+      transparent 70%
+    );
     pointer-events: none;
   }
-  
+
   .label {
     font-size: 0.75rem;
     font-weight: 700;
@@ -361,7 +366,7 @@ const AssetCard = styled.div`
     color: #86868b;
     margin-bottom: 0.5rem;
   }
-  
+
   .amount {
     font-size: 3rem;
     font-weight: 800;
@@ -541,7 +546,9 @@ const Dashboard = () => {
           </IconWrapper>
           <DisclaimerTitle>Access Intercepted</DisclaimerTitle>
           <DisclaimerText>
-            Standard member spaces (such as investment dashboards and campaign builders) are reserved for startup and investor roles. You are logged in with admin privileges.
+            Standard member spaces (such as investment dashboards and campaign
+            builders) are reserved for startup and investor roles. You are
+            logged in with admin privileges.
           </DisclaimerText>
           <Flex gap="1rem" style={{ marginTop: "1rem", width: "100%" }}>
             <PremiumBtn
@@ -779,7 +786,14 @@ const Dashboard = () => {
           transition={{ delay: 0.4 }}
         >
           <Flex justify="space-between" style={{ marginBottom: "1.5rem" }}>
-            <h2 style={{ fontSize: "1.25rem", fontWeight: 800, color: "#191919", fontFamily: "var(--font-serif)" }}>
+            <h2
+              style={{
+                fontSize: "1.25rem",
+                fontWeight: 800,
+                color: "#191919",
+                fontFamily: "var(--font-serif)",
+              }}
+            >
               Recent Campaigns
             </h2>
             <PremiumBtn onClick={() => setActiveTab("campaigns")}>
@@ -803,8 +817,16 @@ const Dashboard = () => {
                     <td style={{ fontWeight: 800, color: "#191919" }}>
                       {project.title}
                     </td>
-                    <td style={{ fontWeight: 600, color: "#6e6e73" }}>{project.category}</td>
-                    <td style={{ fontWeight: 800, color: "#191919", fontFamily: "var(--font-mono)" }}>
+                    <td style={{ fontWeight: 600, color: "#6e6e73" }}>
+                      {project.category}
+                    </td>
+                    <td
+                      style={{
+                        fontWeight: 800,
+                        color: "#191919",
+                        fontFamily: "var(--font-mono)",
+                      }}
+                    >
                       ₹{project.targetAmount?.toLocaleString("en-IN")}
                     </td>
                     <td>
@@ -887,7 +909,14 @@ const Dashboard = () => {
           transition={{ delay: 0.2 }}
         >
           <Flex justify="space-between" style={{ marginBottom: "1.5rem" }}>
-            <h2 style={{ fontSize: "1.25rem", fontWeight: 800, color: "#191919", fontFamily: "var(--font-serif)" }}>
+            <h2
+              style={{
+                fontSize: "1.25rem",
+                fontWeight: 800,
+                color: "#191919",
+                fontFamily: "var(--font-serif)",
+              }}
+            >
               {title}
             </h2>
             {user?.role !== "investor" && (
@@ -913,10 +942,22 @@ const Dashboard = () => {
                     <td style={{ fontWeight: 800, color: "#191919" }}>
                       {inv.project?.title || "—"}
                     </td>
-                    <td style={{ color: "#10b981", fontWeight: 800, fontFamily: "var(--font-mono)" }}>
+                    <td
+                      style={{
+                        color: "#10b981",
+                        fontWeight: 800,
+                        fontFamily: "var(--font-mono)",
+                      }}
+                    >
                       ₹{inv.amount?.toLocaleString("en-IN")}
                     </td>
-                    <td style={{ fontWeight: 600, color: "#6e6e73", fontFamily: "var(--font-mono)" }}>
+                    <td
+                      style={{
+                        fontWeight: 600,
+                        color: "#6e6e73",
+                        fontFamily: "var(--font-mono)",
+                      }}
+                    >
                       {new Date(
                         inv.completedAt || inv.createdAt,
                       ).toLocaleDateString("en-IN")}
@@ -978,7 +1019,14 @@ const Dashboard = () => {
             transition={{ delay: 0.1 }}
           >
             <Flex justify="space-between" style={{ marginBottom: "1.5rem" }}>
-              <h2 style={{ fontSize: "1.25rem", fontWeight: 800, color: "#191919", fontFamily: "var(--font-serif)" }}>
+              <h2
+                style={{
+                  fontSize: "1.25rem",
+                  fontWeight: 800,
+                  color: "#191919",
+                  fontFamily: "var(--font-serif)",
+                }}
+              >
                 Donors & Backers
               </h2>
             </Flex>
@@ -999,16 +1047,33 @@ const Dashboard = () => {
                       <td style={{ fontWeight: 800, color: "#191919" }}>
                         {inv.investor?.name || "Anonymous"}
                       </td>
-                      <td style={{ fontWeight: 600, textTransform: "capitalize", color: "#6e6e73" }}>
+                      <td
+                        style={{
+                          fontWeight: 600,
+                          textTransform: "capitalize",
+                          color: "#6e6e73",
+                        }}
+                      >
                         {inv.investor?.role || "—"}
                       </td>
-                      <td style={{ fontWeight: 800, color: "#10b981", fontFamily: "var(--font-mono)" }}>
+                      <td
+                        style={{
+                          fontWeight: 800,
+                          color: "#10b981",
+                          fontFamily: "var(--font-mono)",
+                        }}
+                      >
                         ₹{inv.amount?.toLocaleString("en-IN")}
                       </td>
                       <td style={{ fontWeight: 600, color: "#191919" }}>
                         {inv.project?.title || "—"}
                       </td>
-                      <td style={{ color: "#86868b", fontFamily: "var(--font-mono)" }}>
+                      <td
+                        style={{
+                          color: "#86868b",
+                          fontFamily: "var(--font-mono)",
+                        }}
+                      >
                         {new Date(inv.createdAt).toLocaleDateString("en-IN", {
                           year: "numeric",
                           month: "short",
@@ -1060,7 +1125,8 @@ const Dashboard = () => {
               Account Configuration
             </h3>
             <p style={{ color: "#86868b", fontWeight: 500 }}>
-              Settings and credentials are configured directly in the Profile section.
+              Settings and credentials are configured directly in the Profile
+              section.
             </p>
             <PremiumBtn
               $primary
@@ -1101,26 +1167,52 @@ const Dashboard = () => {
             </AssetDetailItem>
             <AssetDetailItem>
               <h4>Average Ticket</h4>
-              <p>₹{stats.total > 0 ? Math.round(stats.active / stats.total).toLocaleString("en-IN") : "0"}</p>
+              <p>
+                ₹
+                {stats.total > 0
+                  ? Math.round(stats.active / stats.total).toLocaleString(
+                      "en-IN",
+                    )
+                  : "0"}
+              </p>
             </AssetDetailItem>
             <AssetDetailItem>
               <h4>Verification Status</h4>
-              <p style={{ fontSize: "1rem", color: "#10b981", fontWeight: 800 }}>VERIFIED</p>
+              <p
+                style={{ fontSize: "1rem", color: "#10b981", fontWeight: 800 }}
+              >
+                VERIFIED
+              </p>
             </AssetDetailItem>
           </AssetDetailGrid>
         </AssetCard>
 
         {/* Live Marketplace Feed */}
         <div>
-          <Flex justify="space-between" align="center" style={{ marginBottom: "1.25rem" }}>
-            <h3 style={{ fontSize: "1.35rem", fontWeight: 800, fontFamily: "var(--font-serif)", color: "#191919" }}>
+          <Flex
+            justify="space-between"
+            align="center"
+            style={{ marginBottom: "1.25rem" }}
+          >
+            <h3
+              style={{
+                fontSize: "1.35rem",
+                fontWeight: 800,
+                fontFamily: "var(--font-serif)",
+                color: "#191919",
+              }}
+            >
               Venture Discovery Feed
             </h3>
             <Button
               variant="outline"
               size="sm"
               onClick={() => navigate("/campaigns")}
-              style={{ borderColor: "#e3e0d8", color: "#6e6e73", background: "transparent" }}
+              style={{
+                borderColor: "#e3e0d8",
+                color: "#6e6e73",
+                background: "transparent",
+              }}
             >
               Browse All <ArrowRight size={14} style={{ marginLeft: 6 }} />
             </Button>
@@ -1128,7 +1220,10 @@ const Dashboard = () => {
 
           <ProjectCardGrid>
             {marketplaceProjects.map((p) => {
-              const pProgress = Math.min(100, (p.currentAmount / p.targetAmount) * 100);
+              const pProgress = Math.min(
+                100,
+                (p.currentAmount / p.targetAmount) * 100,
+              );
               return (
                 <MiniProjectCard
                   key={p._id}
@@ -1141,8 +1236,18 @@ const Dashboard = () => {
                   </div>
                   <p className="desc">{p.description}</p>
                   <div>
-                    <Flex justify="space-between" style={{ fontSize: "0.75rem", fontWeight: 700, color: "#86868b", fontFamily: "var(--font-mono)" }}>
-                      <span>₹{p.currentAmount?.toLocaleString("en-IN")} raised</span>
+                    <Flex
+                      justify="space-between"
+                      style={{
+                        fontSize: "0.75rem",
+                        fontWeight: 700,
+                        color: "#86868b",
+                        fontFamily: "var(--font-mono)",
+                      }}
+                    >
+                      <span>
+                        ₹{p.currentAmount?.toLocaleString("en-IN")} raised
+                      </span>
                       <span>{pProgress.toFixed(0)}%</span>
                     </Flex>
                     <ProgressBar>
@@ -1153,7 +1258,9 @@ const Dashboard = () => {
               );
             })}
             {marketplaceProjects.length === 0 && (
-              <p style={{ color: "#86868b", fontStyle: "italic" }}>No active marketplace campaigns found.</p>
+              <p style={{ color: "#86868b", fontStyle: "italic" }}>
+                No active marketplace campaigns found.
+              </p>
             )}
           </ProjectCardGrid>
         </div>
@@ -1182,9 +1289,25 @@ const Dashboard = () => {
       <DashboardWrapper>
         <InvestorLayout>
           {/* Custom Single-Column Header */}
-          <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #e3e0d8", paddingBottom: "1.5rem" }}>
+          <header
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              borderBottom: "1px solid #e3e0d8",
+              paddingBottom: "1.5rem",
+            }}
+          >
             <div>
-              <h1 style={{ fontSize: "2.5rem", fontWeight: 800, fontFamily: "var(--font-serif)", color: "#191919", letterSpacing: "-1.5px" }}>
+              <h1
+                style={{
+                  fontSize: "2.5rem",
+                  fontWeight: 800,
+                  fontFamily: "var(--font-serif)",
+                  color: "#191919",
+                  letterSpacing: "-1.5px",
+                }}
+              >
                 Welcome back, {user?.name?.split(" ")[0]}!
               </h1>
               <p style={{ color: "#6e6e73", fontSize: "0.95rem" }}>
@@ -1198,13 +1321,22 @@ const Dashboard = () => {
 
           {/* Segmented top tab nav bar */}
           <SegmentedControl>
-            <TabButton $active={activeTab === "overview"} onClick={() => setActiveTab("overview")}>
+            <TabButton
+              $active={activeTab === "overview"}
+              onClick={() => setActiveTab("overview")}
+            >
               Overview
             </TabButton>
-            <TabButton $active={activeTab === "portfolio"} onClick={() => setActiveTab("portfolio")}>
+            <TabButton
+              $active={activeTab === "portfolio"}
+              onClick={() => setActiveTab("portfolio")}
+            >
               My Portfolio
             </TabButton>
-            <TabButton $active={activeTab === "settings"} onClick={() => setActiveTab("settings")}>
+            <TabButton
+              $active={activeTab === "settings"}
+              onClick={() => setActiveTab("settings")}
+            >
               Settings
             </TabButton>
           </SegmentedControl>
@@ -1219,7 +1351,9 @@ const Dashboard = () => {
 
   // Fallback layout for Startups, MNCs, and Employees (Left Sidebar workspace layout)
   const renderSidebarNav = () => {
-    const common = [{ id: "overview", label: "Overview", icon: LayoutDashboard }];
+    const common = [
+      { id: "overview", label: "Overview", icon: LayoutDashboard },
+    ];
     const ending = [{ id: "settings", label: "Settings", icon: Settings }];
 
     if (user?.role === "startup") {
@@ -1249,8 +1383,22 @@ const Dashboard = () => {
     <DashboardWrapper>
       <DashboardLayout>
         <Sidebar>
-          <div style={{ paddingBottom: "1.5rem", marginBottom: "1.5rem", borderBottom: "1px solid #e3e0d8" }}>
-            <h2 style={{ fontSize: "1.2rem", fontWeight: 800, color: "#191919", fontFamily: "var(--font-serif)", letterSpacing: "-0.5px" }}>
+          <div
+            style={{
+              paddingBottom: "1.5rem",
+              marginBottom: "1.5rem",
+              borderBottom: "1px solid #e3e0d8",
+            }}
+          >
+            <h2
+              style={{
+                fontSize: "1.2rem",
+                fontWeight: 800,
+                color: "#191919",
+                fontFamily: "var(--font-serif)",
+                letterSpacing: "-0.5px",
+              }}
+            >
               Workspaces
             </h2>
           </div>
@@ -1260,19 +1408,43 @@ const Dashboard = () => {
               $active={activeTab === nav.id}
               onClick={() => setActiveTab(nav.id)}
             >
-              <nav.icon size={18} strokeWidth={activeTab === nav.id ? 2.5 : 2} />{" "}
+              <nav.icon
+                size={18}
+                strokeWidth={activeTab === nav.id ? 2.5 : 2}
+              />{" "}
               {nav.label}
             </NavItem>
           ))}
         </Sidebar>
 
         <MainContent>
-          <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <header
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <div>
-              <h1 style={{ fontSize: "2.5rem", fontWeight: 800, fontFamily: "var(--font-serif)", color: "#191919", letterSpacing: "-1.5px", marginBottom: "0.25rem" }}>
+              <h1
+                style={{
+                  fontSize: "2.5rem",
+                  fontWeight: 800,
+                  fontFamily: "var(--font-serif)",
+                  color: "#191919",
+                  letterSpacing: "-1.5px",
+                  marginBottom: "0.25rem",
+                }}
+              >
                 Welcome back, {user?.name?.split(" ")[0]}!
               </h1>
-              <p style={{ color: "#6e6e73", fontWeight: 500, fontSize: "0.95rem" }}>
+              <p
+                style={{
+                  color: "#6e6e73",
+                  fontWeight: 500,
+                  fontSize: "0.95rem",
+                }}
+              >
                 {user?.role === "startup"
                   ? "Manage and track funding statuses of your campaigns."
                   : user?.role === "mnc"
@@ -1287,9 +1459,7 @@ const Dashboard = () => {
             )}
           </header>
 
-          <AnimatePresence mode="wait">
-            {renderContent()}
-          </AnimatePresence>
+          <AnimatePresence mode="wait">{renderContent()}</AnimatePresence>
         </MainContent>
       </DashboardLayout>
     </DashboardWrapper>

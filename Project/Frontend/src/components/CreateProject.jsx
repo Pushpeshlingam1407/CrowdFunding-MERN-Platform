@@ -47,7 +47,8 @@ const StepCircle = styled.div`
   background: ${(props) =>
     props.active ? props.theme.colors.primary : "transparent"};
   color: ${(props) => (props.active ? "#ffffff" : "#86868b")};
-  border: 1px solid ${(props) => (props.active ? props.theme.colors.primary : "#e3e0d8")};
+  border: 1px solid
+    ${(props) => (props.active ? props.theme.colors.primary : "#e3e0d8")};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -206,7 +207,10 @@ const CreateProject = () => {
         toast.error("Campaign title must be at least 5 characters long");
         return;
       }
-      if (!formData.description.trim() || formData.description.trim().length < 20) {
+      if (
+        !formData.description.trim() ||
+        formData.description.trim().length < 20
+      ) {
         toast.error("Venture description must be at least 20 characters long");
         return;
       }
@@ -216,7 +220,11 @@ const CreateProject = () => {
         toast.error("Target funding amount must be at least ₹1,000");
         return;
       }
-      if (!formData.equity || Number(formData.equity) <= 0 || Number(formData.equity) > 100) {
+      if (
+        !formData.equity ||
+        Number(formData.equity) <= 0 ||
+        Number(formData.equity) > 100
+      ) {
         toast.error("Equity offered must be between 0.1% and 100%");
         return;
       }
@@ -419,7 +427,9 @@ const CreateProject = () => {
 
                   <ImageUpload
                     value={formData.image}
-                    onChange={(file) => setFormData({ ...formData, image: file })}
+                    onChange={(file) =>
+                      setFormData({ ...formData, image: file })
+                    }
                     onRemove={() => setFormData({ ...formData, image: null })}
                     maxSizeMB={5}
                   />
@@ -461,8 +471,14 @@ const CreateProject = () => {
                   <ImageUpload
                     value={campaignImages}
                     multiple={true}
-                    onChange={(files) => setCampaignImages((prev) => [...prev, ...files])}
-                    onRemove={(index) => setCampaignImages((prev) => prev.filter((_, i) => i !== index))}
+                    onChange={(files) =>
+                      setCampaignImages((prev) => [...prev, ...files])
+                    }
+                    onRemove={(index) =>
+                      setCampaignImages((prev) =>
+                        prev.filter((_, i) => i !== index),
+                      )
+                    }
                     maxSizeMB={5}
                   />
 

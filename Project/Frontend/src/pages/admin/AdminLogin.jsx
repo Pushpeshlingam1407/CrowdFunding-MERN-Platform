@@ -117,7 +117,8 @@ const ErrorBox = styled.div`
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const { adminLogin, error, errorField, isAuthenticated, user, logout } = useAuthStore();
+  const { adminLogin, error, errorField, isAuthenticated, user, logout } =
+    useAuthStore();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
 
@@ -131,7 +132,9 @@ const AdminLogin = () => {
         navigate("/admin/dashboard");
       } else {
         const currentError = useAuthStore.getState().error;
-        toast.error(currentError || "Access denied. Admin privileges required.");
+        toast.error(
+          currentError || "Access denied. Admin privileges required.",
+        );
       }
     } catch (err) {
       toast.error("Authentication Error");
@@ -168,10 +171,21 @@ const AdminLogin = () => {
           </AdminLogo>
 
           <StyledCard style={{ textAlign: "center" }}>
-            <AlertCircle size={48} style={{ color: "#f59e0b", margin: "0 auto 1.5rem", display: "block" }} />
-            <FormTitle style={{ fontSize: "1.75rem" }}>Session Conflict</FormTitle>
+            <AlertCircle
+              size={48}
+              style={{
+                color: "#f59e0b",
+                margin: "0 auto 1.5rem",
+                display: "block",
+              }}
+            />
+            <FormTitle style={{ fontSize: "1.75rem" }}>
+              Session Conflict
+            </FormTitle>
             <FormSubtitle style={{ marginBottom: "2rem" }}>
-              You are currently signed in as standard member <strong>{user?.name}</strong> ({user?.role}). The Admin Portal requires administrative credentials.
+              You are currently signed in as standard member{" "}
+              <strong>{user?.name}</strong> ({user?.role}). The Admin Portal
+              requires administrative credentials.
             </FormSubtitle>
 
             <Button

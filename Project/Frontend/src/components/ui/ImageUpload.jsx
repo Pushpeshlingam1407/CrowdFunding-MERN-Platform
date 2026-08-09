@@ -10,7 +10,8 @@ const UploadContainer = styled.div`
 `;
 
 const DropZone = styled.div`
-  border: 1.5px dashed ${(props) => (props.$isDragging ? props.theme.colors.accent : "#e3e0d8")};
+  border: 1.5px dashed
+    ${(props) => (props.$isDragging ? props.theme.colors.accent : "#e3e0d8")};
   border-radius: 20px;
   padding: 3rem 2rem;
   text-align: center;
@@ -118,7 +119,11 @@ const SingleMetadataOverlay = styled.div`
   position: absolute;
   bottom: 0;
   inset-inline: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
   padding: 1.5rem;
   color: #ffffff;
   display: flex;
@@ -246,7 +251,11 @@ const ImageUpload = ({
             <SingleMetadataOverlay>
               <div className="text-info">
                 <h4>{value instanceof File ? value.name : "Cover Image"}</h4>
-                <p>{value instanceof File ? formatFileSize(value.size) : "Uploaded"}</p>
+                <p>
+                  {value instanceof File
+                    ? formatFileSize(value.size)
+                    : "Uploaded"}
+                </p>
               </div>
               <Button
                 type="button"
@@ -287,12 +296,18 @@ const ImageUpload = ({
             }}
           />
           <InfoText>
-            {isDragging ? "Drop your files here" : `Drag & drop your ${multiple ? "images" : "image"} here`}
+            {isDragging
+              ? "Drop your files here"
+              : `Drag & drop your ${multiple ? "images" : "image"} here`}
           </InfoText>
           <SubText>
             {!isDragging && (
               <>
-                or <span style={{ color: "#0071e3", fontWeight: 700 }}>browse files</span> from your computer
+                or{" "}
+                <span style={{ color: "#0071e3", fontWeight: 700 }}>
+                  browse files
+                </span>{" "}
+                from your computer
               </>
             )}
           </SubText>
@@ -303,42 +318,37 @@ const ImageUpload = ({
       )}
 
       {/* Grid previews for multiple/gallery uploads */}
-      {multiple && (existingImages.length > 0 || (Array.isArray(value) && value.length > 0)) && (
-        <div style={{ marginTop: "1.5rem" }}>
-          <p style={{ fontSize: "0.8rem", fontWeight: 700, color: "#6e6e73", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "0.75rem" }}>
-            Gallery Images ({existingImages.length + (Array.isArray(value) ? value.length : 0)})
-          </p>
+      {multiple &&
+        (existingImages.length > 0 ||
+          (Array.isArray(value) && value.length > 0)) && (
+          <div style={{ marginTop: "1.5rem" }}>
+            <p
+              style={{
+                fontSize: "0.8rem",
+                fontWeight: 700,
+                color: "#6e6e73",
+                textTransform: "uppercase",
+                letterSpacing: "0.5px",
+                marginBottom: "0.75rem",
+              }}
+            >
+              Gallery Images (
+              {existingImages.length +
+                (Array.isArray(value) ? value.length : 0)}
+              )
+            </p>
 
-          <PreviewGrid>
-            {/* Existing Uploaded Images */}
-            {existingImages.map((imgUrl, idx) => (
-              <PreviewCard key={`existing-${idx}`}>
-                <img src={getImgSrc(imgUrl)} alt={`Existing ${idx}`} />
-                {!disabled && onDeleteExisting && (
-                  <RemoveButton
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onDeleteExisting(imgUrl);
-                    }}
-                  >
-                    ×
-                  </RemoveButton>
-                )}
-              </PreviewCard>
-            ))}
-
-            {/* New Selected Images */}
-            {Array.isArray(value) &&
-              value.map((file, idx) => (
-                <PreviewCard key={`new-${idx}`}>
-                  <img src={getImgSrc(file)} alt={`New ${idx}`} />
-                  {!disabled && onRemove && (
+            <PreviewGrid>
+              {/* Existing Uploaded Images */}
+              {existingImages.map((imgUrl, idx) => (
+                <PreviewCard key={`existing-${idx}`}>
+                  <img src={getImgSrc(imgUrl)} alt={`Existing ${idx}`} />
+                  {!disabled && onDeleteExisting && (
                     <RemoveButton
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
-                        onRemove(idx);
+                        onDeleteExisting(imgUrl);
                       }}
                     >
                       ×
@@ -346,9 +356,28 @@ const ImageUpload = ({
                   )}
                 </PreviewCard>
               ))}
-          </PreviewGrid>
-        </div>
-      )}
+
+              {/* New Selected Images */}
+              {Array.isArray(value) &&
+                value.map((file, idx) => (
+                  <PreviewCard key={`new-${idx}`}>
+                    <img src={getImgSrc(file)} alt={`New ${idx}`} />
+                    {!disabled && onRemove && (
+                      <RemoveButton
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onRemove(idx);
+                        }}
+                      >
+                        ×
+                      </RemoveButton>
+                    )}
+                  </PreviewCard>
+                ))}
+            </PreviewGrid>
+          </div>
+        )}
     </UploadContainer>
   );
 };

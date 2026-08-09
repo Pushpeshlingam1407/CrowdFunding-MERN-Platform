@@ -37,7 +37,9 @@ const useAuthStore = create((set) => ({
 
       // Prevent admins from logging in through the regular user portal
       if (user.role === "admin") {
-        throw new Error("Access Denied. Please sign in through the Admin Portal.");
+        throw new Error(
+          "Access Denied. Please sign in through the Admin Portal.",
+        );
       }
 
       // Store token and user data for regular users
@@ -54,7 +56,8 @@ const useAuthStore = create((set) => ({
       });
       return true;
     } catch (error) {
-      const message = error.response?.data?.message || error.message || "Login failed";
+      const message =
+        error.response?.data?.message || error.message || "Login failed";
       const field = error.response?.data?.field || null;
       localStorage.removeItem("token");
       localStorage.removeItem("user");
@@ -194,10 +197,10 @@ const useAuthStore = create((set) => ({
       if (adminToken) {
         try {
           const response = await api.get("/auth/profile", {
-            headers: { Authorization: `Bearer ${adminToken}` }
+            headers: { Authorization: `Bearer ${adminToken}` },
           });
           const { success, user: userData } = response.data;
-          
+
           if (success && userData.role === "admin") {
             localStorage.setItem("adminUser", JSON.stringify(userData));
             set({
@@ -216,10 +219,10 @@ const useAuthStore = create((set) => ({
       if (token) {
         try {
           const response = await api.get("/auth/profile", {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${token}` },
           });
           const { success, user: userData } = response.data;
-          
+
           if (success) {
             localStorage.setItem("user", JSON.stringify(userData));
             set({
@@ -233,7 +236,7 @@ const useAuthStore = create((set) => ({
           localStorage.removeItem("user");
         }
       }
-      
+
       set({ isLoading: false });
     } catch (error) {
       set({ isLoading: false, error: error.message });

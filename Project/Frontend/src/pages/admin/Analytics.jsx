@@ -413,12 +413,21 @@ const AdminAnalytics = () => {
               boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.01)",
               transition: "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
             }}
-            onMouseDown={(e) => { e.currentTarget.style.transform = "scale(0.95)"; }}
-            onMouseUp={(e) => { e.currentTarget.style.transform = "scale(1.05)"; }}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.05)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
+            onMouseDown={(e) => {
+              e.currentTarget.style.transform = "scale(0.95)";
+            }}
+            onMouseUp={(e) => {
+              e.currentTarget.style.transform = "scale(1.05)";
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "scale(1.05)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "scale(1)";
+            }}
           >
-            <RefreshCw size={14} className={loading ? "spin" : ""} /> Refresh Data
+            <RefreshCw size={14} className={loading ? "spin" : ""} /> Refresh
+            Data
           </button>
         </Flex>
 
@@ -723,10 +732,22 @@ const AdminAnalytics = () => {
                         {p.category}
                       </span>
                     </td>
-                    <td style={{ fontWeight: 800, color: "#191919", fontFamily: "var(--font-mono)" }}>
+                    <td
+                      style={{
+                        fontWeight: 800,
+                        color: "#191919",
+                        fontFamily: "var(--font-mono)",
+                      }}
+                    >
                       {fmt(p.targetAmount)}
                     </td>
-                    <td style={{ fontWeight: 800, color: "#10b981", fontFamily: "var(--font-mono)" }}>
+                    <td
+                      style={{
+                        fontWeight: 800,
+                        color: "#10b981",
+                        fontFamily: "var(--font-mono)",
+                      }}
+                    >
                       {fmt(p.currentAmount || 0)}
                     </td>
                     <td>

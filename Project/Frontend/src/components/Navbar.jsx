@@ -51,7 +51,7 @@ const StyledNavbar = styled(Navbar)`
     background: #ffffff;
     border: 1px solid #e3e0d8;
     border-radius: 16px;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.03);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.03);
     padding: 0.5rem;
     margin-top: 0.5rem;
     border-color: #e3e0d8;

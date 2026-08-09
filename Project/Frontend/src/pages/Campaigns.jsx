@@ -326,7 +326,14 @@ const Campaigns = () => {
                 ))}
               </SegmentedControl>
             </Flex>
-            <div style={{ color: "#6e6e73", fontSize: "0.88rem", fontWeight: 700, fontFamily: "var(--font-sans)" }}>
+            <div
+              style={{
+                color: "#6e6e73",
+                fontSize: "0.88rem",
+                fontWeight: 700,
+                fontFamily: "var(--font-sans)",
+              }}
+            >
               Showing {filteredCampaigns.length} campaigns
             </div>
           </Flex>
@@ -433,11 +440,24 @@ const Campaigns = () => {
                             fontSize: "0.85rem",
                           }}
                         >
-                          <span style={{ fontWeight: 800, color: "#10b981", fontFamily: "var(--font-mono)" }}>
+                          <span
+                            style={{
+                              fontWeight: 800,
+                              color: "#10b981",
+                              fontFamily: "var(--font-mono)",
+                            }}
+                          >
                             {progress.toFixed(1)}% funded
                           </span>
-                          <span style={{ color: "#6e6e73", fontFamily: "var(--font-mono)", fontWeight: 700 }}>
-                            Target: ₹{campaign.targetAmount.toLocaleString("en-IN")}
+                          <span
+                            style={{
+                              color: "#6e6e73",
+                              fontFamily: "var(--font-mono)",
+                              fontWeight: 700,
+                            }}
+                          >
+                            Target: ₹
+                            {campaign.targetAmount.toLocaleString("en-IN")}
                           </span>
                         </Flex>
                         <ProgressBarBase>
@@ -452,7 +472,14 @@ const Campaigns = () => {
                             {campaign.creator?.name || "Vetted Startup"}
                           </span>
                         </StatItem>
-                        <StatItem style={{ justifyContent: "flex-end", fontFamily: "var(--font-mono)", fontWeight: 700, color: "#191919" }}>
+                        <StatItem
+                          style={{
+                            justifyContent: "flex-end",
+                            fontFamily: "var(--font-mono)",
+                            fontWeight: 700,
+                            color: "#191919",
+                          }}
+                        >
                           <span>Equity: {campaign.equity}%</span>
                         </StatItem>
                       </StatsGrid>

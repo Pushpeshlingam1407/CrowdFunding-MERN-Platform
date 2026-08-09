@@ -19,7 +19,11 @@ const DropZone = styled.div`
   padding: 3rem 2rem;
   text-align: center;
   background: ${(props) =>
-    props.$isDragging ? "rgba(0, 113, 227, 0.04)" : props.hasFile ? "rgba(0, 113, 227, 0.02)" : "#ffffff"};
+    props.$isDragging
+      ? "rgba(0, 113, 227, 0.04)"
+      : props.hasFile
+        ? "rgba(0, 113, 227, 0.02)"
+        : "#ffffff"};
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   position: relative;
@@ -288,7 +292,11 @@ const DocumentUpload = ({ onUploadSuccess }) => {
             <Upload size={28} />
           </div>
           <p
-            style={{ fontWeight: 600, color: "#191919", marginBottom: "0.25rem" }}
+            style={{
+              fontWeight: 600,
+              color: "#191919",
+              marginBottom: "0.25rem",
+            }}
           >
             {file ? file.name : "Drag & drop or click to select"}
           </p>
