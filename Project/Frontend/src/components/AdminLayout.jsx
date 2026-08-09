@@ -1,217 +1,5 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import {
-  LayoutDashboard,
-  FileText,
-  Users,
-  BarChart2,
-  Settings,
-  ShieldAlert,
-  ShieldCheck,
-  LogOut,
-  Bell,
-  Search,
-} from "lucide-react";
-import useAuthStore from "../store/authStore";
-import { Flex } from "./ui";
-import "./AdminLayout.css";
-
-const LayoutWrapper = styled.div`
-  display: flex;
-  min-height: 100vh;
-  background: radial-gradient(
-    circle at 10% 20%,
-    rgba(0, 119, 182, 0.04) 0%,
-    rgba(244, 247, 254, 0.4) 90%
-  );
-  font-family: inherit;
-`;
-
-const Sidebar = styled.aside`
-  width: 280px;
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(20px);
-  display: flex;
-  flex-direction: column;
-  padding: 2rem 1.5rem;
-  border-radius: 24px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.02);
-  position: sticky;
-  top: 1.5rem;
-  height: calc(100vh - 3rem);
-  margin: 1.5rem 0 1.5rem 1.5rem;
-  z-index: 50;
-`;
-
-const LogoArea = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding-bottom: 2rem;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-
-  h2 {
-    font-size: 1.35rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    color: #191919;
-    font-family: var(--font-sans);
-    margin: 0;
-  }
-`;
-
-const NavList = styled.nav`
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  flex: 1;
-`;
-
-const NavItem = styled(Link)`
-  display: flex;
-  align-items: center;
-  gap: 0.875rem;
-  padding: 0.8rem 1.25rem;
-  border-radius: 99px;
-  text-decoration: none;
-  font-weight: ${(p) => (p.$active ? 700 : 500)};
-  color: ${(p) => (p.$active ? "#191919" : "#6e6e73")};
-  background: ${(p) => (p.$active ? "rgba(0, 0, 0, 0.05)" : "transparent")};
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  border: none;
-  outline: none;
-  cursor: pointer;
-  text-align: left;
-  width: 100%;
-
-  &:hover {
-    background: ${(p) => (p.$active ? "rgba(0, 0, 0, 0.05)" : "rgba(0, 0, 0, 0.03)")};
-    color: #191919;
-    transform: scale(1.02);
-  }
-
-  &:active {
-    transform: scale(0.97);
-  }
-`;
-
-const MainContent = styled.main`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-`;
-
-const TopHeader = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 2.5rem 2.5rem 1.5rem 2.5rem;
-  background: transparent;
-`;
-
-const HeaderGreeting = styled.div`
-  h1 {
-    font-size: 2.1rem;
-    font-weight: 800;
-    color: #191919;
-    letter-spacing: -0.03em;
-    margin-bottom: 0.25rem;
-    font-family: ${(props) => props.theme.fonts.serif};
-  }
-  p {
-    color: #86868b;
-    font-weight: 500;
-    font-size: 0.95rem;
-  }
-`;
-
-const HeaderActions = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  padding: 0.5rem 0.5rem 0.5rem 1.5rem;
-  border-radius: 99px;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.015);
-`;
-
-const SearchBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: rgba(0, 0, 0, 0.03);
-  padding: 0.5rem 1.25rem;
-  border-radius: 99px;
-  border: 1px solid transparent;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-
-  &:focus-within {
-    background: #ffffff;
-    border-color: #191919;
-  }
-
-  input {
-    border: none;
-    background: transparent;
-    outline: none;
-    color: #191919;
-    font-weight: 500;
-    font-size: 0.85rem;
-    width: 150px;
-    &::placeholder {
-      color: #86868b;
-    }
-  }
-`;
-
-const ActionBtn = styled.button`
-  background: transparent;
-  border: none;
-  color: #86868b;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-
-  &:hover {
-    color: #191919;
-    transform: scale(1.08);
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
-`;
-
-const Avatar = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #191919;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: 800;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-
-  &:hover {
-    transform: scale(1.05);
-  }
-`;
-
-const PageContainer = styled.div`
-  padding: 0 2.5rem 3rem 2.5rem;
-`;
 
 const AdminLayout = ({
   children,
@@ -242,64 +30,69 @@ const AdminLayout = ({
   ];
 
   return (
-    <LayoutWrapper>
-      <Sidebar>
-        <LogoArea>
+    <div className="admin-layout-wrapper">
+      <aside className="admin-sidebar">
+        <div className="admin-logo-area">
           <div className="admin-logo-icon">A</div>
           <h2>Admin Portal</h2>
-        </LogoArea>
-        <NavList>
+        </div>
+        <nav className="admin-nav-list">
           {menu.map((item) => {
             const Icon = item.icon;
             const active = location.pathname.includes(item.path);
             return (
-              <NavItem key={item.path} to={item.path} $active={active}>
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`admin-nav-item ${active ? "active" : ""}`}
+              >
                 <Icon size={20} strokeWidth={active ? 2.5 : 2} />
                 {item.name}
-              </NavItem>
+              </Link>
             );
           })}
-        </NavList>
+        </nav>
         <div className="admin-sidebar-bottom">
-          <NavItem
-            as="button"
+          <button
             onClick={handleLogout}
-            className="admin-logout-btn"
+            className="admin-nav-item admin-logout-btn"
           >
             <LogOut size={20} />
             Sign Out
-          </NavItem>
+          </button>
         </div>
-      </Sidebar>
+      </aside>
 
-      <MainContent>
-        <TopHeader>
-          <HeaderGreeting>
+      <main className="admin-main-content">
+        <header className="admin-top-header">
+          <div className="admin-header-greeting">
             <p>Pages / {title}</p>
             <h1>{title}</h1>
-          </HeaderGreeting>
-          <HeaderActions>
-            <SearchBox>
+          </div>
+          <div className="admin-header-actions">
+            <div className="admin-search-box">
               <Search size={16} color="#86868b" />
               <input type="text" placeholder="Search..." />
-            </SearchBox>
-            <ActionBtn>
+            </div>
+            <button className="admin-action-btn">
               <Bell size={20} />
-            </ActionBtn>
-            <Avatar>{adminUser?.name?.charAt(0) || "A"}</Avatar>
-            <ActionBtn
+            </button>
+            <div className="admin-avatar">
+              {adminUser?.name?.charAt(0) || "A"}
+            </div>
+            <button
               onClick={handleLogout}
               title="Sign Out"
-              className="admin-logout-icon"
+              className="admin-action-btn admin-logout-icon"
             >
               <LogOut size={20} />
-            </ActionBtn>
-          </HeaderActions>
-        </TopHeader>
+            </button>
+          </div>
+        </header>
 
-        <PageContainer>{children}</PageContainer>
-      </MainContent>
-    </LayoutWrapper>
+        <div className="admin-page-container">{children}</div>
+      </main>
+    </div>
   );
 };
 

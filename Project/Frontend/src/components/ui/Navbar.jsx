@@ -24,9 +24,13 @@ const Navbar = () => {
               Startup<span>Fund</span>
             </Link>
             <Flex gap="2rem">
-              <Link to="/campaigns" className="nav-link">Marketplace</Link>
+              <Link to="/campaigns" className="nav-link">
+                Marketplace
+              </Link>
               {isAuthenticated && !isAdmin && (
-                <Link to="/dashboard" className="nav-link">Dashboard</Link>
+                <Link to="/dashboard" className="nav-link">
+                  Dashboard
+                </Link>
               )}
               {isAdmin && (
                 <Link to="/admin/dashboard" className="nav-link nav-admin-link">
@@ -39,7 +43,9 @@ const Navbar = () => {
           <Flex gap="1.5rem">
             {!isAuthenticated && !adminAuthenticated ? (
               <Flex gap="1.5rem">
-                <Link to="/login" className="nav-link">Sign In</Link>
+                <Link to="/login" className="nav-link">
+                  Sign In
+                </Link>
                 <Button
                   onClick={() => navigate("/register")}
                   className="nav-get-started-btn"

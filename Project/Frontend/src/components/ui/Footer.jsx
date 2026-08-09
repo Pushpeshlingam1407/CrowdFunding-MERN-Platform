@@ -1,5 +1,7 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
+import { Container, Flex, Grid } from "./index";
+import "./Footer.css";
 
 const Footer = () => {
   return (
@@ -23,8 +25,12 @@ const Footer = () => {
           <div>
             <h4 className="footer-sub-heading">Ecosystem</h4>
             <Flex direction="column" align="flex-start" gap="1rem">
-              <Link to="/campaigns" className="footer-link">Marketplace</Link>
-              <Link to="/dashboard" className="footer-link">Dashboard</Link>
+              <Link to="/campaigns" className="footer-link">
+                Marketplace
+              </Link>
+              <Link to="/dashboard" className="footer-link">
+                Dashboard
+              </Link>
             </Flex>
           </div>
           <div>
@@ -38,14 +44,22 @@ const Footer = () => {
           <div>
             <h4 className="footer-sub-heading">Connect</h4>
             <Flex direction="column" align="flex-start" gap="1rem">
-              <Link to="#" className="footer-link">Enterprise Support</Link>
-              <Link to="#" className="footer-link">Documentation</Link>
-              <Link to="#" className="footer-link">API Terminal</Link>
-              <Link to="#" className="footer-link">Security Disclosures</Link>
+              <Link to="#" className="footer-link">
+                Enterprise Support
+              </Link>
+              <Link to="#" className="footer-link">
+                Documentation
+              </Link>
+              <Link to="#" className="footer-link">
+                API Terminal
+              </Link>
+              <Link to="#" className="footer-link">
+                Security Disclosures
+              </Link>
             </Flex>
           </div>
         </Grid>
-        <Copyright>
+        <div className="footer-copyright">
           <span>
             &copy; {new Date().getFullYear()} StartupFund Executive Terminal.
             ISO 27001 Compliant.
@@ -54,9 +68,9 @@ const Footer = () => {
             <span className="footer-copyright-item">Cookie Policy</span>
             <span className="footer-copyright-item">Data Ethics</span>
           </Flex>
-        </Copyright>
+        </div>
       </Container>
-    </FooterWrapper>
+    </footer>
   );
 };
 

@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Button } from "./index";
 
-
 const ImageUpload = ({
   label,
   value, // file object or URL string

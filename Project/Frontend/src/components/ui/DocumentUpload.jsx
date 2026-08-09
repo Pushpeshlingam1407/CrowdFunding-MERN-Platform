@@ -1,134 +1,4 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import {
-  Upload,
-  FileText,
-  CheckCircle2,
-  AlertCircle,
-  X,
-  ShieldCheck,
-} from "lucide-react";
-import { toast } from "react-hot-toast";
-import { Button, Flex } from "./index";
-import "./DocumentUpload.css";
-
-/* ─── Styled ──────────────────────────── */
-const DropZone = styled.div`
-  border: 1.5px dashed
-    ${(props) => (props.$isDragging ? props.theme.colors.accent : props.hasFile ? props.theme.colors.primary : "#e3e0d8")};
-  border-radius: 20px;
-  padding: 3rem 2rem;
-  text-align: center;
-  background: ${(props) =>
-    props.$isDragging
-      ? "rgba(0, 113, 227, 0.04)"
-      : props.hasFile
-        ? "rgba(0, 113, 227, 0.02)"
-        : "#ffffff"};
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: pointer;
-  position: relative;
-  margin-bottom: 1.5rem;
-
-  &:hover {
-    border-color: ${(props) => props.theme.colors.primary};
-    background: rgba(0, 0, 0, 0.01);
-  }
-`;
-
-const Label = styled.label`
-  display: block;
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #6e6e73;
-  margin-bottom: 0.5rem;
-`;
-
-const Select = styled.select`
-  width: 100%;
-  padding: 0.85rem 1.25rem;
-  border: 1px solid #dcdad2;
-  border-radius: 12px;
-  font-family: inherit;
-  font-size: 0.95rem;
-  height: 3rem;
-  background: #ffffff;
-  margin-bottom: 1.5rem;
-  box-sizing: border-box;
-  outline: none;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%236e6e73%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
-  background-repeat: no-repeat;
-  background-position: calc(100% - 16px) center;
-
-  &:focus {
-    border-color: ${(props) => props.theme.colors.primary};
-    box-shadow: 0 0 0 4px rgba(25, 25, 25, 0.04);
-  }
-`;
-
-const TextInput = styled.input`
-  width: 100%;
-  padding: 0.85rem 1.25rem;
-  border: 1px solid #dcdad2;
-  border-radius: 12px;
-  font-family: inherit;
-  font-size: 0.95rem;
-  height: 3rem;
-  margin-bottom: 1.5rem;
-  box-sizing: border-box;
-  background: #ffffff;
-  outline: none;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-
-  &:focus {
-    border-color: ${(props) => props.theme.colors.primary};
-    box-shadow: 0 0 0 4px rgba(25, 25, 25, 0.04);
-  }
-`;
-
-const Alert = styled.div`
-  border-radius: 12px;
-  padding: 0.85rem 1.25rem;
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  ${(props) =>
-    props.variant === "error"
-      ? "background:#fff5f5;border:1px solid #fed7d7;color:#c53030;"
-      : "background:#f0fff4;border:1px solid #9ae6b4;color:#276749;"}
-`;
-
-const FilePill = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  background: rgba(0, 113, 227, 0.05);
-  border: 1px solid rgba(0, 113, 227, 0.15);
-  border-radius: 12px;
-  padding: 0.85rem 1.25rem;
-  margin-bottom: 1.5rem;
-  font-size: 0.9rem;
-
-  .name {
-    font-weight: 700;
-    flex-grow: 1;
-    word-break: break-all;
-    color: #191919;
-  }
-  .size {
-    color: #6e6e73;
-    white-space: nowrap;
-    font-size: 0.8rem;
-    font-family: var(--font-mono);
-  }
-`;
 
 /* ─── Component ──────────────────────── */
 const DocumentUpload = ({ onUploadSuccess }) => {
@@ -241,47 +111,47 @@ const DocumentUpload = ({ onUploadSuccess }) => {
       </p>
 
       {error && (
-        <Alert variant="error">
+        <div className="doc-alert error">
           <AlertCircle size={18} className="icon-shrink-0" />
           {error}
-        </Alert>
+        </div>
       )}
       {success && (
-        <Alert variant="success">
+        <div className="doc-alert success">
           <CheckCircle2 size={18} className="icon-shrink-0" />
           {success}
-        </Alert>
+        </div>
       )}
 
       <form onSubmit={handleSubmit}>
-        <DropZone
-          hasFile={!!file}
-          $isDragging={isDragging}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
-          onClick={() => fileInputRef.current?.click()}
-        >
-          <input
-            type="file"
-            ref={fileInputRef}
-            accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
-            onChange={handleFile}
-            className="hidden-input"
-          />
-          <div className="upload-icon-circle">
-            <Upload size={28} />
+        <input
+          type="file"
+          ref={fileInputRef}
+          accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+          onChange={handleFile}
+          className="hidden-input"
+        />
+
+        {!file ? (
+          <div
+            className={`doc-drop-zone ${isDragging ? "dragging" : ""} ${file ? "has-file" : ""}`}
+            onClick={() => fileInputRef.current?.click()}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+          >
+            <Upload size={32} color="#6e6e73" />
+            <p className="doc-upload-dropzone-text">
+              {isDragging ? "Drop here" : "Click to browse or drag & drop"}
+            </p>
+            <p className="doc-upload-dropzone-subtext">
+              {file ? fmt(file.size) : "PDF, JPEG, PNG, DOC/DOCX · Max 9 MB"}
+            </p>
           </div>
-          <p className="doc-upload-dropzone-text">
-            {file ? file.name : "Drag & drop or click to select"}
-          </p>
-          <p className="doc-upload-dropzone-subtext">
-            {file ? fmt(file.size) : "PDF, JPEG, PNG, DOC/DOCX · Max 9 MB"}
-          </p>
-        </DropZone>
+        ) : null}
 
         {file && (
-          <FilePill>
+          <div className="doc-file-pill">
             <FileText size={20} color="#0071e3" className="icon-shrink-0" />
             <span className="name">{file.name}</span>
             <span className="size">{fmt(file.size)}</span>
@@ -295,11 +165,12 @@ const DocumentUpload = ({ onUploadSuccess }) => {
             >
               <X size={16} />
             </button>
-          </FilePill>
+          </div>
         )}
 
-        <Label>Document Type *</Label>
-        <Select
+        <label className="doc-label">Document Type *</label>
+        <select
+          className="doc-select"
           value={docType}
           onChange={(e) => setDocType(e.target.value)}
           required
@@ -312,10 +183,11 @@ const DocumentUpload = ({ onUploadSuccess }) => {
           <option value="financial">Financial Statement</option>
           <option value="project">Project Document</option>
           <option value="other">Other</option>
-        </Select>
+        </select>
 
-        <Label>Related Project (optional)</Label>
-        <TextInput
+        <label className="doc-label">Related Project (optional)</label>
+        <input
+          className="doc-text-input"
           type="text"
           placeholder="e.g. My Startup Campaign"
           value={projName}
