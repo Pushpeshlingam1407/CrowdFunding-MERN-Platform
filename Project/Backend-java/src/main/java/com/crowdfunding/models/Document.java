@@ -2,13 +2,12 @@ package com.crowdfunding.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "documents")
@@ -18,47 +17,47 @@ import java.time.LocalDateTime;
 @Builder
 public class Document {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "user_id", nullable = false)
+  private User user;
 
-    @Column(nullable = false)
-    private String projectName;
+  @Column(nullable = false)
+  private String projectName;
 
-    @Column(nullable = false)
-    private String location;
+  @Column(nullable = false)
+  private String location;
 
-    @Column(nullable = false)
-    private String documentType;
+  @Column(nullable = false)
+  private String documentType;
 
-    @Column(nullable = false)
-    private String filePath;
+  @Column(nullable = false)
+  private String filePath;
 
-    @Column(nullable = false)
-    private String userType; // investor, creator
+  @Column(nullable = false)
+  private String userType; // investor, creator
 
-    @Builder.Default
-    private String status = "pending"; // pending, verified, rejected
+  @Builder.Default
+  private String status = "pending"; // pending, verified, rejected
 
-    private LocalDateTime verifiedAt;
+  private LocalDateTime verifiedAt;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "verified_by_id")
-    private User verifiedBy;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "verified_by_id")
+  private User verifiedBy;
 
-    private String rejectionReason;
+  private String rejectionReason;
 
-    @CreationTimestamp
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
+  @CreationTimestamp
+  @Column(updatable = false)
+  private LocalDateTime createdAt;
 
-    // Compatibility for React frontend
-    @JsonProperty("_id")
-    public String getMongodbId() {
-        return id != null ? id.toString() : null;
-    }
+  // Compatibility for React frontend
+  @JsonProperty("_id")
+  public String getMongodbId() {
+    return id != null ? id.toString() : null;
+  }
 }

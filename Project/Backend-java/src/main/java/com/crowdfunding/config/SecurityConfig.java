@@ -2,6 +2,7 @@ package com.crowdfunding.config;
 
 import com.crowdfunding.security.CustomUserDetailsService;
 import com.crowdfunding.security.JwtAuthenticationFilter;
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,71 +22,95 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.*;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
+  @Autowired
+  private CustomUserDetailsService userDetailsService;
 
-    @Autowired
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
+  @Autowired
+  private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
-    }
+  @Bean
+  public DaoAuthenticationProvider authenticationProvider() {
+    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(
+      userDetailsService
+    );
+    authProvider.setPasswordEncoder(passwordEncoder());
+    return authProvider;
+  }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
-    }
+  @Bean
+  public AuthenticationManager authenticationManager(
+    AuthenticationConfiguration authConfig
+  ) throws Exception {
+    return authConfig.getAuthenticationManager();
+  }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
-                        // Publicly accessible paths
-                        .requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/check-email").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/projects/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/companies/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/reviews/**").permitAll()
-                        .requestMatchers("/uploads/**", "/static/**", "/health", "/").permitAll()
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+      .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+      .csrf(csrf -> csrf.disable())
+      .sessionManagement(session ->
+        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+      )
+      .authorizeHttpRequests(auth ->
+        auth
+          // Publicly accessible paths
+          .requestMatchers(
+            "/api/auth/login",
+            "/api/auth/register",
+            "/api/auth/check-email"
+          )
+          .permitAll()
+          .requestMatchers(HttpMethod.GET, "/api/projects/**")
+          .permitAll()
+          .requestMatchers(HttpMethod.GET, "/api/companies/**")
+          .permitAll()
+          .requestMatchers(HttpMethod.GET, "/api/reviews/**")
+          .permitAll()
+          .requestMatchers("/uploads/**", "/static/**", "/health", "/")
+          .permitAll()
 
-                        // All other endpoints require authentication
-                        .anyRequest().authenticated());
+          // All other endpoints require authentication
+          .anyRequest()
+          .authenticated()
+      );
 
-        http.authenticationProvider(authenticationProvider());
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    http.authenticationProvider(authenticationProvider());
+    http.addFilterBefore(
+      jwtAuthenticationFilter,
+      UsernamePasswordAuthenticationFilter.class
+    );
 
-        return http.build();
-    }
+    return http.build();
+  }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        // Allow all origin patterns to prevent CORS issues on Vercel/Railway
-        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-        configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization", "X-Requested-With"));
-        configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L); // 1 hour
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    // Allow all origin patterns to prevent CORS issues on Vercel/Railway
+    configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+    configuration.setAllowedMethods(
+      Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
+    );
+    configuration.setAllowedHeaders(
+      Arrays.asList("Content-Type", "Authorization", "X-Requested-With")
+    );
+    configuration.setAllowCredentials(true);
+    configuration.setMaxAge(3600L); // 1 hour
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+    UrlBasedCorsConfigurationSource source =
+      new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+  }
 }

@@ -1,184 +1,5 @@
 import React, { useState, useRef } from "react";
-import styled from "styled-components";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Loader, Check, AlertCircle } from "lucide-react";
-import { Button, Card, Flex, Input } from "./ui";
-import "./PaymentModal.css";
 
-const ModalOverlay = styled(motion.div)`
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1001;
-  backdrop-filter: blur(4px);
-`;
-
-const ModalContent = styled(motion.div)`
-  background: white;
-  border-radius: 20px;
-  padding: 2.5rem;
-  max-width: 550px;
-  width: 90%;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-  position: relative;
-  max-height: 90vh;
-  overflow-y: auto;
-`;
-
-const CloseButton = styled.button`
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #999;
-  transition: color 0.2s;
-
-  &:hover {
-    color: #333;
-  }
-`;
-
-const Header = styled.div`
-  margin-bottom: 2rem;
-
-  h2 {
-    font-size: 1.75rem;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    margin-bottom: 0.5rem;
-  }
-
-  p {
-    color: #666;
-    font-size: 0.95rem;
-  }
-`;
-
-const AmountDisplay = styled.div`
-  background: rgba(0, 113, 227, 0.05);
-  padding: 1.25rem;
-  border-radius: 16px;
-  text-align: center;
-  margin-bottom: 2rem;
-  border: 1px solid rgba(0, 113, 227, 0.1);
-
-  p {
-    color: #6e6e73;
-    font-size: 0.85rem;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  h3 {
-    font-size: 2rem;
-    font-weight: 800;
-    color: ${(props) => props.theme.colors.accent || "#0071e3"};
-    font-family: var(--font-mono);
-  }
-`;
-
-const PaymentMethodsGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 2rem;
-`;
-
-const PaymentMethodButton = styled(motion.button)`
-  background: ${(props) => (props.selected ? "rgba(0, 113, 227, 0.05)" : "#fff")};
-  border: 2px solid
-    ${(props) => (props.selected ? props.theme.colors.accent || "#0071e3" : "#e3e0d8")};
-  border-radius: 16px;
-  padding: 1.5rem;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-
-  &:hover {
-    border-color: ${(props) => props.theme.colors.accent || "#0071e3"};
-    background: ${(props) => (props.selected ? "rgba(0, 113, 227, 0.05)" : "rgba(0, 0, 0, 0.02)")};
-  }
-
-  svg {
-    color: ${(props) => (props.selected ? props.theme.colors.accent || "#0071e3" : "#6e6e73")};
-    width: 28px;
-    height: 28px;
-  }
-
-  span {
-    font-weight: 700;
-    color: #191919;
-    font-size: 0.9rem;
-  }
-`;
-
-const FormSection = styled(motion.div)`
-  margin-bottom: 2rem;
-`;
-
-const Label = styled.label`
-  display: block;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  color: #191919;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-`;
-
-const FormGrid = styled.div`
-  display: grid;
-  grid-template-columns: ${(props) => props.cols || "1fr"};
-  gap: 1rem;
-  margin-bottom: 1rem;
-`;
-
-const StatusBox = styled.div`
-  padding: 1rem;
-  border-radius: 12px;
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-  background: ${(props) =>
-    props.type === "success"
-      ? "#f0fdf4"
-      : props.type === "error"
-        ? "#fef2f2"
-        : "rgba(0, 113, 227, 0.05)"};
-  border: 1px solid
-    ${(props) =>
-      props.type === "success"
-        ? "#dcfce7"
-        : props.type === "error"
-          ? "#fee2e2"
-          : "rgba(0, 113, 227, 0.1)"};
-
-  svg {
-    color: ${(props) =>
-      props.type === "success"
-        ? "#22c55e"
-        : props.type === "error"
-          ? "#ef4444"
-          : "#0071e3"};
-    flex-shrink: 0;
-  }
-
-  span {
-    color: #191919;
-    font-size: 0.9rem;
-    font-weight: 500;
-  }
-`;
 
 const PaymentModal = ({
   isOpen,
@@ -323,224 +144,235 @@ const PaymentModal = ({
   };
 
   return (
-    <ModalOverlay
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
-    >
-      <ModalContent
-        initial={{ scale: 0.95, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.95, opacity: 0 }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <CloseButton onClick={onClose} disabled={loading}>
-          <X size={24} />
-        </CloseButton>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="modal-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={status === "success" ? onClose : undefined}
+        >
+          <motion.div
+            className="modal-content"
+            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {status !== "processing" && status !== "success" && (
+              <button className="modal-close-btn" onClick={onClose} disabled={loading}>
+                <X size={24} />
+              </button>
+            )}
 
-        <Header>
-          <h2>Payment</h2>
-          <p>Choose your payment method and complete the transaction</p>
-        </Header>
+            <div className="modal-header">
+              <h2>Payment</h2>
+              <p>Choose your payment method and complete the transaction</p>
+            </div>
 
-        <AmountDisplay>
-          <p>Investment Amount</p>
-          <h3>₹{Number(amount).toLocaleString()}</h3>
-        </AmountDisplay>
+            <div className="amount-display">
+              <p>Investment Amount</p>
+              <h3>₹{Number(amount).toLocaleString()}</h3>
+            </div>
 
-        <AnimatePresence>
-          {status && (
-            <StatusBox type={status}>
-              {status === "processing" && (
-                <Loader size={20} className="spin-animation" />
+            <AnimatePresence>
+              {status && (
+                <div className={`status-box ${status}`}>
+                  {status === "processing" && (
+                    <Loader size={20} className="spin-animation" />
+                  )}
+                  {status === "success" && <Check size={20} />}
+                  {status === "error" && <AlertCircle size={20} />}
+                  <span>{statusMessage}</span>
+                </div>
               )}
-              {status === "success" && <Check size={20} />}
-              {status === "error" && <AlertCircle size={20} />}
-              <span>{statusMessage}</span>
-            </StatusBox>
-          )}
-        </AnimatePresence>
+            </AnimatePresence>
 
-        {!status || status === "error" ? (
-          <>
-            <FormSection>
-              <h3 className="payment-method-title">Select Payment Method</h3>
-              <PaymentMethodsGrid>
-                {paymentMethods.map((method) => (
-                  <PaymentMethodButton
-                    key={method.id}
-                    selected={selectedMethod === method.id}
-                    onClick={() => {
-                      setSelectedMethod(method.id);
-                      setStatus(null);
-                    }}
-                    whileHover={{ y: -2 }}
+            {!status || status === "error" ? (
+              <>
+                <div className="form-section">
+                  <h3 className="payment-method-title">Select Payment Method</h3>
+                  <div className="payment-methods-grid">
+                    {paymentMethods.map((method) => (
+                      <motion.button
+                        key={method.id}
+                        className={`payment-method-btn ${selectedMethod === method.id ? "selected" : ""}`}
+                        onClick={() => {
+                          setSelectedMethod(method.id);
+                          setStatus(null);
+                        }}
+                        whileHover={{ y: -2 }}
+                        disabled={loading}
+                      >
+                        <span className="payment-method-icon">{method.icon}</span>
+                        <span>{method.label}</span>
+                      </motion.button>
+                    ))}
+                  </div>
+                </div>
+
+                {selectedMethod === "credit-debit" && (
+                  <motion.div
+                    className="form-section"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                  >
+                    <label className="form-label">Card Number</label>
+                    <input
+                      type="text"
+                      placeholder="1234 5678 9012 3456"
+                      value={cardData.cardNumber}
+                      onChange={(e) =>
+                        setCardData({
+                          ...cardData,
+                          cardNumber: e.target.value
+                            .replace(/\s/g, "")
+                            .slice(0, 16),
+                        })
+                      }
+                      maxLength="16"
+                      className="input-payment-spacing"
+                      disabled={loading}
+                    />
+
+                    <div className="form-grid cols-2">
+                      <div>
+                        <label className="form-label">Expiry Date</label>
+                        <input
+                          type="text"
+                          placeholder="MM/YY"
+                          value={cardData.expiryDate}
+                          onChange={(e) =>
+                            setCardData({
+                              ...cardData,
+                              expiryDate: e.target.value.slice(0, 5),
+                            })
+                          }
+                          maxLength="5"
+                          className="input-payment"
+                          disabled={loading}
+                        />
+                      </div>
+                      <div>
+                        <label className="form-label">CVV</label>
+                        <input
+                          type="text"
+                          placeholder="123"
+                          value={cardData.cvv}
+                          onChange={(e) =>
+                            setCardData({
+                              ...cardData,
+                              cvv: e.target.value.slice(0, 3),
+                            })
+                          }
+                          maxLength="3"
+                          className="input-payment"
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {selectedMethod === "upi" && (
+                  <motion.div
+                    className="form-section"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                  >
+                    <label className="form-label">UPI ID</label>
+                    <input
+                      type="text"
+                      placeholder="your.upi@bank"
+                      value={upiData.upiId}
+                      onChange={(e) => setUpiData({ upiId: e.target.value })}
+                      className="input-payment"
+                      disabled={loading}
+                    />
+                  </motion.div>
+                )}
+
+                {selectedMethod === "netbanking" && (
+                  <motion.div
+                    className="form-section"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                  >
+                    <label className="form-label">Bank Name</label>
+                    <input
+                      type="text"
+                      placeholder="ICICI Bank"
+                      value={netBankingData.bankName}
+                      onChange={(e) =>
+                        setNetBankingData({
+                          ...netBankingData,
+                          bankName: e.target.value,
+                        })
+                      }
+                      className="input-payment-spacing"
+                      disabled={loading}
+                    />
+                    <label className="form-label">Account Number</label>
+                    <input
+                      type="text"
+                      placeholder="1234567890"
+                      value={netBankingData.accountNumber}
+                      onChange={(e) =>
+                        setNetBankingData({
+                          ...netBankingData,
+                          accountNumber: e.target.value,
+                        })
+                      }
+                      className="input-payment"
+                      disabled={loading}
+                    />
+                  </motion.div>
+                )}
+
+                {selectedMethod === "wallet" && (
+                  <motion.div
+                    className="form-section"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                  >
+                    <div className="status-box info">
+                      <AlertCircle size={20} />
+                      <span>
+                        Digital wallet payment will redirect to the provider's app
+                      </span>
+                    </div>
+                  </motion.div>
+                )}
+
+                <div className="modal-actions-payment">
+                  <button
+                    className="btn-outline btn-flex-1"
+                    onClick={onClose}
                     disabled={loading}
                   >
-                    <span className="payment-method-icon">{method.icon}</span>
-                    <span>{method.label}</span>
-                  </PaymentMethodButton>
-                ))}
-              </PaymentMethodsGrid>
-            </FormSection>
-
-            {selectedMethod === "credit-debit" && (
-              <FormSection
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-              >
-                <Label>Card Number</Label>
-                <Input
-                  type="text"
-                  placeholder="1234 5678 9012 3456"
-                  value={cardData.cardNumber}
-                  onChange={(e) =>
-                    setCardData({
-                      ...cardData,
-                      cardNumber: e.target.value
-                        .replace(/\s/g, "")
-                        .slice(0, 16),
-                    })
-                  }
-                  maxLength="16"
-                  className="input-payment-spacing"
-                  disabled={loading}
-                />
-
-                <FormGrid cols="1fr 1fr">
-                  <div>
-                    <Label>Expiry Date</Label>
-                    <Input
-                      type="text"
-                      placeholder="MM/YY"
-                      value={cardData.expiryDate}
-                      onChange={(e) =>
-                        setCardData({
-                          ...cardData,
-                          expiryDate: e.target.value.slice(0, 5),
-                        })
-                      }
-                      maxLength="5"
-                      className="input-payment"
-                      disabled={loading}
-                    />
-                  </div>
-                  <div>
-                    <Label>CVV</Label>
-                    <Input
-                      type="text"
-                      placeholder="123"
-                      value={cardData.cvv}
-                      onChange={(e) =>
-                        setCardData({
-                          ...cardData,
-                          cvv: e.target.value.slice(0, 3),
-                        })
-                      }
-                      maxLength="3"
-                      className="input-payment"
-                      disabled={loading}
-                    />
-                  </div>
-                </FormGrid>
-              </FormSection>
-            )}
-
-            {selectedMethod === "upi" && (
-              <FormSection
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-              >
-                <Label>UPI ID</Label>
-                <Input
-                  type="text"
-                  placeholder="your.upi@bank"
-                  value={upiData.upiId}
-                  onChange={(e) => setUpiData({ upiId: e.target.value })}
-                  className="input-payment"
-                  disabled={loading}
-                />
-              </FormSection>
-            )}
-
-            {selectedMethod === "netbanking" && (
-              <FormSection
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-              >
-                <Label>Bank Name</Label>
-                <Input
-                  type="text"
-                  placeholder="ICICI Bank"
-                  value={netBankingData.bankName}
-                  onChange={(e) =>
-                    setNetBankingData({
-                      ...netBankingData,
-                      bankName: e.target.value,
-                    })
-                  }
-                  className="input-payment-spacing"
-                  disabled={loading}
-                />
-                <Label>Account Number</Label>
-                <Input
-                  type="text"
-                  placeholder="1234567890"
-                  value={netBankingData.accountNumber}
-                  onChange={(e) =>
-                    setNetBankingData({
-                      ...netBankingData,
-                      accountNumber: e.target.value,
-                    })
-                  }
-                  className="input-payment"
-                  disabled={loading}
-                />
-              </FormSection>
-            )}
-
-            {selectedMethod === "wallet" && (
-              <FormSection
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-              >
-                <StatusBox type="info">
-                  <AlertCircle size={20} />
-                  <span>
-                    Digital wallet payment will redirect to the provider's app
-                  </span>
-                </StatusBox>
-              </FormSection>
-            )}
-
-            <Flex gap="1rem" className="modal-actions-payment">
-              <Button
-                variant="outline"
-                onClick={onClose}
-                className="btn-flex-1"
-                disabled={loading}
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={handlePaymentSubmit}
-                className="btn-flex-1"
-                disabled={loading || !selectedMethod}
-              >
-                {loading
-                  ? "Processing..."
-                  : `Pay ₹${Number(amount).toLocaleString()}`}
-              </Button>
-            </Flex>
-          </>
-        ) : null}
-      </ModalContent>
-    </ModalOverlay>
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handlePaymentSubmit}
+                    className="btn-primary btn-flex-1"
+                    disabled={loading || !selectedMethod}
+                  >
+                    {loading
+                      ? "Processing..."
+                      : `Pay ₹${Number(amount).toLocaleString()}`}
+                  </button>
+                </div>
+              </>
+            ) : null}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
