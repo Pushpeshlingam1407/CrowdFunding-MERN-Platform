@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+
 import {
   ShieldAlert,
   Search,
@@ -13,163 +13,9 @@ import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
 import "./Complaints.css";
 
-const TableWrapper = styled.div`
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(20px);
-  border-radius: 24px;
-  overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
-  margin-top: 2rem;
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  th {
-    padding: 1.25rem 1.5rem;
-    text-align: left;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #86868b;
-    background: transparent;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  }
-  td {
-    padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    font-size: 0.9rem;
-    color: #1d1d1f;
-    vertical-align: middle;
-  }
-  tbody tr {
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  tbody tr:last-child td {
-    border-bottom: none;
-  }
-  tbody tr:hover {
-    background: rgba(0, 0, 0, 0.02);
-    transform: translateY(-2px);
-  }
-`;
 
-const TypeBadge = styled.span`
-  padding: 0.35rem 0.75rem;
-  border-radius: 99px;
-  font-size: 0.72rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  ${(props) =>
-    props.type === "fraud"
-      ? "background: rgba(239, 68, 68, 0.1); color: #ef4444;"
-      : props.type === "unpaid"
-        ? "background: rgba(245, 158, 11, 0.1); color: #f59e0b;"
-        : props.type === "bug"
-          ? "background: rgba(0, 113, 227, 0.1); color: #0071e3;"
-          : "background: rgba(16, 185, 129, 0.1); color: #10b981;"}
-`;
 
-const StatusBadge = styled.span`
-  padding: 0.3rem 0.8rem;
-  border-radius: 99px;
-  font-size: 0.72rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  ${(props) =>
-    props.status === "resolved"
-      ? "background: rgba(16, 185, 129, 0.1); color: #10b981;"
-      : props.status === "in-progress"
-        ? "background: rgba(0, 113, 227, 0.1); color: #0071e3;"
-        : "background: rgba(239, 68, 68, 0.1); color: #ef4444;"}
-`;
-
-const SearchBar = styled.div`
-  position: relative;
-  flex: 1;
-
-  svg {
-    position: absolute;
-    left: 1.25rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #86868b;
-    pointer-events: none;
-  }
-
-  input {
-    width: 100%;
-    padding: 0.85rem 1rem 0.85rem 3rem;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(0, 0, 0, 0.04);
-    border-radius: 99px;
-    color: #191919;
-    font-size: 0.9rem;
-    font-weight: 500;
-    outline: none;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
-
-    &::placeholder {
-      color: #86868b;
-    }
-    &:focus {
-      background: #ffffff;
-      border-color: #191919;
-      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.03);
-    }
-  }
-`;
-
-const ActionBtn = styled.button`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.5rem 1.25rem;
-  border-radius: 99px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  cursor: pointer;
-  border: 1px solid;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  background: #ffffff;
-  color: #10b981;
-  border-color: rgba(16, 185, 129, 0.3);
-
-  &:hover {
-    background: rgba(16, 185, 129, 0.1);
-    transform: scale(1.05);
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
-`;
-
-const Avatar = styled.div`
-  width: 36px;
-  height: 36px;
-  border-radius: 12px;
-  background: #191919;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 0.9rem;
-  flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-
-  &:hover {
-    transform: scale(1.05);
-  }
-`;
 
 const AdminComplaints = () => {
   const [complaints, setComplaints] = useState([]);
@@ -264,14 +110,14 @@ const AdminComplaints = () => {
               </Flex>
             </Flex>
             <div className="search-container-lg">
-              <SearchBar>
+              <div className="complaints-search-bar">
                 <Search size={16} />
                 <input
                   placeholder="Search subject or entity..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
-              </SearchBar>
+              </div>
             </div>
             <button
               onClick={fetchComplaints}
@@ -282,7 +128,7 @@ const AdminComplaints = () => {
           </Flex>
         </div>
 
-        <TableWrapper>
+        <div className="complaints-table-wrapper">
           <table>
             <thead>
               <tr>
@@ -319,12 +165,12 @@ const AdminComplaints = () => {
                     </td>
 
                     <td>
-                      <TypeBadge type={item.type}>{item.type}</TypeBadge>
+                      <span className={`complaints-type-badge ${item.type || 'default'}`}>{item.type}</span>
                     </td>
 
                     <td>
                       <Flex gap="0.75rem" align="center">
-                        <Avatar>{item.author?.name?.charAt(0) || "?"}</Avatar>
+                        <div className="complaints-avatar">{item.author?.name?.charAt(0) || "?"}</div>
                         <div>
                           <p className="reporter-name">
                             {item.author?.name || "Unknown"}
@@ -346,9 +192,9 @@ const AdminComplaints = () => {
                     </td>
 
                     <td>
-                      <StatusBadge status={item.status}>
+                      <span className={`complaints-status-badge ${item.status || 'pending'}`}>
                         {item.status}
-                      </StatusBadge>
+                      </span>
                     </td>
 
                     <td className="whitespace-nowrap">
@@ -369,10 +215,10 @@ const AdminComplaints = () => {
                     <td>
                       <Flex gap="0.5rem">
                         {item.status !== "resolved" && (
-                          <ActionBtn onClick={() => resolveComplaint(item._id)}>
+                          <button className="complaints-action-btn" onClick={() => resolveComplaint(item._id)}>
                             <CheckCircle2 size={13} />
                             Resolve
-                          </ActionBtn>
+                          </button>
                         )}
                         {item.status === "resolved" && (
                           <span className="text-resolved-success">
@@ -386,7 +232,7 @@ const AdminComplaints = () => {
               )}
             </tbody>
           </table>
-        </TableWrapper>
+        </div>
       </div>
     </AdminLayout>
   );

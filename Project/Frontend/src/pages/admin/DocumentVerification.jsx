@@ -230,10 +230,10 @@ const AdminDocumentVerification = () => {
               </div>
             </Flex>
             <div className="search-container-lg">
-              <SearchBar>
+              <div className="verification-search-bar">
                 <Search size={16} />
                 <input placeholder="Search entity name..." />
-              </SearchBar>
+              </div>
             </div>
             <button onClick={fetchVerifications} className="btn-refresh-verify">
               <RefreshCw size={14} className={loading ? "spin" : ""} /> Refresh
@@ -241,7 +241,7 @@ const AdminDocumentVerification = () => {
           </Flex>
         </div>
 
-        <TableWrapper>
+        <div className="verification-table-wrapper">
           <table>
             <thead>
               <tr>
@@ -270,7 +270,7 @@ const AdminDocumentVerification = () => {
                   <tr key={verify._id}>
                     <td>
                       <Flex gap="1rem">
-                        <Avatar>{verify.user?.name?.charAt(0) || "?"}</Avatar>
+                        <div className="verification-avatar">{verify.user?.name?.charAt(0) || "?"}</div>
                         <div>
                           <p className="entity-name">{verify.user?.name}</p>
                           <p className="entity-email">{verify.user?.email}</p>
@@ -279,8 +279,8 @@ const AdminDocumentVerification = () => {
                     </td>
                     <td>
                       <Flex gap="0.5rem" className="flex-wrap-wrap">
-                        <DocBadge>IDENTITY PROOF</DocBadge>
-                        <DocBadge>ADDRESS</DocBadge>
+                        <span className="verification-doc-badge">IDENTITY PROOF</span>
+                        <span className="verification-doc-badge">ADDRESS</span>
                       </Flex>
                     </td>
                     <td>
@@ -304,32 +304,30 @@ const AdminDocumentVerification = () => {
                     </td>
                     <td>
                       <Flex gap="0.5rem">
-                        <ActionBtn
+                        <button className="verification-action-btn default"
                           onClick={() =>
                             window.open(verify.identityProof, "_blank")
                           }
                           title="Inspect Document"
                         >
                           <Eye size={14} className="icon-mr-sm" /> Inspect
-                        </ActionBtn>
-                        <ActionBtn
-                          $variant="approve"
+                        </button>
+                        <button className="verification-action-btn approve"
                           onClick={() =>
                             handleVerify(verify.user?._id, 0, "verified")
                           }
                           title="Approve Document"
                         >
                           <CheckCircle2 size={16} />
-                        </ActionBtn>
-                        <ActionBtn
-                          $variant="reject"
+                        </button>
+                        <button className="verification-action-btn reject"
                           onClick={() =>
                             handleVerify(verify.user?._id, 0, "rejected")
                           }
                           title="Reject Document"
                         >
                           <XCircle size={16} />
-                        </ActionBtn>
+                        </button>
                       </Flex>
                     </td>
                   </tr>
@@ -337,7 +335,7 @@ const AdminDocumentVerification = () => {
               )}
             </tbody>
           </table>
-        </TableWrapper>
+        </div>
       </div>
     </AdminLayout>
   );

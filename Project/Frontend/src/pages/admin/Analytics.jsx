@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled, { keyframes } from "styled-components";
+
 import { motion } from "framer-motion";
 import {
   BarChart3,
@@ -19,247 +19,11 @@ import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
 import "./Analytics.css";
 
-const shimmer = keyframes`
-  0%   { background-position: -400px 0; }
-  100% { background-position: 400px 0; }
-`;
 
-const StatsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
-  @media (max-width: 900px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-`;
 
-const StatCard = styled(motion.div)`
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  border-radius: 24px;
-  padding: 1.5rem;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
-  &:hover {
-    transform: translateY(-4px) scale(1.015);
-    box-shadow: 0px 24px 48px rgba(0, 0, 0, 0.06);
-    border-color: rgba(0, 113, 227, 0.1);
-  }
-`;
 
-const StatLabel = styled.p`
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #86868b;
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-sans);
-`;
 
-const StatValue = styled.h2`
-  font-size: 2.25rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: ${(p) => p.$color || "#191919"};
-  margin-bottom: 0.25rem;
-  font-family: ${(props) => props.theme.fonts.mono};
-`;
-
-const StatSub = styled.p`
-  font-size: 0.8rem;
-  color: #86868b;
-  font-weight: 600;
-`;
-
-const SectionTitle = styled.h3`
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: #191919;
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: ${(props) => props.theme.fonts.serif};
-`;
-
-const ChartCard = styled.div`
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  border-radius: 24px;
-  padding: 2rem;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
-`;
-
-const BarContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-const BarRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-`;
-
-const BarLabel = styled.span`
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #86868b;
-  min-width: 100px;
-  text-align: right;
-  font-family: var(--font-sans);
-`;
-
-const BarTrack = styled.div`
-  flex: 1;
-  height: 28px;
-  background: rgba(0, 0, 0, 0.03);
-  border-radius: 8px;
-  overflow: hidden;
-  position: relative;
-`;
-
-const BarFill = styled(motion.div)`
-  height: 100%;
-  border-radius: 8px;
-  background: linear-gradient(90deg, ${(p) => p.$color}88, ${(p) => p.$color});
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-right: 0.75rem;
-  font-size: 0.75rem;
-  font-weight: 800;
-  color: white;
-  font-family: var(--font-mono);
-`;
-
-const DonutContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-`;
-
-const DonutSVG = styled.svg`
-  width: 180px;
-  height: 180px;
-  transform: rotate(-90deg);
-`;
-
-const LegendItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-  min-width: 140px;
-`;
-
-const LegendDot = styled.div`
-  width: 12px;
-  height: 12px;
-  border-radius: 4px;
-  background: ${(p) => p.$color};
-`;
-
-const LegendLabel = styled.span`
-  font-size: 0.85rem;
-  color: #86868b;
-  font-weight: 600;
-`;
-
-const LegendValue = styled.span`
-  font-size: 0.85rem;
-  font-weight: 800;
-  color: #191919;
-  margin-left: auto;
-  font-family: var(--font-mono);
-`;
-
-const TableCard = styled.div`
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  border-radius: 24px;
-  overflow: hidden;
-  margin-top: 1rem;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  th {
-    padding: 1.25rem 1.5rem;
-    text-align: left;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #86868b;
-    background: transparent;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  }
-  td {
-    padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    font-size: 0.9rem;
-    color: #1d1d1f;
-  }
-  tbody tr {
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  tbody tr:hover {
-    background: rgba(0, 0, 0, 0.02);
-    transform: translateY(-2px);
-  }
-  tbody tr:last-child td {
-    border-bottom: none;
-  }
-`;
-
-const StatusDot = styled.span`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.3rem 0.8rem;
-  border-radius: 99px;
-  font-size: 0.72rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  background: ${(p) =>
-    p.$s === "approved"
-      ? "rgba(16, 185, 129, 0.1)"
-      : p.$s === "pending"
-        ? "rgba(245, 158, 11, 0.1)"
-        : "rgba(239, 68, 68, 0.1)"};
-  color: ${(p) =>
-    p.$s === "approved"
-      ? "#10b981"
-      : p.$s === "pending"
-        ? "#f59e0b"
-        : "#ef4444"};
-`;
-
-const Skeleton = styled.div`
-  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
-  background-size: 400px 100%;
-  animation: ${shimmer} 1.5s infinite;
-  border-radius: 12px;
-  height: ${(p) => p.$h || "1rem"};
-  width: ${(p) => p.$w || "100%"};
-`;
 
 const AdminAnalytics = () => {
   const [stats, setStats] = useState(null);
@@ -368,16 +132,16 @@ const AdminAnalytics = () => {
         subtitle="Real-time insights from live platform data"
       >
         <div className="analytics-loading-pad">
-          <StatsGrid>
+          <div className="analytics-stats-grid">
             {Array(4)
               .fill(0)
               .map((_, i) => (
-                <Skeleton key={i} $h="128px" />
+                <div className="analytics-skeleton" key={i} style={{ height: "128px" }} />
               ))}
-          </StatsGrid>
+          </div>
           <div className="chart-grid-2-col">
-            <Skeleton $h="320px" />
-            <Skeleton $h="320px" />
+            <div className="analytics-skeleton" style={{ height: "320px" }} />
+            <div className="analytics-skeleton" style={{ height: "320px" }} />
           </div>
         </div>
       </AdminLayout>
@@ -397,7 +161,7 @@ const AdminAnalytics = () => {
           </button>
         </Flex>
 
-        <StatsGrid>
+        <div className="analytics-stats-grid">
           {[
             {
               label: "Total Raised",
@@ -428,58 +192,57 @@ const AdminAnalytics = () => {
               color: "#8b5cf6",
             },
           ].map((c, i) => (
-            <StatCard
+            <motion.div className="analytics-stat-card"
               key={i}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.08 }}
             >
-              <StatLabel>
+              <p className="analytics-stat-label">
                 {c.icon} {c.label}
-              </StatLabel>
-              <StatValue $color={c.color}>{c.value}</StatValue>
-              <StatSub>{c.sub}</StatSub>
-            </StatCard>
+              </p>
+              <h2 className="analytics-stat-value" style={{ color: c.color }}>{c.value}</h2>
+              <p className="analytics-stat-sub">{c.sub}</p>
+            </motion.div>
           ))}
-        </StatsGrid>
+        </div>
 
         <div className="chart-grid-2-col">
-          <ChartCard>
-            <SectionTitle>
+          <div className="analytics-chart-card">
+            <h3 className="analytics-section-title">
               <BarChart3 size={18} className="icon-blue" /> Campaigns by
               Category
-            </SectionTitle>
-            <BarContainer>
+            </h3>
+            <div className="analytics-bar-container">
               {categoryEntries.map(([cat, count], i) => {
                 const pct = (count / donutTotal) * 100;
                 return (
-                  <BarRow key={cat}>
-                    <BarLabel>{cat}</BarLabel>
-                    <BarTrack>
-                      <BarFill
-                        $color={categoryColors[cat] || "#6e6e73"}
+                  <div className="analytics-bar-row" key={cat}>
+                    <span className="analytics-bar-label">{cat}</span>
+                    <div className="analytics-bar-track">
+                      <motion.div className="analytics-bar-fill" style={{ background: `linear-gradient(90deg, ${categoryColors[cat] || "#94a3b8"}88, ${categoryColors[cat] || "#94a3b8"})` }}
                         initial={{ width: 0 }}
                         animate={{ width: `${Math.max(pct, 8)}%` }}
                         transition={{ delay: i * 0.1, duration: 0.5 }}
                       >
                         {count}
-                      </BarFill>
-                    </BarTrack>
-                  </BarRow>
+                      </motion.div>
+                    </div>
+                  </div>
                 );
               })}
               {categoryEntries.length === 0 && (
                 <p className="empty-text-center">No campaigns yet</p>
               )}
-            </BarContainer>
-          </ChartCard>
+            </div>
+          </div>
 
-          <ChartCard>
-            <SectionTitle>
+          <div className="analytics-chart-card">
+            <h3 className="analytics-section-title">
               <PieChart size={18} className="icon-green" /> User Composition
-            </SectionTitle>
-            <DonutContainer>
-              <DonutSVG viewBox="0 0 160 160">
+            </h3>
+            <div className="analytics-donut-container">
+              <svg className="analytics-donut-svg" viewBox="0 0 160 160">
                 {Object.entries(roleBreakdown).map(([role, count]) => {
                   const pct = count / (users.length || 1);
                   const dashLength = pct * circumference;
@@ -524,20 +287,20 @@ const AdminAnalytics = () => {
                 >
                   TOTAL
                 </text>
-              </DonutSVG>
+              </svg>
               <div>
                 {Object.entries(roleBreakdown).map(([role, count]) => (
-                  <LegendItem key={role}>
-                    <LegendDot $color={roleColors[role] || "#6e6e73"} />
-                    <LegendLabel>
+                  <div className="analytics-legend-item" key={role}>
+                    <div className="analytics-legend-dot" style={{ background: roleColors[role] || "#94a3b8" }} />
+                    <span className="analytics-legend-label">
                       {role.charAt(0).toUpperCase() + role.slice(1)}
-                    </LegendLabel>
-                    <LegendValue>{count}</LegendValue>
-                  </LegendItem>
+                    </span>
+                    <span className="analytics-legend-value">{count}</span>
+                  </div>
                 ))}
               </div>
-            </DonutContainer>
-          </ChartCard>
+            </div>
+          </div>
         </div>
 
         <div className="status-grid-3-col">
@@ -587,11 +350,11 @@ const AdminAnalytics = () => {
           ))}
         </div>
 
-        <SectionTitle className="mt-1-5">
+        <h3 className="analytics-section-title mt-1-5">
           <TrendingUp size={18} className="icon-yellow" /> Top Campaigns by
           Funding
-        </SectionTitle>
-        <TableCard>
+        </h3>
+        <div className="analytics-table-card">
           <table>
             <thead>
               <tr>
@@ -652,7 +415,7 @@ const AdminAnalytics = () => {
                       </div>
                     </td>
                     <td>
-                      <StatusDot $s={p.status}>{p.status}</StatusDot>
+                      <span className={`analytics-status-dot ${p.status === 'approved' ? 'approved' : p.status === 'pending' ? 'pending' : 'rejected'}`}>{p.status}</span>
                     </td>
                   </tr>
                 );
@@ -666,7 +429,7 @@ const AdminAnalytics = () => {
               )}
             </tbody>
           </table>
-        </TableCard>
+        </div>
       </div>
     </AdminLayout>
   );
