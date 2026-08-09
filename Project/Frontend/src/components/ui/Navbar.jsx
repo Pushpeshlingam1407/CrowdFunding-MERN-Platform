@@ -67,10 +67,7 @@ const Navbar = () => {
                 <NavLink to="/dashboard">Dashboard</NavLink>
               )}
               {isAdmin && (
-                <NavLink
-                  to="/admin/dashboard"
-                  className="nav-admin-link"
-                >
+                <NavLink to="/admin/dashboard" className="nav-admin-link">
                   Admin Portal
                 </NavLink>
               )}

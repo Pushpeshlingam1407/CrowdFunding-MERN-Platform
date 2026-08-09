@@ -14,6 +14,7 @@ import {
 import { toast } from "react-hot-toast";
 import { Button, Card, Flex, Input } from "./index";
 import { b2bAPI } from "../../services/api";
+import "./ComplaintBox.css";
 
 const ModalOverlay = styled(motion.div)`
   position: fixed;
@@ -136,28 +137,21 @@ const ComplaintBox = ({ isOpen, onClose, targetCompanyId }) => {
               <X size={20} />
             </CloseButton>
 
-            <header style={{ marginBottom: "2rem" }}>
-              <Flex gap="0.75rem" style={{ marginBottom: "0.5rem" }}>
-                <ShieldAlert size={24} style={{ color: "#e53e3e" }} />
-                <h2 style={{ fontSize: "1.5rem", fontWeight: 800 }}>
+            <header className="complaint-header">
+              <Flex gap="0.75rem" className="complaint-header-row">
+                <ShieldAlert size={24} className="complaint-icon" />
+                <h2 className="complaint-title">
                   Compliance Report
                 </h2>
               </Flex>
-              <p style={{ color: "#666", fontSize: "0.9rem" }}>
+              <p className="complaint-description">
                 Flagging a company for fraud, bugs, or unpaid services ensures a
                 safe community.
               </p>
             </header>
 
             <form onSubmit={handleSubmit}>
-              <label
-                style={{
-                  fontSize: "0.85rem",
-                  fontWeight: 700,
-                  marginBottom: "0.5rem",
-                  display: "block",
-                }}
-              >
+              <label className="form-label">
                 Report Type
               </label>
               <Select
@@ -172,33 +166,19 @@ const ComplaintBox = ({ isOpen, onClose, targetCompanyId }) => {
                 <option value="other">Other Compliance Issue</option>
               </Select>
 
-              <label
-                style={{
-                  fontSize: "0.85rem",
-                  fontWeight: 700,
-                  marginBottom: "0.5rem",
-                  display: "block",
-                }}
-              >
+              <label className="form-label">
                 Subject
               </label>
               <Input
                 placeholder="Brief summary of the issue"
-                style={{ marginBottom: "1rem" }}
+                className="complaint-input-spacing"
                 value={formData.subject}
                 onChange={(e) =>
                   setFormData({ ...formData, subject: e.target.value })
                 }
               />
 
-              <label
-                style={{
-                  fontSize: "0.85rem",
-                  fontWeight: 700,
-                  marginBottom: "0.5rem",
-                  display: "block",
-                }}
-              >
+              <label className="form-label">
                 Detailed Description
               </label>
               <TextArea
@@ -209,29 +189,22 @@ const ComplaintBox = ({ isOpen, onClose, targetCompanyId }) => {
                 }
               />
 
-              <label
-                style={{
-                  fontSize: "0.85rem",
-                  fontWeight: 700,
-                  marginBottom: "0.5rem",
-                  display: "block",
-                }}
-              >
+              <label className="form-label">
                 Proof / Screenshot (Optional)
               </label>
               <UploadBox>
-                <Camera size={24} style={{ marginBottom: "0.5rem" }} />
-                <p style={{ fontSize: "0.85rem", fontWeight: 600 }}>
+                <Camera size={24} className="complaint-camera-icon" />
+                <p className="complaint-upload-text">
                   Click to upload screenshot
                 </p>
               </UploadBox>
 
               <Button
                 type="submit"
-                style={{ width: "100%", background: "#e53e3e", color: "white" }}
+                className="btn-danger-submit"
                 disabled={loading}
               >
-                <Send size={18} style={{ marginRight: 8 }} />
+                <Send size={18} className="icon-mr" />
                 {loading ? "Submitting..." : "Flag as Fraud / Bug"}
               </Button>
             </form>

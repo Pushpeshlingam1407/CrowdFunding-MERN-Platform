@@ -1,0 +1,36 @@
+/* ComplaintBox.css — ComplaintBox-specific styles */
+
+.complaint-header {
+  margin-bottom: 2rem;
+}
+
+.complaint-header-row {
+  margin-bottom: 0.5rem;
+}
+
+.complaint-icon {
+  color: #e53e3e;
+}
+
+.complaint-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.complaint-description {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.complaint-input-spacing {
+  margin-bottom: 1rem;
+}
+
+.complaint-camera-icon {
+  margin-bottom: 0.5rem;
+}
+
+.complaint-upload-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+}

@@ -53,11 +53,7 @@ const AppContent = () => {
   }, [checkAuth]);
 
   if (isCheckingAuth) {
-    return (
-      <div className="app-loading-screen">
-        Loading StartupFund...
-      </div>
-    );
+    return <div className="app-loading-screen">Loading StartupFund...</div>;
   }
 
   return (

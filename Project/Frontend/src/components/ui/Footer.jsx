@@ -72,10 +72,7 @@ const Footer = () => {
               ecosystem.
             </p>
             <Flex gap="1.5rem">
-              <FooterLink
-                to="/admin/login"
-                className="footer-small-link"
-              >
+              <FooterLink to="/admin/login" className="footer-small-link">
                 Executive Terminal
               </FooterLink>
             </Flex>
