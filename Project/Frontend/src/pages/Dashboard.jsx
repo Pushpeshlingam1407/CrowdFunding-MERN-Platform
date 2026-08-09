@@ -234,19 +234,19 @@ const StatusBadge = styled.span`
   }};
   border: 1px solid
     ${(props) => {
-    switch (props.status) {
-      case "active":
-      case "approved":
-      case "completed":
-        return "rgba(16, 185, 129, 0.15)";
-      case "pending":
-        return "rgba(245, 158, 11, 0.15)";
-      case "rejected":
-        return "rgba(239, 68, 68, 0.15)";
-      default:
-        return "rgba(110, 110, 115, 0.15)";
-    }
-  }};
+      switch (props.status) {
+        case "active":
+        case "approved":
+        case "completed":
+          return "rgba(16, 185, 129, 0.15)";
+        case "pending":
+          return "rgba(245, 158, 11, 0.15)";
+        case "rejected":
+          return "rgba(239, 68, 68, 0.15)";
+        default:
+          return "rgba(110, 110, 115, 0.15)";
+      }
+    }};
 `;
 
 const PremiumBtn = styled.button`

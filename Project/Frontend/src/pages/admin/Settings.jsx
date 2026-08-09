@@ -236,19 +236,23 @@ const AdminSettings = () => {
       if (settings.currentAdminPassword || settings.adminPassword) {
         const token =
           localStorage.getItem("adminToken") || localStorage.getItem("token");
-        const res = await fetch("http://localhost:5000/api/auth/admin/password", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+        const res = await fetch(
+          "http://localhost:5000/api/auth/admin/password",
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              currentPassword: settings.currentAdminPassword,
+              newPassword: settings.adminPassword,
+            }),
           },
-          body: JSON.stringify({
-            currentPassword: settings.currentAdminPassword,
-            newPassword: settings.adminPassword,
-          }),
-        });
+        );
         const result = await res.json();
-        if (!res.ok) throw new Error(result.message || "Failed to update password");
+        if (!res.ok)
+          throw new Error(result.message || "Failed to update password");
         update("currentAdminPassword", "");
         update("adminPassword", "");
       }

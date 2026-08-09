@@ -22,7 +22,7 @@ public class AdminInitializer implements CommandLineRunner {
     @Value("${ADMIN_EMAIL:admin@crowdfunding.com}")
     private String adminEmail;
 
-    @Value("${ADMIN_PASSWORD:Admin123}")
+    @Value("${ADMIN_PASSWORD:Admin123!}")
     private String adminPassword;
 
     @Value("${ADMIN_NAME:Administrator}")
