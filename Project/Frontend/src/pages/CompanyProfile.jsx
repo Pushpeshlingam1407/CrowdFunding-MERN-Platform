@@ -210,11 +210,7 @@ const CompanyProfile = () => {
       </ProfileWrapper>
     );
   if (!profile)
-    return (
-      <div className="profile-not-found">
-        Profile Not Found
-      </div>
-    );
+    return <div className="profile-not-found">Profile Not Found</div>;
 
   return (
     <ProfileWrapper>
@@ -228,9 +224,7 @@ const CompanyProfile = () => {
                 {profile.companyName || profile.name}
               </h1>
               {profile.branding?.slogan && (
-                <p className="profile-slogan">
-                  "{profile.branding.slogan}"
-                </p>
+                <p className="profile-slogan">"{profile.branding.slogan}"</p>
               )}
               <Flex gap="1.5rem" className="profile-info-flex">
                 <Flex gap="0.5rem">
@@ -240,8 +234,8 @@ const CompanyProfile = () => {
                   <Mail size={18} /> {profile.email}
                 </Flex>
                 <Flex gap="0.5rem">
-                  <ShieldCheck size={18} className="icon-success" />{" "}
-                  Verified Member
+                  <ShieldCheck size={18} className="icon-success" /> Verified
+                  Member
                 </Flex>
               </Flex>
               <Flex gap="1rem" wrap="wrap">
@@ -249,8 +243,8 @@ const CompanyProfile = () => {
                   onClick={() => navigate(`/messages/${id}`)}
                   className="btn-message"
                 >
-                  <MessageSquare size={18} className="icon-mr" /> Message
-                  / Connect
+                  <MessageSquare size={18} className="icon-mr" /> Message /
+                  Connect
                 </Button>
                 <Button
                   variant="outline"
@@ -292,9 +286,7 @@ const CompanyProfile = () => {
                 <h4 className="trust-bar-value">
                   {profile.dynamicMetrics?.trustedByCount || 0}+
                 </h4>
-                <p className="trust-bar-label">
-                  Trusted by Entities
-                </p>
+                <p className="trust-bar-label">Trusted by Entities</p>
               </div>
             </Flex>
             <Flex
@@ -308,9 +300,7 @@ const CompanyProfile = () => {
                 <h4 className="trust-bar-value">
                   {profile.dynamicMetrics?.collaborationsCount || 0}
                 </h4>
-                <p className="trust-bar-label">
-                  Active Collaborations
-                </p>
+                <p className="trust-bar-label">Active Collaborations</p>
               </div>
             </Flex>
             <Flex
@@ -324,9 +314,7 @@ const CompanyProfile = () => {
                 <h4 className="trust-bar-value">
                   {profile.dynamicMetrics?.projectsCount || 0}
                 </h4>
-                <p className="trust-bar-label">
-                  Platform Ventures
-                </p>
+                <p className="trust-bar-label">Platform Ventures</p>
               </div>
             </Flex>
             <Flex
@@ -337,12 +325,8 @@ const CompanyProfile = () => {
             >
               <ShieldCheck size={24} className="icon-success" />
               <div>
-                <h4 className="trust-bar-value">
-                  100%
-                </h4>
-                <p className="trust-bar-label">
-                  Security Score
-                </p>
+                <h4 className="trust-bar-value">100%</h4>
+                <p className="trust-bar-label">Security Score</p>
               </div>
             </Flex>
           </Grid>
@@ -368,18 +352,14 @@ const CompanyProfile = () => {
                 onClick={(e) => e.stopPropagation()}
                 className="review-modal-card"
               >
-                <h2 className="review-modal-title">
-                  Professional Review
-                </h2>
+                <h2 className="review-modal-title">Professional Review</h2>
                 <p className="review-modal-subtitle">
                   Your feedback helps maintain high standards in our
                   crowdfunding ecosystem.
                 </p>
 
                 <form onSubmit={handlePostReview}>
-                  <label className="form-label-small">
-                    Rating
-                  </label>
+                  <label className="form-label-small">Rating</label>
                   <div className="star-rating-wrapper">
                     <StarRating
                       rating={newReview.rating}
@@ -389,9 +369,7 @@ const CompanyProfile = () => {
                     />
                   </div>
 
-                  <label className="form-label-small">
-                    Comment
-                  </label>
+                  <label className="form-label-small">Comment</label>
                   <TextArea
                     placeholder="General experience working with this company..."
                     value={newReview.comment}
@@ -403,9 +381,7 @@ const CompanyProfile = () => {
 
                   <Grid cols={2} gap="1rem">
                     <div>
-                      <label className="form-label-small">
-                        Appreciation
-                      </label>
+                      <label className="form-label-small">Appreciation</label>
                       <Input
                         placeholder="What did they do well?"
                         value={newReview.appreciation}
@@ -418,9 +394,7 @@ const CompanyProfile = () => {
                       />
                     </div>
                     <div>
-                      <label className="form-label-small">
-                        Feedback
-                      </label>
+                      <label className="form-label-small">Feedback</label>
                       <Input
                         placeholder="Room for improvement?"
                         value={newReview.feedback}
@@ -443,10 +417,7 @@ const CompanyProfile = () => {
                     >
                       Cancel
                     </Button>
-                    <Button
-                      type="submit"
-                      className="btn-flex-2 btn-message"
-                    >
+                    <Button type="submit" className="btn-flex-2 btn-message">
                       Submit Review
                     </Button>
                   </Flex>
@@ -459,26 +430,20 @@ const CompanyProfile = () => {
         <Grid cols="2fr 1fr" gap="2rem">
           <div>
             <Card className="about-card">
-              <h3 className="section-title-md">
-                About the Company
-              </h3>
+              <h3 className="section-title-md">About the Company</h3>
               <p className="about-bio">
                 {profile.bio ||
                   "This company has not provided a detailed description yet."}
               </p>
 
-              <h4 className="subsection-title">
-                Services Offered
-              </h4>
+              <h4 className="subsection-title">Services Offered</h4>
               <Flex gap="0.75rem" wrap="wrap">
                 {profile.services && profile.services.length > 0 ? (
                   profile.services.map((service, i) => (
                     <ServiceTag key={i}>{service}</ServiceTag>
                   ))
                 ) : (
-                  <p className="no-services-text">
-                    No services specified.
-                  </p>
+                  <p className="no-services-text">No services specified.</p>
                 )}
               </Flex>
             </Card>
@@ -486,9 +451,7 @@ const CompanyProfile = () => {
             {/* Active Campaigns */}
             {projects.length > 0 && (
               <>
-                <h3 className="section-heading-sm">
-                  Active Campaigns
-                </h3>
+                <h3 className="section-heading-sm">Active Campaigns</h3>
                 <div className="active-campaigns-list">
                   {projects.map((proj) => {
                     const progress = Math.min(
@@ -519,9 +482,7 @@ const CompanyProfile = () => {
                             align="flex-start"
                             className="campaign-title-row"
                           >
-                            <h4 className="campaign-title">
-                              {proj.title}
-                            </h4>
+                            <h4 className="campaign-title">{proj.title}</h4>
                             <span
                               style={{
                                 background:
@@ -572,35 +533,20 @@ const CompanyProfile = () => {
               </>
             )}
 
-            <h3 className="section-heading-sm">
-              Legit Works & Portfolio
-            </h3>
+            <h3 className="section-heading-sm">Legit Works & Portfolio</h3>
             <Grid cols={2} gap="1.5rem" className="portfolio-grid">
               {profile.portfolio?.map((work, i) => (
-                <Card
-                  key={i}
-                  className="portfolio-card"
-                >
+                <Card key={i} className="portfolio-card">
                   <div className="portfolio-img-container">
                     {work.image ? (
-                      <img
-                        src={work.image}
-                        className="portfolio-img"
-                      />
+                      <img src={work.image} className="portfolio-img" />
                     ) : (
-                      <Briefcase
-                        size={48}
-                        className="portfolio-icon-fade"
-                      />
+                      <Briefcase size={48} className="portfolio-icon-fade" />
                     )}
                   </div>
                   <div className="portfolio-content">
-                    <h4 className="portfolio-title">
-                      {work.title}
-                    </h4>
-                    <p className="portfolio-desc">
-                      {work.description}
-                    </p>
+                    <h4 className="portfolio-title">{work.title}</h4>
+                    <p className="portfolio-desc">{work.description}</p>
                     {work.link && (
                       <Button
                         variant="outline"
@@ -622,23 +568,16 @@ const CompanyProfile = () => {
               )}
             </Grid>
 
-            <h3 className="section-heading-sm">
-              Collaborator Feedbacks
-            </h3>
+            <h3 className="section-heading-sm">Collaborator Feedbacks</h3>
             {reviews.map((review) => (
               <ReviewCard key={review._id}>
-                <Flex
-                  justify="space-between"
-                  className="review-header-flex"
-                >
+                <Flex justify="space-between" className="review-header-flex">
                   <Flex gap="1rem" align="center">
                     <div className="reviewer-avatar">
                       {review.author?.name?.charAt(0) || "?"}
                     </div>
                     <div>
-                      <h4 className="reviewer-name">
-                        {review.author?.name}
-                      </h4>
+                      <h4 className="reviewer-name">{review.author?.name}</h4>
                       <p className="reviewer-date">
                         {new Date(review.createdAt).toLocaleDateString("en-IN")}
                       </p>
@@ -646,15 +585,10 @@ const CompanyProfile = () => {
                   </Flex>
                   <StarRating rating={review.rating} readonly />
                 </Flex>
-                <p className="review-comment">
-                  {review.comment}
-                </p>
+                <p className="review-comment">{review.comment}</p>
                 <Grid cols={2} gap="1rem">
                   <div className="review-appreciation-box">
-                    <Flex
-                      gap="0.5rem"
-                      className="review-box-title-success"
-                    >
+                    <Flex gap="0.5rem" className="review-box-title-success">
                       <ThumbsUp size={14} /> APPRECIATION
                     </Flex>
                     <p className="review-box-text-success">
@@ -662,10 +596,7 @@ const CompanyProfile = () => {
                     </p>
                   </div>
                   <div className="review-feedback-box">
-                    <Flex
-                      gap="0.5rem"
-                      className="review-box-title-danger"
-                    >
+                    <Flex gap="0.5rem" className="review-box-title-danger">
                       <Heart size={14} /> FEEDBACK
                     </Flex>
                     <p className="review-box-text-danger">
@@ -684,19 +615,11 @@ const CompanyProfile = () => {
 
           <div>
             <Card className="summary-card">
-              <h3 className="summary-title">
-                Review Summary
-              </h3>
+              <h3 className="summary-title">Review Summary</h3>
               <div className="summary-chart-container">
                 {[5, 4, 3, 2, 1].map((star) => (
-                  <Flex
-                    key={star}
-                    gap="1rem"
-                    className="star-row"
-                  >
-                    <span className="star-label">
-                      {star} star
-                    </span>
+                  <Flex key={star} gap="1rem" className="star-row">
+                    <span className="star-label">{star} star</span>
                     <div className="star-track">
                       <div
                         style={{
@@ -724,18 +647,13 @@ const CompanyProfile = () => {
             </Card>
 
             <Card className="journey-card">
-              <h3 className="summary-title">
-                Professional Journey
-              </h3>
+              <h3 className="summary-title">Professional Journey</h3>
               <div className="journey-timeline">
                 {profile.activityLog
                   ?.slice()
                   .reverse()
                   .map((log, i) => (
-                    <div
-                      key={i}
-                      className="journey-item"
-                    >
+                    <div key={i} className="journey-item">
                       <div
                         style={{
                           background:
@@ -743,9 +661,7 @@ const CompanyProfile = () => {
                         }}
                         className="journey-dot"
                       />
-                      <h5 className="journey-title">
-                        {log.milestone}
-                      </h5>
+                      <h5 className="journey-title">{log.milestone}</h5>
                       <p className="journey-date">
                         {new Date(log.date).toLocaleDateString("en-IN")}
                       </p>

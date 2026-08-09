@@ -244,9 +244,7 @@ const EditProject = () => {
   if (loading) {
     return (
       <EditWrapper>
-        <div className="edit-loading">
-          Loading campaign…
-        </div>
+        <div className="edit-loading">Loading campaign…</div>
       </EditWrapper>
     );
   }
@@ -274,9 +272,7 @@ const EditProject = () => {
               className="edit-header-flex"
             >
               <div>
-                <h2 className="step-title">
-                  Edit Campaign
-                </h2>
+                <h2 className="step-title">Edit Campaign</h2>
                 <p className="step-subtitle-no-mb">
                   Update your venture details and funding strategy.
                 </p>

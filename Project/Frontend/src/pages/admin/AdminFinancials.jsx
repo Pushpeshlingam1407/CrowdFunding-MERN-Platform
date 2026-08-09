@@ -283,10 +283,7 @@ const AdminFinancials = () => {
             Monitor platform-wide fundraising and platform revenue
           </Subtitle>
         </div>
-        <Button
-          onClick={handleExport}
-          className="btn-export"
-        >
+        <Button onClick={handleExport} className="btn-export">
           <Download size={16} className="icon-mr" />
           Export CSV Ledger
         </Button>
@@ -370,15 +367,10 @@ const AdminFinancials = () => {
 
       <TableCard>
         <TableHeader>
-          <h3 className="table-card-title">
-            Recent Transactions
-          </h3>
+          <h3 className="table-card-title">Recent Transactions</h3>
           <Flex gap="1rem">
             <div className="search-wrapper">
-              <Search
-                size={16}
-                className="search-icon-absolute"
-              />
+              <Search size={16} className="search-icon-absolute" />
               <SearchInput
                 placeholder="Search ledger..."
                 value={searchQuery}
@@ -412,19 +404,13 @@ const AdminFinancials = () => {
             <tbody>
               {loading ? (
                 <tr>
-                  <td
-                    colSpan="6"
-                    className="table-cell-center"
-                  >
+                  <td colSpan="6" className="table-cell-center">
                     Loading financial data...
                   </td>
                 </tr>
               ) : filteredInvestments.length === 0 ? (
                 <tr>
-                  <td
-                    colSpan="6"
-                    className="table-cell-empty"
-                  >
+                  <td colSpan="6" className="table-cell-empty">
                     No investments found.
                   </td>
                 </tr>

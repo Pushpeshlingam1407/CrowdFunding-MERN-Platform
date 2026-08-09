@@ -248,26 +248,17 @@ const AdminComplaints = () => {
             className="flex-wrap-wrap"
           >
             <Flex gap="2rem" className="flex-wrap-wrap">
-              <Flex
-                gap="0.75rem"
-                className="stat-red"
-              >
+              <Flex gap="0.75rem" className="stat-red">
                 <ShieldAlert size={20} />
                 {pending} PENDING
               </Flex>
               <div className="stat-divider" />
-              <Flex
-                gap="0.75rem"
-                className="stat-green"
-              >
+              <Flex gap="0.75rem" className="stat-green">
                 <CheckCircle2 size={20} />
                 {resolved} RESOLVED
               </Flex>
               <div className="stat-divider" />
-              <Flex
-                gap="0.75rem"
-                className="stat-dark"
-              >
+              <Flex gap="0.75rem" className="stat-dark">
                 <Flag size={20} />
                 {complaints.length} TOTAL
               </Flex>
@@ -307,19 +298,13 @@ const AdminComplaints = () => {
             <tbody>
               {loading ? (
                 <tr>
-                  <td
-                    colSpan={7}
-                    className="table-cell-empty-bold"
-                  >
+                  <td colSpan={7} className="table-cell-empty-bold">
                     Loading reports...
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
-                  <td
-                    colSpan={7}
-                    className="table-cell-empty-bold"
-                  >
+                  <td colSpan={7} className="table-cell-empty-bold">
                     {search
                       ? "No reports match your search."
                       : "Ecosystem secured. No active compliance reports."}
@@ -329,12 +314,8 @@ const AdminComplaints = () => {
                 filtered.map((item) => (
                   <tr key={item._id}>
                     <td className="col-max-w">
-                      <h4 className="issue-title">
-                        {item.subject}
-                      </h4>
-                      <p className="issue-desc-trunc">
-                        {item.description}
-                      </p>
+                      <h4 className="issue-title">{item.subject}</h4>
+                      <p className="issue-desc-trunc">{item.description}</p>
                     </td>
 
                     <td>

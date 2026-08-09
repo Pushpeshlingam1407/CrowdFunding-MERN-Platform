@@ -337,9 +337,7 @@ const Portfolio = () => {
           </EmptyState>
         ) : (
           <>
-            <h2 className="portfolio-section-title">
-              Your Investments
-            </h2>
+            <h2 className="portfolio-section-title">Your Investments</h2>
             <InvestmentList>
               {investments.map((investment, index) => (
                 <InvestmentCard

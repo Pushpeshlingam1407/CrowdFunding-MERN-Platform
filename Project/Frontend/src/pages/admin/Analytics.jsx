@@ -391,10 +391,7 @@ const AdminAnalytics = () => {
     >
       <div>
         <Flex justify="flex-end" className="flex-end-mb">
-          <button
-            onClick={fetchAll}
-            className="btn-refresh-data"
-          >
+          <button onClick={fetchAll} className="btn-refresh-data">
             <RefreshCw size={14} className={loading ? "spin" : ""} /> Refresh
             Data
           </button>
@@ -472,17 +469,14 @@ const AdminAnalytics = () => {
                 );
               })}
               {categoryEntries.length === 0 && (
-                <p className="empty-text-center">
-                  No campaigns yet
-                </p>
+                <p className="empty-text-center">No campaigns yet</p>
               )}
             </BarContainer>
           </ChartCard>
 
           <ChartCard>
             <SectionTitle>
-              <PieChart size={18} className="icon-green" /> User
-              Composition
+              <PieChart size={18} className="icon-green" /> User Composition
             </SectionTitle>
             <DonutContainer>
               <DonutSVG viewBox="0 0 160 160">
@@ -581,13 +575,9 @@ const AdminAnalytics = () => {
                 }}
               >
                 {s.icon}
-                <span className="status-card-title">
-                  {s.label}
-                </span>
+                <span className="status-card-title">{s.label}</span>
               </div>
-              <p className="status-card-value">
-                {s.count}
-              </p>
+              <p className="status-card-value">{s.count}</p>
               <p className="status-card-sub">
                 {projects.length
                   ? `${((s.count / projects.length) * 100).toFixed(0)}% of all campaigns`
@@ -625,9 +615,7 @@ const AdminAnalytics = () => {
                 return (
                   <tr key={p._id}>
                     <td>
-                      <span className="text-heavy-dark">
-                        {p.title}
-                      </span>
+                      <span className="text-heavy-dark">{p.title}</span>
                     </td>
                     <td className="text-medium-light">
                       {p.creator?.name || "—"}
@@ -671,10 +659,7 @@ const AdminAnalytics = () => {
               })}
               {topCampaigns.length === 0 && (
                 <tr>
-                  <td
-                    colSpan={7}
-                    className="table-cell-empty"
-                  >
+                  <td colSpan={7} className="table-cell-empty">
                     No campaigns yet
                   </td>
                 </tr>

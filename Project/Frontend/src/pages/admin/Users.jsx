@@ -347,10 +347,7 @@ const AdminUsers = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </SearchBar>
-          <ActionBtn
-            onClick={fetchUsers}
-            className="btn-refresh-users"
-          >
+          <ActionBtn onClick={fetchUsers} className="btn-refresh-users">
             <RefreshCw
               size={16}
               className={loading ? "spin icon-mr-sm" : "icon-mr-sm"}
@@ -393,9 +390,7 @@ const AdminUsers = () => {
                       <Flex gap="1rem">
                         <Avatar>{user.name?.charAt(0) || "?"}</Avatar>
                         <div>
-                          <h4 className="user-name-text">
-                            {user.name}
-                          </h4>
+                          <h4 className="user-name-text">{user.name}</h4>
                           <p className="user-meta-text">
                             {user.companyName || user.email}
                           </p>

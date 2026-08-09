@@ -228,7 +228,7 @@
   border: 1px solid #e3e0d8;
   border-radius: 24px;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.015);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.015);
 }
 
 .campaign-card-img {
@@ -237,7 +237,7 @@
   border-radius: 12px;
   object-fit: cover;
   flex-shrink: 0;
-  border: 1px solid rgba(0,0,0,0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .flex-grow-1 {
@@ -277,7 +277,7 @@
 
 .progress-track-sm {
   height: 6px;
-  background: rgba(0,0,0,0.05);
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 3px;
 }
 
@@ -358,7 +358,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(0,0,0,0.05);
+  background: rgba(0, 0, 0, 0.05);
   color: #191919;
   display: flex;
   align-items: center;
@@ -457,7 +457,7 @@
 
 .summary-chart-container {
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .star-row {
@@ -473,7 +473,7 @@
 .star-track {
   flex-grow: 1;
   height: 6px;
-  background: rgba(0,0,0,0.05);
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 99px;
   overflow: hidden;
 }
@@ -508,7 +508,7 @@
 .journey-timeline {
   position: relative;
   padding-left: 1.5rem;
-  border-left: 2px solid rgba(0,0,0,0.05);
+  border-left: 2px solid rgba(0, 0, 0, 0.05);
 }
 
 .journey-item {
@@ -546,4 +546,3 @@
   color: #86868b;
   opacity: 0.3;
 }
-

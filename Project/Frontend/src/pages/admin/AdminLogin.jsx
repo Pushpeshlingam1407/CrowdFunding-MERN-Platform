@@ -159,16 +159,11 @@ const AdminLogin = () => {
         >
           <AdminLogo>
             <ShieldCheck size={32} className="admin-icon-color" />
-            <h1 className="admin-portal-title">
-              Admin Portal
-            </h1>
+            <h1 className="admin-portal-title">Admin Portal</h1>
           </AdminLogo>
 
           <StyledCard className="admin-card-center">
-            <AlertCircle
-              size={48}
-              className="admin-alert-icon"
-            />
+            <AlertCircle size={48} className="admin-alert-icon" />
             <FormTitle className="admin-form-title-lg">
               Session Conflict
             </FormTitle>
@@ -208,9 +203,7 @@ const AdminLogin = () => {
       >
         <AdminLogo>
           <ShieldCheck size={32} className="admin-icon-color" />
-          <h1 className="admin-portal-title">
-            Admin Portal
-          </h1>
+          <h1 className="admin-portal-title">Admin Portal</h1>
         </AdminLogo>
 
         <StyledCard>

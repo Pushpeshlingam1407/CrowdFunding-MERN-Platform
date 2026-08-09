@@ -186,11 +186,7 @@ const InvestmentModal = ({ isOpen, onClose, project, onProceed }) => {
             step="1000"
             className={`investment-input ${error ? "input-error" : ""}`}
           />
-          {error && (
-            <p className="error-message">
-              {error}
-            </p>
-          )}
+          {error && <p className="error-message">{error}</p>}
         </FormGroup>
 
         {amount && Number(amount) > 0 && (

@@ -1001,10 +1001,7 @@ const Dashboard = () => {
                   ))}
                   {receivedInvestments.length === 0 && (
                     <tr>
-                      <td
-                        colSpan="5"
-                        className="table-cell-empty-bold-dash"
-                      >
+                      <td colSpan="5" className="table-cell-empty-bold-dash">
                         No donations received yet.
                       </td>
                     </tr>
@@ -1021,13 +1018,8 @@ const Dashboard = () => {
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
           >
-            <Settings
-              size={56}
-              className="settings-icon-fade"
-            />
-            <h3 className="settings-heading">
-              Account Configuration
-            </h3>
+            <Settings size={56} className="settings-icon-fade" />
+            <h3 className="settings-heading">Account Configuration</h3>
             <p className="settings-text-muted">
               Settings and credentials are configured directly in the Profile
               section.

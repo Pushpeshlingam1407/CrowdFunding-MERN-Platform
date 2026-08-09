@@ -284,9 +284,7 @@ const CreateProject = () => {
             <form onSubmit={handleSubmit}>
               {currentStep === 1 && (
                 <>
-                  <h2 className="step-title">
-                    Project Identity
-                  </h2>
+                  <h2 className="step-title">Project Identity</h2>
                   <p className="step-subtitle">
                     Define the core vision of your venture.
                   </p>
@@ -328,9 +326,7 @@ const CreateProject = () => {
 
               {currentStep === 2 && (
                 <>
-                  <h2 className="step-title">
-                    Funding Strategy
-                  </h2>
+                  <h2 className="step-title">Funding Strategy</h2>
                   <p className="step-subtitle">
                     Set your financial goals and timeline.
                   </p>
@@ -397,9 +393,7 @@ const CreateProject = () => {
 
               {currentStep === 3 && (
                 <>
-                  <h2 className="step-title">
-                    Cover Image
-                  </h2>
+                  <h2 className="step-title">Cover Image</h2>
                   <p className="step-subtitle">
                     Upload your campaign cover image that will be displayed
                     prominently.
@@ -426,9 +420,7 @@ const CreateProject = () => {
 
               {currentStep === 4 && (
                 <>
-                  <h2 className="step-title">
-                    Campaign Gallery
-                  </h2>
+                  <h2 className="step-title">Campaign Gallery</h2>
                   <p className="step-subtitle">
                     Upload additional images to showcase your campaign
                     (optional). Upload up to 10 images.

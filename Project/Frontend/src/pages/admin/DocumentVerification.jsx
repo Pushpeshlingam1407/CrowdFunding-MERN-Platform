@@ -220,21 +220,13 @@ const AdminDocumentVerification = () => {
           >
             <Flex gap="2.5rem" className="flex-wrap-wrap">
               <div className="text-center">
-                <h3 className="stat-large-red">
-                  {verifications.length}
-                </h3>
-                <p className="stat-subtext">
-                  Awaiting Audit
-                </p>
+                <h3 className="stat-large-red">{verifications.length}</h3>
+                <p className="stat-subtext">Awaiting Audit</p>
               </div>
               <div className="stat-divider-lg" />
               <div className="text-center">
-                <h3 className="stat-large-dark">
-                  1,124
-                </h3>
-                <p className="stat-subtext">
-                  Verified Entities
-                </p>
+                <h3 className="stat-large-dark">1,124</h3>
+                <p className="stat-subtext">Verified Entities</p>
               </div>
             </Flex>
             <div className="search-container-lg">
@@ -243,10 +235,7 @@ const AdminDocumentVerification = () => {
                 <input placeholder="Search entity name..." />
               </SearchBar>
             </div>
-            <button
-              onClick={fetchVerifications}
-              className="btn-refresh-verify"
-            >
+            <button onClick={fetchVerifications} className="btn-refresh-verify">
               <RefreshCw size={14} className={loading ? "spin" : ""} /> Refresh
             </button>
           </Flex>
@@ -266,19 +255,13 @@ const AdminDocumentVerification = () => {
             <tbody>
               {loading ? (
                 <tr>
-                  <td
-                    colSpan={5}
-                    className="table-cell-empty-bold"
-                  >
+                  <td colSpan={5} className="table-cell-empty-bold">
                     Loading queue...
                   </td>
                 </tr>
               ) : verifications.length === 0 ? (
                 <tr>
-                  <td
-                    colSpan={5}
-                    className="table-cell-empty-bold"
-                  >
+                  <td colSpan={5} className="table-cell-empty-bold">
                     Audit queue is empty. System secured.
                   </td>
                 </tr>
@@ -289,12 +272,8 @@ const AdminDocumentVerification = () => {
                       <Flex gap="1rem">
                         <Avatar>{verify.user?.name?.charAt(0) || "?"}</Avatar>
                         <div>
-                          <p className="entity-name">
-                            {verify.user?.name}
-                          </p>
-                          <p className="entity-email">
-                            {verify.user?.email}
-                          </p>
+                          <p className="entity-name">{verify.user?.name}</p>
+                          <p className="entity-email">{verify.user?.email}</p>
                         </div>
                       </Flex>
                     </td>
@@ -310,8 +289,8 @@ const AdminDocumentVerification = () => {
                         align="center"
                         className="date-mono-dark"
                       >
-                        <Calendar size={14} className="icon-gray" /> Aug
-                        12, 2026
+                        <Calendar size={14} className="icon-gray" /> Aug 12,
+                        2026
                       </Flex>
                     </td>
                     <td>

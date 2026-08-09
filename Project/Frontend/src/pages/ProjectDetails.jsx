@@ -745,9 +745,7 @@ const ProjectDetails = () => {
                       project.targetAmount - project.currentAmount
                     ).toLocaleString("en-IN")}
                   </span>
-                  <span className="stat-label">
-                    Still Needed
-                  </span>
+                  <span className="stat-label">Still Needed</span>
                 </Flex>
                 <Flex direction="column" align="flex-start">
                   <span className="stat-value">
@@ -758,9 +756,7 @@ const ProjectDetails = () => {
                         )
                       : 0}
                   </span>
-                  <span className="stat-label">
-                    Days Left
-                  </span>
+                  <span className="stat-label">Days Left</span>
                 </Flex>
               </Grid>
 

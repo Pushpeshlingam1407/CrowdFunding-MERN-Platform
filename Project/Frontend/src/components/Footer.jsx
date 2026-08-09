@@ -16,9 +16,7 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <h5 className="startup-fund-title">
-                StartupFund
-              </h5>
+              <h5 className="startup-fund-title">StartupFund</h5>
             </a>
             <p className="mb-0">Where investors connect with startups</p>
             <p className="mb-0">Made with ❤️ for Startups</p>

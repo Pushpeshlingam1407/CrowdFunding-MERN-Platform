@@ -353,10 +353,7 @@ const PaymentModal = ({
           {status && (
             <StatusBox type={status}>
               {status === "processing" && (
-                <Loader
-                  size={20}
-                  className="spin-animation"
-                />
+                <Loader size={20} className="spin-animation" />
               )}
               {status === "success" && <Check size={20} />}
               {status === "error" && <AlertCircle size={20} />}
@@ -368,9 +365,7 @@ const PaymentModal = ({
         {!status || status === "error" ? (
           <>
             <FormSection>
-              <h3 className="payment-method-title">
-                Select Payment Method
-              </h3>
+              <h3 className="payment-method-title">Select Payment Method</h3>
               <PaymentMethodsGrid>
                 {paymentMethods.map((method) => (
                   <PaymentMethodButton

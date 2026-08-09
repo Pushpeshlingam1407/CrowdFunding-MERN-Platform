@@ -366,9 +366,7 @@ const AdminDashboard = () => {
               ))}
         </StatsGrid>
 
-        <h2 className="admin-modules-title">
-          Admin Modules
-        </h2>
+        <h2 className="admin-modules-title">Admin Modules</h2>
         <ModulesGrid>
           {modules.map((m, i) => (
             <ModuleCard
@@ -428,16 +426,9 @@ const AdminDashboard = () => {
                     colorClass: "text-color-purple",
                   },
                 ].map((item, i) => (
-                  <div
-                    key={i}
-                    className="summary-card"
-                  >
-                    <p className="summary-card-label">
-                      {item.label}
-                    </p>
-                    <p
-                      className={`summary-card-value ${item.colorClass}`}
-                    >
+                  <div key={i} className="summary-card">
+                    <p className="summary-card-label">{item.label}</p>
+                    <p className={`summary-card-value ${item.colorClass}`}>
                       {item.value}
                     </p>
                   </div>

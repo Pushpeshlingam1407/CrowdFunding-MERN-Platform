@@ -360,9 +360,7 @@ const AdminProjects = () => {
                           />
                         </div>
                         <div>
-                          <p className="campaign-title-text">
-                            {project.title}
-                          </p>
+                          <p className="campaign-title-text">{project.title}</p>
                           <p className="campaign-meta-text">
                             {project.category} ·{" "}
                             {new Date(project.createdAt).toLocaleDateString(
@@ -386,9 +384,7 @@ const AdminProjects = () => {
                       </p>
                     </td>
                     <td>
-                      <p className="equity-amount-text">
-                        {project.equity}%
-                      </p>
+                      <p className="equity-amount-text">{project.equity}%</p>
                     </td>
                     <td>
                       <StatusBadge $status={project.status}>
