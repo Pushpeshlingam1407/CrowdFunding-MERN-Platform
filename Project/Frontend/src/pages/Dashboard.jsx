@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Plus,
@@ -29,488 +28,59 @@ import "./Dashboard.css";
 
 /* ─── Global Styled Components ─────────────────────────────────────── */
 
-const DashboardWrapper = styled.div`
-  padding: 4rem 0;
-  background-color: ${(props) => props.theme.colors.background};
-  min-height: calc(100vh - 80px);
-  font-family: inherit;
-`;
 
-const DashboardLayout = styled.div`
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 3rem;
-  align-items: start;
 
-  @media (max-width: 1024px) {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-`;
 
-const Sidebar = styled.aside`
-  background: #ffffff;
-  border-radius: 24px;
-  padding: 1.5rem;
-  border: 1px solid #e3e0d8;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
-  position: sticky;
-  top: 100px;
-`;
 
-const NavItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.875rem;
-  padding: 0.8rem 1.25rem;
-  border-radius: 99px;
-  color: ${(p) => (p.$active ? "#191919" : "#6e6e73")};
-  background: ${(p) => (p.$active ? "rgba(25, 25, 25, 0.05)" : "transparent")};
-  font-weight: ${(p) => (p.$active ? "700" : "500")};
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  margin-bottom: 0.4rem;
 
-  &:hover {
-    background: ${(p) => (p.$active ? "rgba(25, 25, 25, 0.05)" : "rgba(0, 0, 0, 0.02)")};
-    color: #191919;
-    transform: scale(1.02);
-  }
 
-  &:active {
-    transform: scale(0.97);
-  }
-`;
 
-const MainContent = styled.main`
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-`;
 
-const StatsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
-`;
 
-const StatCard = styled(motion.div)`
-  background: #ffffff;
-  border-radius: 24px;
-  padding: 1.75rem;
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  border: 1px solid #e3e0d8;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
-  &:hover {
-    transform: translateY(-4px) scale(1.01);
-    box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.03);
-    border-color: #191919;
-  }
 
-  .icon-box {
-    width: 52px;
-    height: 52px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fbf9f6;
-    color: #191919;
-    border: 1px solid #e3e0d8;
-  }
 
-  .stat-info {
-    h3 {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: #191919;
-      margin-bottom: 0.15rem;
-      font-family: var(--font-mono);
-      letter-spacing: -0.02em;
-    }
-    p {
-      color: #86868b;
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-  }
-`;
 
-const ContentCard = styled(motion.div)`
-  background: #ffffff;
-  border-radius: 24px;
-  padding: 2.25rem;
-  border: 1px solid #e3e0d8;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
-`;
 
-const TableWrapper = styled.div`
-  width: 100%;
-  overflow-x: auto;
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-  }
 
-  th {
-    text-align: left;
-    padding: 1.25rem 1rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #86868b;
-    border-bottom: 1px solid #e3e0d8;
-  }
 
-  td {
-    padding: 1.25rem 1rem;
-    border-bottom: 1px solid #e3e0d8;
-    font-size: 0.95rem;
-    color: #191919;
-    vertical-align: middle;
-  }
 
-  tbody tr {
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    background: #ffffff;
-  }
 
-  tbody tr:hover {
-    background: #fbf9f6;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.015);
-  }
 
-  tbody tr:last-child td {
-    border-bottom: none;
-  }
-`;
 
-const StatusBadge = styled.span`
-  padding: 0.35rem 0.8rem;
-  border-radius: 99px;
-  font-size: 0.72rem;
-  font-weight: 850;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  background: ${(props) => {
-    switch (props.status) {
-      case "active":
-      case "approved":
-      case "completed":
-        return "rgba(16, 185, 129, 0.08)";
-      case "pending":
-        return "rgba(245, 158, 11, 0.08)";
-      case "rejected":
-        return "rgba(239, 68, 68, 0.08)";
-      default:
-        return "rgba(110, 110, 115, 0.08)";
-    }
-  }};
-  color: ${(props) => {
-    switch (props.status) {
-      case "active":
-      case "approved":
-      case "completed":
-        return "#10b981";
-      case "pending":
-        return "#f59e0b";
-      case "rejected":
-        return "#ef4444";
-      default:
-        return "#6e6e73";
-    }
-  }};
-  border: 1px solid
-    ${(props) => {
-      switch (props.status) {
-        case "active":
-        case "approved":
-        case "completed":
-          return "rgba(16, 185, 129, 0.15)";
-        case "pending":
-          return "rgba(245, 158, 11, 0.15)";
-        case "rejected":
-          return "rgba(239, 68, 68, 0.15)";
-        default:
-          return "rgba(110, 110, 115, 0.15)";
-      }
-    }};
-`;
 
-const PremiumBtn = styled.button`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 12px;
-  font-weight: 800;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  background: ${(p) => (p.$primary ? "#191919" : "#ffffff")};
-  color: ${(p) => (p.$primary ? "#ffffff" : "#191919")};
-  border: ${(p) => (p.$primary ? "1px solid #191919" : "1px solid #e3e0d8")};
-  box-shadow: ${(p) => (p.$primary ? "0 4px 12px rgba(25, 25, 25, 0.08)" : "none")};
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: ${(p) => (p.$primary ? "0 8px 24px rgba(25, 25, 25, 0.12)" : "0 4px 12px rgba(0, 0, 0, 0.05)")};
-    background: ${(p) => (p.$primary ? "#2d2d2d" : "#fbf9f6")};
-    border-color: #191919;
-  }
-
-  &:active {
-    transform: scale(0.97);
-  }
-`;
-
-const ActionBtn = styled.button`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  cursor: pointer;
-  border: 1px solid;
-  transition: all 0.15s;
-  background: #ffffff;
-
-  ${(props) =>
-    props.$variant === "danger"
-      ? `color: #ef4444; border-color: rgba(239,68,68,0.25); &:hover { background: rgba(239,68,68,0.05); }`
-      : `color: #191919; border-color: #e3e0d8; &:hover { background: #fbf9f6; border-color: #191919; }`}
-`;
 
 /* ─── Investor Editorial Layout Components ─────────────────────────── */
 
-const InvestorLayout = styled.div`
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-`;
 
-const SegmentedControl = styled.div`
-  display: inline-flex;
-  background: rgba(0, 0, 0, 0.03);
-  padding: 4px;
-  border-radius: 99px;
-  border: 1px solid #e3e0d8;
-  width: fit-content;
-  margin-bottom: 0.5rem;
-`;
 
-const TabButton = styled.button`
-  background: ${(props) => (props.$active ? "#ffffff" : "transparent")};
-  color: ${(props) => (props.$active ? "#191919" : "#6e6e73")};
-  border: none;
-  padding: 0.6rem 1.6rem;
-  border-radius: 99px;
-  font-size: 0.88rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: ${(props) => (props.$active ? "0px 2px 8px rgba(0, 0, 0, 0.05)" : "none")};
-  outline: none;
 
-  &:hover {
-    color: #191919;
-  }
-`;
 
-const AssetCard = styled.div`
-  background: linear-gradient(135deg, #191919 0%, #2a2a2a 100%);
-  color: #fbf9f6;
-  border-radius: 28px;
-  padding: 2.5rem;
-  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.05);
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.05);
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    right: -20%;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(
-      circle,
-      rgba(0, 113, 227, 0.15) 0%,
-      transparent 70%
-    );
-    pointer-events: none;
-  }
 
-  .label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #86868b;
-    margin-bottom: 0.5rem;
-  }
 
-  .amount {
-    font-size: 3rem;
-    font-weight: 800;
-    font-family: var(--font-mono);
-    letter-spacing: -0.03em;
-    margin-bottom: 1.5rem;
-    color: #ffffff;
-  }
-`;
 
-const AssetDetailGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 1.5rem;
-`;
 
-const AssetDetailItem = styled.div`
-  h4 {
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: #86868b;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.25rem;
-  }
-  p {
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: #ffffff;
-    font-family: var(--font-mono);
-  }
-`;
 
-const ProjectCardGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-`;
 
-const MiniProjectCard = styled(motion.div)`
-  background: #ffffff;
-  border-radius: 24px;
-  padding: 1.75rem;
-  border: 1px solid #e3e0d8;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.015);
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
-  &:hover {
-    transform: translateY(-4px);
-    border-color: #191919;
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.035);
-  }
 
-  h4 {
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: #191919;
-    font-family: var(--font-serif);
-    margin: 0;
-  }
-  .category {
-    font-size: 0.72rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    color: #0071e3;
-    letter-spacing: 0.5px;
-  }
-  .desc {
-    font-size: 0.85rem;
-    color: #6e6e73;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-`;
 
-const ProgressBar = styled.div`
-  width: 100%;
-  height: 6px;
-  background: #e3e0d8;
-  border-radius: 99px;
-  overflow: hidden;
-  margin-top: 0.5rem;
-`;
 
-const ProgressFill = styled.div`
-  height: 100%;
-  background: #0071e3;
-  width: ${(props) => Math.min(100, props.$percent)}%;
-  border-radius: 99px;
-`;
 
-const DisclaimerContainer = styled.div`
-  max-width: 520px;
-  margin: 8rem auto;
-  padding: 3rem;
-  background: #ffffff;
-  border-radius: 28px;
-  border: 1px solid #e3e0d8;
-  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.015);
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-`;
 
-const IconWrapper = styled.div`
-  width: 72px;
-  height: 72px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(245, 158, 11, 0.08);
-  color: #f59e0b;
-  border: 1px solid rgba(245, 158, 11, 0.15);
-  margin-bottom: 0.5rem;
-`;
 
-const DisclaimerTitle = styled.h2`
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: #191919;
-  letter-spacing: -0.03em;
-  font-family: ${(props) => props.theme.fonts.serif};
-  margin: 0;
-`;
 
-const DisclaimerText = styled.p`
-  color: #6e6e73;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  margin: 0;
-`;
+
+
+
+
+
+
+
+
 
 /* ─── Dashboard Component Implementation ─────────────────────────── */
 
@@ -540,17 +110,17 @@ const Dashboard = () => {
 
   if (isAdmin) {
     return (
-      <DashboardWrapper>
-        <DisclaimerContainer>
-          <IconWrapper>
+      <div className="dashboard-wrapper">
+        <div className="dashboard-disclaimer-container">
+          <div className="dashboard-icon-wrapper">
             <ShieldAlert size={36} />
-          </IconWrapper>
-          <DisclaimerTitle>Access Intercepted</DisclaimerTitle>
-          <DisclaimerText>
+          </div>
+          <h2 className="dashboard-disclaimer-title">Access Intercepted</h2>
+          <p className="dashboard-disclaimer-text">
             Standard member spaces (such as investment dashboards and campaign
             builders) are reserved for startup and investor roles. You are
             logged in with admin privileges.
-          </DisclaimerText>
+          </p>
           <Flex className="dashboard-intercept-actions">
             <PremiumBtn
               $primary
@@ -558,7 +128,7 @@ const Dashboard = () => {
               onClick={() => navigate("/admin/dashboard")}
             >
               Go to Admin Portal
-            </PremiumBtn>
+            </button>
             <PremiumBtn
               className="dashboard-intercept-btn"
               onClick={() => {
@@ -567,10 +137,10 @@ const Dashboard = () => {
               }}
             >
               Sign Out
-            </PremiumBtn>
+            </button>
           </Flex>
-        </DisclaimerContainer>
-      </DashboardWrapper>
+        </div>
+      </div>
     );
   }
 
@@ -640,8 +210,8 @@ const Dashboard = () => {
   const renderStats = () => {
     if (user?.role === "startup") {
       return (
-        <StatsGrid>
-          <StatCard
+        <div className="dashboard-stats-grid">
+          <motion.div className="dashboard-stat-card"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -653,8 +223,8 @@ const Dashboard = () => {
               <h3>{stats.total}</h3>
               <p>Total Campaigns</p>
             </div>
-          </StatCard>
-          <StatCard
+          </motion.div>
+          <motion.div className="dashboard-stat-card"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -666,8 +236,8 @@ const Dashboard = () => {
               <h3>{stats.active}</h3>
               <p>Active Campaigns</p>
             </div>
-          </StatCard>
-          <StatCard
+          </motion.div>
+          <motion.div className="dashboard-stat-card"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
@@ -679,13 +249,13 @@ const Dashboard = () => {
               <h3>{stats.pending}</h3>
               <p>Pending Moderation</p>
             </div>
-          </StatCard>
-        </StatsGrid>
+          </motion.div>
+        </div>
       );
     } else if (user?.role === "mnc") {
       return (
-        <StatsGrid>
-          <StatCard
+        <div className="dashboard-stats-grid">
+          <motion.div className="dashboard-stat-card"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -697,8 +267,8 @@ const Dashboard = () => {
               <h3>{stats.total}</h3>
               <p>Enterprise Partnerships</p>
             </div>
-          </StatCard>
-          <StatCard
+          </motion.div>
+          <motion.div className="dashboard-stat-card"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -710,13 +280,13 @@ const Dashboard = () => {
               <h3>₹{stats.active.toLocaleString("en-IN")}</h3>
               <p>Strategic Capital Deployed</p>
             </div>
-          </StatCard>
-        </StatsGrid>
+          </motion.div>
+        </div>
       );
     } else if (user?.role === "employee") {
       return (
-        <StatsGrid>
-          <StatCard
+        <div className="dashboard-stats-grid">
+          <motion.div className="dashboard-stat-card"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -728,8 +298,8 @@ const Dashboard = () => {
               <h3>{stats.total}</h3>
               <p>Co-Investments Joined</p>
             </div>
-          </StatCard>
-          <StatCard
+          </motion.div>
+          <motion.div className="dashboard-stat-card"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -741,14 +311,14 @@ const Dashboard = () => {
               <h3>₹{stats.active.toLocaleString("en-IN")}</h3>
               <p>Fractional Capital Deployed</p>
             </div>
-          </StatCard>
-        </StatsGrid>
+          </motion.div>
+        </div>
       );
     } else {
       // Investor (Fallback stats grid - used inside tabs)
       return (
-        <StatsGrid>
-          <StatCard
+        <div className="dashboard-stats-grid">
+          <motion.div className="dashboard-stat-card"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
           >
@@ -759,8 +329,8 @@ const Dashboard = () => {
               <h3>{stats.total}</h3>
               <p>Campaigns Backed</p>
             </div>
-          </StatCard>
-          <StatCard
+          </motion.div>
+          <motion.div className="dashboard-stat-card"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -772,8 +342,8 @@ const Dashboard = () => {
               <h3>₹{stats.active.toLocaleString("en-IN")}</h3>
               <p>Total Capital Invested</p>
             </div>
-          </StatCard>
-        </StatsGrid>
+          </motion.div>
+        </div>
       );
     }
   };
@@ -781,18 +351,18 @@ const Dashboard = () => {
   const renderTableData = () => {
     if (user?.role === "startup") {
       return (
-        <ContentCard
+        <motion.div className="dashboard-content-card"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
           <Flex className="dashboard-section-header">
             <h2 className="card-title">Recent Campaigns</h2>
-            <PremiumBtn onClick={() => setActiveTab("campaigns")}>
+            <button className="dashboard-premium-btn secondary" onClick={() => setActiveTab("campaigns")}>
               View All
-            </PremiumBtn>
+            </button>
           </Flex>
-          <TableWrapper>
+          <div className="dashboard-table-wrapper">
             <table>
               <thead>
                 <tr>
@@ -812,9 +382,9 @@ const Dashboard = () => {
                       ₹{project.targetAmount?.toLocaleString("en-IN")}
                     </td>
                     <td>
-                      <StatusBadge status={project.status}>
+                      <span className={`dashboard-status-badge status-${project.status === "active" || project.status === "approved" || project.status === "completed" ? "active" : project.status === "pending" ? "pending" : project.status === "rejected" ? "rejected" : "default"}`}>
                         {project.status}
-                      </StatusBadge>
+                      </span>
                     </td>
                     <td>
                       <Flex gap="0.5rem">
@@ -823,7 +393,7 @@ const Dashboard = () => {
                           title="View Details"
                         >
                           <ExternalLink size={14} />
-                        </ActionBtn>
+                        </button>
                         <ActionBtn
                           onClick={() =>
                             navigate(`/projects/${project._id}/edit`)
@@ -831,14 +401,14 @@ const Dashboard = () => {
                           title="Edit Campaign"
                         >
                           <Edit size={14} />
-                        </ActionBtn>
+                        </button>
                         <ActionBtn
                           $variant="danger"
                           onClick={() => handleDelete(project._id)}
                           title="Delete Campaign"
                         >
                           <Trash2 size={14} />
-                        </ActionBtn>
+                        </button>
                       </Flex>
                     </td>
                   </tr>
@@ -852,8 +422,8 @@ const Dashboard = () => {
                 )}
               </tbody>
             </table>
-          </TableWrapper>
-        </ContentCard>
+          </div>
+        </motion.div>
       );
     } else {
       // Investor, MNC, Employee tables
@@ -877,7 +447,7 @@ const Dashboard = () => {
             : "investments";
 
       return (
-        <ContentCard
+        <motion.div className="dashboard-content-card"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -885,12 +455,12 @@ const Dashboard = () => {
           <Flex className="dashboard-section-header">
             <h2 className="card-title">{title}</h2>
             {user?.role !== "investor" && (
-              <PremiumBtn onClick={() => setActiveTab(activeTabTarget)}>
+              <button className="dashboard-premium-btn secondary" onClick={() => setActiveTab(activeTabTarget)}>
                 View All
-              </PremiumBtn>
+              </button>
             )}
           </Flex>
-          <TableWrapper>
+          <div className="dashboard-table-wrapper">
             <table>
               <thead>
                 <tr>
@@ -914,9 +484,9 @@ const Dashboard = () => {
                       ).toLocaleDateString("en-IN")}
                     </td>
                     <td>
-                      <StatusBadge status={inv.status}>
+                      <span className={`dashboard-status-badge status-${inv.status === "active" || inv.status === "approved" || inv.status === "completed" ? "active" : inv.status === "pending" ? "pending" : inv.status === "rejected" ? "rejected" : "default"}`}>
                         {inv.status}
-                      </StatusBadge>
+                      </span>
                     </td>
                     <td>
                       <ActionBtn
@@ -928,7 +498,7 @@ const Dashboard = () => {
                         title="View Project Details"
                       >
                         <ExternalLink size={14} />
-                      </ActionBtn>
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -941,8 +511,8 @@ const Dashboard = () => {
                 )}
               </tbody>
             </table>
-          </TableWrapper>
-        </ContentCard>
+          </div>
+        </motion.div>
       );
     }
   };
@@ -956,7 +526,7 @@ const Dashboard = () => {
         return renderTableData();
       case "backers":
         return (
-          <ContentCard
+          <motion.div className="dashboard-content-card"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -964,7 +534,7 @@ const Dashboard = () => {
             <Flex className="dashboard-section-header">
               <h2 className="card-title">Donors & Backers</h2>
             </Flex>
-            <TableWrapper>
+            <div className="dashboard-table-wrapper">
               <table>
                 <thead>
                   <tr>
@@ -1008,12 +578,12 @@ const Dashboard = () => {
                   )}
                 </tbody>
               </table>
-            </TableWrapper>
-          </ContentCard>
+            </div>
+          </motion.div>
         );
       case "settings":
         return (
-          <ContentCard
+          <motion.div className="dashboard-content-card"
             className="settings-card-pad"
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -1030,8 +600,8 @@ const Dashboard = () => {
               onClick={() => navigate("/profile")}
             >
               Go to Profile
-            </PremiumBtn>
-          </ContentCard>
+            </button>
+          </motion.div>
         );
       default:
         return (
@@ -1053,15 +623,15 @@ const Dashboard = () => {
         className="dashboard-investor-overview"
       >
         {/* Total Wealth Asset Card */}
-        <AssetCard>
+        <div className="dashboard-asset-card">
           <p className="label">Total Wealth Deployed</p>
           <h2 className="amount">₹{stats.active.toLocaleString("en-IN")}</h2>
-          <AssetDetailGrid>
-            <AssetDetailItem>
+          <div className="dashboard-asset-detail-grid">
+            <div className="dashboard-asset-detail-item">
               <h4>Backed Campaigns</h4>
               <p>{stats.total}</p>
-            </AssetDetailItem>
-            <AssetDetailItem>
+            </div>
+            <div className="dashboard-asset-detail-item">
               <h4>Average Ticket</h4>
               <p>
                 ₹
@@ -1071,13 +641,13 @@ const Dashboard = () => {
                     )
                   : "0"}
               </p>
-            </AssetDetailItem>
-            <AssetDetailItem>
+            </div>
+            <div className="dashboard-asset-detail-item">
               <h4>Verification Status</h4>
               <p className="verified-badge">VERIFIED</p>
-            </AssetDetailItem>
-          </AssetDetailGrid>
-        </AssetCard>
+            </div>
+          </div>
+        </div>
 
         {/* Live Marketplace Feed */}
         <div>
@@ -1097,14 +667,14 @@ const Dashboard = () => {
             </Button>
           </Flex>
 
-          <ProjectCardGrid>
+          <div className="dashboard-project-card-grid">
             {marketplaceProjects.map((p) => {
               const pProgress = Math.min(
                 100,
                 (p.currentAmount / p.targetAmount) * 100,
               );
               return (
-                <MiniProjectCard
+                <motion.div className="dashboard-mini-project-card"
                   key={p._id}
                   onClick={() => navigate(`/projects/${p._id}`)}
                   whileHover={{ y: -4 }}
@@ -1124,11 +694,11 @@ const Dashboard = () => {
                       </span>
                       <span>{pProgress.toFixed(0)}%</span>
                     </Flex>
-                    <ProgressBar>
-                      <ProgressFill $percent={pProgress} />
-                    </ProgressBar>
+                    <div className="dashboard-progress-bar">
+                      <div className="dashboard-progress-fill" style={{ width: `${Math.min(100, pProgress)}%` }} />
+                    </div>
                   </div>
-                </MiniProjectCard>
+                </motion.div>
               );
             })}
             {marketplaceProjects.length === 0 && (
@@ -1136,7 +706,7 @@ const Dashboard = () => {
                 No active marketplace campaigns found.
               </p>
             )}
-          </ProjectCardGrid>
+          </div>
         </div>
 
         {/* Recent Transactions List */}
@@ -1160,8 +730,8 @@ const Dashboard = () => {
 
   if (user?.role === "investor") {
     return (
-      <DashboardWrapper>
-        <InvestorLayout>
+      <div className="dashboard-wrapper">
+        <div className="dashboard-investor-layout">
           {/* Custom Single-Column Header */}
           <header className="investor-header">
             <div>
@@ -1172,38 +742,38 @@ const Dashboard = () => {
                 Monitor your startup investment portfolio and allocation.
               </p>
             </div>
-            <PremiumBtn $primary onClick={() => navigate("/campaigns")}>
+            <button className="dashboard-premium-btn primary" onClick={() => navigate("/campaigns")}>
               Explore Marketplace
-            </PremiumBtn>
+            </button>
           </header>
 
           {/* Segmented top tab nav bar */}
-          <SegmentedControl>
+          <div className="dashboard-segmented-control">
             <TabButton
               $active={activeTab === "overview"}
               onClick={() => setActiveTab("overview")}
             >
               Overview
-            </TabButton>
+            </button>
             <TabButton
               $active={activeTab === "portfolio"}
               onClick={() => setActiveTab("portfolio")}
             >
               My Portfolio
-            </TabButton>
+            </button>
             <TabButton
               $active={activeTab === "settings"}
               onClick={() => setActiveTab("settings")}
             >
               Settings
-            </TabButton>
-          </SegmentedControl>
+            </button>
+          </div>
 
           <AnimatePresence mode="wait">
             {renderInvestorContent()}
           </AnimatePresence>
-        </InvestorLayout>
-      </DashboardWrapper>
+        </div>
+      </div>
     );
   }
 
@@ -1238,9 +808,9 @@ const Dashboard = () => {
   };
 
   return (
-    <DashboardWrapper>
-      <DashboardLayout>
-        <Sidebar>
+    <div className="dashboard-wrapper">
+      <div className="dashboard-layout">
+        <aside className="dashboard-sidebar">
           <div className="dashboard-sidebar-header">
             <h2 className="dashboard-sidebar-title">Workspaces</h2>
           </div>
@@ -1255,11 +825,11 @@ const Dashboard = () => {
                 strokeWidth={activeTab === nav.id ? 2.5 : 2}
               />{" "}
               {nav.label}
-            </NavItem>
+            </div>
           ))}
-        </Sidebar>
+        </aside>
 
-        <MainContent>
+        <main className="dashboard-main-content">
           <header className="dashboard-header">
             <div>
               <h1 className="dashboard-welcome-heading-main">
@@ -1274,16 +844,16 @@ const Dashboard = () => {
               </p>
             </div>
             {user?.role === "startup" && (
-              <PremiumBtn $primary onClick={() => navigate("/projects/new")}>
+              <button className="dashboard-premium-btn primary" onClick={() => navigate("/projects/new")}>
                 <Plus size={18} className="icon-mr" /> Create Campaign
-              </PremiumBtn>
+              </button>
             )}
           </header>
 
           <AnimatePresence mode="wait">{renderContent()}</AnimatePresence>
-        </MainContent>
-      </DashboardLayout>
-    </DashboardWrapper>
+        </main>
+      </div>
+    </div>
   );
 };
 

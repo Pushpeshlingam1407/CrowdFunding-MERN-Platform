@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -30,109 +29,21 @@ import useAuthStore from "../store/authStore";
 import { b2bAPI, userAPI, projectAPI } from "../services/api";
 import "./CompanyProfile.css";
 
-const ProfileWrapper = styled.div`
-  padding: 4rem 0;
-  background-color: #fbf9f6;
-  background-image: radial-gradient(#e3e0d8 1px, transparent 1px);
-  background-size: 32px 32px;
-  min-height: calc(100vh - 80px);
-`;
 
-const ProfileHeader = styled(Card)`
-  padding: 3rem;
-  border-radius: 24px;
-  background: #ffffff;
-  border: 1px solid #e3e0d8;
-  margin-bottom: 2rem;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.015);
-`;
 
-const Avatar = styled.div`
-  width: 120px;
-  height: 120px;
-  border-radius: 24px;
-  background: rgba(0, 0, 0, 0.05);
-  color: #191919;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 3rem;
-  font-weight: 800;
-  margin-right: 2rem;
-  overflow: hidden;
-  border: 1px solid #e3e0d8;
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`;
 
-const Badge = styled.span`
-  padding: 0.35rem 0.8rem;
-  border-radius: 99px;
-  font-size: 0.72rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  background: rgba(0, 0, 0, 0.04);
-  color: #6e6e73;
-  margin-bottom: 0.5rem;
-  display: inline-block;
-  border: 1px solid #e3e0d8;
-`;
 
-const ReviewCard = styled(Card)`
-  margin-bottom: 1.5rem;
-  padding: 2rem;
-  border-radius: 24px;
-  border: 1px solid #e3e0d8;
-  background: #ffffff;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
-`;
 
-const ServiceTag = styled.span`
-  padding: 0.35rem 0.8rem;
-  background: rgba(0, 0, 0, 0.04);
-  border-radius: 99px;
-  border: 1px solid #e3e0d8;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #191919;
-`;
 
-const ModalOverlay = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 1rem;
-`;
 
-const TextArea = styled.textarea`
-  width: 100%;
-  padding: 1rem;
-  border: 1px solid #dcdad2;
-  border-radius: 12px;
-  margin-bottom: 1.5rem;
-  font-family: inherit;
-  font-size: 0.95rem;
-  min-height: 100px;
-  resize: vertical;
-  outline: none;
 
-  &:focus {
-    border-color: #191919;
-  }
-`;
+
+
+
+
+
+
 
 const CompanyProfile = () => {
   const { id } = useParams();
@@ -201,25 +112,25 @@ const CompanyProfile = () => {
 
   if (loading)
     return (
-      <ProfileWrapper>
+      <div className="company-profile-wrapper">
         <Container>
           <div className="profile-loading-wrapper">
             <div className="profile-loading-skeleton" />
           </div>
         </Container>
-      </ProfileWrapper>
+      </div>
     );
   if (!profile)
     return <div className="profile-not-found">Profile Not Found</div>;
 
   return (
-    <ProfileWrapper>
+    <div className="company-profile-wrapper">
       <Container>
-        <ProfileHeader>
+        <Card className="company-profile-header">
           <Flex align="flex-start" wrap="wrap" gap="2rem">
-            <Avatar>{profile.name.charAt(0)}</Avatar>
+            <div className="company-avatar">{profile.name.charAt(0)}</div>
             <div className="profile-header-content">
-              <Badge>{profile.role}</Badge>
+              <span className="company-badge">{profile.role}</span>
               <h1 className="profile-name">
                 {profile.companyName || profile.name}
               </h1>
@@ -335,11 +246,11 @@ const CompanyProfile = () => {
             onClose={() => setShowComplaintBox(false)}
             targetCompanyId={id}
           />
-        </ProfileHeader>
+        </Card>
 
         <AnimatePresence>
           {showReviewModal && (
-            <ModalOverlay
+            <motion.div className="company-modal-overlay"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -370,7 +281,7 @@ const CompanyProfile = () => {
                   </div>
 
                   <label className="form-label-small">Comment</label>
-                  <TextArea
+                  <textarea className="company-textarea"
                     placeholder="General experience working with this company..."
                     value={newReview.comment}
                     onChange={(e) =>
@@ -423,7 +334,7 @@ const CompanyProfile = () => {
                   </Flex>
                 </form>
               </Card>
-            </ModalOverlay>
+            </motion.div>
           )}
         </AnimatePresence>
 
@@ -440,7 +351,7 @@ const CompanyProfile = () => {
               <Flex gap="0.75rem" wrap="wrap">
                 {profile.services && profile.services.length > 0 ? (
                   profile.services.map((service, i) => (
-                    <ServiceTag key={i}>{service}</ServiceTag>
+                    <span className="company-service-tag" key={i}>{service}</span>
                   ))
                 ) : (
                   <p className="no-services-text">No services specified.</p>
@@ -570,7 +481,7 @@ const CompanyProfile = () => {
 
             <h3 className="section-heading-sm">Collaborator Feedbacks</h3>
             {reviews.map((review) => (
-              <ReviewCard key={review._id}>
+              <Card className="company-review-card" key={review._id}>
                 <Flex justify="space-between" className="review-header-flex">
                   <Flex gap="1rem" align="center">
                     <div className="reviewer-avatar">
@@ -604,7 +515,7 @@ const CompanyProfile = () => {
                     </p>
                   </div>
                 </Grid>
-              </ReviewCard>
+              </Card>
             ))}
             {reviews.length === 0 && (
               <p className="no-reviews-text">
@@ -672,7 +583,7 @@ const CompanyProfile = () => {
           </div>
         </Grid>
       </Container>
-    </ProfileWrapper>
+    </div>
   );
 };
 

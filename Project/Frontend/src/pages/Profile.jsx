@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+
 import { motion } from "framer-motion";
 import {
   User,
@@ -21,37 +21,7 @@ import useAuthStore from "../store/authStore";
 import { userAPI, b2bAPI } from "../services/api";
 import "./Profile.css";
 
-const ProfileWrapper = styled.div`
-  padding: 4rem 0;
-  background: #fafafa;
-  min-height: calc(100vh - 80px);
-`;
 
-const ProfileCard = styled(Card)`
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 3rem;
-`;
-
-const Label = styled.label`
-  display: block;
-  font-size: 0.85rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  color: #444;
-`;
-
-const SectionTitle = styled.h3`
-  font-size: 1.25rem;
-  font-weight: 800;
-  margin: 2.5rem 0 1.5rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid #f0f0f0;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-family: ${(props) => props.theme.fonts.serif};
-`;
 
 const Profile = () => {
   const { user, updateUser } = useAuthStore();
@@ -171,14 +141,14 @@ const Profile = () => {
   };
 
   return (
-    <ProfileWrapper>
+    <div className="profile-wrapper">
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <ProfileCard>
+          <Card className="profile-card">
             <header className="profile-header">
               <div className="profile-avatar">{user?.name.charAt(0)}</div>
               <h1 className="profile-title">Professional Identity</h1>
@@ -189,12 +159,12 @@ const Profile = () => {
             </header>
 
             <form onSubmit={handleSubmit}>
-              <SectionTitle>
+              <h3 className="profile-section-title">
                 <User size={20} /> Personal Information
-              </SectionTitle>
+              </h3>
               <Grid cols={2} gap="1.5rem">
                 <div>
-                  <Label>Full Name</Label>
+                  <label className="profile-label">Full Name</label>
                   <Input
                     name="name"
                     value={formData.name}
@@ -203,7 +173,7 @@ const Profile = () => {
                   />
                 </div>
                 <div>
-                  <Label>Email Address (Locked)</Label>
+                  <label className="profile-label">Email Address (Locked)</label>
                   <Input
                     value={user?.email}
                     disabled
@@ -212,12 +182,12 @@ const Profile = () => {
                 </div>
               </Grid>
 
-              <SectionTitle>
+              <h3 className="profile-section-title">
                 <Building2 size={20} /> Company Profile
-              </SectionTitle>
+              </h3>
               <Grid cols={2} gap="1.5rem">
                 <div>
-                  <Label>Entity / Company Name</Label>
+                  <label className="profile-label">Entity / Company Name</label>
                   <Input
                     name="companyName"
                     value={formData.companyName}
@@ -226,7 +196,7 @@ const Profile = () => {
                   />
                 </div>
                 <div>
-                  <Label>Official Website</Label>
+                  <label className="profile-label">Official Website</label>
                   <Input
                     name="companyWebsite"
                     value={formData.companyWebsite}
@@ -236,7 +206,7 @@ const Profile = () => {
                 </div>
               </Grid>
               <div className="profile-bio-container">
-                <Label>Company Bio / Vision</Label>
+                <label className="profile-label">Company Bio / Vision</label>
                 <textarea
                   name="bio"
                   value={formData.bio}
@@ -246,12 +216,12 @@ const Profile = () => {
                 />
               </div>
 
-              <SectionTitle>
+              <h3 className="profile-section-title">
                 <Globe size={20} /> Branding & Visibility
-              </SectionTitle>
+              </h3>
               <Grid cols={2} gap="1.5rem">
                 <div>
-                  <Label>Company Logo URL</Label>
+                  <label className="profile-label">Company Logo URL</label>
                   <Input
                     name="logo"
                     value={formData.logo}
@@ -260,7 +230,7 @@ const Profile = () => {
                   />
                 </div>
                 <div>
-                  <Label>Core Slogan / Mission Statement</Label>
+                  <label className="profile-label">Core Slogan / Mission Statement</label>
                   <Input
                     name="slogan"
                     value={formData.slogan}
@@ -270,9 +240,9 @@ const Profile = () => {
                 </div>
               </Grid>
 
-              <SectionTitle>
+              <h3 className="profile-section-title">
                 <Briefcase size={20} /> Portfolio & Legit Works
-              </SectionTitle>
+              </h3>
               <p className="text-muted profile-portfolio-desc">
                 Showcase your past projects and successful collaborations.
               </p>
@@ -298,7 +268,7 @@ const Profile = () => {
                   </Flex>
                   <Grid cols={2} gap="1rem">
                     <div>
-                      <Label>Project Title</Label>
+                      <label className="profile-label">Project Title</label>
                       <Input
                         value={item.title}
                         onChange={(e) =>
@@ -308,7 +278,7 @@ const Profile = () => {
                       />
                     </div>
                     <div>
-                      <Label>Project Link</Label>
+                      <label className="profile-label">Project Link</label>
                       <Input
                         value={item.link}
                         onChange={(e) =>
@@ -319,7 +289,7 @@ const Profile = () => {
                     </div>
                   </Grid>
                   <div className="profile-portfolio-input-spacing">
-                    <Label>Description of Work</Label>
+                    <label className="profile-label">Description of Work</label>
                     <Input
                       value={item.description}
                       onChange={(e) =>
@@ -343,12 +313,12 @@ const Profile = () => {
                 <Plus size={18} className="icon-mr" /> Add Portfolio Item
               </Button>
 
-              <SectionTitle>
+              <h3 className="profile-section-title">
                 <Lock size={20} /> Security Update
-              </SectionTitle>
+              </h3>
               <Grid cols={3} gap="1rem">
                 <div>
-                  <Label>Current Passphrase</Label>
+                  <label className="profile-label">Current Passphrase</label>
                   <Input
                     type="password"
                     name="currentPassword"
@@ -357,7 +327,7 @@ const Profile = () => {
                   />
                 </div>
                 <div>
-                  <Label>New Passphrase</Label>
+                  <label className="profile-label">New Passphrase</label>
                   <Input
                     type="password"
                     name="newPassword"
@@ -366,7 +336,7 @@ const Profile = () => {
                   />
                 </div>
                 <div>
-                  <Label>Confirm New</Label>
+                  <label className="profile-label">Confirm New</label>
                   <Input
                     type="password"
                     name="confirmPassword"
@@ -393,10 +363,10 @@ const Profile = () => {
                 crowdfunding protocols.
               </span>
             </Flex>
-          </ProfileCard>
+          </Card>
         </motion.div>
       </Container>
-    </ProfileWrapper>
+    </div>
   );
 };
 

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { motion } from "framer-motion";
 import {
   Search,
@@ -14,215 +13,41 @@ import { Button, Card, Container, Flex, Input } from "../components/ui";
 import { projectAPI } from "../services/api";
 import "./Campaigns.css";
 
-const PageHeader = styled.div`
-  padding: 6rem 0 5rem 0;
-  text-align: center;
-  background-color: #fbf9f6;
-  background-image: radial-gradient(#e3e0d8 1px, transparent 1px);
-  background-size: 32px 32px;
-  border-bottom: 1px solid #e3e0d8;
-`;
 
-const FilterSection = styled.div`
-  padding: 1.5rem 0;
-  background: #ffffff;
-  border-bottom: 1px solid #e3e0d8;
-`;
 
-const CampaignGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 2.5rem;
-  padding: 4rem 0;
-`;
 
-const CampaignCard = styled(Card)`
-  padding: 0;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #e3e0d8;
-  background: #ffffff;
-  border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.015);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
-  &:hover {
-    transform: translateY(-6px) scale(1.015);
-    border-color: #191919;
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.04);
-  }
-`;
 
-const ImageWrapper = styled.div`
-  height: 200px;
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-  background: #fbf9f6;
-  border-bottom: 1px solid #e3e0d8;
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
 
-  ${CampaignCard}:hover & img {
-    transform: scale(1.06);
-  }
-`;
 
-const Badge = styled.span`
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  padding: 0.35rem 0.8rem;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(20px);
-  border-radius: 99px;
-  font-size: 0.72rem;
-  font-weight: 800;
-  color: #191919;
-  border: 1px solid #e3e0d8;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-`;
 
-const Content = styled.div`
-  padding: 1.5rem;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-`;
 
-const Category = styled.span`
-  font-size: 0.75rem;
-  font-weight: 850;
-  color: #6e6e73;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-bottom: 0.5rem;
-  display: block;
-`;
 
-const Title = styled.h3`
-  font-size: 1.25rem;
-  font-weight: 800;
-  margin-bottom: 0.75rem;
-  color: #191919;
-  font-family: ${(props) => props.theme.fonts.serif};
-  letter-spacing: -0.02em;
-`;
 
-const SegmentedControl = styled.div`
-  display: inline-flex;
-  background: rgba(0, 0, 0, 0.05);
-  padding: 4px;
-  border-radius: 99px;
-  align-items: center;
-  width: fit-content;
-`;
 
-const SegmentButton = styled.button`
-  background: ${(props) => (props.$active ? "#ffffff" : "transparent")};
-  color: ${(props) => (props.$active ? "#191919" : "#6e6e73")};
-  border: none;
-  padding: 0.5rem 1.4rem;
-  border-radius: 99px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: ${(props) => (props.$active ? "0px 2px 8px rgba(0, 0, 0, 0.08)" : "none")};
-  outline: none;
 
-  &:hover {
-    color: #191919;
-  }
-`;
 
-const SearchInputWrapper = styled.div`
-  position: relative;
-  width: 300px;
 
-  svg {
-    position: absolute;
-    left: 1.25rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #86868b;
-    pointer-events: none;
-    z-index: 2;
-  }
 
-  input {
-    padding-left: 3rem !important;
-    border-radius: 99px !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    height: 2.5rem !important;
-    font-size: 0.88rem !important;
-    font-weight: 500 !important;
-    background: rgba(255, 255, 255, 0.7) !important;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
 
-    &:focus {
-      border-color: #191919 !important;
-      background: #ffffff !important;
-    }
-  }
-`;
 
-const Description = styled.p`
-  font-size: 0.9rem;
-  color: #6e6e73;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  font-family: ${(props) => props.theme.fonts.serif};
-`;
 
-const ProgressInfo = styled.div`
-  margin-bottom: 1.5rem;
-`;
 
-const ProgressBarBase = styled.div`
-  height: 6px;
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 99px;
-  overflow: hidden;
-  margin-bottom: 0.5rem;
-`;
 
-const ProgressBarFill = styled.div`
-  height: 100%;
-  background: #10b981;
-  width: ${(props) => props.progress}%;
-`;
 
-const StatsGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e3e0d8;
-  margin-top: auto;
-`;
 
-const StatItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #6e6e73;
-  font-size: 0.85rem;
-  font-weight: 600;
-  font-family: var(--font-sans);
-`;
+
+
+
+
+
+
+
+
+
+
+
 
 const Campaigns = () => {
   const navigate = useNavigate();
@@ -269,7 +94,7 @@ const Campaigns = () => {
 
   return (
     <>
-      <PageHeader>
+      <div className="campaigns-page-header">
         <Container>
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -282,21 +107,21 @@ const Campaigns = () => {
             </p>
           </motion.div>
         </Container>
-      </PageHeader>
+      </div>
 
-      <FilterSection>
+      <div className="campaigns-filter-section">
         <Container>
           <Flex justify="space-between" align="center" wrap="wrap" gap="1rem">
             <Flex gap="1.5rem" align="center" wrap="wrap">
-              <SearchInputWrapper>
+              <div className="campaigns-search-wrapper">
                 <Search size={18} />
                 <Input
                   placeholder="Search campaigns..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-              </SearchInputWrapper>
-              <SegmentedControl>
+              </div>
+              <div className="campaigns-segmented-control">
                 {categories.map((cat) => (
                   <SegmentButton
                     key={cat}
@@ -304,29 +129,29 @@ const Campaigns = () => {
                     onClick={() => setSelectedCategory(cat)}
                   >
                     {cat}
-                  </SegmentButton>
+                  </button>
                 ))}
-              </SegmentedControl>
+              </div>
             </Flex>
             <div className="campaign-count">
               Showing {filteredCampaigns.length} campaigns
             </div>
           </Flex>
         </Container>
-      </FilterSection>
+      </div>
 
       <Container>
-        <CampaignGrid>
+        <div className="campaigns-grid">
           {loading
             ? Array(6)
                 .fill(0)
                 .map((_, i) => (
-                  <CampaignCard key={i} className="campaign-skeleton-card">
+                  <Card className="campaign-card campaign-skeleton-card" key={i}>
                     <div className="campaign-skeleton-img" />
                     <div className="campaign-skeleton-line-sm" />
                     <div className="campaign-skeleton-line-md" />
                     <div className="campaign-skeleton-line-lg" />
-                  </CampaignCard>
+                  </Card>
                 ))
             : filteredCampaigns.map((campaign) => {
                 const progress = Math.min(
@@ -337,8 +162,8 @@ const Campaigns = () => {
                 const isLocked = daysLeft === 0;
 
                 return (
-                  <CampaignCard key={campaign._id}>
-                    <ImageWrapper>
+                  <Card className="campaign-card" key={campaign._id}>
+                    <div className="campaign-image-wrapper">
                       <img
                         src={
                           campaign.image?.startsWith("http")
@@ -351,7 +176,7 @@ const Campaigns = () => {
                             "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&q=80&w=2070";
                         }}
                       />
-                      <Badge>
+                      <span className="campaign-badge">
                         {isLocked ? (
                           <CheckCircle2
                             size={12}
@@ -361,14 +186,14 @@ const Campaigns = () => {
                           <Clock size={12} className="campaign-badge-icon" />
                         )}
                         {isLocked ? "COMPLETED" : `${daysLeft} DAYS LEFT`}
-                      </Badge>
-                    </ImageWrapper>
-                    <Content>
-                      <Category>{campaign.category}</Category>
-                      <Title>{campaign.title}</Title>
-                      <Description>{campaign.description}</Description>
+                      </span>
+                    </div>
+                    <div className="campaign-content">
+                      <span className="campaign-category">{campaign.category}</span>
+                      <h3 className="campaign-title">{campaign.title}</h3>
+                      <p className="campaign-description">{campaign.description}</p>
 
-                      <ProgressInfo>
+                      <div className="campaign-progress-info">
                         <Flex
                           justify="space-between"
                           className="campaign-progress-row"
@@ -381,22 +206,22 @@ const Campaigns = () => {
                             {campaign.targetAmount.toLocaleString("en-IN")}
                           </span>
                         </Flex>
-                        <ProgressBarBase>
-                          <ProgressBarFill progress={progress} />
-                        </ProgressBarBase>
-                      </ProgressInfo>
+                        <div className="campaign-progress-bar-base">
+                          <div className="campaign-progress-bar-fill" style={{ width: `${progress}%` }} />
+                        </div>
+                      </div>
 
-                      <StatsGrid>
-                        <StatItem>
+                      <div className="campaign-stats-grid">
+                        <div className="campaign-stat-item">
                           <Users size={16} className="campaign-stat-icon" />
                           <span>
                             {campaign.creator?.name || "Vetted Startup"}
                           </span>
-                        </StatItem>
-                        <StatItem className="campaign-equity-stat">
+                        </div>
+                        <div className="campaign-stat-item campaign-equity-stat">
                           <span>Equity: {campaign.equity}%</span>
-                        </StatItem>
-                      </StatsGrid>
+                        </div>
+                      </div>
 
                       <Link
                         to={`/projects/${campaign._id}`}
@@ -407,11 +232,11 @@ const Campaigns = () => {
                           <ArrowRight size={18} className="icon-ml" />
                         </Button>
                       </Link>
-                    </Content>
-                  </CampaignCard>
+                    </div>
+                  </Card>
                 );
               })}
-        </CampaignGrid>
+        </div>
       </Container>
     </>
   );

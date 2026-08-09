@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { LogIn, Mail, Lock, AlertCircle, ShieldCheck } from "lucide-react";
@@ -8,123 +8,7 @@ import { toast } from "react-hot-toast";
 import useAuthStore from "../store/authStore";
 import "./Login.css";
 
-const LoginWrapper = styled.div`
-  min-height: calc(100vh - 80px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #fbf9f6;
-  background-image: radial-gradient(#d3d0c9 1px, transparent 1px);
-  background-size: 24px 24px;
-`;
 
-const StyledCard = styled.div`
-  background: #ffffff;
-  border: 1px solid #e3e0d8;
-  border-radius: 24px;
-  padding: 3.5rem;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.015);
-  width: 100%;
-`;
-
-const FormTitle = styled.h2`
-  font-size: 2.25rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  text-align: center;
-  letter-spacing: -0.03em;
-  font-family: ${(props) => props.theme.fonts.serif};
-  color: #191919;
-`;
-
-const FormSubtitle = styled.p`
-  color: #86868b;
-  text-align: center;
-  margin-bottom: 2.5rem;
-  font-size: 0.95rem;
-`;
-
-const FormGroup = styled.div`
-  margin-bottom: 1.5rem;
-  position: relative;
-`;
-
-const Label = styled.label`
-  display: block;
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #6e6e73;
-  margin-bottom: 0.5rem;
-`;
-
-const ErrorBox = styled.div`
-  background: #fff5f5;
-  color: #e53e3e;
-  padding: 0.75rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: 1px solid #fed7d7;
-`;
-
-const StyledInput = styled(Input)`
-  padding: 0.85rem 1.25rem;
-  border-radius: 12px;
-  border: 1px solid #dcdad2;
-  font-size: 0.95rem;
-  height: 3rem;
-  background: #ffffff;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  border-color: ${({ $hasError }) => ($hasError ? "#e53e3e" : undefined)};
-  width: 100%;
-
-  &:focus {
-    border-color: ${({ $hasError }) => ($hasError ? "#e53e3e" : "#191919")};
-    background: #ffffff;
-    box-shadow: ${({ $hasError }) =>
-      $hasError
-        ? "0 0 0 4px rgba(229,62,62,0.15)"
-        : "0 0 0 4px rgba(25, 25, 25, 0.05)"};
-  }
-`;
-
-const FieldError = styled.div`
-  color: #e53e3e;
-  font-size: 0.82rem;
-  margin-top: 0.4rem;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  font-weight: 500;
-`;
-
-// Small "go to admin login" link at bottom
-const AdminHint = styled.div`
-  margin-top: 2rem;
-  padding: 0.85rem 1rem;
-  background: #fbf9f6;
-  border: 1px solid #e3e0d8;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.82rem;
-  color: #6e6e73;
-
-  a {
-    color: #191919;
-    font-weight: 700;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-`;
 
 const Login = () => {
   const navigate = useNavigate();
@@ -174,7 +58,7 @@ const Login = () => {
   };
 
   return (
-    <LoginWrapper>
+    <div className="login-wrapper">
       <Container>
         <Flex justify="center">
           <motion.div
@@ -183,55 +67,55 @@ const Login = () => {
             transition={{ duration: 0.3 }}
             className="auth-form-wrapper"
           >
-            <StyledCard>
-              <FormTitle>Welcome Back</FormTitle>
-              <FormSubtitle>Sign in to your account</FormSubtitle>
+            <div className="login-card">
+              <h2 className="login-form-title">Welcome Back</h2>
+              <p className="login-form-subtitle">Sign in to your account</p>
 
               {error && !errorField && (
-                <ErrorBox>
+                <div className="login-error-box">
                   <AlertCircle size={18} />
                   {error}
-                </ErrorBox>
+                </div>
               )}
 
               <form onSubmit={handleSubmit}>
-                <FormGroup>
-                  <Label>Email address</Label>
-                  <StyledInput
+                <div className="login-form-group">
+                  <label className="login-label">Email address</label>
+                  <Input
                     type="email"
                     name="email"
                     placeholder="name@company.com"
                     value={formData.email}
                     onChange={handleChange}
-                    $hasError={errorField === "email"}
+                    className={`login-input ${errorField === "email" ? "has-error" : ""}`}
                     required
                   />
                   {errorField === "email" && (
-                    <FieldError>
+                    <div className="login-field-error">
                       <AlertCircle size={13} />
                       {error}
-                    </FieldError>
+                    </div>
                   )}
-                </FormGroup>
+                </div>
 
-                <FormGroup>
-                  <Label>Password</Label>
-                  <StyledInput
+                <div className="login-form-group">
+                  <label className="login-label">Password</label>
+                  <Input
                     type="password"
                     name="password"
                     placeholder="Enter your password"
                     value={formData.password}
                     onChange={handleChange}
-                    $hasError={errorField === "password"}
+                    className={`login-input ${errorField === "password" ? "has-error" : ""}`}
                     required
                   />
                   {errorField === "password" && (
-                    <FieldError>
+                    <div className="login-field-error">
                       <AlertCircle size={13} />
                       {error}
-                    </FieldError>
+                    </div>
                   )}
-                </FormGroup>
+                </div>
 
                 <Button
                   type="submit"
@@ -253,15 +137,15 @@ const Login = () => {
               </form>
 
               {/* Admin hint */}
-              <AdminHint>
+              <div className="login-admin-hint">
                 Admin? Use your admin credentials above or{" "}
                 <Link to="/admin/login">go to the Admin Portal →</Link>
-              </AdminHint>
-            </StyledCard>
+              </div>
+            </div>
           </motion.div>
         </Flex>
       </Container>
-    </LoginWrapper>
+    </div>
   );
 };
 
