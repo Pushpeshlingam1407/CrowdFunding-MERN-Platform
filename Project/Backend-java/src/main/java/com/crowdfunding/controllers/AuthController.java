@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +43,36 @@ public class AuthController {
     private static final java.util.regex.Pattern PASSWORD_PATTERN =
             java.util.regex.Pattern.compile(
                     "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':,.<>?]).{8,}$");
+
+    @PutMapping("/admin/password")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> changeAdminPassword(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody Map<String, String> payload) {
+        String currentPassword = payload.get("currentPassword");
+        String newPassword = payload.get("newPassword");
+
+        if (currentPassword == null || newPassword == null
+                || currentPassword.isBlank() || newPassword.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("success", false,
+                    "message", "Current and new passwords are required"));
+        }
+        if (!PASSWORD_PATTERN.matcher(newPassword).matches()) {
+            return ResponseEntity.badRequest().body(Map.of("success", false,
+                    "message", "New password must be at least 8 characters and include an uppercase letter, a number, and a special character"));
+        }
+
+        User admin = userRepository.findById(userDetails.getId())
+                .orElseThrow(() -> new RuntimeException("Admin user not found"));
+        if (!passwordEncoder.matches(currentPassword, admin.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("success", false,
+                    "message", "Current password is incorrect"));
+        }
+
+        admin.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(admin);
+        return ResponseEntity.ok(Map.of("success", true, "message", "Password updated successfully"));
+    }
 
     @GetMapping("/check-email")
     public ResponseEntity<?> checkEmail(@RequestParam String email) {

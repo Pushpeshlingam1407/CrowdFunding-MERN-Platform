@@ -35,23 +35,14 @@ public class AdminInitializer implements CommandLineRunner {
 
             if (existingUserOpt.isPresent()) {
                 User existingUser = existingUserOpt.get();
-                boolean updated = false;
                 if (!"admin".equalsIgnoreCase(existingUser.getRole())) {
                     existingUser.setRole("admin");
                     existingUser.setVerified(true);
-                    updated = true;
+                    userRepository.save(existingUser);
+                    System.out.println("✅ Admin role corrected for: " + adminEmail);
+                } else {
+                    System.out.println("✅ Admin user exists: " + adminEmail);
                 }
-
-                // Keep the configured bootstrap credential in sync for the admin account.
-                if (!passwordEncoder.matches(adminPassword, existingUser.getPassword())) {
-                    existingUser.setPassword(passwordEncoder.encode(adminPassword));
-                    updated = true;
-                }
-
-                if (updated) userRepository.save(existingUser);
-                System.out.println(updated
-                        ? "✅ Admin credentials synchronized for: " + adminEmail
-                        : "✅ Admin user exists: " + adminEmail);
             } else {
                 User admin = User.builder()
                         .name(adminName)

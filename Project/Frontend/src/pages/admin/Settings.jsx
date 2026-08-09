@@ -207,6 +207,7 @@ const AdminSettings = () => {
     defaultCurrency: "INR",
     sessionTimeout: 30,
     maxLoginAttempts: 5,
+    currentAdminPassword: "",
     adminPassword: "",
   });
 
@@ -228,21 +229,27 @@ const AdminSettings = () => {
     setSaving(true);
     try {
       const toSave = { ...settings };
+      delete toSave.currentAdminPassword;
       delete toSave.adminPassword;
       localStorage.setItem("adminPlatformSettings", JSON.stringify(toSave));
 
-      if (settings.adminPassword) {
+      if (settings.currentAdminPassword || settings.adminPassword) {
         const token =
           localStorage.getItem("adminToken") || localStorage.getItem("token");
-        const res = await fetch("http://localhost:5000/api/auth/profile", {
+        const res = await fetch("http://localhost:5000/api/auth/admin/password", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ password: settings.adminPassword }),
+          body: JSON.stringify({
+            currentPassword: settings.currentAdminPassword,
+            newPassword: settings.adminPassword,
+          }),
         });
-        if (!res.ok) throw new Error("Failed to update password");
+        const result = await res.json();
+        if (!res.ok) throw new Error(result.message || "Failed to update password");
+        update("currentAdminPassword", "");
         update("adminPassword", "");
       }
 
@@ -577,7 +584,14 @@ const AdminSettings = () => {
               <InputField
                 type={showPassword ? "text" : "password"}
                 $w="220px"
-                placeholder="Enter new password"
+                placeholder="Current password"
+                value={settings.currentAdminPassword}
+                onChange={(e) => update("currentAdminPassword", e.target.value)}
+              />
+              <InputField
+                type={showPassword ? "text" : "password"}
+                $w="220px"
+                placeholder="New password"
                 value={settings.adminPassword}
                 onChange={(e) => update("adminPassword", e.target.value)}
               />
