@@ -1,0 +1,75 @@
+/* AdminFinancials.css */
+
+.btn-export {
+  border-radius: 99px;
+  background: #191919;
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.icon-mr {
+  margin-right: 8px;
+}
+
+.table-card-title {
+  font-size: 1.1rem;
+  font-weight: 850;
+  color: #191919;
+  font-family: var(--font-sans);
+}
+
+.search-wrapper {
+  position: relative;
+  width: 250px;
+}
+
+.search-icon-absolute {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #86868b;
+  z-index: 2;
+}
+
+.table-cell-center {
+  text-align: center;
+  padding: 3rem;
+}
+
+.table-cell-empty {
+  text-align: center;
+  padding: 3rem;
+  color: #86868b;
+}
+
+.text-heavy-dark {
+  font-weight: 700;
+  color: #191919;
+}
+
+.text-small-light {
+  font-size: 0.8rem;
+  color: #86868b;
+}
+
+.text-amount-success {
+  font-weight: 800;
+  color: #10b981;
+  font-family: var(--font-mono);
+}
+
+.text-medium-weight {
+  font-weight: 600;
+}
+
+.text-medium-dark {
+  font-weight: 600;
+  color: #1d1d1f;
+}
+
+.text-date-mono {
+  color: #86868b;
+  font-family: var(--font-mono);
+}

@@ -11,6 +11,7 @@ import {
 import { toast } from "sonner";
 import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
+import "./Complaints.css";
 
 const TableWrapper = styled.div`
   background: rgba(255, 255, 255, 0.75);
@@ -239,75 +240,39 @@ const AdminComplaints = () => {
       subtitle="Review reported bugs, fraud allegations, and irregularities"
     >
       <div>
-        <div
-          style={{
-            background: "rgba(255, 255, 255, 0.75)",
-            backdropFilter: "blur(20px)",
-            border: "1px solid rgba(0, 0, 0, 0.04)",
-            borderRadius: 24,
-            padding: "1.5rem",
-            boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.02)",
-          }}
-        >
+        <div className="complaints-header-card">
           <Flex
             justify="space-between"
             align="center"
             gap="1rem"
-            style={{ flexWrap: "wrap" }}
+            className="flex-wrap-wrap"
           >
-            <Flex gap="2rem" style={{ flexWrap: "wrap" }}>
+            <Flex gap="2rem" className="flex-wrap-wrap">
               <Flex
                 gap="0.75rem"
-                style={{
-                  color: "#ef4444",
-                  fontWeight: 800,
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "0.9rem",
-                }}
+                className="stat-red"
               >
                 <ShieldAlert size={20} />
                 {pending} PENDING
               </Flex>
-              <div
-                style={{
-                  height: "24px",
-                  width: "1px",
-                  background: "rgba(0,0,0,0.08)",
-                }}
-              />
+              <div className="stat-divider" />
               <Flex
                 gap="0.75rem"
-                style={{
-                  color: "#10b981",
-                  fontWeight: 800,
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "0.9rem",
-                }}
+                className="stat-green"
               >
                 <CheckCircle2 size={20} />
                 {resolved} RESOLVED
               </Flex>
-              <div
-                style={{
-                  height: "24px",
-                  width: "1px",
-                  background: "rgba(0,0,0,0.08)",
-                }}
-              />
+              <div className="stat-divider" />
               <Flex
                 gap="0.75rem"
-                style={{
-                  color: "#191919",
-                  fontWeight: 800,
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "0.9rem",
-                }}
+                className="stat-dark"
               >
                 <Flag size={20} />
                 {complaints.length} TOTAL
               </Flex>
             </Flex>
-            <div style={{ position: "relative", width: "340px" }}>
+            <div className="search-container-lg">
               <SearchBar>
                 <Search size={16} />
                 <input
@@ -319,33 +284,7 @@ const AdminComplaints = () => {
             </div>
             <button
               onClick={fetchComplaints}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                background: "rgba(255, 255, 255, 0.7)",
-                backdropFilter: "blur(20px)",
-                border: "1px solid rgba(0,0,0,0.1)",
-                borderRadius: 99,
-                padding: "0.6rem 1.5rem",
-                color: "#191919",
-                fontWeight: 700,
-                cursor: "pointer",
-                boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.01)",
-                transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-              }}
-              onMouseDown={(e) => {
-                e.currentTarget.style.transform = "scale(0.95)";
-              }}
-              onMouseUp={(e) => {
-                e.currentTarget.style.transform = "scale(1.05)";
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.05)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)";
-              }}
+              className="btn-refresh-complaints"
             >
               <RefreshCw size={14} className={loading ? "spin" : ""} /> Refresh
             </button>
@@ -370,12 +309,7 @@ const AdminComplaints = () => {
                 <tr>
                   <td
                     colSpan={7}
-                    style={{
-                      textAlign: "center",
-                      padding: "4rem",
-                      color: "#86868b",
-                      fontWeight: 600,
-                    }}
+                    className="table-cell-empty-bold"
                   >
                     Loading reports...
                   </td>
@@ -384,12 +318,7 @@ const AdminComplaints = () => {
                 <tr>
                   <td
                     colSpan={7}
-                    style={{
-                      textAlign: "center",
-                      padding: "4rem",
-                      color: "#86868b",
-                      fontWeight: 600,
-                    }}
+                    className="table-cell-empty-bold"
                   >
                     {search
                       ? "No reports match your search."
@@ -399,27 +328,11 @@ const AdminComplaints = () => {
               ) : (
                 filtered.map((item) => (
                   <tr key={item._id}>
-                    <td style={{ maxWidth: "280px" }}>
-                      <h4
-                        style={{
-                          fontWeight: 800,
-                          marginBottom: "0.3rem",
-                          fontSize: "0.95rem",
-                          color: "#191919",
-                        }}
-                      >
+                    <td className="col-max-w">
+                      <h4 className="issue-title">
                         {item.subject}
                       </h4>
-                      <p
-                        style={{
-                          fontSize: "0.8rem",
-                          color: "#86868b",
-                          fontWeight: 500,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
+                      <p className="issue-desc-trunc">
                         {item.description}
                       </p>
                     </td>
@@ -432,22 +345,10 @@ const AdminComplaints = () => {
                       <Flex gap="0.75rem" align="center">
                         <Avatar>{item.author?.name?.charAt(0) || "?"}</Avatar>
                         <div>
-                          <p
-                            style={{
-                              fontWeight: 700,
-                              fontSize: "0.85rem",
-                              color: "#191919",
-                            }}
-                          >
+                          <p className="reporter-name">
                             {item.author?.name || "Unknown"}
                           </p>
-                          <p
-                            style={{
-                              fontSize: "0.75rem",
-                              color: "#86868b",
-                              fontWeight: 500,
-                            }}
-                          >
+                          <p className="user-email-light">
                             {item.author?.email}
                           </p>
                         </div>
@@ -455,22 +356,10 @@ const AdminComplaints = () => {
                     </td>
 
                     <td>
-                      <p
-                        style={{
-                          fontWeight: 800,
-                          fontSize: "0.85rem",
-                          color: "#0071e3",
-                        }}
-                      >
+                      <p className="target-entity-name">
                         {item.targetCompany?.name || "N/A"}
                       </p>
-                      <p
-                        style={{
-                          fontSize: "0.75rem",
-                          color: "#86868b",
-                          fontWeight: 500,
-                        }}
-                      >
+                      <p className="user-email-light">
                         {item.targetCompany?.email}
                       </p>
                     </td>
@@ -481,18 +370,13 @@ const AdminComplaints = () => {
                       </StatusBadge>
                     </td>
 
-                    <td style={{ whiteSpace: "nowrap" }}>
+                    <td className="whitespace-nowrap">
                       <Flex
                         gap="0.4rem"
                         align="center"
-                        style={{
-                          color: "#191919",
-                          fontSize: "0.85rem",
-                          fontWeight: 700,
-                          fontFamily: "var(--font-mono)",
-                        }}
+                        className="date-mono-dark"
                       >
-                        <Clock size={14} style={{ color: "#86868b" }} />
+                        <Clock size={14} className="icon-gray" />
                         {new Date(item.createdAt).toLocaleDateString("en-IN", {
                           day: "numeric",
                           month: "short",
@@ -510,13 +394,7 @@ const AdminComplaints = () => {
                           </ActionBtn>
                         )}
                         {item.status === "resolved" && (
-                          <span
-                            style={{
-                              color: "#10b981",
-                              fontWeight: 800,
-                              fontSize: "0.85rem",
-                            }}
-                          >
+                          <span className="text-resolved-success">
                             ✓ Resolved
                           </span>
                         )}

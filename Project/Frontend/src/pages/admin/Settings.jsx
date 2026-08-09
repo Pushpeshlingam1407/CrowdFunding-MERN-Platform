@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { Flex } from "../../components/ui";
 import useAuthStore from "../../store/authStore";
 import AdminLayout from "../../components/AdminLayout";
+import "./Settings.css";
 
 const Section = styled(motion.div)`
   background: rgba(255, 255, 255, 0.75);
@@ -266,8 +267,8 @@ const AdminSettings = () => {
       title="Platform Settings"
       subtitle="Configure platform-wide policies, security, and access controls."
     >
-      <div style={{ maxWidth: 860 }}>
-        <Flex justify="flex-end" style={{ marginBottom: "1.5rem" }}>
+      <div className="settings-container">
+        <Flex justify="flex-end" className="flex-end-mb">
           <SaveBtn onClick={handleSave} disabled={saving}>
             {saving ? (
               <RefreshCw size={16} className="spin" />
@@ -377,7 +378,7 @@ const AdminSettings = () => {
             <InputField
               type="number"
               $w="140px"
-              style={{ fontFamily: "var(--font-mono)" }}
+              className="font-mono"
               value={settings.minInvestmentAmount}
               onChange={(e) =>
                 update("minInvestmentAmount", Number(e.target.value))
@@ -393,7 +394,7 @@ const AdminSettings = () => {
             <InputField
               type="number"
               $w="140px"
-              style={{ fontFamily: "var(--font-mono)" }}
+              className="font-mono"
               value={settings.maxInvestmentAmount}
               onChange={(e) =>
                 update("maxInvestmentAmount", Number(e.target.value))
@@ -409,7 +410,7 @@ const AdminSettings = () => {
             <InputField
               type="number"
               $w="100px"
-              style={{ fontFamily: "var(--font-mono)" }}
+              className="font-mono"
               value={settings.defaultEquityCap}
               onChange={(e) =>
                 update("defaultEquityCap", Number(e.target.value))
@@ -551,7 +552,7 @@ const AdminSettings = () => {
             <InputField
               type="number"
               $w="100px"
-              style={{ fontFamily: "var(--font-mono)" }}
+              className="font-mono"
               value={settings.sessionTimeout}
               onChange={(e) => update("sessionTimeout", Number(e.target.value))}
             />
@@ -565,7 +566,7 @@ const AdminSettings = () => {
             <InputField
               type="number"
               $w="100px"
-              style={{ fontFamily: "var(--font-mono)" }}
+              className="font-mono"
               value={settings.maxLoginAttempts}
               onChange={(e) =>
                 update("maxLoginAttempts", Number(e.target.value))
@@ -578,7 +579,7 @@ const AdminSettings = () => {
               <h4>Update Admin Password</h4>
               <p>Securely change your administrator account password</p>
             </SettingLabel>
-            <div style={{ display: "flex", gap: "0.75rem" }}>
+            <div className="password-input-wrapper">
               <InputField
                 type={showPassword ? "text" : "password"}
                 $w="220px"
@@ -588,17 +589,7 @@ const AdminSettings = () => {
               />
               <button
                 onClick={() => setShowPassword(!showPassword)}
-                style={{
-                  background: "rgba(0, 0, 0, 0.04)",
-                  border: "none",
-                  borderRadius: 12,
-                  padding: "0 1rem",
-                  cursor: "pointer",
-                  color: "#191919",
-                  transition: "all 0.2s",
-                  display: "flex",
-                  alignItems: "center",
-                }}
+                className="btn-toggle-password"
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>

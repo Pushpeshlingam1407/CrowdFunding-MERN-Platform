@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Button, Card, Container, Flex, Grid } from "./ui";
 import { toast } from "react-hot-toast";
+import "./Portfolio.css";
 
 const PortfolioWrapper = styled.div`
   padding: 4rem 0;
@@ -282,7 +283,7 @@ const Portfolio = () => {
     return (
       <PortfolioWrapper>
         <Container>
-          <div style={{ textAlign: "center", padding: "4rem" }}>
+          <div className="portfolio-loading">
             <p>Loading your portfolio...</p>
           </div>
         </Container>
@@ -298,7 +299,7 @@ const Portfolio = () => {
           <p>Track your investments across all campaigns</p>
         </Header>
 
-        <StatsGrid cols={3} gap="1.5rem" style={{ marginBottom: "3rem" }}>
+        <StatsGrid cols={3} gap="1.5rem" className="portfolio-stats-grid">
           <StatCard>
             <DollarSign />
             <StatContent>
@@ -336,13 +337,7 @@ const Portfolio = () => {
           </EmptyState>
         ) : (
           <>
-            <h2
-              style={{
-                fontSize: "1.5rem",
-                fontWeight: 800,
-                marginBottom: "1.5rem",
-              }}
-            >
+            <h2 className="portfolio-section-title">
               Your Investments
             </h2>
             <InvestmentList>
@@ -397,7 +392,7 @@ const Portfolio = () => {
                       navigate(`/projects/${investment.project?._id}`)
                     }
                   >
-                    View <ArrowRight size={16} style={{ marginLeft: 8 }} />
+                    View <ArrowRight size={16} className="icon-ml" />
                   </Button>
                 </InvestmentCard>
               ))}

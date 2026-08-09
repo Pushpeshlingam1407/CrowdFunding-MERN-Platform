@@ -12,6 +12,7 @@ import {
 import { toast } from "sonner";
 import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
+import "./DocumentVerification.css";
 
 const TableWrapper = styled.div`
   background: rgba(255, 255, 255, 0.75);
@@ -210,82 +211,33 @@ const AdminDocumentVerification = () => {
       subtitle="Audit identity proofs and professional certificates in our ecosystem."
     >
       <div>
-        <div
-          style={{
-            background: "rgba(255, 255, 255, 0.75)",
-            backdropFilter: "blur(20px)",
-            border: "1px solid rgba(0, 0, 0, 0.04)",
-            borderRadius: 24,
-            padding: "1.5rem",
-            boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.02)",
-          }}
-        >
+        <div className="verify-header-card">
           <Flex
             justify="space-between"
             align="center"
             gap="1rem"
-            style={{ flexWrap: "wrap" }}
+            className="flex-wrap-wrap"
           >
-            <Flex gap="2.5rem" style={{ flexWrap: "wrap" }}>
-              <div style={{ textAlign: "center" }}>
-                <h3
-                  style={{
-                    fontSize: "1.75rem",
-                    fontWeight: 800,
-                    color: "#ef4444",
-                    fontFamily: "var(--font-mono)",
-                    letterSpacing: "-0.02em",
-                  }}
-                >
+            <Flex gap="2.5rem" className="flex-wrap-wrap">
+              <div className="text-center">
+                <h3 className="stat-large-red">
                   {verifications.length}
                 </h3>
-                <p
-                  style={{
-                    color: "#86868b",
-                    fontSize: "0.75rem",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                    fontFamily: "var(--font-sans)",
-                    letterSpacing: "0.5px",
-                  }}
-                >
+                <p className="stat-subtext">
                   Awaiting Audit
                 </p>
               </div>
-              <div
-                style={{
-                  height: "40px",
-                  width: "1px",
-                  background: "rgba(0,0,0,0.08)",
-                }}
-              />
-              <div style={{ textAlign: "center" }}>
-                <h3
-                  style={{
-                    fontSize: "1.75rem",
-                    fontWeight: 800,
-                    color: "#191919",
-                    fontFamily: "var(--font-mono)",
-                    letterSpacing: "-0.02em",
-                  }}
-                >
+              <div className="stat-divider-lg" />
+              <div className="text-center">
+                <h3 className="stat-large-dark">
                   1,124
                 </h3>
-                <p
-                  style={{
-                    color: "#86868b",
-                    fontSize: "0.75rem",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                    fontFamily: "var(--font-sans)",
-                    letterSpacing: "0.5px",
-                  }}
-                >
+                <p className="stat-subtext">
                   Verified Entities
                 </p>
               </div>
             </Flex>
-            <div style={{ position: "relative", width: "340px" }}>
+            <div className="search-container-lg">
               <SearchBar>
                 <Search size={16} />
                 <input placeholder="Search entity name..." />
@@ -293,33 +245,7 @@ const AdminDocumentVerification = () => {
             </div>
             <button
               onClick={fetchVerifications}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                background: "rgba(255, 255, 255, 0.7)",
-                backdropFilter: "blur(20px)",
-                border: "1px solid rgba(0,0,0,0.1)",
-                borderRadius: 99,
-                padding: "0.6rem 1.5rem",
-                color: "#191919",
-                fontWeight: 700,
-                cursor: "pointer",
-                boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.01)",
-                transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-              }}
-              onMouseDown={(e) => {
-                e.currentTarget.style.transform = "scale(0.95)";
-              }}
-              onMouseUp={(e) => {
-                e.currentTarget.style.transform = "scale(1.05)";
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.05)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)";
-              }}
+              className="btn-refresh-verify"
             >
               <RefreshCw size={14} className={loading ? "spin" : ""} /> Refresh
             </button>
@@ -342,12 +268,7 @@ const AdminDocumentVerification = () => {
                 <tr>
                   <td
                     colSpan={5}
-                    style={{
-                      textAlign: "center",
-                      padding: "4rem",
-                      color: "#86868b",
-                      fontWeight: 600,
-                    }}
+                    className="table-cell-empty-bold"
                   >
                     Loading queue...
                   </td>
@@ -356,12 +277,7 @@ const AdminDocumentVerification = () => {
                 <tr>
                   <td
                     colSpan={5}
-                    style={{
-                      textAlign: "center",
-                      padding: "4rem",
-                      color: "#86868b",
-                      fontWeight: 600,
-                    }}
+                    className="table-cell-empty-bold"
                   >
                     Audit queue is empty. System secured.
                   </td>
@@ -373,29 +289,17 @@ const AdminDocumentVerification = () => {
                       <Flex gap="1rem">
                         <Avatar>{verify.user?.name?.charAt(0) || "?"}</Avatar>
                         <div>
-                          <p
-                            style={{
-                              fontWeight: 800,
-                              fontSize: "0.95rem",
-                              color: "#191919",
-                            }}
-                          >
+                          <p className="entity-name">
                             {verify.user?.name}
                           </p>
-                          <p
-                            style={{
-                              fontSize: "0.8rem",
-                              color: "#86868b",
-                              fontWeight: 500,
-                            }}
-                          >
+                          <p className="entity-email">
                             {verify.user?.email}
                           </p>
                         </div>
                       </Flex>
                     </td>
                     <td>
-                      <Flex gap="0.5rem" style={{ flexWrap: "wrap" }}>
+                      <Flex gap="0.5rem" className="flex-wrap-wrap">
                         <DocBadge>IDENTITY PROOF</DocBadge>
                         <DocBadge>ADDRESS</DocBadge>
                       </Flex>
@@ -404,14 +308,9 @@ const AdminDocumentVerification = () => {
                       <Flex
                         gap="0.5rem"
                         align="center"
-                        style={{
-                          fontSize: "0.85rem",
-                          color: "#191919",
-                          fontWeight: 700,
-                          fontFamily: "var(--font-mono)",
-                        }}
+                        className="date-mono-dark"
                       >
-                        <Calendar size={14} style={{ color: "#86868b" }} /> Aug
+                        <Calendar size={14} className="icon-gray" /> Aug
                         12, 2026
                       </Flex>
                     </td>
@@ -419,17 +318,7 @@ const AdminDocumentVerification = () => {
                       <Flex
                         gap="0.5rem"
                         align="center"
-                        style={{
-                          color: "#10b981",
-                          fontWeight: 800,
-                          fontSize: "0.72rem",
-                          background: "rgba(16, 185, 129, 0.1)",
-                          padding: "0.3rem 0.8rem",
-                          borderRadius: 99,
-                          display: "inline-flex",
-                          textTransform: "uppercase",
-                          letterSpacing: "0.5px",
-                        }}
+                        className="status-safe-badge"
                       >
                         <ShieldCheck size={16} /> SAFE
                       </Flex>
@@ -442,7 +331,7 @@ const AdminDocumentVerification = () => {
                           }
                           title="Inspect Document"
                         >
-                          <Eye size={14} style={{ marginRight: 4 }} /> Inspect
+                          <Eye size={14} className="icon-mr-sm" /> Inspect
                         </ActionBtn>
                         <ActionBtn
                           $variant="approve"

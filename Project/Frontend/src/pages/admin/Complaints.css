@@ -1,0 +1,136 @@
+/* Complaints.css */
+
+.complaints-header-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 24px;
+  padding: 1.5rem;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
+}
+
+.flex-wrap-wrap {
+  flex-wrap: wrap;
+}
+
+.stat-red {
+  color: #ef4444;
+  font-weight: 800;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+
+.stat-green {
+  color: #10b981;
+  font-weight: 800;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+
+.stat-dark {
+  color: #191919;
+  font-weight: 800;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+
+.stat-divider {
+  height: 24px;
+  width: 1px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.search-container-lg {
+  position: relative;
+  width: 340px;
+}
+
+.btn-refresh-complaints {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 99px;
+  padding: 0.6rem 1.5rem;
+  color: #191919;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-refresh-complaints:hover {
+  transform: scale(1.05);
+}
+
+.btn-refresh-complaints:active {
+  transform: scale(0.95);
+}
+
+.table-cell-empty-bold {
+  text-align: center;
+  padding: 4rem;
+  color: #86868b;
+  font-weight: 600;
+}
+
+.col-max-w {
+  max-width: 280px;
+}
+
+.issue-title {
+  font-weight: 800;
+  margin-bottom: 0.3rem;
+  font-size: 0.95rem;
+  color: #191919;
+}
+
+.issue-desc-trunc {
+  font-size: 0.8rem;
+  color: #86868b;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reporter-name {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #191919;
+}
+
+.user-email-light {
+  font-size: 0.75rem;
+  color: #86868b;
+  font-weight: 500;
+}
+
+.target-entity-name {
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: #0071e3;
+}
+
+.whitespace-nowrap {
+  white-space: nowrap;
+}
+
+.date-mono-dark {
+  color: #191919;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+
+.icon-gray {
+  color: #86868b;
+}
+
+.text-resolved-success {
+  color: #10b981;
+  font-weight: 800;
+  font-size: 0.85rem;
+}

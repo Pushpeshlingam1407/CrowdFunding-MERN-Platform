@@ -13,6 +13,7 @@ import { Button, Input, Flex } from "../../components/ui";
 import { exportToCSV } from "../../utils/export";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import "./AdminFinancials.css";
 
 const PageHeader = styled.div`
   margin-bottom: 2rem;
@@ -284,15 +285,9 @@ const AdminFinancials = () => {
         </div>
         <Button
           onClick={handleExport}
-          style={{
-            borderRadius: "99px",
-            background: "#191919",
-            color: "#ffffff",
-            border: "none",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
-          }}
+          className="btn-export"
         >
-          <Download size={16} style={{ marginRight: 8 }} />
+          <Download size={16} className="icon-mr" />
           Export CSV Ledger
         </Button>
       </PageHeader>
@@ -375,28 +370,14 @@ const AdminFinancials = () => {
 
       <TableCard>
         <TableHeader>
-          <h3
-            style={{
-              fontSize: "1.1rem",
-              fontWeight: 850,
-              color: "#191919",
-              fontFamily: "var(--font-sans)",
-            }}
-          >
+          <h3 className="table-card-title">
             Recent Transactions
           </h3>
           <Flex gap="1rem">
-            <div style={{ position: "relative", width: "250px" }}>
+            <div className="search-wrapper">
               <Search
                 size={16}
-                style={{
-                  position: "absolute",
-                  left: "1rem",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  color: "#86868b",
-                  zIndex: 2,
-                }}
+                className="search-icon-absolute"
               />
               <SearchInput
                 placeholder="Search ledger..."
@@ -433,7 +414,7 @@ const AdminFinancials = () => {
                 <tr>
                   <td
                     colSpan="6"
-                    style={{ textAlign: "center", padding: "3rem" }}
+                    className="table-cell-center"
                   >
                     Loading financial data...
                   </td>
@@ -442,11 +423,7 @@ const AdminFinancials = () => {
                 <tr>
                   <td
                     colSpan="6"
-                    style={{
-                      textAlign: "center",
-                      padding: "3rem",
-                      color: "#86868b",
-                    }}
+                    className="table-cell-empty"
                   >
                     No investments found.
                   </td>
@@ -455,31 +432,25 @@ const AdminFinancials = () => {
                 filteredInvestments.map((inv) => (
                   <tr key={inv._id}>
                     <td>
-                      <div style={{ fontWeight: 700, color: "#191919" }}>
+                      <div className="text-heavy-dark">
                         {inv.investor?.name || "Unknown"}
                       </div>
-                      <div style={{ fontSize: "0.8rem", color: "#86868b" }}>
+                      <div className="text-small-light">
                         {inv.investor?.role || "Investor"}
                       </div>
                     </td>
-                    <td
-                      style={{
-                        fontWeight: 800,
-                        color: "#10b981",
-                        fontFamily: "var(--font-mono)",
-                      }}
-                    >
+                    <td className="text-amount-success">
                       {new Intl.NumberFormat("en-IN", {
                         style: "currency",
                         currency: "INR",
                         maximumFractionDigits: 0,
                       }).format(inv.amount)}
                     </td>
-                    <td style={{ fontWeight: 600 }}>
+                    <td className="text-medium-weight">
                       {inv.project?.title || "Unknown Project"}
                     </td>
                     <td>
-                      <div style={{ fontWeight: 600, color: "#1d1d1f" }}>
+                      <div className="text-medium-dark">
                         {inv.project?.creator?.name || "Unknown"}
                       </div>
                     </td>
@@ -488,12 +459,7 @@ const AdminFinancials = () => {
                         {inv.status}
                       </StatusBadge>
                     </td>
-                    <td
-                      style={{
-                        color: "#86868b",
-                        fontFamily: "var(--font-mono)",
-                      }}
-                    >
+                    <td className="text-date-mono">
                       {new Intl.DateTimeFormat("en-IN", {
                         year: "numeric",
                         month: "short",

@@ -14,6 +14,7 @@ import {
 import { toast } from "react-hot-toast";
 import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
+import "./Projects.css";
 
 const TableWrapper = styled.div`
   background: rgba(255, 255, 255, 0.75);
@@ -277,7 +278,7 @@ const AdminProjects = () => {
   return (
     <AdminLayout title="Campaigns" subtitle="Manage startup projects">
       <div>
-        <Flex gap="1rem" style={{ marginBottom: "2rem", flexWrap: "wrap" }}>
+        <Flex gap="1rem" className="filters-row">
           <SearchBar>
             <Search size={18} />
             <input
@@ -288,21 +289,11 @@ const AdminProjects = () => {
           </SearchBar>
           <ActionBtn
             onClick={fetchAdminProjects}
-            style={{
-              whiteSpace: "nowrap",
-              padding: "0 1.5rem",
-              borderRadius: 99,
-              border: "1px solid rgba(0,0,0,0.1)",
-              background: "rgba(255, 255, 255, 0.7)",
-              backdropFilter: "blur(20px)",
-              boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.01)",
-              height: "3rem",
-            }}
+            className="btn-refresh-projects"
           >
             <RefreshCw
               size={16}
-              className={loading ? "spin" : ""}
-              style={{ marginRight: 6 }}
+              className={loading ? "spin icon-mr-sm" : "icon-mr-sm"}
             />{" "}
             Refresh
           </ActionBtn>
@@ -351,19 +342,9 @@ const AdminProjects = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.05 }}
                   >
-                    <td style={{ maxWidth: 300 }}>
+                    <td className="col-campaign-max-w">
                       <Flex gap="1rem" align="center">
-                        <div
-                          style={{
-                            width: "60px",
-                            height: "60px",
-                            borderRadius: "12px",
-                            overflow: "hidden",
-                            background: "#f1f5f9",
-                            flexShrink: 0,
-                            border: "1px solid rgba(0,0,0,0.05)",
-                          }}
-                        >
+                        <div className="campaign-img-wrapper">
                           <img
                             src={
                               project.image?.startsWith("http")
@@ -371,11 +352,7 @@ const AdminProjects = () => {
                                 : `http://localhost:5000${project.image}`
                             }
                             alt={project.title}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
+                            className="campaign-img"
                             onError={(e) => {
                               e.target.src =
                                 "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&q=80&w=150";
@@ -383,22 +360,10 @@ const AdminProjects = () => {
                           />
                         </div>
                         <div>
-                          <p
-                            style={{
-                              fontWeight: 800,
-                              color: "#191919",
-                              marginBottom: 4,
-                            }}
-                          >
+                          <p className="campaign-title-text">
                             {project.title}
                           </p>
-                          <p
-                            style={{
-                              fontSize: "0.8rem",
-                              color: "#86868b",
-                              fontWeight: 500,
-                            }}
-                          >
+                          <p className="campaign-meta-text">
                             {project.category} ·{" "}
                             {new Date(project.createdAt).toLocaleDateString(
                               "en-IN",
@@ -408,44 +373,20 @@ const AdminProjects = () => {
                       </Flex>
                     </td>
                     <td>
-                      <p
-                        style={{
-                          fontWeight: 700,
-                          color: "#191919",
-                          marginBottom: 2,
-                        }}
-                      >
+                      <p className="creator-name-text">
                         {project.creator?.name || "—"}
                       </p>
-                      <p
-                        style={{
-                          fontSize: "0.8rem",
-                          color: "#86868b",
-                          fontWeight: 500,
-                        }}
-                      >
+                      <p className="campaign-meta-text">
                         {project.creator?.email}
                       </p>
                     </td>
                     <td>
-                      <p
-                        style={{
-                          fontWeight: 800,
-                          color: "#191919",
-                          fontFamily: "var(--font-mono)",
-                        }}
-                      >
+                      <p className="target-amount-text">
                         ₹{Number(project.targetAmount).toLocaleString("en-IN")}
                       </p>
                     </td>
                     <td>
-                      <p
-                        style={{
-                          color: "#191919",
-                          fontWeight: 700,
-                          fontFamily: "var(--font-mono)",
-                        }}
-                      >
+                      <p className="equity-amount-text">
                         {project.equity}%
                       </p>
                     </td>

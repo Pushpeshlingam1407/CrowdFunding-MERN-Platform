@@ -20,6 +20,7 @@ import {
 import { toast } from "sonner";
 import useAuthStore from "../../store/authStore";
 import AdminLayout from "../../components/AdminLayout";
+import "./AdminDashboard.css";
 
 const shimmer = keyframes`
   0%   { background-position: -400px 0; }
@@ -347,7 +348,7 @@ const AdminDashboard = () => {
             ? Array(4)
                 .fill(0)
                 .map((_, i) => (
-                  <div key={i} style={{ borderRadius: 24, overflow: "hidden" }}>
+                  <div key={i} className="skeleton-wrapper">
                     <Skeleton $h="128px" />
                   </div>
                 ))
@@ -365,17 +366,7 @@ const AdminDashboard = () => {
               ))}
         </StatsGrid>
 
-        <h2
-          style={{
-            fontSize: "0.85rem",
-            fontWeight: 700,
-            color: "#86868b",
-            textTransform: "uppercase",
-            letterSpacing: "1.5px",
-            marginBottom: "1.25rem",
-            fontFamily: "var(--font-sans)",
-          }}
-        >
+        <h2 className="admin-modules-title">
           Admin Modules
         </h2>
         <ModulesGrid>
@@ -401,17 +392,11 @@ const AdminDashboard = () => {
 
         <ActivityBar>
           <ActivityTitle>
-            <TrendingUp size={20} style={{ color: "#191919" }} />
+            <TrendingUp size={20} className="icon-dark" />
             Platform Summary
           </ActivityTitle>
           {loadingStats ? (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(4,1fr)",
-                gap: "1.5rem",
-              }}
-            >
+            <div className="summary-grid">
               {Array(4)
                 .fill(0)
                 .map((_, i) => (
@@ -420,13 +405,7 @@ const AdminDashboard = () => {
             </div>
           ) : (
             stats && (
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(4,1fr)",
-                  gap: "1.5rem",
-                }}
-              >
+              <div className="summary-grid">
                 {[
                   {
                     label: "Approved Ventures",
@@ -451,33 +430,15 @@ const AdminDashboard = () => {
                 ].map((item, i) => (
                   <div
                     key={i}
-                    style={{
-                      background: "rgba(255, 255, 255, 0.4)",
-                      borderRadius: 16,
-                      padding: "1.5rem",
-                      border: "1px solid rgba(0, 0, 0, 0.04)",
-                    }}
+                    className="summary-card"
                   >
-                    <p
-                      style={{
-                        fontSize: "0.75rem",
-                        fontWeight: 700,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.5px",
-                        color: "#86868b",
-                        marginBottom: 8,
-                        fontFamily: "var(--font-sans)",
-                      }}
-                    >
+                    <p className="summary-card-label">
                       {item.label}
                     </p>
                     <p
+                      className="summary-card-value"
                       style={{
-                        fontSize: "2rem",
-                        fontWeight: 800,
                         color: item.color,
-                        letterSpacing: "-0.02em",
-                        fontFamily: "var(--font-mono)",
                       }}
                     >
                       {item.value}

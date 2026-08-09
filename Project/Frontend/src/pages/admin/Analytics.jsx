@@ -17,6 +17,7 @@ import {
 import { toast } from "react-hot-toast";
 import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
+import "./Analytics.css";
 
 const shimmer = keyframes`
   0%   { background-position: -400px 0; }
@@ -366,7 +367,7 @@ const AdminAnalytics = () => {
         title="Platform Analytics"
         subtitle="Real-time insights from live platform data"
       >
-        <div style={{ paddingTop: "1rem" }}>
+        <div className="analytics-loading-pad">
           <StatsGrid>
             {Array(4)
               .fill(0)
@@ -374,13 +375,7 @@ const AdminAnalytics = () => {
                 <Skeleton key={i} $h="128px" />
               ))}
           </StatsGrid>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "1.25rem",
-            }}
-          >
+          <div className="chart-grid-2-col">
             <Skeleton $h="320px" />
             <Skeleton $h="320px" />
           </div>
@@ -395,36 +390,10 @@ const AdminAnalytics = () => {
       subtitle={`Live Platform Data — ${projects.length} campaigns, ${users.length} users`}
     >
       <div>
-        <Flex justify="flex-end" style={{ marginBottom: "1.5rem" }}>
+        <Flex justify="flex-end" className="flex-end-mb">
           <button
             onClick={fetchAll}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              background: "rgba(255, 255, 255, 0.7)",
-              backdropFilter: "blur(20px)",
-              border: "1px solid rgba(0,0,0,0.1)",
-              borderRadius: 99,
-              padding: "0.5rem 1.5rem",
-              color: "#191919",
-              fontWeight: 700,
-              cursor: "pointer",
-              boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.01)",
-              transition: "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
-            }}
-            onMouseDown={(e) => {
-              e.currentTarget.style.transform = "scale(0.95)";
-            }}
-            onMouseUp={(e) => {
-              e.currentTarget.style.transform = "scale(1.05)";
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "scale(1.05)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "scale(1)";
-            }}
+            className="btn-refresh-data"
           >
             <RefreshCw size={14} className={loading ? "spin" : ""} /> Refresh
             Data
@@ -477,17 +446,10 @@ const AdminAnalytics = () => {
           ))}
         </StatsGrid>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "1.25rem",
-            marginBottom: "2rem",
-          }}
-        >
+        <div className="chart-grid-2-col">
           <ChartCard>
             <SectionTitle>
-              <BarChart3 size={18} style={{ color: "#0071e3" }} /> Campaigns by
+              <BarChart3 size={18} className="icon-blue" /> Campaigns by
               Category
             </SectionTitle>
             <BarContainer>
@@ -510,13 +472,7 @@ const AdminAnalytics = () => {
                 );
               })}
               {categoryEntries.length === 0 && (
-                <p
-                  style={{
-                    color: "#86868b",
-                    textAlign: "center",
-                    padding: "2rem",
-                  }}
-                >
+                <p className="empty-text-center">
                   No campaigns yet
                 </p>
               )}
@@ -525,7 +481,7 @@ const AdminAnalytics = () => {
 
           <ChartCard>
             <SectionTitle>
-              <PieChart size={18} style={{ color: "#10b981" }} /> User
+              <PieChart size={18} className="icon-green" /> User
               Composition
             </SectionTitle>
             <DonutContainer>
@@ -558,7 +514,7 @@ const AdminAnalytics = () => {
                   fontSize="28"
                   fontWeight="800"
                   transform="rotate(90, 80, 80)"
-                  style={{ fontFamily: "var(--font-sans)" }}
+                  className="text-sans"
                 >
                   {users.length}
                 </text>
@@ -570,7 +526,7 @@ const AdminAnalytics = () => {
                   fontSize="10"
                   fontWeight="700"
                   transform="rotate(90, 80, 80)"
-                  style={{ fontFamily: "var(--font-sans)" }}
+                  className="text-sans"
                 >
                   TOTAL
                 </text>
@@ -590,14 +546,7 @@ const AdminAnalytics = () => {
           </ChartCard>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "1.25rem",
-            marginBottom: "2rem",
-          }}
-        >
+        <div className="status-grid-3-col">
           {[
             {
               label: "Approved",
@@ -623,55 +572,23 @@ const AdminAnalytics = () => {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 + i * 0.08 }}
-              style={{
-                background: "rgba(255, 255, 255, 0.75)",
-                backdropFilter: "blur(20px)",
-                border: "1px solid rgba(0, 0, 0, 0.04)",
-                borderRadius: 24,
-                padding: "1.5rem",
-                boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.02)",
-              }}
+              className="status-card-inner"
             >
               <div
+                className="status-card-header"
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
                   color: s.color,
-                  marginBottom: "0.75rem",
                 }}
               >
                 {s.icon}
-                <span
-                  style={{
-                    fontSize: "0.75rem",
-                    fontWeight: 800,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.05em",
-                    fontFamily: "var(--font-sans)",
-                  }}
-                >
+                <span className="status-card-title">
                   {s.label}
                 </span>
               </div>
-              <p
-                style={{
-                  fontSize: "2.25rem",
-                  fontWeight: 800,
-                  color: "#191919",
-                  letterSpacing: "-0.02em",
-                  fontFamily: "var(--font-mono)",
-                }}
-              >
+              <p className="status-card-value">
                 {s.count}
               </p>
-              <p
-                style={{
-                  fontSize: "0.8rem",
-                  color: "#86868b",
-                  fontWeight: 500,
-                }}
-              >
+              <p className="status-card-sub">
                 {projects.length
                   ? `${((s.count / projects.length) * 100).toFixed(0)}% of all campaigns`
                   : "—"}
@@ -680,8 +597,8 @@ const AdminAnalytics = () => {
           ))}
         </div>
 
-        <SectionTitle style={{ marginTop: "1.5rem" }}>
-          <TrendingUp size={18} style={{ color: "#f59e0b" }} /> Top Campaigns by
+        <SectionTitle className="mt-1-5">
+          <TrendingUp size={18} className="icon-yellow" /> Top Campaigns by
           Funding
         </SectionTitle>
         <TableCard>
@@ -708,65 +625,34 @@ const AdminAnalytics = () => {
                 return (
                   <tr key={p._id}>
                     <td>
-                      <span style={{ fontWeight: 800, color: "#191919" }}>
+                      <span className="text-heavy-dark">
                         {p.title}
                       </span>
                     </td>
-                    <td style={{ fontWeight: 600, color: "#86868b" }}>
+                    <td className="text-medium-light">
                       {p.creator?.name || "—"}
                     </td>
                     <td>
                       <span
+                        className="category-badge-table"
                         style={{
-                          padding: "0.3rem 0.8rem",
-                          borderRadius: 99,
-                          fontSize: "0.72rem",
-                          fontWeight: 800,
                           background:
                             (categoryColors[p.category] || "#6e6e73") + "1A",
                           color: categoryColors[p.category] || "#6e6e73",
-                          textTransform: "uppercase",
-                          letterSpacing: "0.5px",
                         }}
                       >
                         {p.category}
                       </span>
                     </td>
-                    <td
-                      style={{
-                        fontWeight: 800,
-                        color: "#191919",
-                        fontFamily: "var(--font-mono)",
-                      }}
-                    >
+                    <td className="text-heavy-dark-mono">
                       {fmt(p.targetAmount)}
                     </td>
-                    <td
-                      style={{
-                        fontWeight: 800,
-                        color: "#10b981",
-                        fontFamily: "var(--font-mono)",
-                      }}
-                    >
+                    <td className="text-amount-success">
                       {fmt(p.currentAmount || 0)}
                     </td>
                     <td>
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "0.75rem",
-                        }}
-                      >
-                        <div
-                          style={{
-                            flex: 1,
-                            height: 8,
-                            background: "rgba(0, 0, 0, 0.05)",
-                            borderRadius: 4,
-                            overflow: "hidden",
-                          }}
-                        >
+                      <div className="progress-wrapper-table">
+                        <div className="progress-track-table">
                           <div
                             style={{
                               height: "100%",
@@ -800,12 +686,7 @@ const AdminAnalytics = () => {
                 <tr>
                   <td
                     colSpan={7}
-                    style={{
-                      textAlign: "center",
-                      padding: "3rem",
-                      color: "#86868b",
-                      fontWeight: 500,
-                    }}
+                    className="table-cell-empty"
                   >
                     No campaigns yet
                   </td>

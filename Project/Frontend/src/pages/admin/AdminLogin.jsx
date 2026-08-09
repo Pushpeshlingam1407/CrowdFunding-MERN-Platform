@@ -6,6 +6,7 @@ import { ShieldCheck, LogIn, ArrowLeft, AlertCircle } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { Button, Input } from "../../components/ui";
 import useAuthStore from "../../store/authStore";
+import "./AdminLogin.css";
 
 const AdminLoginWrapper = styled.div`
   min-height: 100vh;
@@ -154,35 +155,24 @@ const AdminLogin = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4 }}
-          style={{ width: "100%", maxWidth: "450px" }}
+          className="admin-login-motion-wrapper"
         >
           <AdminLogo>
-            <ShieldCheck size={32} style={{ color: "#191919" }} />
-            <h1
-              style={{
-                fontSize: "1.75rem",
-                fontWeight: 700,
-                letterSpacing: "-1px",
-                fontFamily: "var(--font-sans)",
-              }}
-            >
+            <ShieldCheck size={32} className="admin-icon-color" />
+            <h1 className="admin-portal-title">
               Admin Portal
             </h1>
           </AdminLogo>
 
-          <StyledCard style={{ textAlign: "center" }}>
+          <StyledCard className="admin-card-center">
             <AlertCircle
               size={48}
-              style={{
-                color: "#f59e0b",
-                margin: "0 auto 1.5rem",
-                display: "block",
-              }}
+              className="admin-alert-icon"
             />
-            <FormTitle style={{ fontSize: "1.75rem" }}>
+            <FormTitle className="admin-form-title-lg">
               Session Conflict
             </FormTitle>
-            <FormSubtitle style={{ marginBottom: "2rem" }}>
+            <FormSubtitle className="admin-subtitle-mb">
               You are currently signed in as standard member{" "}
               <strong>{user?.name}</strong> ({user?.role}). The Admin Portal
               requires administrative credentials.
@@ -190,13 +180,7 @@ const AdminLogin = () => {
 
             <Button
               onClick={() => navigate("/dashboard")}
-              style={{
-                width: "100%",
-                background: "#191919",
-                color: "#ffffff",
-                border: "none",
-                marginBottom: "1rem",
-              }}
+              className="admin-btn-dark btn-mb-1"
             >
               Go to Member Dashboard
             </Button>
@@ -204,12 +188,7 @@ const AdminLogin = () => {
             <Button
               variant="outline"
               onClick={handleLogoutAndContinue}
-              style={{
-                width: "100%",
-                borderColor: "#e3e0d8",
-                color: "#6e6e73",
-                background: "transparent",
-              }}
+              className="admin-btn-outline"
             >
               Logout & Sign In as Admin
             </Button>
@@ -225,18 +204,11 @@ const AdminLogin = () => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4 }}
-        style={{ width: "100%", maxWidth: "450px" }}
+        className="admin-login-motion-wrapper"
       >
         <AdminLogo>
-          <ShieldCheck size={32} style={{ color: "#191919" }} />
-          <h1
-            style={{
-              fontSize: "1.75rem",
-              fontWeight: 700,
-              letterSpacing: "-1px",
-              fontFamily: "var(--font-sans)",
-            }}
-          >
+          <ShieldCheck size={32} className="admin-icon-color" />
+          <h1 className="admin-portal-title">
             Admin Portal
           </h1>
         </AdminLogo>
@@ -249,7 +221,7 @@ const AdminLogin = () => {
 
           {error && !errorField && (
             <ErrorBox>
-              <AlertCircle size={18} style={{ flexShrink: 0 }} />
+              <AlertCircle size={18} className="icon-shrink-0" />
               {error}
             </ErrorBox>
           )}
@@ -298,31 +270,19 @@ const AdminLogin = () => {
             <Button
               type="submit"
               disabled={loading}
-              style={{
-                width: "100%",
-                marginTop: "1rem",
-                background: "#191919",
-                color: "#ffffff",
-                border: "none",
-              }}
+              className="admin-btn-dark btn-mt-1"
             >
-              <LogIn size={18} style={{ marginRight: 8 }} />
+              <LogIn size={18} className="icon-mr" />
               {loading ? "Authenticating..." : "Sign In"}
             </Button>
           </form>
 
           <Button
             variant="outline"
-            style={{
-              width: "100%",
-              marginTop: "1.5rem",
-              borderColor: "#e3e0d8",
-              color: "#6e6e73",
-              background: "transparent",
-            }}
+            className="admin-btn-outline btn-mt-1-5"
             onClick={() => navigate("/")}
           >
-            <ArrowLeft size={16} style={{ marginRight: 8 }} /> Return to Website
+            <ArrowLeft size={16} className="icon-mr" /> Return to Website
           </Button>
         </StyledCard>
       </motion.div>

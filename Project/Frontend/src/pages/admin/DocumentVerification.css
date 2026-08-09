@@ -1,0 +1,124 @@
+/* DocumentVerification.css */
+
+.verify-header-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 24px;
+  padding: 1.5rem;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
+}
+
+.flex-wrap-wrap {
+  flex-wrap: wrap;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.stat-large-red {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #ef4444;
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
+}
+
+.stat-subtext {
+  color: #86868b;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: var(--font-sans);
+  letter-spacing: 0.5px;
+}
+
+.stat-divider-lg {
+  height: 40px;
+  width: 1px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.stat-large-dark {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #191919;
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
+}
+
+.search-container-lg {
+  position: relative;
+  width: 340px;
+}
+
+.btn-refresh-verify {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 99px;
+  padding: 0.6rem 1.5rem;
+  color: #191919;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-refresh-verify:hover {
+  transform: scale(1.05);
+}
+
+.btn-refresh-verify:active {
+  transform: scale(0.95);
+}
+
+.table-cell-empty-bold {
+  text-align: center;
+  padding: 4rem;
+  color: #86868b;
+  font-weight: 600;
+}
+
+.entity-name {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #191919;
+}
+
+.entity-email {
+  font-size: 0.8rem;
+  color: #86868b;
+  font-weight: 500;
+}
+
+.date-mono-dark {
+  font-size: 0.85rem;
+  color: #191919;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+
+.icon-gray {
+  color: #86868b;
+}
+
+.status-safe-badge {
+  color: #10b981;
+  font-weight: 800;
+  font-size: 0.72rem;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 0.3rem 0.8rem;
+  border-radius: 99px;
+  display: inline-flex;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.icon-mr-sm {
+  margin-right: 4px;
+}
