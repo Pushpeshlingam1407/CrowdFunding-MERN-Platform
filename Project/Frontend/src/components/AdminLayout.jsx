@@ -264,11 +264,7 @@ const AdminLayout = ({
           <NavItem
             as="button"
             onClick={handleLogout}
-            style={{
-              width: "100%",
-              justifyContent: "flex-start",
-              color: "#E31A1A",
-            }}
+            className="admin-logout-btn"
           >
             <LogOut size={20} />
             Sign Out

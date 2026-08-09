@@ -184,10 +184,7 @@ const InvestmentModal = ({ isOpen, onClose, project, onProceed }) => {
             }}
             min="1000"
             step="1000"
-            className="investment-input"
-            style={{
-              borderColor: error ? "#e53e3e" : "#e0e0e0",
-            }}
+            className={`investment-input ${error ? "input-error" : ""}`}
           />
           {error && (
             <p className="error-message">

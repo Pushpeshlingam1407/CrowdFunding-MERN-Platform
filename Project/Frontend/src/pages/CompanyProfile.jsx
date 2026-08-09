@@ -308,16 +308,7 @@ const CompanyProfile = () => {
                 <h4 className="trust-bar-value">
                   {profile.dynamicMetrics?.collaborationsCount || 0}
                 </h4>
-                <p
-                  style={{
-                    fontSize: "0.75rem",
-                    color: "#86868b",
-                    textTransform: "uppercase",
-                    fontWeight: 700,
-                    letterSpacing: "0.5px",
-                    fontFamily: "var(--font-sans)",
-                  }}
-                >
+                <p className="trust-bar-label">
                   Active Collaborations
                 </p>
               </div>
@@ -333,16 +324,7 @@ const CompanyProfile = () => {
                 <h4 className="trust-bar-value">
                   {profile.dynamicMetrics?.projectsCount || 0}
                 </h4>
-                <p
-                  style={{
-                    fontSize: "0.75rem",
-                    color: "#86868b",
-                    textTransform: "uppercase",
-                    fontWeight: 700,
-                    letterSpacing: "0.5px",
-                    fontFamily: "var(--font-sans)",
-                  }}
-                >
+                <p className="trust-bar-label">
                   Platform Ventures
                 </p>
               </div>
@@ -358,16 +340,7 @@ const CompanyProfile = () => {
                 <h4 className="trust-bar-value">
                   100%
                 </h4>
-                <p
-                  style={{
-                    fontSize: "0.75rem",
-                    color: "#86868b",
-                    textTransform: "uppercase",
-                    fontWeight: 700,
-                    letterSpacing: "0.5px",
-                    fontFamily: "var(--font-sans)",
-                  }}
-                >
+                <p className="trust-bar-label">
                   Security Score
                 </p>
               </div>
@@ -617,7 +590,7 @@ const CompanyProfile = () => {
                     ) : (
                       <Briefcase
                         size={48}
-                        style={{ color: "#86868b", opacity: 0.3 }}
+                        className="portfolio-icon-fade"
                       />
                     )}
                   </div>
@@ -711,14 +684,7 @@ const CompanyProfile = () => {
 
           <div>
             <Card className="summary-card">
-              <h3
-                style={{
-                  fontSize: "1.1rem",
-                  fontWeight: 800,
-                  marginBottom: "1.5rem",
-                  color: "#191919",
-                }}
-              >
+              <h3 className="summary-title">
                 Review Summary
               </h3>
               <div className="summary-chart-container">
@@ -758,14 +724,7 @@ const CompanyProfile = () => {
             </Card>
 
             <Card className="journey-card">
-              <h3
-                style={{
-                  fontSize: "1.1rem",
-                  fontWeight: 800,
-                  marginBottom: "1.5rem",
-                  color: "#191919",
-                }}
-              >
+              <h3 className="summary-title">
                 Professional Journey
               </h3>
               <div className="journey-timeline">

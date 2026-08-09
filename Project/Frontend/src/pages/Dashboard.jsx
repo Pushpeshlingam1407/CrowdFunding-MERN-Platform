@@ -1003,12 +1003,7 @@ const Dashboard = () => {
                     <tr>
                       <td
                         colSpan="5"
-                        style={{
-                          textAlign: "center",
-                          padding: "3rem",
-                          color: "#86868b",
-                          fontWeight: 600,
-                        }}
+                        className="table-cell-empty-bold-dash"
                       >
                         No donations received yet.
                       </td>
@@ -1022,23 +1017,15 @@ const Dashboard = () => {
       case "settings":
         return (
           <ContentCard
-            style={{ padding: "4rem", textAlign: "center" }}
+            className="settings-card-pad"
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
           >
             <Settings
               size={56}
-              style={{ color: "#86868b", marginBottom: "1.5rem", opacity: 0.3 }}
+              className="settings-icon-fade"
             />
-            <h3
-              style={{
-                fontSize: "1.5rem",
-                fontWeight: 800,
-                color: "#191919",
-                fontFamily: "var(--font-serif)",
-                marginBottom: "1rem",
-              }}
-            >
+            <h3 className="settings-heading">
               Account Configuration
             </h3>
             <p className="settings-text-muted">

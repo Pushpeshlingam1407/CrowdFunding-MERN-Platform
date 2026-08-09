@@ -739,40 +739,18 @@ const ProjectDetails = () => {
 
               <Grid cols={2} gap="1rem" className="sidebar-stats-grid">
                 <Flex direction="column" align="flex-start">
-                  <span
-                    style={{
-                      fontSize: "1rem",
-                      fontWeight: 800,
-                      fontFamily: "var(--font-mono)",
-                      color: "#191919",
-                    }}
-                  >
+                  <span className="stat-value">
                     ₹
                     {(
                       project.targetAmount - project.currentAmount
                     ).toLocaleString("en-IN")}
                   </span>
-                  <span
-                    style={{
-                      color: "#86868b",
-                      fontSize: "0.75rem",
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.5px",
-                    }}
-                  >
+                  <span className="stat-label">
                     Still Needed
                   </span>
                 </Flex>
                 <Flex direction="column" align="flex-start">
-                  <span
-                    style={{
-                      fontSize: "1rem",
-                      fontWeight: 800,
-                      fontFamily: "var(--font-mono)",
-                      color: "#191919",
-                    }}
-                  >
+                  <span className="stat-value">
                     {new Date(project.endDate) > new Date()
                       ? Math.ceil(
                           (new Date(project.endDate) - new Date()) /
@@ -780,15 +758,7 @@ const ProjectDetails = () => {
                         )
                       : 0}
                   </span>
-                  <span
-                    style={{
-                      color: "#86868b",
-                      fontSize: "0.75rem",
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.5px",
-                    }}
-                  >
+                  <span className="stat-label">
                     Days Left
                   </span>
                 </Flex>

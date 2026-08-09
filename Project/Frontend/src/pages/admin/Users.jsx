@@ -14,6 +14,7 @@ import {
 import { toast } from "sonner";
 import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
+import "./Users.css";
 
 const TableWrapper = styled.div`
   background: rgba(255, 255, 255, 0.75);
@@ -337,7 +338,7 @@ const AdminUsers = () => {
       subtitle="Moderating professional accounts"
     >
       <div>
-        <Flex gap="1rem" style={{ marginBottom: "2rem" }}>
+        <Flex gap="1rem" className="filters-row-users">
           <SearchBar>
             <Search size={18} />
             <input
@@ -348,21 +349,11 @@ const AdminUsers = () => {
           </SearchBar>
           <ActionBtn
             onClick={fetchUsers}
-            style={{
-              whiteSpace: "nowrap",
-              padding: "0 1.5rem",
-              borderRadius: 99,
-              border: "1px solid rgba(0,0,0,0.1)",
-              background: "rgba(255, 255, 255, 0.7)",
-              backdropFilter: "blur(20px)",
-              boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.01)",
-              height: "3rem",
-            }}
+            className="btn-refresh-users"
           >
             <RefreshCw
               size={16}
-              className={loading ? "spin" : ""}
-              style={{ marginRight: 6 }}
+              className={loading ? "spin icon-mr-sm" : "icon-mr-sm"}
             />{" "}
             Refresh
           </ActionBtn>
@@ -398,26 +389,14 @@ const AdminUsers = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.04 }}
                   >
-                    <td style={{ maxWidth: "300px" }}>
+                    <td className="col-user-max-w">
                       <Flex gap="1rem">
                         <Avatar>{user.name?.charAt(0) || "?"}</Avatar>
                         <div>
-                          <h4
-                            style={{
-                              fontWeight: 800,
-                              marginBottom: "0.15rem",
-                              color: "#191919",
-                            }}
-                          >
+                          <h4 className="user-name-text">
                             {user.name}
                           </h4>
-                          <p
-                            style={{
-                              fontSize: "0.8rem",
-                              color: "#86868b",
-                              fontWeight: 500,
-                            }}
-                          >
+                          <p className="user-meta-text">
                             {user.companyName || user.email}
                           </p>
                         </div>
@@ -450,13 +429,7 @@ const AdminUsers = () => {
                       </Flex>
                     </td>
                     <td>
-                      <p
-                        style={{
-                          fontWeight: 700,
-                          color: "#191919",
-                          fontFamily: "var(--font-mono)",
-                        }}
-                      >
+                      <p className="date-mono-dark">
                         {new Date(user.createdAt).toLocaleDateString("en-IN", {
                           month: "short",
                           day: "numeric",

@@ -283,11 +283,7 @@ const ImageUpload = ({
         >
           <Upload
             size={36}
-            style={{
-              color: isDragging ? "#0071e3" : "#6e6e73",
-              marginBottom: "1rem",
-              transition: "color 0.2s",
-            }}
+            className={`upload-icon ${isDragging ? "upload-icon-dragging" : "upload-icon-idle"}`}
           />
           <InfoText>
             {isDragging

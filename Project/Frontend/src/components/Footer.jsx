@@ -16,7 +16,7 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <h5 className="startup-fund-title" style={{ cursor: "pointer" }}>
+              <h5 className="startup-fund-title">
                 StartupFund
               </h5>
             </a>

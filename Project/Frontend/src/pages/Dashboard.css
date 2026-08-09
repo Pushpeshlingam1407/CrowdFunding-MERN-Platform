@@ -36,3 +36,29 @@
   letter-spacing: -1.5px;
   margin-bottom: 0.25rem;
 }
+
+.table-cell-empty-bold-dash {
+  text-align: center;
+  padding: 3rem;
+  color: #86868b;
+  font-weight: 600;
+}
+
+.settings-card-pad {
+  padding: 4rem;
+  text-align: center;
+}
+
+.settings-icon-fade {
+  color: #86868b;
+  margin-bottom: 1.5rem;
+  opacity: 0.3;
+}
+
+.settings-heading {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #191919;
+  font-family: var(--font-serif);
+  margin-bottom: 1rem;
+}

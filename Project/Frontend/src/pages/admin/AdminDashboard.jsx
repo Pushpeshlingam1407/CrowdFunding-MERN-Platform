@@ -408,24 +408,24 @@ const AdminDashboard = () => {
               <div className="summary-grid">
                 {[
                   {
-                    label: "Approved Ventures",
-                    value: stats.approvedProjects,
-                    color: "#10b981",
+                    label: "Total Users",
+                    value: stats.totalUsers,
+                    colorClass: "text-color-dark",
                   },
                   {
-                    label: "Pending KYC Docs",
-                    value: stats.pendingDocuments,
-                    color: "#f59e0b",
+                    label: "Approved Projects",
+                    value: stats.approvedProjects,
+                    colorClass: "text-color-green",
                   },
                   {
                     label: "Total Investments",
                     value: stats.totalInvestments,
-                    color: "#0071e3",
+                    colorClass: "text-color-blue",
                   },
                   {
                     label: "Total Raised",
                     value: `₹${(stats.totalInvestedAmount / 100000).toFixed(1)}L`,
-                    color: "#8b5cf6",
+                    colorClass: "text-color-purple",
                   },
                 ].map((item, i) => (
                   <div
@@ -436,10 +436,7 @@ const AdminDashboard = () => {
                       {item.label}
                     </p>
                     <p
-                      className="summary-card-value"
-                      style={{
-                        color: item.color,
-                      }}
+                      className={`summary-card-value ${item.colorClass}`}
                     >
                       {item.value}
                     </p>

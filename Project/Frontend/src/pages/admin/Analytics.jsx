@@ -654,24 +654,11 @@ const AdminAnalytics = () => {
                       <div className="progress-wrapper-table">
                         <div className="progress-track-table">
                           <div
-                            style={{
-                              height: "100%",
-                              width: `${pct}%`,
-                              background:
-                                "linear-gradient(90deg, #0071e3, #8b5cf6)",
-                              borderRadius: 4,
-                            }}
+                            className="progress-fill-table"
+                            style={{ width: `${pct}%` }}
                           />
                         </div>
-                        <span
-                          style={{
-                            fontSize: "0.78rem",
-                            fontWeight: 800,
-                            color: "#86868b",
-                            minWidth: "36px",
-                            fontFamily: "var(--font-mono)",
-                          }}
-                        >
+                        <span className="progress-pct-text">
                           {pct.toFixed(0)}%
                         </span>
                       </div>

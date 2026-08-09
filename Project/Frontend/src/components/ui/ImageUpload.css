@@ -17,3 +17,17 @@
 .image-upload-gallery-wrapper {
   margin-top: 1.5rem;
 }
+
+.upload-icon {
+  margin-bottom: 1rem;
+  transition: color 0.2s;
+}
+
+.upload-icon-dragging {
+  color: #0071e3;
+}
+
+.upload-icon-idle {
+  color: #6e6e73;
+}
+

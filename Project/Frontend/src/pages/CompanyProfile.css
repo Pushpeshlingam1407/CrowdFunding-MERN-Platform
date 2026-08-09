@@ -541,3 +541,9 @@
 .campaign-card-inline:hover {
   border-color: #191919 !important;
 }
+
+.portfolio-icon-fade {
+  color: #86868b;
+  opacity: 0.3;
+}
+

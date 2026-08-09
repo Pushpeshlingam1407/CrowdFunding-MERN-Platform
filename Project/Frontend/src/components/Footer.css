@@ -34,3 +34,7 @@
   transform: translateX(5px);
   text-decoration: underline;
 }
+
+.startup-fund-title {
+  cursor: pointer;
+}
