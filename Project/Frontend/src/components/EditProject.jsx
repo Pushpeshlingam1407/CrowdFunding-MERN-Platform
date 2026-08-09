@@ -1,97 +1,4 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
-import { motion } from "framer-motion";
-import {
-  Save,
-  ArrowLeft,
-  Trash2,
-  Upload,
-  AlertTriangle,
-  Image as ImageIcon,
-} from "lucide-react";
-import { toast } from "react-hot-toast";
-import { projectAPI } from "../services/api";
-import { Button, Card, Container, Flex, Grid, Input, ImageUpload } from "./ui";
-import "./EditProject.css";
-
-const EditWrapper = styled.div`
-  padding: 4rem 0;
-  background: ${(props) => props.theme.colors.background};
-  min-height: calc(100vh - 80px);
-`;
-
-const FormSection = styled(motion.div)`
-  max-width: 820px;
-  margin: 0 auto;
-`;
-
-const Label = styled.label`
-  display: block;
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #6e6e73;
-  margin-bottom: 0.5rem;
-`;
-
-const Select = styled.select`
-  width: 100%;
-  padding: 0.85rem 1.25rem;
-  border: 1px solid #dcdad2;
-  border-radius: 12px;
-  font-family: inherit;
-  font-size: 0.95rem;
-  height: 3rem;
-  background: #ffffff;
-  margin-bottom: 1.5rem;
-  outline: none;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%236e6e73%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
-  background-repeat: no-repeat;
-  background-position: calc(100% - 16px) center;
-
-  &:focus {
-    border-color: ${(props) => props.theme.colors.primary};
-    box-shadow: 0 0 0 4px rgba(25, 25, 25, 0.04);
-  }
-`;
-
-const TextArea = styled.textarea`
-  width: 100%;
-  padding: 1rem 1.25rem;
-  border: 1px solid #dcdad2;
-  border-radius: 12px;
-  font-family: inherit;
-  font-size: 0.95rem;
-  min-height: 150px;
-  margin-bottom: 1.5rem;
-  resize: vertical;
-  background: #ffffff;
-  outline: none;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-
-  &:focus {
-    border-color: ${(props) => props.theme.colors.primary};
-    box-shadow: 0 0 0 4px rgba(25, 25, 25, 0.04);
-  }
-`;
-
-const LockBanner = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 1.25rem;
-  background: #fffbeb;
-  border: 1px solid #fcd34d;
-  border-radius: 12px;
-  color: #b45309;
-  font-size: 0.88rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
-`;
 
 const CATEGORIES = [
   "Technology",
@@ -250,9 +157,10 @@ const EditProject = () => {
   }
 
   return (
-    <EditWrapper>
+    <div className="edit-wrapper">
       <Container>
-        <FormSection
+        <motion.div
+          className="edit-form-section"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
@@ -287,83 +195,83 @@ const EditProject = () => {
             </Flex>
 
             {isLocked && (
-              <LockBanner>
-                <AlertTriangle size={18} />
-                This campaign has expired and is locked. Editing is disabled.
-              </LockBanner>
+              <div className="edit-lock-banner">
+                <AlertTriangle size={20} />
+                <span>
+                  Some fields are locked because this campaign has already
+                  received funding or verification.
+                </span>
+              </div>
             )}
 
             <form onSubmit={handleSubmit}>
-              <Label>Campaign Title *</Label>
-              <Input
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                placeholder="e.g. GreenTech Solar Solutions"
-                className="input-spacing"
-                required
-                disabled={isLocked}
-              />
+              <div className="input-spacing">
+                <label className="edit-label">Campaign Title</label>
+                <Input
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  placeholder="e.g. NextGen AI Infrastructure"
+                  required
+                />
+              </div>
 
-              <Label>Project Vision *</Label>
-              <TextArea
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                placeholder="Describe your startup, problem, and solution…"
-                required
-                disabled={isLocked}
-              />
+              <div className="input-spacing">
+                <label className="edit-label">Detailed Vision</label>
+                <textarea
+                  className="edit-textarea"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
-              <Grid cols={2} gap="1.5rem">
+              <Grid cols="1fr 1fr" gap="1.5rem" className="input-spacing">
                 <div>
-                  <Label>Category</Label>
-                  <Select
+                  <label className="edit-label">Industry Category</label>
+                  <select
+                    className="edit-select"
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
-                    disabled={isLocked}
                   >
                     {CATEGORIES.map((c) => (
                       <option key={c} value={c}>
                         {c}
                       </option>
                     ))}
-                  </Select>
+                  </select>
                 </div>
                 <div>
-                  <Label>Equity Offered (%)</Label>
-                  <Input
-                    type="number"
-                    name="equity"
-                    value={formData.equity}
+                  <label className="edit-label">Status</label>
+                  <select
+                    className="edit-select"
+                    name="status"
+                    value={formData.status}
                     onChange={handleChange}
-                    placeholder="e.g. 5"
-                    min="0"
-                    max="100"
-                    className="input-spacing"
-                    required
-                    disabled={isLocked}
-                  />
+                  >
+                    <option value="draft">Draft (Hidden)</option>
+                    <option value="active">Active (Public)</option>
+                    <option value="paused">Paused</option>
+                    <option value="completed">Completed</option>
+                  </select>
                 </div>
               </Grid>
 
-              <Grid cols={2} gap="1.5rem">
+              <Grid cols="1fr 1fr" gap="1.5rem" className="input-spacing">
                 <div>
-                  <Label>Funding Goal (₹)</Label>
+                  <label className="edit-label">Funding Target (USD)</label>
                   <Input
                     type="number"
                     name="targetAmount"
                     value={formData.targetAmount}
                     onChange={handleChange}
-                    placeholder="e.g. 5000000"
-                    className="input-spacing"
                     required
-                    disabled={isLocked}
                   />
                 </div>
                 <div>
-                  <Label>Campaign End Date</Label>
+                  <label className="edit-label">Campaign End Date</label>
                   <Input
                     type="date"
                     name="endDate"
@@ -377,7 +285,7 @@ const EditProject = () => {
               </Grid>
 
               <div className="hero-image-upload">
-                <Label>Hero Image</Label>
+                <label className="edit-label">Cover Image</label>
                 <ImageUpload
                   value={formData.image}
                   onChange={(file) =>
@@ -393,7 +301,7 @@ const EditProject = () => {
 
               {/* Campaign Gallery */}
               <div className="gallery-upload">
-                <Label>Campaign Gallery</Label>
+                <label className="edit-label">Campaign Gallery</label>
                 <ImageUpload
                   value={newCampaignImages}
                   existingImages={campaignImages}
@@ -435,9 +343,9 @@ const EditProject = () => {
               </Button>
             </form>
           </Card>
-        </FormSection>
+        </motion.div>
       </Container>
-    </EditWrapper>
+    </div>
   );
 };
 

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-
 const CreateProject = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
@@ -140,8 +139,13 @@ const CreateProject = () => {
             { num: 3, label: "Media" },
             { num: 4, label: "Review" },
           ].map((s) => (
-            <div key={s.num} className={`create-step-item ${currentStep >= s.num ? "active" : ""}`}>
-              <div className={`create-step-circle ${currentStep >= s.num ? "active" : ""}`}>
+            <div
+              key={s.num}
+              className={`create-step-item ${currentStep >= s.num ? "active" : ""}`}
+            >
+              <div
+                className={`create-step-circle ${currentStep >= s.num ? "active" : ""}`}
+              >
                 {currentStep > s.num ? <CheckCircle2 size={20} /> : s.num}
               </div>
               <span className="create-step-label">{s.label}</span>
@@ -160,7 +164,9 @@ const CreateProject = () => {
                 exit={{ opacity: 0, x: -20 }}
               >
                 <h2 className="step-title">Project Identity</h2>
-                <p className="step-subtitle">Define the core vision of your venture.</p>
+                <p className="step-subtitle">
+                  Define the core vision of your venture.
+                </p>
                 <div className="input-spacing">
                   <label className="create-label">Campaign Title</label>
                   <Input
@@ -219,7 +225,9 @@ const CreateProject = () => {
                 exit={{ opacity: 0, x: -20 }}
               >
                 <h2 className="step-title">Funding Strategy</h2>
-                <p className="step-subtitle">Set your financial goals and timeline.</p>
+                <p className="step-subtitle">
+                  Set your financial goals and timeline.
+                </p>
 
                 <Grid cols="1fr 1fr" gap="1.5rem" className="input-spacing">
                   <div>
@@ -272,8 +280,12 @@ const CreateProject = () => {
                 </div>
 
                 <Flex gap="1rem" className="form-actions">
-                  <Button variant="outline" type="button" onClick={prevStep}>Back</Button>
-                  <Button type="button" onClick={() => setCurrentStep(3)}>Continue</Button>
+                  <Button variant="outline" type="button" onClick={prevStep}>
+                    Back
+                  </Button>
+                  <Button type="button" onClick={() => setCurrentStep(3)}>
+                    Continue
+                  </Button>
                 </Flex>
               </motion.div>
             )}
@@ -294,8 +306,12 @@ const CreateProject = () => {
                   maxSizeMB={5}
                 />
                 <Flex gap="1rem" className="form-actions">
-                  <Button variant="outline" type="button" onClick={prevStep}>Back</Button>
-                  <Button type="button" onClick={() => setCurrentStep(4)}>Continue</Button>
+                  <Button variant="outline" type="button" onClick={prevStep}>
+                    Back
+                  </Button>
+                  <Button type="button" onClick={() => setCurrentStep(4)}>
+                    Continue
+                  </Button>
                 </Flex>
               </motion.div>
             )}
@@ -312,12 +328,20 @@ const CreateProject = () => {
                 <ImageUpload
                   value={campaignImages}
                   multiple={true}
-                  onChange={(files) => setCampaignImages((prev) => [...prev, ...files])}
-                  onRemove={(index) => setCampaignImages((prev) => prev.filter((_, i) => i !== index))}
+                  onChange={(files) =>
+                    setCampaignImages((prev) => [...prev, ...files])
+                  }
+                  onRemove={(index) =>
+                    setCampaignImages((prev) =>
+                      prev.filter((_, i) => i !== index),
+                    )
+                  }
                   maxSizeMB={5}
                 />
                 <Flex gap="1rem" className="form-actions">
-                  <Button variant="outline" type="button" onClick={prevStep}>Back</Button>
+                  <Button variant="outline" type="button" onClick={prevStep}>
+                    Back
+                  </Button>
                   <Button
                     type="submit"
                     disabled={loading}

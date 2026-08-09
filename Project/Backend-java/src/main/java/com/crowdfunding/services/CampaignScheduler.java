@@ -31,11 +31,12 @@ public class CampaignScheduler {
             if (!expiredProjects.isEmpty()) {
                 for (Project project : expiredProjects) {
                     project.setLocked(true);
-                    
+
                     // Process investments across all users for this campaign
-                    List<Investment> investments = investmentRepository.findByProjectIdOrderByCreatedAtDesc(project.getId());
+                    List<Investment> investments = investmentRepository
+                            .findByProjectIdOrderByCreatedAtDesc(project.getId());
                     boolean isSuccessful = project.getCurrentAmount() >= project.getTargetAmount();
-                    
+
                     for (Investment inv : investments) {
                         inv.setStatus(isSuccessful ? "completed" : "failed");
                         if (isSuccessful && inv.getCompletedAt() == null) {
@@ -45,7 +46,8 @@ public class CampaignScheduler {
                     investmentRepository.saveAll(investments);
                 }
                 projectRepository.saveAll(expiredProjects);
-                System.out.println("✅ Locked and processed investments for " + expiredProjects.size() + " expired projects.");
+                System.out.println(
+                        "✅ Locked and processed investments for " + expiredProjects.size() + " expired projects.");
             }
         } catch (Exception e) {
             System.err.println("❌ Error locking expired projects: " + e.getMessage());
