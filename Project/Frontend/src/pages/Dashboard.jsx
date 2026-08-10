@@ -28,59 +28,7 @@ import "./Dashboard.css";
 
 /* ─── Global Styled Components ─────────────────────────────────────── */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* ─── Investor Editorial Layout Components ─────────────────────────── */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* ─── Dashboard Component Implementation ─────────────────────────── */
 
@@ -211,7 +159,8 @@ const Dashboard = () => {
     if (user?.role === "startup") {
       return (
         <div className="dashboard-stats-grid">
-          <motion.div className="dashboard-stat-card"
+          <motion.div
+            className="dashboard-stat-card"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -224,7 +173,8 @@ const Dashboard = () => {
               <p>Total Campaigns</p>
             </div>
           </motion.div>
-          <motion.div className="dashboard-stat-card"
+          <motion.div
+            className="dashboard-stat-card"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -237,7 +187,8 @@ const Dashboard = () => {
               <p>Active Campaigns</p>
             </div>
           </motion.div>
-          <motion.div className="dashboard-stat-card"
+          <motion.div
+            className="dashboard-stat-card"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
@@ -255,7 +206,8 @@ const Dashboard = () => {
     } else if (user?.role === "mnc") {
       return (
         <div className="dashboard-stats-grid">
-          <motion.div className="dashboard-stat-card"
+          <motion.div
+            className="dashboard-stat-card"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -268,7 +220,8 @@ const Dashboard = () => {
               <p>Enterprise Partnerships</p>
             </div>
           </motion.div>
-          <motion.div className="dashboard-stat-card"
+          <motion.div
+            className="dashboard-stat-card"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -286,7 +239,8 @@ const Dashboard = () => {
     } else if (user?.role === "employee") {
       return (
         <div className="dashboard-stats-grid">
-          <motion.div className="dashboard-stat-card"
+          <motion.div
+            className="dashboard-stat-card"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -299,7 +253,8 @@ const Dashboard = () => {
               <p>Co-Investments Joined</p>
             </div>
           </motion.div>
-          <motion.div className="dashboard-stat-card"
+          <motion.div
+            className="dashboard-stat-card"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -318,7 +273,8 @@ const Dashboard = () => {
       // Investor (Fallback stats grid - used inside tabs)
       return (
         <div className="dashboard-stats-grid">
-          <motion.div className="dashboard-stat-card"
+          <motion.div
+            className="dashboard-stat-card"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
           >
@@ -330,7 +286,8 @@ const Dashboard = () => {
               <p>Campaigns Backed</p>
             </div>
           </motion.div>
-          <motion.div className="dashboard-stat-card"
+          <motion.div
+            className="dashboard-stat-card"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -351,14 +308,18 @@ const Dashboard = () => {
   const renderTableData = () => {
     if (user?.role === "startup") {
       return (
-        <motion.div className="dashboard-content-card"
+        <motion.div
+          className="dashboard-content-card"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
           <Flex className="dashboard-section-header">
             <h2 className="card-title">Recent Campaigns</h2>
-            <button className="dashboard-premium-btn secondary" onClick={() => setActiveTab("campaigns")}>
+            <button
+              className="dashboard-premium-btn secondary"
+              onClick={() => setActiveTab("campaigns")}
+            >
               View All
             </button>
           </Flex>
@@ -382,7 +343,9 @@ const Dashboard = () => {
                       ₹{project.targetAmount?.toLocaleString("en-IN")}
                     </td>
                     <td>
-                      <span className={`dashboard-status-badge status-${project.status === "active" || project.status === "approved" || project.status === "completed" ? "active" : project.status === "pending" ? "pending" : project.status === "rejected" ? "rejected" : "default"}`}>
+                      <span
+                        className={`dashboard-status-badge status-${project.status === "active" || project.status === "approved" || project.status === "completed" ? "active" : project.status === "pending" ? "pending" : project.status === "rejected" ? "rejected" : "default"}`}
+                      >
                         {project.status}
                       </span>
                     </td>
@@ -447,7 +410,8 @@ const Dashboard = () => {
             : "investments";
 
       return (
-        <motion.div className="dashboard-content-card"
+        <motion.div
+          className="dashboard-content-card"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -455,7 +419,10 @@ const Dashboard = () => {
           <Flex className="dashboard-section-header">
             <h2 className="card-title">{title}</h2>
             {user?.role !== "investor" && (
-              <button className="dashboard-premium-btn secondary" onClick={() => setActiveTab(activeTabTarget)}>
+              <button
+                className="dashboard-premium-btn secondary"
+                onClick={() => setActiveTab(activeTabTarget)}
+              >
                 View All
               </button>
             )}
@@ -484,7 +451,9 @@ const Dashboard = () => {
                       ).toLocaleDateString("en-IN")}
                     </td>
                     <td>
-                      <span className={`dashboard-status-badge status-${inv.status === "active" || inv.status === "approved" || inv.status === "completed" ? "active" : inv.status === "pending" ? "pending" : inv.status === "rejected" ? "rejected" : "default"}`}>
+                      <span
+                        className={`dashboard-status-badge status-${inv.status === "active" || inv.status === "approved" || inv.status === "completed" ? "active" : inv.status === "pending" ? "pending" : inv.status === "rejected" ? "rejected" : "default"}`}
+                      >
                         {inv.status}
                       </span>
                     </td>
@@ -526,7 +495,8 @@ const Dashboard = () => {
         return renderTableData();
       case "backers":
         return (
-          <motion.div className="dashboard-content-card"
+          <motion.div
+            className="dashboard-content-card"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -583,7 +553,8 @@ const Dashboard = () => {
         );
       case "settings":
         return (
-          <motion.div className="dashboard-content-card settings-card-pad"
+          <motion.div
+            className="dashboard-content-card settings-card-pad"
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
           >
@@ -673,7 +644,8 @@ const Dashboard = () => {
                 (p.currentAmount / p.targetAmount) * 100,
               );
               return (
-                <motion.div className="dashboard-mini-project-card"
+                <motion.div
+                  className="dashboard-mini-project-card"
                   key={p._id}
                   onClick={() => navigate(`/projects/${p._id}`)}
                   whileHover={{ y: -4 }}
@@ -694,7 +666,10 @@ const Dashboard = () => {
                       <span>{pProgress.toFixed(0)}%</span>
                     </Flex>
                     <div className="dashboard-progress-bar">
-                      <div className="dashboard-progress-fill" style={{ width: `${Math.min(100, pProgress)}%` }} />
+                      <div
+                        className="dashboard-progress-fill"
+                        style={{ width: `${Math.min(100, pProgress)}%` }}
+                      />
                     </div>
                   </div>
                 </motion.div>
@@ -741,7 +716,10 @@ const Dashboard = () => {
                 Monitor your startup investment portfolio and allocation.
               </p>
             </div>
-            <button className="dashboard-premium-btn primary" onClick={() => navigate("/campaigns")}>
+            <button
+              className="dashboard-premium-btn primary"
+              onClick={() => navigate("/campaigns")}
+            >
               Explore Marketplace
             </button>
           </header>
@@ -843,7 +821,10 @@ const Dashboard = () => {
               </p>
             </div>
             {user?.role === "startup" && (
-              <button className="dashboard-premium-btn primary" onClick={() => navigate("/projects/new")}>
+              <button
+                className="dashboard-premium-btn primary"
+                onClick={() => navigate("/projects/new")}
+              >
                 <Plus size={18} className="icon-mr" /> Create Campaign
               </button>
             )}

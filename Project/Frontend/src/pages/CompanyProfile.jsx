@@ -29,22 +29,6 @@ import useAuthStore from "../store/authStore";
 import { b2bAPI, userAPI, projectAPI } from "../services/api";
 import "./CompanyProfile.css";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const CompanyProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -250,7 +234,8 @@ const CompanyProfile = () => {
 
         <AnimatePresence>
           {showReviewModal && (
-            <motion.div className="company-modal-overlay"
+            <motion.div
+              className="company-modal-overlay"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -281,7 +266,8 @@ const CompanyProfile = () => {
                   </div>
 
                   <label className="form-label-small">Comment</label>
-                  <textarea className="company-textarea"
+                  <textarea
+                    className="company-textarea"
                     placeholder="General experience working with this company..."
                     value={newReview.comment}
                     onChange={(e) =>
@@ -351,7 +337,9 @@ const CompanyProfile = () => {
               <Flex gap="0.75rem" wrap="wrap">
                 {profile.services && profile.services.length > 0 ? (
                   profile.services.map((service, i) => (
-                    <span className="company-service-tag" key={i}>{service}</span>
+                    <span className="company-service-tag" key={i}>
+                      {service}
+                    </span>
                   ))
                 ) : (
                   <p className="no-services-text">No services specified.</p>

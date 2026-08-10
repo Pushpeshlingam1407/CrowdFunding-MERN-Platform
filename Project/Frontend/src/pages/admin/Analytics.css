@@ -189,8 +189,12 @@
 }
 
 @keyframes analyticsShimmer {
-  0%   { background-position: -400px 0; }
-  100% { background-position: 400px 0; }
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
 }
 
 .analytics-stats-grid {

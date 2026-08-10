@@ -15,10 +15,6 @@ import { exportToCSV } from "../../utils/export";
 import { motion } from "framer-motion";
 import "./AdminFinancials.css";
 
-
-
-
-
 const AdminFinancials = () => {
   const [investments, setInvestments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -188,13 +184,15 @@ const AdminFinancials = () => {
           <Flex gap="1rem">
             <div className="search-wrapper">
               <Search size={16} className="search-icon-absolute" />
-              <Input className="admin-search-input"
+              <Input
+                className="admin-search-input"
                 placeholder="Search ledger..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <select className="admin-capsule-select"
+            <select
+              className="admin-capsule-select"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
@@ -258,7 +256,9 @@ const AdminFinancials = () => {
                       </div>
                     </td>
                     <td>
-                      <span className={`admin-status-badge ${inv.status === 'completed' ? 'completed' : 'default'}`}>
+                      <span
+                        className={`admin-status-badge ${inv.status === "completed" ? "completed" : "default"}`}
+                      >
                         {inv.status}
                       </span>
                     </td>

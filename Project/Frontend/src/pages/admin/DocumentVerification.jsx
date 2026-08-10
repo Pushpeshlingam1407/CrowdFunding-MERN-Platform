@@ -14,10 +14,6 @@ import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
 import "./DocumentVerification.css";
 
-
-
-
-
 const AdminDocumentVerification = () => {
   const [verifications, setVerifications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -126,7 +122,9 @@ const AdminDocumentVerification = () => {
                   <tr key={verify._id}>
                     <td>
                       <Flex gap="1rem">
-                        <div className="verification-avatar">{verify.user?.name?.charAt(0) || "?"}</div>
+                        <div className="verification-avatar">
+                          {verify.user?.name?.charAt(0) || "?"}
+                        </div>
                         <div>
                           <p className="entity-name">{verify.user?.name}</p>
                           <p className="entity-email">{verify.user?.email}</p>
@@ -135,7 +133,9 @@ const AdminDocumentVerification = () => {
                     </td>
                     <td>
                       <Flex gap="0.5rem" className="flex-wrap-wrap">
-                        <span className="verification-doc-badge">IDENTITY PROOF</span>
+                        <span className="verification-doc-badge">
+                          IDENTITY PROOF
+                        </span>
                         <span className="verification-doc-badge">ADDRESS</span>
                       </Flex>
                     </td>
@@ -160,7 +160,8 @@ const AdminDocumentVerification = () => {
                     </td>
                     <td>
                       <Flex gap="0.5rem">
-                        <button className="verification-action-btn default"
+                        <button
+                          className="verification-action-btn default"
                           onClick={() =>
                             window.open(verify.identityProof, "_blank")
                           }
@@ -168,7 +169,8 @@ const AdminDocumentVerification = () => {
                         >
                           <Eye size={14} className="icon-mr-sm" /> Inspect
                         </button>
-                        <button className="verification-action-btn approve"
+                        <button
+                          className="verification-action-btn approve"
                           onClick={() =>
                             handleVerify(verify.user?._id, 0, "verified")
                           }
@@ -176,7 +178,8 @@ const AdminDocumentVerification = () => {
                         >
                           <CheckCircle2 size={16} />
                         </button>
-                        <button className="verification-action-btn reject"
+                        <button
+                          className="verification-action-btn reject"
                           onClick={() =>
                             handleVerify(verify.user?._id, 0, "rejected")
                           }

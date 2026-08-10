@@ -8,10 +8,6 @@ import { Button, Input } from "../../components/ui";
 import useAuthStore from "../../store/authStore";
 import "./AdminLogin.css";
 
-
-
-
-
 const AdminLogin = () => {
   const navigate = useNavigate();
   const { adminLogin, error, errorField, isAuthenticated, user, logout } =
@@ -118,7 +114,8 @@ const AdminLogin = () => {
           <form onSubmit={handleSubmit}>
             <div className="admin-form-group">
               <label className="admin-label">Email Address</label>
-              <Input className={`admin-light-input ${errorField === "email" ? "error" : ""}`}
+              <Input
+                className={`admin-light-input ${errorField === "email" ? "error" : ""}`}
                 type="email"
                 placeholder="admin@crowdfunding.com"
                 value={formData.email}
@@ -137,7 +134,8 @@ const AdminLogin = () => {
 
             <div className="admin-form-group">
               <label className="admin-label">Password</label>
-              <Input className={`admin-light-input ${errorField === "password" ? "error" : ""}`}
+              <Input
+                className={`admin-light-input ${errorField === "password" ? "error" : ""}`}
                 type="password"
                 placeholder="••••••••"
                 value={formData.password}

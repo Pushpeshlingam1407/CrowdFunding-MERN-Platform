@@ -20,8 +20,6 @@ import { Button, Input, Card, Container, Flex, Grid } from "./ui";
 import api from "../services/api";
 import "./Register.css";
 
-
-
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -167,18 +165,20 @@ const Register = () => {
                 <Grid cols={2} gap="1rem">
                   <div className="register-form-group">
                     <label className="register-label">First Name</label>
-                    <input className={`register-input ${ firstNameTouched && isFirstNameValid ? "is-valid" : "" } ${ firstNameTouched && !isFirstNameValid ? "has-error" : "" }`} 
+                    <input
+                      className={`register-input ${firstNameTouched && isFirstNameValid ? "is-valid" : ""} ${firstNameTouched && !isFirstNameValid ? "has-error" : ""}`}
                       type="text"
                       name="firstName"
                       placeholder="Jane"
                       value={formData.firstName}
                       onChange={handleChange}
-                      
-                      
+
                       required
-                     />
+                    />
                     {firstNameTouched && (
-                      <div className={`register-validation-indicator ${ isFirstNameValid ? "is-valid" : "has-error" }`}>
+                      <div
+                        className={`register-validation-indicator ${isFirstNameValid ? "is-valid" : "has-error"}`}
+                      >
                         {isFirstNameValid ? (
                           <>
                             <Check size={14} /> First name{" "}
@@ -194,18 +194,20 @@ const Register = () => {
                   </div>
                   <div className="register-form-group">
                     <label className="register-label">Last Name</label>
-                    <input className={`register-input ${ lastNameTouched && isLastNameValid ? "is-valid" : "" } ${ lastNameTouched && !isLastNameValid ? "has-error" : "" }`} 
+                    <input
+                      className={`register-input ${lastNameTouched && isLastNameValid ? "is-valid" : ""} ${lastNameTouched && !isLastNameValid ? "has-error" : ""}`}
                       type="text"
                       name="lastName"
                       placeholder="Doe"
                       value={formData.lastName}
                       onChange={handleChange}
-                      
-                      
+
                       required
-                     />
+                    />
                     {lastNameTouched && (
-                      <div className={`register-validation-indicator ${ isLastNameValid ? "is-valid" : "has-error" }`}>
+                      <div
+                        className={`register-validation-indicator ${isLastNameValid ? "is-valid" : "has-error"}`}
+                      >
                         {isLastNameValid ? (
                           <>
                             <Check size={14} /> Last name
@@ -223,16 +225,16 @@ const Register = () => {
 
                 <div className="register-form-group">
                   <label className="register-label">Email Address</label>
-                  <input className={`register-input ${ emailTouched && isEmailValid && !emailExists ? "is-valid" : "" } ${ emailTouched && (!isEmailValid || emailExists) ? "has-error" : "" }`} 
+                  <input
+                    className={`register-input ${emailTouched && isEmailValid && !emailExists ? "is-valid" : ""} ${emailTouched && (!isEmailValid || emailExists) ? "has-error" : ""}`}
                     type="email"
                     name="email"
                     placeholder="jane@company.com"
                     value={formData.email}
                     onChange={handleChange}
-                    
-                    
+
                     required
-                   />
+                  />
                   {emailTouched && (
                     <div
                       className={`register-validation-indicator ${isEmailValid && !emailExists ? "is-valid" : "has-error"}`}
@@ -261,31 +263,39 @@ const Register = () => {
 
                 <div className="register-form-group">
                   <label className="register-label">Password</label>
-                  <input className={`register-input ${ passwordTouched && isPasswordValid ? "is-valid" : "" } ${ passwordTouched && !isPasswordValid ? "has-error" : "" }`} 
+                  <input
+                    className={`register-input ${passwordTouched && isPasswordValid ? "is-valid" : ""} ${passwordTouched && !isPasswordValid ? "has-error" : ""}`}
                     type="password"
                     name="password"
                     placeholder="••••••••"
                     value={formData.password}
                     onChange={handleChange}
-                    
-                    
+
                     required
-                   />
+                  />
                   {passwordTouched && (
                     <div className="register-criteria-list">
-                      <div className={`register-criteria-item ${ hasMinLength ? "is-valid" : "is-invalid" }`}>
+                      <div
+                        className={`register-criteria-item ${hasMinLength ? "is-valid" : "is-invalid"}`}
+                      >
                         {hasMinLength ? <Check size={12} /> : <X size={12} />}{" "}
                         At least 8 characters
                       </div>
-                      <div className={`register-criteria-item ${ hasUppercase ? "is-valid" : "is-invalid" }`}>
+                      <div
+                        className={`register-criteria-item ${hasUppercase ? "is-valid" : "is-invalid"}`}
+                      >
                         {hasUppercase ? <Check size={12} /> : <X size={12} />}{" "}
                         One uppercase letter
                       </div>
-                      <div className={`register-criteria-item ${ hasNumber ? "is-valid" : "is-invalid" }`}>
+                      <div
+                        className={`register-criteria-item ${hasNumber ? "is-valid" : "is-invalid"}`}
+                      >
                         {hasNumber ? <Check size={12} /> : <X size={12} />} One
                         number
                       </div>
-                      <div className={`register-criteria-item ${ hasSpecial ? "is-valid" : "is-invalid" }`}>
+                      <div
+                        className={`register-criteria-item ${hasSpecial ? "is-valid" : "is-invalid"}`}
+                      >
                         {hasSpecial ? <Check size={12} /> : <X size={12} />} One
                         special character (!@#$%^&*)
                       </div>
@@ -295,7 +305,8 @@ const Register = () => {
 
                 <div className="register-form-group">
                   <label className="register-label">Confirm Password</label>
-                  <input className={`register-input ${ false ? "is-valid" : "" } ${ false ? "has-error" : "" }`} 
+                  <input
+                    className={`register-input ${false ? "is-valid" : ""} ${false ? "has-error" : ""}`}
                     type="password"
                     name="confirmPassword"
                     placeholder="••••••••"
@@ -310,7 +321,7 @@ const Register = () => {
                       formData.password !== formData.confirmPassword
                     }
                     required
-                   />
+                  />
                   {formData.confirmPassword && (
                     <div
                       className={`register-validation-indicator ${formData.password === formData.confirmPassword ? "is-valid" : "has-error"}`}

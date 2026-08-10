@@ -289,8 +289,9 @@ const AdminProjects = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-            <button className="projects-action-btn default btn-refresh-projects"
-              onClick={fetchAdminProjects}
+          <button
+            className="projects-action-btn default btn-refresh-projects"
+            onClick={fetchAdminProjects}
           >
             <RefreshCw
               size={16}
@@ -304,7 +305,7 @@ const AdminProjects = () => {
           {filterTabs.map((tab) => (
             <button
               key={tab.key}
-              className={`projects-segment-btn ${filter === tab.key ? 'active' : ''}`}
+              className={`projects-segment-btn ${filter === tab.key ? "active" : ""}`}
               onClick={() => setFilter(tab.key)}
             >
               {tab.label}
@@ -388,7 +389,9 @@ const AdminProjects = () => {
                       <p className="equity-amount-text">{project.equity}%</p>
                     </td>
                     <td>
-                      <span className={`projects-status-badge ${project.status || 'default'}`}>
+                      <span
+                        className={`projects-status-badge ${project.status || "default"}`}
+                      >
                         {project.status}
                       </span>
                     </td>
@@ -396,7 +399,8 @@ const AdminProjects = () => {
                       <Flex gap="0.5rem">
                         {project.status === "pending" && (
                           <>
-                            <button className="projects-action-btn approve"
+                            <button
+                              className="projects-action-btn approve"
                               onClick={() =>
                                 handleStatusChange(project._id, "approved")
                               }
@@ -404,7 +408,8 @@ const AdminProjects = () => {
                             >
                               <CheckCircle2 size={14} />
                             </button>
-                            <button className="projects-action-btn reject"
+                            <button
+                              className="projects-action-btn reject"
                               onClick={() =>
                                 handleStatusChange(project._id, "rejected")
                               }
@@ -415,7 +420,8 @@ const AdminProjects = () => {
                           </>
                         )}
                         {project.status === "approved" && (
-                          <button className="projects-action-btn reject"
+                          <button
+                            className="projects-action-btn reject"
                             onClick={() =>
                               handleStatusChange(project._id, "rejected")
                             }
@@ -425,7 +431,8 @@ const AdminProjects = () => {
                           </button>
                         )}
                         {project.status === "rejected" && (
-                          <button className="projects-action-btn approve"
+                          <button
+                            className="projects-action-btn approve"
                             onClick={() =>
                               handleStatusChange(project._id, "approved")
                             }
@@ -434,13 +441,15 @@ const AdminProjects = () => {
                             <CheckCircle2 size={14} />
                           </button>
                         )}
-                        <button className="projects-action-btn default"
+                        <button
+                          className="projects-action-btn default"
                           onClick={() => navigate(`/projects/${project._id}`)}
                           title="View Campaign"
                         >
                           <ExternalLink size={14} />
                         </button>
-                        <button className="projects-action-btn delete"
+                        <button
+                          className="projects-action-btn delete"
                           onClick={() => handleDelete(project._id)}
                           title="Delete Campaign"
                         >

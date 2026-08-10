@@ -308,7 +308,11 @@ const ProjectDetails = () => {
                 <h3 className="section-heading-sm">Campaign Gallery</h3>
                 <div className="gallery-grid">
                   {images.map((img, i) => (
-                    <div className="project-gallery-tile" key={i} onClick={() => setLightboxIndex(i)}>
+                    <div
+                      className="project-gallery-tile"
+                      key={i}
+                      onClick={() => setLightboxIndex(i)}
+                    >
                       <img
                         src={getImgSrc(img)}
                         alt={`Gallery ${i + 1}`}
@@ -400,7 +404,10 @@ const ProjectDetails = () => {
                 </span>
               </Flex>
               <div className="project-progress-track">
-                <div className="project-progress-fill" style={{ width: `${progress}%` }} />
+                <div
+                  className="project-progress-fill"
+                  style={{ width: `${progress}%` }}
+                />
               </div>
 
               <Grid cols={2} gap="1rem" className="sidebar-stats-grid">
@@ -469,7 +476,8 @@ const ProjectDetails = () => {
       {/* ── Lightbox ── */}
       <AnimatePresence>
         {lightboxIndex !== null && (
-          <motion.div className="project-lightbox-overlay"
+          <motion.div
+            className="project-lightbox-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -480,7 +488,8 @@ const ProjectDetails = () => {
             </button>
 
             {images.length > 1 && (
-              <button className="project-lightbox-nav left"
+              <button
+                className="project-lightbox-nav left"
                 onClick={(e) => {
                   e.stopPropagation();
                   prevImage();
@@ -490,7 +499,8 @@ const ProjectDetails = () => {
               </button>
             )}
 
-            <motion.img className="project-lightbox-img"
+            <motion.img
+              className="project-lightbox-img"
               key={lightboxIndex}
               src={getImgSrc(images[lightboxIndex])}
               alt={`Gallery ${lightboxIndex + 1}`}
@@ -505,7 +515,8 @@ const ProjectDetails = () => {
             />
 
             {images.length > 1 && (
-              <button className="project-lightbox-nav right"
+              <button
+                className="project-lightbox-nav right"
                 onClick={(e) => {
                   e.stopPropagation();
                   nextImage();
@@ -526,19 +537,24 @@ const ProjectDetails = () => {
       {/* ── Report Modal ── */}
       <AnimatePresence>
         {reportOpen && (
-          <motion.div className="project-modal-overlay"
+          <motion.div
+            className="project-modal-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setReportOpen(false)}
           >
-            <motion.div className="project-modal-box"
+            <motion.div
+              className="project-modal-box"
               initial={{ scale: 0.95, opacity: 0, y: 10 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 10 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <button className="project-modal-close" onClick={() => setReportOpen(false)}>
+              <button
+                className="project-modal-close"
+                onClick={() => setReportOpen(false)}
+              >
                 <X size={20} />
               </button>
 
@@ -556,7 +572,8 @@ const ProjectDetails = () => {
 
               <form onSubmit={handleReportSubmit}>
                 <label className="project-label">Issue Type</label>
-                <select className="project-select"
+                <select
+                  className="project-select"
                   value={reportData.type}
                   onChange={(e) =>
                     setReportData({ ...reportData, type: e.target.value })
@@ -569,7 +586,8 @@ const ProjectDetails = () => {
                 </select>
 
                 <label className="project-label">Subject</label>
-                <input className="project-input-field"
+                <input
+                  className="project-input-field"
                   placeholder="Brief summary of the issue..."
                   value={reportData.subject}
                   onChange={(e) =>
@@ -579,7 +597,8 @@ const ProjectDetails = () => {
                 />
 
                 <label className="project-label">Description</label>
-                <textarea className="project-textarea-field"
+                <textarea
+                  className="project-textarea-field"
                   placeholder="Describe the issue in detail. Include dates, amounts, or any evidence..."
                   value={reportData.description}
                   onChange={(e) =>

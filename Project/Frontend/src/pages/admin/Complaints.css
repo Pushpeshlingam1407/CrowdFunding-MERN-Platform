@@ -186,16 +186,20 @@
   letter-spacing: 0.5px;
 }
 .complaints-type-badge.fraud {
-  background: rgba(239, 68, 68, 0.1); color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
 }
 .complaints-type-badge.unpaid {
-  background: rgba(245, 158, 11, 0.1); color: #f59e0b;
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
 }
 .complaints-type-badge.bug {
-  background: rgba(0, 113, 227, 0.1); color: #0071e3;
+  background: rgba(0, 113, 227, 0.1);
+  color: #0071e3;
 }
 .complaints-type-badge.default {
-  background: rgba(16, 185, 129, 0.1); color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
 }
 
 .complaints-status-badge {
@@ -207,13 +211,16 @@
   letter-spacing: 0.5px;
 }
 .complaints-status-badge.resolved {
-  background: rgba(16, 185, 129, 0.1); color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
 }
 .complaints-status-badge.in-progress {
-  background: rgba(0, 113, 227, 0.1); color: #0071e3;
+  background: rgba(0, 113, 227, 0.1);
+  color: #0071e3;
 }
 .complaints-status-badge.pending {
-  background: rgba(239, 68, 68, 0.1); color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
 }
 
 .complaints-search-bar {

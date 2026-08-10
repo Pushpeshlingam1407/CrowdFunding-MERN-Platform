@@ -135,7 +135,10 @@ const AdminUsers = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <button onClick={fetchUsers} className="users-action-btn default btn-refresh-users">
+          <button
+            onClick={fetchUsers}
+            className="users-action-btn default btn-refresh-users"
+          >
             <RefreshCw
               size={16}
               className={loading ? "spin icon-mr-sm" : "icon-mr-sm"}
@@ -176,7 +179,9 @@ const AdminUsers = () => {
                   >
                     <td className="col-user-max-w">
                       <Flex gap="1rem">
-                        <div className="users-avatar">{user.name?.charAt(0) || "?"}</div>
+                        <div className="users-avatar">
+                          {user.name?.charAt(0) || "?"}
+                        </div>
                         <div>
                           <h4 className="user-name-text">{user.name}</h4>
                           <p className="user-meta-text">
@@ -187,7 +192,11 @@ const AdminUsers = () => {
                     </td>
                     <td>
                       <Flex gap="0.75rem" align="center">
-                        <span className={`users-role-badge ${["startup", "investor", "mnc", "admin"].includes(user.role) ? user.role : "default"}`}>{user.role}</span>
+                        <span
+                          className={`users-role-badge ${["startup", "investor", "mnc", "admin"].includes(user.role) ? user.role : "default"}`}
+                        >
+                          {user.role}
+                        </span>
                         {user.role !== "admin" && (
                           <select
                             className="users-role-select"
@@ -207,7 +216,9 @@ const AdminUsers = () => {
                     </td>
                     <td>
                       <Flex gap="0.75rem" align="center">
-                        <span className={`users-verified-badge ${user.isVerified ? "verified" : "unverified"}`}>
+                        <span
+                          className={`users-verified-badge ${user.isVerified ? "verified" : "unverified"}`}
+                        >
                           {user.isVerified ? "Verified User" : "Unverified"}
                         </span>
                       </Flex>

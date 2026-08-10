@@ -19,12 +19,6 @@ import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
 import "./Analytics.css";
 
-
-
-
-
-
-
 const AdminAnalytics = () => {
   const [stats, setStats] = useState(null);
   const [projects, setProjects] = useState([]);
@@ -136,7 +130,11 @@ const AdminAnalytics = () => {
             {Array(4)
               .fill(0)
               .map((_, i) => (
-                <div className="analytics-skeleton" key={i} style={{ height: "128px" }} />
+                <div
+                  className="analytics-skeleton"
+                  key={i}
+                  style={{ height: "128px" }}
+                />
               ))}
           </div>
           <div className="chart-grid-2-col">
@@ -192,7 +190,8 @@ const AdminAnalytics = () => {
               color: "#8b5cf6",
             },
           ].map((c, i) => (
-            <motion.div className="analytics-stat-card"
+            <motion.div
+              className="analytics-stat-card"
               key={i}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -201,7 +200,9 @@ const AdminAnalytics = () => {
               <p className="analytics-stat-label">
                 {c.icon} {c.label}
               </p>
-              <h2 className="analytics-stat-value" style={{ color: c.color }}>{c.value}</h2>
+              <h2 className="analytics-stat-value" style={{ color: c.color }}>
+                {c.value}
+              </h2>
               <p className="analytics-stat-sub">{c.sub}</p>
             </motion.div>
           ))}
@@ -220,7 +221,11 @@ const AdminAnalytics = () => {
                   <div className="analytics-bar-row" key={cat}>
                     <span className="analytics-bar-label">{cat}</span>
                     <div className="analytics-bar-track">
-                      <motion.div className="analytics-bar-fill" style={{ background: `linear-gradient(90deg, ${categoryColors[cat] || "#94a3b8"}88, ${categoryColors[cat] || "#94a3b8"})` }}
+                      <motion.div
+                        className="analytics-bar-fill"
+                        style={{
+                          background: `linear-gradient(90deg, ${categoryColors[cat] || "#94a3b8"}88, ${categoryColors[cat] || "#94a3b8"})`,
+                        }}
                         initial={{ width: 0 }}
                         animate={{ width: `${Math.max(pct, 8)}%` }}
                         transition={{ delay: i * 0.1, duration: 0.5 }}
@@ -291,7 +296,10 @@ const AdminAnalytics = () => {
               <div>
                 {Object.entries(roleBreakdown).map(([role, count]) => (
                   <div className="analytics-legend-item" key={role}>
-                    <div className="analytics-legend-dot" style={{ background: roleColors[role] || "#94a3b8" }} />
+                    <div
+                      className="analytics-legend-dot"
+                      style={{ background: roleColors[role] || "#94a3b8" }}
+                    />
                     <span className="analytics-legend-label">
                       {role.charAt(0).toUpperCase() + role.slice(1)}
                     </span>
@@ -415,7 +423,11 @@ const AdminAnalytics = () => {
                       </div>
                     </td>
                     <td>
-                      <span className={`analytics-status-dot ${p.status === 'approved' ? 'approved' : p.status === 'pending' ? 'pending' : 'rejected'}`}>{p.status}</span>
+                      <span
+                        className={`analytics-status-dot ${p.status === "approved" ? "approved" : p.status === "pending" ? "pending" : "rejected"}`}
+                      >
+                        {p.status}
+                      </span>
                     </td>
                   </tr>
                 );

@@ -19,8 +19,6 @@ import useAuthStore from "../../store/authStore";
 import AdminLayout from "../../components/AdminLayout";
 import "./Settings.css";
 
-
-
 const AdminSettings = () => {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -103,7 +101,11 @@ const AdminSettings = () => {
     >
       <div className="settings-container">
         <Flex justify="flex-end" className="flex-end-mb">
-          <button className="settings-save-btn" onClick={handleSave} disabled={saving}>
+          <button
+            className="settings-save-btn"
+            onClick={handleSave}
+            disabled={saving}
+          >
             {saving ? (
               <RefreshCw size={16} className="spin" />
             ) : saved ? (
@@ -119,13 +121,18 @@ const AdminSettings = () => {
           </button>
         </Flex>
 
-        <motion.div className="settings-section"
+        <motion.div
+          className="settings-section"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
         >
           <div className="settings-section-header">
-            <div className="settings-section-icon" $bg="rgba(0, 113, 227, 0.08)" $color="#0071e3">
+            <div
+              className="settings-section-icon"
+              $bg="rgba(0, 113, 227, 0.08)"
+              $color="#0071e3"
+            >
               <Globe size={24} />
             </div>
             <div>
@@ -141,7 +148,8 @@ const AdminSettings = () => {
               <h4>Platform Name</h4>
               <p>The name displayed across the platform interface</p>
             </div>
-            <input className="settings-input"
+            <input
+              className="settings-input"
               value={settings.platformName}
               onChange={(e) => update("platformName", e.target.value)}
             />
@@ -152,7 +160,8 @@ const AdminSettings = () => {
               <h4>Default Currency</h4>
               <p>Currency used for all funding calculations</p>
             </div>
-            <select className="settings-select"
+            <select
+              className="settings-select"
               value={settings.defaultCurrency}
               onChange={(e) => update("defaultCurrency", e.target.value)}
             >
@@ -167,7 +176,8 @@ const AdminSettings = () => {
               <h4>Maintenance Mode</h4>
               <p>Temporarily disable public access to perform maintenance</p>
             </div>
-            <button className={`settings-toggle ${settings.maintenanceMode ? 'on' : ''}`}
+            <button
+              className={`settings-toggle ${settings.maintenanceMode ? "on" : ""}`}
               onClick={() =>
                 update("maintenanceMode", !settings.maintenanceMode)
               }
@@ -175,17 +185,24 @@ const AdminSettings = () => {
           </div>
         </motion.div>
 
-        <motion.div className="settings-section"
+        <motion.div
+          className="settings-section"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
           <div className="settings-section-header">
-            <div className="settings-section-icon" $bg="rgba(16, 185, 129, 0.08)" $color="#10b981">
+            <div
+              className="settings-section-icon"
+              $bg="rgba(16, 185, 129, 0.08)"
+              $color="#10b981"
+            >
               <DollarSign size={24} />
             </div>
             <div>
-              <h3 className="settings-section-title">Campaign & Funding Rules</h3>
+              <h3 className="settings-section-title">
+                Campaign & Funding Rules
+              </h3>
               <p className="settings-section-desc">
                 Configure limits, caps, and workflow automation
               </p>
@@ -197,7 +214,8 @@ const AdminSettings = () => {
               <h4>Auto-Approve Campaigns</h4>
               <p>Skip the manual admin review for new campaign submissions</p>
             </div>
-            <button className={`settings-toggle ${settings.autoApprove ? 'on' : ''}`}
+            <button
+              className={`settings-toggle ${settings.autoApprove ? "on" : ""}`}
               onClick={() => update("autoApprove", !settings.autoApprove)}
             />
           </div>
@@ -207,7 +225,9 @@ const AdminSettings = () => {
               <h4>Minimum Investment (₹)</h4>
               <p>Smallest allowed investment amount per user</p>
             </div>
-            <input className="settings-input font-mono" style={{ width: "140px" }}
+            <input
+              className="settings-input font-mono"
+              style={{ width: "140px" }}
               type="number"
               value={settings.minInvestmentAmount}
               onChange={(e) =>
@@ -221,7 +241,9 @@ const AdminSettings = () => {
               <h4>Maximum Investment (₹)</h4>
               <p>Largest allowed single investment transaction</p>
             </div>
-            <input className="settings-input font-mono" style={{ width: "140px" }}
+            <input
+              className="settings-input font-mono"
+              style={{ width: "140px" }}
               type="number"
               value={settings.maxInvestmentAmount}
               onChange={(e) =>
@@ -235,7 +257,9 @@ const AdminSettings = () => {
               <h4>Default Equity Cap (%)</h4>
               <p>Maximum equity percentage startups can offer</p>
             </div>
-            <input className="settings-input font-mono" style={{ width: "100px" }}
+            <input
+              className="settings-input font-mono"
+              style={{ width: "100px" }}
               type="number"
               value={settings.defaultEquityCap}
               onChange={(e) =>
@@ -245,13 +269,18 @@ const AdminSettings = () => {
           </div>
         </motion.div>
 
-        <motion.div className="settings-section"
+        <motion.div
+          className="settings-section"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
         >
           <div className="settings-section-header">
-            <div className="settings-section-icon" $bg="rgba(139, 92, 246, 0.08)" $color="#8b5cf6">
+            <div
+              className="settings-section-icon"
+              $bg="rgba(139, 92, 246, 0.08)"
+              $color="#8b5cf6"
+            >
               <Users size={24} />
             </div>
             <div>
@@ -267,7 +296,8 @@ const AdminSettings = () => {
               <h4>Require Email Verification</h4>
               <p>Users must verify their email before investing or raising</p>
             </div>
-            <button className={`settings-toggle ${settings.requireVerification ? 'on' : ''}`}
+            <button
+              className={`settings-toggle ${settings.requireVerification ? "on" : ""}`}
               onClick={() =>
                 update("requireVerification", !settings.requireVerification)
               }
@@ -279,7 +309,8 @@ const AdminSettings = () => {
               <h4>Public Company Profiles</h4>
               <p>Allow non-logged-in visitors to view company details</p>
             </div>
-            <button className={`settings-toggle ${settings.allowPublicProfiles ? 'on' : ''}`}
+            <button
+              className={`settings-toggle ${settings.allowPublicProfiles ? "on" : ""}`}
               onClick={() =>
                 update("allowPublicProfiles", !settings.allowPublicProfiles)
               }
@@ -287,18 +318,25 @@ const AdminSettings = () => {
           </div>
         </motion.div>
 
-        <motion.div className="settings-section"
+        <motion.div
+          className="settings-section"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
           <div className="settings-section-header">
-            <div className="settings-section-icon" $bg="rgba(239, 68, 68, 0.08)" $color="#ef4444">
+            <div
+              className="settings-section-icon"
+              $bg="rgba(239, 68, 68, 0.08)"
+              $color="#ef4444"
+            >
               <Bell size={24} />
             </div>
             <div>
               <h3 className="settings-section-title">Admin Alerts</h3>
-              <p className="settings-section-desc">Control system-generated notifications</p>
+              <p className="settings-section-desc">
+                Control system-generated notifications
+              </p>
             </div>
           </div>
 
@@ -307,7 +345,8 @@ const AdminSettings = () => {
               <h4>Email Notifications</h4>
               <p>Receive administrative alerts directly via email</p>
             </div>
-            <button className={`settings-toggle ${settings.emailNotifications ? 'on' : ''}`}
+            <button
+              className={`settings-toggle ${settings.emailNotifications ? "on" : ""}`}
               onClick={() =>
                 update("emailNotifications", !settings.emailNotifications)
               }
@@ -319,7 +358,8 @@ const AdminSettings = () => {
               <h4>New Investment Alerts</h4>
               <p>Get notified instantly when large investments are placed</p>
             </div>
-            <button className={`settings-toggle ${settings.investmentAlerts ? 'on' : ''}`}
+            <button
+              className={`settings-toggle ${settings.investmentAlerts ? "on" : ""}`}
               onClick={() =>
                 update("investmentAlerts", !settings.investmentAlerts)
               }
@@ -331,7 +371,8 @@ const AdminSettings = () => {
               <h4>New User Registration Alerts</h4>
               <p>Get notified when new startups or investors sign up</p>
             </div>
-            <button className={`settings-toggle ${settings.newUserAlerts ? 'on' : ''}`}
+            <button
+              className={`settings-toggle ${settings.newUserAlerts ? "on" : ""}`}
               onClick={() => update("newUserAlerts", !settings.newUserAlerts)}
             />
           </div>
@@ -341,23 +382,31 @@ const AdminSettings = () => {
               <h4>Compliance & Fraud Alerts</h4>
               <p>Immediate alerts for flagged users or complaints</p>
             </div>
-            <button className={`settings-toggle ${settings.reportAlerts ? 'on' : ''}`}
+            <button
+              className={`settings-toggle ${settings.reportAlerts ? "on" : ""}`}
               onClick={() => update("reportAlerts", !settings.reportAlerts)}
             />
           </div>
         </motion.div>
 
-        <motion.div className="settings-section"
+        <motion.div
+          className="settings-section"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
         >
           <div className="settings-section-header">
-            <div className="settings-section-icon" $bg="rgba(110, 110, 115, 0.08)" $color="#6e6e73">
+            <div
+              className="settings-section-icon"
+              $bg="rgba(110, 110, 115, 0.08)"
+              $color="#6e6e73"
+            >
               <Lock size={24} />
             </div>
             <div>
-              <h3 className="settings-section-title">Security & Access Control</h3>
+              <h3 className="settings-section-title">
+                Security & Access Control
+              </h3>
               <p className="settings-section-desc">
                 Protecting platform integrity and admin accounts
               </p>
@@ -369,7 +418,9 @@ const AdminSettings = () => {
               <h4>Session Timeout (minutes)</h4>
               <p>Automatically log out inactive administrator sessions</p>
             </div>
-            <input className="settings-input font-mono" style={{ width: "100px" }}
+            <input
+              className="settings-input font-mono"
+              style={{ width: "100px" }}
               type="number"
               value={settings.sessionTimeout}
               onChange={(e) => update("sessionTimeout", Number(e.target.value))}
@@ -381,7 +432,9 @@ const AdminSettings = () => {
               <h4>Max Login Attempts</h4>
               <p>Lock an account temporarily after failed login attempts</p>
             </div>
-            <input className="settings-input font-mono" style={{ width: "100px" }}
+            <input
+              className="settings-input font-mono"
+              style={{ width: "100px" }}
               type="number"
               value={settings.maxLoginAttempts}
               onChange={(e) =>
@@ -396,7 +449,9 @@ const AdminSettings = () => {
               <p>Securely change your administrator account password</p>
             </div>
             <div className="password-input-wrapper">
-              <input className="settings-input" style={{ width: "220px" }}
+              <input
+                className="settings-input"
+                style={{ width: "220px" }}
                 type={showPassword ? "text" : "password"}
                 placeholder="New password"
                 value={settings.adminPassword}

@@ -108,19 +108,24 @@
   letter-spacing: 0.8px;
 }
 .users-role-badge.startup {
-  background: rgba(0, 113, 227, 0.1); color: #0071e3;
+  background: rgba(0, 113, 227, 0.1);
+  color: #0071e3;
 }
 .users-role-badge.investor {
-  background: rgba(16, 185, 129, 0.1); color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
 }
 .users-role-badge.mnc {
-  background: rgba(139, 92, 246, 0.1); color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.1);
+  color: #8b5cf6;
 }
 .users-role-badge.admin {
-  background: rgba(245, 158, 11, 0.1); color: #f59e0b;
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
 }
 .users-role-badge.default {
-  background: rgba(110, 110, 115, 0.1); color: #6e6e73;
+  background: rgba(110, 110, 115, 0.1);
+  color: #6e6e73;
 }
 
 .users-verified-badge {
@@ -132,10 +137,12 @@
   letter-spacing: 0.5px;
 }
 .users-verified-badge.verified {
-  background: rgba(16, 185, 129, 0.1); color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
 }
 .users-verified-badge.unverified {
-  background: rgba(239, 68, 68, 0.1); color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
 }
 
 .users-action-btn {
@@ -159,28 +166,32 @@
   transform: scale(0.95);
 }
 .users-action-btn.verify {
-  color: #10b981; border-color: rgba(16,185,129,0.3);
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.3);
 }
 .users-action-btn.verify:hover {
-  background: rgba(16,185,129,0.1);
+  background: rgba(16, 185, 129, 0.1);
 }
 .users-action-btn.ban {
-  color: #f59e0b; border-color: rgba(245,158,11,0.3);
+  color: #f59e0b;
+  border-color: rgba(245, 158, 11, 0.3);
 }
 .users-action-btn.ban:hover {
-  background: rgba(245,158,11,0.1);
+  background: rgba(245, 158, 11, 0.1);
 }
 .users-action-btn.delete {
-  color: #ef4444; border-color: rgba(239,68,68,0.3);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.3);
 }
 .users-action-btn.delete:hover {
-  background: rgba(239,68,68,0.1);
+  background: rgba(239, 68, 68, 0.1);
 }
 .users-action-btn.default {
-  color: #191919; border-color: rgba(0,0,0,0.15);
+  color: #191919;
+  border-color: rgba(0, 0, 0, 0.15);
 }
 .users-action-btn.default:hover {
-  background: rgba(0,0,0,0.05);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .users-role-select {

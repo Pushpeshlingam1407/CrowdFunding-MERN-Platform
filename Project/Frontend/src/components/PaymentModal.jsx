@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 
-
 const PaymentModal = ({
   isOpen,
   onClose,
@@ -161,7 +160,11 @@ const PaymentModal = ({
             onClick={(e) => e.stopPropagation()}
           >
             {status !== "processing" && status !== "success" && (
-              <button className="modal-close-btn" onClick={onClose} disabled={loading}>
+              <button
+                className="modal-close-btn"
+                onClick={onClose}
+                disabled={loading}
+              >
                 <X size={24} />
               </button>
             )}
@@ -192,7 +195,9 @@ const PaymentModal = ({
             {!status || status === "error" ? (
               <>
                 <div className="form-section">
-                  <h3 className="payment-method-title">Select Payment Method</h3>
+                  <h3 className="payment-method-title">
+                    Select Payment Method
+                  </h3>
                   <div className="payment-methods-grid">
                     {paymentMethods.map((method) => (
                       <motion.button
@@ -205,7 +210,9 @@ const PaymentModal = ({
                         whileHover={{ y: -2 }}
                         disabled={loading}
                       >
-                        <span className="payment-method-icon">{method.icon}</span>
+                        <span className="payment-method-icon">
+                          {method.icon}
+                        </span>
                         <span>{method.label}</span>
                       </motion.button>
                     ))}
@@ -343,7 +350,8 @@ const PaymentModal = ({
                     <div className="status-box info">
                       <AlertCircle size={20} />
                       <span>
-                        Digital wallet payment will redirect to the provider's app
+                        Digital wallet payment will redirect to the provider's
+                        app
                       </span>
                     </div>
                   </motion.div>

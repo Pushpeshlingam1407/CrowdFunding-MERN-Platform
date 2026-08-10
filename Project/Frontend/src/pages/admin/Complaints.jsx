@@ -13,10 +13,6 @@ import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
 import "./Complaints.css";
 
-
-
-
-
 const AdminComplaints = () => {
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -165,12 +161,18 @@ const AdminComplaints = () => {
                     </td>
 
                     <td>
-                      <span className={`complaints-type-badge ${item.type || 'default'}`}>{item.type}</span>
+                      <span
+                        className={`complaints-type-badge ${item.type || "default"}`}
+                      >
+                        {item.type}
+                      </span>
                     </td>
 
                     <td>
                       <Flex gap="0.75rem" align="center">
-                        <div className="complaints-avatar">{item.author?.name?.charAt(0) || "?"}</div>
+                        <div className="complaints-avatar">
+                          {item.author?.name?.charAt(0) || "?"}
+                        </div>
                         <div>
                           <p className="reporter-name">
                             {item.author?.name || "Unknown"}
@@ -192,7 +194,9 @@ const AdminComplaints = () => {
                     </td>
 
                     <td>
-                      <span className={`complaints-status-badge ${item.status || 'pending'}`}>
+                      <span
+                        className={`complaints-status-badge ${item.status || "pending"}`}
+                      >
                         {item.status}
                       </span>
                     </td>
@@ -215,7 +219,10 @@ const AdminComplaints = () => {
                     <td>
                       <Flex gap="0.5rem">
                         {item.status !== "resolved" && (
-                          <button className="complaints-action-btn" onClick={() => resolveComplaint(item._id)}>
+                          <button
+                            className="complaints-action-btn"
+                            onClick={() => resolveComplaint(item._id)}
+                          >
                             <CheckCircle2 size={13} />
                             Resolve
                           </button>

@@ -21,8 +21,6 @@ import useAuthStore from "../store/authStore";
 import { userAPI, b2bAPI } from "../services/api";
 import "./Profile.css";
 
-
-
 const Profile = () => {
   const { user, updateUser } = useAuthStore();
   const [loading, setLoading] = useState(false);
@@ -173,7 +171,9 @@ const Profile = () => {
                   />
                 </div>
                 <div>
-                  <label className="profile-label">Email Address (Locked)</label>
+                  <label className="profile-label">
+                    Email Address (Locked)
+                  </label>
                   <Input
                     value={user?.email}
                     disabled
@@ -230,7 +230,9 @@ const Profile = () => {
                   />
                 </div>
                 <div>
-                  <label className="profile-label">Core Slogan / Mission Statement</label>
+                  <label className="profile-label">
+                    Core Slogan / Mission Statement
+                  </label>
                   <Input
                     name="slogan"
                     value={formData.slogan}

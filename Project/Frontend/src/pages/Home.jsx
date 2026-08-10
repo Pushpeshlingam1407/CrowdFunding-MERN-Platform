@@ -7,8 +7,6 @@ import { Button, Container, Flex, Grid, Card } from "../components/ui";
 import useAuthStore from "../store/authStore";
 import "./Home.css";
 
-
-
 const Home = () => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
@@ -103,7 +101,8 @@ const Home = () => {
 
       <section className="home-cta-section">
         <Container>
-          <motion.div className="home-cta-panel"
+          <motion.div
+            className="home-cta-panel"
             initial={{ opacity: 0, scale: 0.98 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}

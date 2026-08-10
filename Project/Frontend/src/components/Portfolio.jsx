@@ -13,8 +13,6 @@ import { Button, Card, Container, Flex, Grid } from "./ui";
 import { toast } from "react-hot-toast";
 import "./Portfolio.css";
 
-
-
 const Portfolio = () => {
   const navigate = useNavigate();
   const [investments, setInvestments] = useState([]);

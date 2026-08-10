@@ -5,7 +5,11 @@ const joinClasses = (...classes) => classes.filter(Boolean).join(" ");
 
 export const Button = ({ variant, className, ...props }) => (
   <button
-    className={joinClasses("ui-button", variant === "outline" && "ui-button-outline", className)}
+    className={joinClasses(
+      "ui-button",
+      variant === "outline" && "ui-button-outline",
+      className,
+    )}
     {...props}
   />
 );
@@ -34,21 +38,41 @@ export const Flex = ({
 }) => (
   <div
     className={joinClasses("ui-flex", className)}
-    style={{ alignItems: align, justifyContent: justify, gap, flexDirection: direction, flexWrap: wrap, ...style }}
+    style={{
+      alignItems: align,
+      justifyContent: justify,
+      gap,
+      flexDirection: direction,
+      flexWrap: wrap,
+      ...style,
+    }}
     {...props}
   />
 );
 
-export const Grid = ({ cols = 1, gap = "2rem", className, style, ...props }) => {
-  const gridTemplateColumns = typeof cols === "string" && cols.includes("fr")
-    ? cols
-    : `repeat(${cols}, 1fr)`;
-  const mobileColumns = typeof cols === "number" && cols > 2 ? "repeat(2, 1fr)" : "1fr";
+export const Grid = ({
+  cols = 1,
+  gap = "2rem",
+  className,
+  style,
+  ...props
+}) => {
+  const gridTemplateColumns =
+    typeof cols === "string" && cols.includes("fr")
+      ? cols
+      : `repeat(${cols}, 1fr)`;
+  const mobileColumns =
+    typeof cols === "number" && cols > 2 ? "repeat(2, 1fr)" : "1fr";
 
   return (
     <div
       className={joinClasses("ui-grid", className)}
-      style={{ gridTemplateColumns, gap, "--ui-grid-tablet-columns": mobileColumns, ...style }}
+      style={{
+        gridTemplateColumns,
+        gap,
+        "--ui-grid-tablet-columns": mobileColumns,
+        ...style,
+      }}
       {...props}
     />
   );

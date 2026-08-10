@@ -160,11 +160,15 @@ const AdminDashboard = () => {
                 .fill(0)
                 .map((_, i) => (
                   <div key={i} className="skeleton-wrapper">
-                    <div className="admin-skeleton" style={{ height: "128px" }} />
+                    <div
+                      className="admin-skeleton"
+                      style={{ height: "128px" }}
+                    />
                   </div>
                 ))
             : statCards.map((card, i) => (
-                <motion.div className="admin-stat-card"
+                <motion.div
+                  className="admin-stat-card"
                   key={i}
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -180,14 +184,18 @@ const AdminDashboard = () => {
         <h2 className="admin-modules-title">Admin Modules</h2>
         <div className="admin-modules-grid">
           {modules.map((m, i) => (
-            <motion.div className="admin-module-card"
+            <motion.div
+              className="admin-module-card"
               key={i}
               onClick={() => navigate(m.path)}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + i * 0.07 }}
             >
-              <div className="admin-module-icon" style={{ background: m.bg, color: m.color }}>
+              <div
+                className="admin-module-icon"
+                style={{ background: m.bg, color: m.color }}
+              >
                 {m.icon}
               </div>
               <h3 className="admin-module-title">{m.title}</h3>
@@ -209,7 +217,11 @@ const AdminDashboard = () => {
               {Array(4)
                 .fill(0)
                 .map((_, i) => (
-                  <div className="admin-skeleton" key={i} style={{ height: "80px" }} />
+                  <div
+                    className="admin-skeleton"
+                    key={i}
+                    style={{ height: "80px" }}
+                  />
                 ))}
             </div>
           ) : (

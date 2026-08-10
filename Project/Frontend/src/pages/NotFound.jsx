@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { Button, Container, Flex } from "../components/ui";
 import "./NotFound.css";
 
-
-
 const NotFound = () => {
   const navigate = useNavigate();
 

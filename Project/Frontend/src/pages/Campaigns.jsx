@@ -13,42 +13,6 @@ import { Button, Card, Container, Flex, Input } from "../components/ui";
 import { projectAPI } from "../services/api";
 import "./Campaigns.css";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const Campaigns = () => {
   const navigate = useNavigate();
   const [campaigns, setCampaigns] = useState([]);
@@ -124,7 +88,7 @@ const Campaigns = () => {
               <div className="campaigns-segmented-control">
                 {categories.map((cat) => (
                   <button
-                    className={`campaigns-segment-button ${selectedCategory === cat ? 'active' : ''}`}
+                    className={`campaigns-segment-button ${selectedCategory === cat ? "active" : ""}`}
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
                   >
@@ -146,7 +110,10 @@ const Campaigns = () => {
             ? Array(6)
                 .fill(0)
                 .map((_, i) => (
-                  <Card className="campaign-card campaign-skeleton-card" key={i}>
+                  <Card
+                    className="campaign-card campaign-skeleton-card"
+                    key={i}
+                  >
                     <div className="campaign-skeleton-img" />
                     <div className="campaign-skeleton-line-sm" />
                     <div className="campaign-skeleton-line-md" />
@@ -189,9 +156,13 @@ const Campaigns = () => {
                       </span>
                     </div>
                     <div className="campaign-content">
-                      <span className="campaign-category">{campaign.category}</span>
+                      <span className="campaign-category">
+                        {campaign.category}
+                      </span>
                       <h3 className="campaign-title">{campaign.title}</h3>
-                      <p className="campaign-description">{campaign.description}</p>
+                      <p className="campaign-description">
+                        {campaign.description}
+                      </p>
 
                       <div className="campaign-progress-info">
                         <Flex
@@ -207,7 +178,10 @@ const Campaigns = () => {
                           </span>
                         </Flex>
                         <div className="campaign-progress-bar-base">
-                          <div className="campaign-progress-bar-fill" style={{ width: `${progress}%` }} />
+                          <div
+                            className="campaign-progress-bar-fill"
+                            style={{ width: `${progress}%` }}
+                          />
                         </div>
                       </div>
 

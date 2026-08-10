@@ -8,8 +8,6 @@ import { toast } from "react-hot-toast";
 import useAuthStore from "../store/authStore";
 import "./Login.css";
 
-
-
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
