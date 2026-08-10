@@ -123,9 +123,9 @@ const Campaigns = () => {
               </div>
               <div className="campaigns-segmented-control">
                 {categories.map((cat) => (
-                  <SegmentButton
+                  <button
+                    className={`campaigns-segment-button ${selectedCategory === cat ? 'active' : ''}`}
                     key={cat}
-                    $active={selectedCategory === cat}
                     onClick={() => setSelectedCategory(cat)}
                   >
                     {cat}

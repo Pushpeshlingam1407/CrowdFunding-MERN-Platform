@@ -122,14 +122,14 @@ const Dashboard = () => {
             logged in with admin privileges.
           </p>
           <Flex className="dashboard-intercept-actions">
-            <PremiumBtn
+            <button
               $primary
               className="dashboard-intercept-btn"
               onClick={() => navigate("/admin/dashboard")}
             >
               Go to Admin Portal
             </button>
-            <PremiumBtn
+            <button
               className="dashboard-intercept-btn"
               onClick={() => {
                 logout();
@@ -388,13 +388,13 @@ const Dashboard = () => {
                     </td>
                     <td>
                       <Flex gap="0.5rem">
-                        <ActionBtn
+                        <button
                           onClick={() => navigate(`/projects/${project._id}`)}
                           title="View Details"
                         >
                           <ExternalLink size={14} />
                         </button>
-                        <ActionBtn
+                        <button
                           onClick={() =>
                             navigate(`/projects/${project._id}/edit`)
                           }
@@ -402,7 +402,7 @@ const Dashboard = () => {
                         >
                           <Edit size={14} />
                         </button>
-                        <ActionBtn
+                        <button
                           $variant="danger"
                           onClick={() => handleDelete(project._id)}
                           title="Delete Campaign"
@@ -489,7 +489,7 @@ const Dashboard = () => {
                       </span>
                     </td>
                     <td>
-                      <ActionBtn
+                      <button
                         onClick={() =>
                           navigate(
                             `/projects/${inv.project?.id || inv.project?._id}`,
@@ -583,8 +583,7 @@ const Dashboard = () => {
         );
       case "settings":
         return (
-          <motion.div className="dashboard-content-card"
-            className="settings-card-pad"
+          <motion.div className="dashboard-content-card settings-card-pad"
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
           >
@@ -594,7 +593,7 @@ const Dashboard = () => {
               Settings and credentials are configured directly in the Profile
               section.
             </p>
-            <PremiumBtn
+            <button
               $primary
               className="btn-mt-large"
               onClick={() => navigate("/profile")}
@@ -749,19 +748,19 @@ const Dashboard = () => {
 
           {/* Segmented top tab nav bar */}
           <div className="dashboard-segmented-control">
-            <TabButton
+            <button
               $active={activeTab === "overview"}
               onClick={() => setActiveTab("overview")}
             >
               Overview
             </button>
-            <TabButton
+            <button
               $active={activeTab === "portfolio"}
               onClick={() => setActiveTab("portfolio")}
             >
               My Portfolio
             </button>
-            <TabButton
+            <button
               $active={activeTab === "settings"}
               onClick={() => setActiveTab("settings")}
             >
@@ -815,7 +814,7 @@ const Dashboard = () => {
             <h2 className="dashboard-sidebar-title">Workspaces</h2>
           </div>
           {renderSidebarNav().map((nav) => (
-            <NavItem
+            <div
               key={nav.id}
               $active={activeTab === nav.id}
               onClick={() => setActiveTab(nav.id)}

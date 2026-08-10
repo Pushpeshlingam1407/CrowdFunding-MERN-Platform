@@ -289,9 +289,8 @@ const AdminProjects = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <button className="projects-action-btn default"
-            onClick={fetchAdminProjects}
-            className="btn-refresh-projects"
+            <button className="projects-action-btn default btn-refresh-projects"
+              onClick={fetchAdminProjects}
           >
             <RefreshCw
               size={16}

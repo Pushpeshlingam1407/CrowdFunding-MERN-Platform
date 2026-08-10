@@ -24,6 +24,7 @@ import useAuthStore from "../store/authStore";
 import { projectAPI } from "../services/api";
 import "./ProjectDetails.css";
 
+const ProjectDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuthStore();
