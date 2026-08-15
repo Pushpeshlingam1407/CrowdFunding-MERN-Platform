@@ -194,10 +194,11 @@ const SegmentButton = legacy.button`
 `;
 
 */
+import { useAdminData } from "../../context/AdminDataContext";
+
 const AdminProjects = () => {
   const navigate = useNavigate();
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { projects, loading, refreshData } = useAdminData();
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("all");
 
@@ -206,24 +207,8 @@ const AdminProjects = () => {
   const getBaseURL = () =>
     import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
-  useEffect(() => {
-    fetchAdminProjects();
-  }, []);
-
-  const fetchAdminProjects = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(`${getBaseURL()}/admin/projects`, {
-        headers: { Authorization: `Bearer ${getToken()}` },
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to load");
-      setProjects(Array.isArray(data.projects) ? data.projects : []);
-    } catch (error) {
-      toast.error("Failed to load campaigns");
-    } finally {
-      setLoading(false);
-    }
+  const fetchAdminProjects = () => {
+    refreshData();
   };
 
   const handleStatusChange = async (projectId, status) => {

@@ -15,10 +15,11 @@ import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
 import "./Users.css";
 
+import { useAdminData } from "../../context/AdminDataContext";
+
 const AdminUsers = () => {
   const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { users, loading, refreshData } = useAdminData();
   const [searchTerm, setSearchTerm] = useState("");
 
   const getToken = () =>
@@ -26,24 +27,8 @@ const AdminUsers = () => {
   const getBaseURL = () =>
     import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  const fetchUsers = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(`${getBaseURL()}/admin/users`, {
-        headers: { Authorization: `Bearer ${getToken()}` },
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Failed to load");
-      setUsers(Array.isArray(data.users) ? data.users : []);
-    } catch (error) {
-      toast.error("Failed to load user ecosystem");
-    } finally {
-      setLoading(false);
-    }
+  const fetchUsers = () => {
+    refreshData();
   };
 
   const handleRoleChange = async (userId, newRole) => {

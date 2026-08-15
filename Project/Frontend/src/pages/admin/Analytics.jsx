@@ -17,6 +17,7 @@ import {
 import { Download, Calendar, Filter } from "lucide-react";
 import AdminLayout from "../../components/AdminLayout";
 import "./Analytics.css";
+import { useAdminData } from "../../context/AdminDataContext";
 import { toast } from "sonner";
 
 // Custom Tooltip for Recharts
@@ -47,168 +48,141 @@ const PremiumTooltip = ({ active, payload, label, formatter }) => {
 
 const AdminAnalytics = () => {
   const [activeTab, setActiveTab] = useState("Overview");
+  const { users, investments, loading } = useAdminData();
 
   // Real-time data states
   const [revenueData, setRevenueData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
   const [roleData, setRoleData] = useState([]);
   const [funnelData, setFunnelData] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   // To ensure animations trigger on mount
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  const getBaseURL = () =>
-    import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-  const getToken = () =>
-    localStorage.getItem("adminToken") || localStorage.getItem("token");
-
   useEffect(() => {
-    const fetchAnalytics = async () => {
-      try {
-        const [usersRes, invRes, dashRes] = await Promise.all([
-          fetch(`${getBaseURL()}/admin/users`, {
-            headers: { Authorization: `Bearer ${getToken()}` },
-          }),
-          fetch(`${getBaseURL()}/admin/investments`, {
-            headers: { Authorization: `Bearer ${getToken()}` },
-          }),
-          fetch(`${getBaseURL()}/admin/dashboard`, {
-            headers: { Authorization: `Bearer ${getToken()}` },
-          }),
+    if (loading) return;
+
+    try {
+      // Build Role Data (Users by Role)
+      if (users && users.length > 0) {
+        const rolesCount = users.reduce((acc, user) => {
+          const role = user.role || "user";
+          acc[role] = (acc[role] || 0) + 1;
+          return acc;
+        }, {});
+
+        const totalUsers = users.length;
+
+        const colors = [
+          "var(--admin-info)",
+          "var(--admin-success)",
+          "var(--admin-warning)",
+          "var(--admin-danger)",
+          "#8B5CF6",
+        ];
+        const roles = Object.keys(rolesCount).map((role, i) => ({
+          name: role.charAt(0).toUpperCase() + role.slice(1),
+          value: Math.round((rolesCount[role] / totalUsers) * 100), // percentage
+          color: colors[i % colors.length],
+        }));
+        setRoleData(roles);
+
+        // Funnel Data (Total Users -> Verified Users -> Investors)
+        const verifiedUsers = users.filter((u) => u.isVerified).length;
+
+        let totalInvestors = 0;
+        if (investments && investments.length > 0) {
+          const uniqueInvestors = new Set(
+            investments.map((i) => i.investor?.id),
+          );
+          totalInvestors = uniqueInvestors.size;
+        }
+
+        setFunnelData([
+          { label: "Total Signups", count: totalUsers, pct: 100 },
+          {
+            label: "KYC Verified",
+            count: verifiedUsers,
+            pct: totalUsers
+              ? Math.round((verifiedUsers / totalUsers) * 100)
+              : 0,
+          },
+          {
+            label: "Active Investors",
+            count: totalInvestors,
+            pct: totalUsers
+              ? Math.round((totalInvestors / totalUsers) * 100)
+              : 0,
+          },
         ]);
-
-        const usersData = await usersRes.json();
-        const invData = await invRes.json();
-        const dashData = await dashRes.json();
-
-        // Build Role Data (Users by Role)
-        if (usersData.success && usersData.users) {
-          const rolesCount = usersData.users.reduce((acc, user) => {
-            const role = user.role || "user";
-            acc[role] = (acc[role] || 0) + 1;
-            return acc;
-          }, {});
-
-          const totalUsers = usersData.users.length;
-
-          const colors = [
-            "var(--admin-info)",
-            "var(--admin-success)",
-            "var(--admin-warning)",
-            "var(--admin-danger)",
-            "#8B5CF6",
-          ];
-          const roles = Object.keys(rolesCount).map((role, i) => ({
-            name: role.charAt(0).toUpperCase() + role.slice(1),
-            value: Math.round((rolesCount[role] / totalUsers) * 100), // percentage
-            color: colors[i % colors.length],
-          }));
-          setRoleData(roles);
-
-          // Funnel Data (Total Users -> Verified Users -> Investors)
-          // Since we don't have site visitors, we base it on total users
-          const verifiedUsers = usersData.users.filter(
-            (u) => u.isVerified,
-          ).length;
-
-          let totalInvestors = 0;
-          if (invData.success && invData.investments) {
-            const uniqueInvestors = new Set(
-              invData.investments.map((i) => i.investor?.id),
-            );
-            totalInvestors = uniqueInvestors.size;
-          }
-
-          setFunnelData([
-            { label: "Total Signups", count: totalUsers, pct: 100 },
-            {
-              label: "KYC Verified",
-              count: verifiedUsers,
-              pct: totalUsers
-                ? Math.round((verifiedUsers / totalUsers) * 100)
-                : 0,
-            },
-            {
-              label: "Active Investors",
-              count: totalInvestors,
-              pct: totalUsers
-                ? Math.round((totalInvestors / totalUsers) * 100)
-                : 0,
-            },
-          ]);
-        }
-
-        // Build Revenue and Category Data
-        if (invData.success && invData.investments) {
-          // Group by Month
-          const monthlyRevenue = {};
-          // Group by Category
-          const catFunding = {};
-
-          invData.investments.forEach((inv) => {
-            // Month
-            const date = new Date(inv.createdAt);
-            const monthStr = date.toLocaleString("default", { month: "short" });
-            monthlyRevenue[monthStr] =
-              (monthlyRevenue[monthStr] || 0) + inv.amount;
-
-            // Category
-            const cat = inv.project?.category || "Other";
-            catFunding[cat] = (catFunding[cat] || 0) + inv.amount;
-          });
-
-          // Ensure at least some empty months if data is small
-          const months = [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-          ];
-          const revArray = months
-            .map((m) => ({
-              name: m,
-              revenue: monthlyRevenue[m] || 0,
-            }))
-            .filter(
-              (item) =>
-                item.revenue > 0 ||
-                item.name ===
-                  new Date().toLocaleString("default", { month: "short" }),
-            ); // show months with data + current month
-
-          setRevenueData(
-            revArray.length ? revArray : [{ name: "Current", revenue: 0 }],
-          );
-
-          const catArray = Object.keys(catFunding)
-            .map((cat) => ({
-              name: cat,
-              funding: catFunding[cat],
-            }))
-            .sort((a, b) => b.funding - a.funding);
-
-          setCategoryData(
-            catArray.length ? catArray : [{ name: "None", funding: 0 }],
-          );
-        }
-      } catch (err) {
-        toast.error("Failed to load real-time analytics");
-      } finally {
-        setLoading(false);
       }
-    };
-    fetchAnalytics();
-  }, []);
+
+      // Build Revenue and Category Data
+      if (investments && investments.length > 0) {
+        // Group by Month
+        const monthlyRevenue = {};
+        // Group by Category
+        const catFunding = {};
+
+        investments.forEach((inv) => {
+          // Month
+          const date = new Date(inv.createdAt);
+          const monthStr = date.toLocaleString("default", { month: "short" });
+          monthlyRevenue[monthStr] =
+            (monthlyRevenue[monthStr] || 0) + inv.amount;
+
+          // Category
+          const cat = inv.project?.category || "Other";
+          catFunding[cat] = (catFunding[cat] || 0) + inv.amount;
+        });
+
+        // Ensure at least some empty months if data is small
+        const months = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+        const revArray = months
+          .map((m) => ({
+            name: m,
+            revenue: monthlyRevenue[m] || 0,
+          }))
+          .filter(
+            (item) =>
+              item.revenue > 0 ||
+              item.name ===
+                new Date().toLocaleString("default", { month: "short" }),
+          ); // show months with data + current month
+
+        setRevenueData(
+          revArray.length ? revArray : [{ name: "Current", revenue: 0 }],
+        );
+
+        const catArray = Object.keys(catFunding)
+          .map((cat) => ({
+            name: cat,
+            funding: catFunding[cat],
+          }))
+          .sort((a, b) => b.funding - a.funding);
+
+        setCategoryData(
+          catArray.length ? catArray : [{ name: "None", funding: 0 }],
+        );
+      }
+    } catch (err) {
+      toast.error("Failed to process analytics data");
+    }
+  }, [users, investments, loading]);
 
   const formatCurrency = (value) => `₹${(value / 100000).toFixed(1)}L`;
   const formatCompact = (value) =>
@@ -250,14 +224,301 @@ const AdminAnalytics = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Main Chart Section */}
-          <div className="charts-grid-main">
-            <div className="premium-card depth-surface chart-card">
+          {activeTab === "Overview" && (
+            <>
+              {/* Main Chart Section */}
+              <div className="charts-grid-main">
+                <div className="premium-card depth-surface chart-card">
+                  <div className="chart-header">
+                    <span className="chart-title">Platform Revenue Growth</span>
+                    <span className="chart-meta">
+                      Monthly aggregated investments
+                    </span>
+                  </div>
+                  <div className="chart-container">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart
+                        data={revenueData}
+                        margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+                      >
+                        <defs>
+                          <linearGradient
+                            id="colorRevenue"
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                          >
+                            <stop
+                              offset="5%"
+                              stopColor="var(--admin-success)"
+                              stopOpacity={0.3}
+                            />
+                            <stop
+                              offset="95%"
+                              stopColor="var(--admin-success)"
+                              stopOpacity={0}
+                            />
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid
+                          strokeDasharray="3 3"
+                          vertical={false}
+                          stroke="var(--admin-border-subtle)"
+                        />
+                        <XAxis
+                          dataKey="name"
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fill: "var(--admin-text-muted)", fontSize: 12 }}
+                          dy={10}
+                        />
+                        <YAxis
+                          axisLine={false}
+                          tickLine={false}
+                          tickFormatter={formatCompact}
+                          tick={{ fill: "var(--admin-text-muted)", fontSize: 12 }}
+                        />
+                        <Tooltip
+                          content={<PremiumTooltip formatter={formatCurrency} />}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="revenue"
+                          name="Revenue"
+                          stroke="var(--admin-success)"
+                          strokeWidth={3}
+                          fillOpacity={1}
+                          fill="url(#colorRevenue)"
+                          activeDot={{
+                            r: 6,
+                            strokeWidth: 0,
+                            fill: "var(--admin-success)",
+                          }}
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                <div className="premium-card depth-surface chart-card">
+                  <div className="chart-header">
+                    <span className="chart-title">User Composition</span>
+                    <span className="chart-meta">Current Active</span>
+                  </div>
+                  <div className="chart-container" style={{ minHeight: "250px" }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={roleData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={60}
+                          outerRadius={80}
+                          paddingAngle={5}
+                          dataKey="value"
+                          stroke="none"
+                        >
+                          {roleData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <Tooltip
+                          content={
+                            <PremiumTooltip formatter={(val) => `${val}%`} />
+                          }
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                    {/* Custom Legend */}
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "0.5rem",
+                        marginTop: "1rem",
+                      }}
+                    >
+                      {roleData.map((role, i) => (
+                        <div
+                          key={i}
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            fontSize: "0.85rem",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "0.5rem",
+                            }}
+                          >
+                            <div
+                              style={{
+                                width: 8,
+                                height: 8,
+                                borderRadius: "50%",
+                                background: role.color,
+                              }}
+                            />
+                            <span
+                              style={{
+                                color: "var(--admin-text-secondary)",
+                                fontWeight: 500,
+                              }}
+                            >
+                              {role.name}
+                            </span>
+                          </div>
+                          <span
+                            style={{
+                              fontWeight: 600,
+                              color: "var(--admin-text-primary)",
+                            }}
+                          >
+                            {role.value}%
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Secondary Charts */}
+              <div className="charts-grid-secondary">
+                <div
+                  className="premium-card depth-surface chart-card"
+                  style={{ gridColumn: "span 2" }}
+                >
+                  <div className="chart-header">
+                    <span className="chart-title">Funding by Category</span>
+                    <button
+                      className="admin-btn admin-btn-secondary"
+                      style={{ padding: "0.25rem 0.5rem" }}
+                    >
+                      <Download size={14} />
+                    </button>
+                  </div>
+                  <div className="chart-container">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart
+                        data={categoryData}
+                        margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+                      >
+                        <CartesianGrid
+                          strokeDasharray="3 3"
+                          vertical={false}
+                          stroke="var(--admin-border-subtle)"
+                        />
+                        <XAxis
+                          dataKey="name"
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fill: "var(--admin-text-muted)", fontSize: 12 }}
+                          dy={10}
+                        />
+                        <YAxis
+                          axisLine={false}
+                          tickLine={false}
+                          tickFormatter={formatCompact}
+                          tick={{ fill: "var(--admin-text-muted)", fontSize: 12 }}
+                        />
+                        <Tooltip
+                          cursor={{ fill: "var(--admin-surface-hover)" }}
+                          content={<PremiumTooltip formatter={formatCurrency} />}
+                        />
+                        <Bar
+                          dataKey="funding"
+                          name="Total Funding"
+                          fill="var(--admin-info)"
+                          radius={[4, 4, 0, 0]}
+                          barSize={40}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                <div className="premium-card depth-surface chart-card">
+                  <div className="chart-header">
+                    <span className="chart-title">Conversion Funnel</span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "1rem",
+                      flex: 1,
+                      justifyContent: "center",
+                    }}
+                  >
+                    {funnelData.map((step, i) => (
+                      <div key={i}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            marginBottom: "0.35rem",
+                            fontSize: "0.85rem",
+                          }}
+                        >
+                          <span
+                            style={{
+                              color: "var(--admin-text-secondary)",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {step.label}
+                          </span>
+                          <span
+                            style={{
+                              color: "var(--admin-text-primary)",
+                              fontWeight: 600,
+                            }}
+                          >
+                            {step.count}
+                          </span>
+                        </div>
+                        <div
+                          style={{
+                            width: "100%",
+                            height: "6px",
+                            background: "var(--admin-surface-hover)",
+                            borderRadius: "3px",
+                            overflow: "hidden",
+                          }}
+                        >
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${step.pct}%` }}
+                            transition={{
+                              delay: 0.2 + i * 0.1,
+                              duration: 0.8,
+                              ease: "easeOut",
+                            }}
+                            style={{
+                              height: "100%",
+                              background: "var(--admin-accent)",
+                              borderRadius: "3px",
+                            }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {activeTab === "Revenue" && (
+            <div className="premium-card depth-surface chart-card" style={{ height: "500px" }}>
               <div className="chart-header">
-                <span className="chart-title">Platform Revenue Growth</span>
-                <span className="chart-meta">
-                  Monthly aggregated investments
-                </span>
+                <span className="chart-title">Historical Revenue Analysis</span>
+                <span className="chart-meta">Detailed investment tracking</span>
               </div>
               <div className="chart-container">
                 <ResponsiveContainer width="100%" height="100%">
@@ -266,79 +527,65 @@ const AdminAnalytics = () => {
                     margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
                   >
                     <defs>
-                      <linearGradient
-                        id="colorRevenue"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
-                      >
-                        <stop
-                          offset="5%"
-                          stopColor="var(--admin-success)"
-                          stopOpacity={0.3}
-                        />
-                        <stop
-                          offset="95%"
-                          stopColor="var(--admin-success)"
-                          stopOpacity={0}
-                        />
+                      <linearGradient id="colorRevenueFull" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#10B981" stopOpacity={0.4} />
+                        <stop offset="95%" stopColor="#10B981" stopOpacity={0} />
                       </linearGradient>
                     </defs>
-                    <CartesianGrid
-                      strokeDasharray="3 3"
-                      vertical={false}
-                      stroke="var(--admin-border-subtle)"
-                    />
-                    <XAxis
-                      dataKey="name"
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fill: "var(--admin-text-muted)", fontSize: 12 }}
-                      dy={10}
-                    />
-                    <YAxis
-                      axisLine={false}
-                      tickLine={false}
-                      tickFormatter={formatCompact}
-                      tick={{ fill: "var(--admin-text-muted)", fontSize: 12 }}
-                    />
-                    <Tooltip
-                      content={<PremiumTooltip formatter={formatCurrency} />}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="revenue"
-                      name="Revenue"
-                      stroke="var(--admin-success)"
-                      strokeWidth={3}
-                      fillOpacity={1}
-                      fill="url(#colorRevenue)"
-                      activeDot={{
-                        r: 6,
-                        strokeWidth: 0,
-                        fill: "var(--admin-success)",
-                      }}
-                    />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--admin-border-subtle)" />
+                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: "var(--admin-text-muted)" }} dy={10} />
+                    <YAxis axisLine={false} tickLine={false} tickFormatter={formatCompact} tick={{ fill: "var(--admin-text-muted)" }} />
+                    <Tooltip content={<PremiumTooltip formatter={formatCurrency} />} />
+                    <Area type="monotone" dataKey="revenue" name="Revenue" stroke="#10B981" strokeWidth={4} fillOpacity={1} fill="url(#colorRevenueFull)" activeDot={{ r: 8, fill: "#10B981", strokeWidth: 0 }} />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
             </div>
+          )}
 
-            <div className="premium-card depth-surface chart-card">
-              <div className="chart-header">
-                <span className="chart-title">User Composition</span>
-                <span className="chart-meta">Current Active</span>
+          {activeTab === "Acquisition" && (
+            <div className="charts-grid-main">
+              <div className="premium-card depth-surface chart-card" style={{ gridColumn: "span 2" }}>
+                <div className="chart-header">
+                  <span className="chart-title">Onboarding & Conversion Funnel</span>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", padding: "1rem" }}>
+                  {funnelData.map((step, i) => (
+                    <div key={i}>
+                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+                        <span style={{ color: "var(--admin-text-secondary)", fontWeight: 500, fontSize: "1rem" }}>{step.label}</span>
+                        <span style={{ color: "var(--admin-text-primary)", fontWeight: 600, fontSize: "1rem" }}>{step.count} Users ({step.pct}%)</span>
+                      </div>
+                      <div style={{ width: "100%", height: "12px", background: "var(--admin-surface-hover)", borderRadius: "6px", overflow: "hidden" }}>
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={{ width: `${step.pct}%` }}
+                          transition={{ delay: i * 0.1, duration: 0.8, ease: "easeOut" }}
+                          style={{ height: "100%", background: "#6366F1", borderRadius: "6px" }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="chart-container" style={{ minHeight: "250px" }}>
+            </div>
+          )}
+
+          {activeTab === "Cohorts" && (
+            <div className="premium-card depth-surface chart-card" style={{ height: "400px" }}>
+              <div className="chart-header">
+                <span className="chart-title">User Role Distribution</span>
+                <span className="chart-meta">Audience mapping by ecosystem role</span>
+              </div>
+              <div className="chart-container" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
                       data={roleData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={60}
-                      outerRadius={80}
+                      innerRadius={80}
+                      outerRadius={120}
                       paddingAngle={5}
                       dataKey="value"
                       stroke="none"
@@ -347,194 +594,23 @@ const AdminAnalytics = () => {
                         <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
-                    <Tooltip
-                      content={
-                        <PremiumTooltip formatter={(val) => `${val}%`} />
-                      }
-                    />
+                    <Tooltip content={<PremiumTooltip formatter={(val) => `${val}%`} />} />
                   </PieChart>
                 </ResponsiveContainer>
-                {/* Custom Legend */}
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.5rem",
-                    marginTop: "1rem",
-                  }}
-                >
+                <div style={{ minWidth: "200px", padding: "2rem" }}>
                   {roleData.map((role, i) => (
-                    <div
-                      key={i}
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        fontSize: "0.85rem",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "0.5rem",
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: 8,
-                            height: 8,
-                            borderRadius: "50%",
-                            background: role.color,
-                          }}
-                        />
-                        <span
-                          style={{
-                            color: "var(--admin-text-secondary)",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {role.name}
-                        </span>
+                    <div key={i} style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem", fontSize: "1rem" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                        <div style={{ width: 12, height: 12, borderRadius: "50%", background: role.color }} />
+                        <span style={{ color: "var(--admin-text-secondary)", fontWeight: 500 }}>{role.name}</span>
                       </div>
-                      <span
-                        style={{
-                          fontWeight: 600,
-                          color: "var(--admin-text-primary)",
-                        }}
-                      >
-                        {role.value}%
-                      </span>
+                      <span style={{ fontWeight: 600, color: "var(--admin-text-primary)" }}>{role.value}%</span>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Secondary Charts */}
-          <div className="charts-grid-secondary">
-            <div
-              className="premium-card depth-surface chart-card"
-              style={{ gridColumn: "span 2" }}
-            >
-              <div className="chart-header">
-                <span className="chart-title">Funding by Category</span>
-                <button
-                  className="admin-btn admin-btn-secondary"
-                  style={{ padding: "0.25rem 0.5rem" }}
-                >
-                  <Download size={14} />
-                </button>
-              </div>
-              <div className="chart-container">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={categoryData}
-                    margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
-                  >
-                    <CartesianGrid
-                      strokeDasharray="3 3"
-                      vertical={false}
-                      stroke="var(--admin-border-subtle)"
-                    />
-                    <XAxis
-                      dataKey="name"
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fill: "var(--admin-text-muted)", fontSize: 12 }}
-                      dy={10}
-                    />
-                    <YAxis
-                      axisLine={false}
-                      tickLine={false}
-                      tickFormatter={formatCompact}
-                      tick={{ fill: "var(--admin-text-muted)", fontSize: 12 }}
-                    />
-                    <Tooltip
-                      cursor={{ fill: "var(--admin-surface-hover)" }}
-                      content={<PremiumTooltip formatter={formatCurrency} />}
-                    />
-                    <Bar
-                      dataKey="funding"
-                      name="Total Funding"
-                      fill="var(--admin-info)"
-                      radius={[4, 4, 0, 0]}
-                      barSize={40}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            <div className="premium-card depth-surface chart-card">
-              <div className="chart-header">
-                <span className="chart-title">Conversion Funnel</span>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "1rem",
-                  flex: 1,
-                  justifyContent: "center",
-                }}
-              >
-                {funnelData.map((step, i) => (
-                  <div key={i}>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        marginBottom: "0.35rem",
-                        fontSize: "0.85rem",
-                      }}
-                    >
-                      <span
-                        style={{
-                          color: "var(--admin-text-secondary)",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {step.label}
-                      </span>
-                      <span
-                        style={{
-                          color: "var(--admin-text-primary)",
-                          fontWeight: 600,
-                        }}
-                      >
-                        {step.count}
-                      </span>
-                    </div>
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "6px",
-                        background: "var(--admin-surface-hover)",
-                        borderRadius: "3px",
-                        overflow: "hidden",
-                      }}
-                    >
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${step.pct}%` }}
-                        transition={{
-                          delay: 0.2 + i * 0.1,
-                          duration: 0.8,
-                          ease: "easeOut",
-                        }}
-                        style={{
-                          height: "100%",
-                          background: "var(--admin-accent)",
-                          borderRadius: "3px",
-                        }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          )}
         </motion.div>
       )}
     </AdminLayout>
