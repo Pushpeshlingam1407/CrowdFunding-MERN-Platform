@@ -1,5 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import "./AdminLayout.css";
+import useAuthStore from "../store/authStore";
+import {
+  LayoutDashboard,
+  FileText,
+  Users,
+  BarChart2,
+  ShieldAlert,
+  ShieldCheck,
+  Settings,
+  Search,
+  Bell,
+  LogOut,
+  ChevronLeft,
+  ChevronRight,
+  Sun,
+  Moon,
+  Calendar,
+} from "lucide-react";
 
 const AdminLayout = ({
   children,
@@ -9,6 +28,16 @@ const AdminLayout = ({
   const location = useLocation();
   const navigate = useNavigate();
   const { adminLogout, adminUser } = useAuthStore();
+  
+  const [collapsed, setCollapsed] = useState(false);
+  const [theme, setTheme] = useState(localStorage.getItem("adminTheme") || "light");
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("adminTheme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
   const handleLogout = () => {
     adminLogout();
@@ -16,27 +45,35 @@ const AdminLayout = ({
   };
 
   const menu = [
-    { name: "Dashboard", path: "/admin/dashboard", icon: LayoutDashboard },
-    { name: "Campaigns", path: "/admin/projects", icon: FileText },
-    { name: "Users", path: "/admin/users", icon: Users },
+    { name: "Overview", path: "/admin/dashboard", icon: LayoutDashboard },
     { name: "Analytics", path: "/admin/analytics", icon: BarChart2 },
+    { name: "Financials", path: "/admin/financials", icon: FileText },
+    { name: "Customers", path: "/admin/users", icon: Users },
+    { name: "Campaigns", path: "/admin/projects", icon: ShieldCheck },
     { name: "Complaints", path: "/admin/complaints", icon: ShieldAlert },
-    {
-      name: "Verification",
-      path: "/admin/document-verification",
-      icon: ShieldCheck,
-    },
     { name: "Settings", path: "/admin/settings", icon: Settings },
   ];
 
   return (
-    <div className="admin-layout-wrapper">
-      <aside className="admin-sidebar">
-        <div className="admin-logo-area">
-          <div className="admin-logo-icon">A</div>
-          <h2>Admin Portal</h2>
+    <div className={`admin-layout-wrapper ${theme}`}>
+      {/* SIDEBAR */}
+      <aside className={`admin-sidebar ${collapsed ? "collapsed" : ""}`}>
+        <div className="admin-sidebar-header">
+          <div className="admin-brand">
+            <div className="admin-logo">A</div>
+            <span className="admin-brand-name">AntiGravity</span>
+          </div>
+          <button 
+            className="admin-sidebar-toggle" 
+            onClick={() => setCollapsed(!collapsed)}
+            aria-label="Toggle Sidebar"
+          >
+            {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+          </button>
         </div>
-        <nav className="admin-nav-list">
+
+        <div className="admin-nav-section">
+          <div className="admin-nav-label">Main Menu</div>
           {menu.map((item) => {
             const Icon = item.icon;
             const active = location.pathname.includes(item.path);
@@ -45,52 +82,58 @@ const AdminLayout = ({
                 key={item.path}
                 to={item.path}
                 className={`admin-nav-item ${active ? "active" : ""}`}
+                title={collapsed ? item.name : ""}
               >
                 <Icon size={20} strokeWidth={active ? 2.5 : 2} />
-                {item.name}
+                <span>{item.name}</span>
               </Link>
             );
           })}
-        </nav>
-        <div className="admin-sidebar-bottom">
-          <button
-            onClick={handleLogout}
-            className="admin-nav-item admin-logout-btn"
-          >
-            <LogOut size={20} />
-            Sign Out
+        </div>
+
+        <div className="admin-sidebar-footer">
+          <button onClick={handleLogout} className="admin-user-profile">
+            <div className="admin-user-avatar">
+              {adminUser?.name?.charAt(0) || "A"}
+            </div>
+            <div className="admin-user-info">
+              <span className="admin-user-name">{adminUser?.name || "Admin"}</span>
+              <span className="admin-user-role">Sign Out</span>
+            </div>
           </button>
         </div>
       </aside>
 
-      <main className="admin-main-content">
-        <header className="admin-top-header">
-          <div className="admin-header-greeting">
-            <p>Pages / {title}</p>
-            <h1>{title}</h1>
+      {/* MAIN CONTENT */}
+      <main className={`admin-main ${collapsed ? "sidebar-collapsed" : ""}`}>
+        {/* TOP NAVIGATION */}
+        <header className="admin-top-nav">
+          <div className="admin-search">
+            <Search size={16} className="text-muted" />
+            <input type="text" placeholder="Search accounts, campaigns, or TxIDs..." />
           </div>
-          <div className="admin-header-actions">
-            <div className="admin-search-box">
-              <Search size={16} color="#86868b" />
-              <input type="text" placeholder="Search..." />
+
+          <div className="admin-top-actions">
+            <div className="admin-search" style={{ width: 'auto', gap: '0.5rem', cursor: 'pointer' }}>
+              <Calendar size={14} className="text-muted" />
+              <span style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--admin-text-secondary)' }}>Last 30 Days</span>
             </div>
-            <button className="admin-action-btn">
-              <Bell size={20} />
+            
+            <button className="admin-icon-btn" onClick={toggleTheme} title="Toggle Theme">
+              {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
             </button>
-            <div className="admin-avatar">
-              {adminUser?.name?.charAt(0) || "A"}
-            </div>
-            <button
-              onClick={handleLogout}
-              title="Sign Out"
-              className="admin-action-btn admin-logout-icon"
-            >
-              <LogOut size={20} />
+            
+            <button className="admin-icon-btn" title="Notifications">
+              <Bell size={18} />
+              <div className="admin-live-badge" />
             </button>
           </div>
         </header>
 
-        <div className="admin-page-container">{children}</div>
+        {/* VIEW CONTAINER */}
+        <div className="admin-view-container">
+          {children}
+        </div>
       </main>
     </div>
   );
