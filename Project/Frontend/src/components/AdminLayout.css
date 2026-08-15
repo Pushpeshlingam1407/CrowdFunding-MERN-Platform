@@ -2,68 +2,74 @@
 
 :root {
   /* Sophisticated Light Theme Base */
-  --admin-bg: #F8FAFC;
-  --admin-surface: #FFFFFF;
-  --admin-surface-hover: #F1F5F9;
-  --admin-surface-elevated: #FFFFFF;
-  
-  --admin-text-primary: #0F172A;
-  --admin-text-secondary: #64748B;
-  --admin-text-muted: #94A3B8;
-  
-  --admin-border: #E2E8F0;
-  --admin-border-subtle: #F1F5F9;
-  
-  --admin-accent: #0F172A;
-  --admin-accent-hover: #1E293B;
-  --admin-accent-text: #FFFFFF;
-  
+  --admin-bg: #f8fafc;
+  --admin-surface: #ffffff;
+  --admin-surface-hover: #f1f5f9;
+  --admin-surface-elevated: #ffffff;
+
+  --admin-text-primary: #0f172a;
+  --admin-text-secondary: #64748b;
+  --admin-text-muted: #94a3b8;
+
+  --admin-border: #e2e8f0;
+  --admin-border-subtle: #f1f5f9;
+
+  --admin-accent: #0f172a;
+  --admin-accent-hover: #1e293b;
+  --admin-accent-text: #ffffff;
+
   /* Semantic Colors */
-  --admin-success: #10B981;
+  --admin-success: #10b981;
   --admin-success-bg: rgba(16, 185, 129, 0.1);
-  --admin-warning: #F59E0B;
+  --admin-warning: #f59e0b;
   --admin-warning-bg: rgba(245, 158, 11, 0.1);
-  --admin-danger: #EF4444;
+  --admin-danger: #ef4444;
   --admin-danger-bg: rgba(239, 68, 68, 0.1);
-  --admin-info: #3B82F6;
+  --admin-info: #3b82f6;
   --admin-info-bg: rgba(59, 130, 246, 0.1);
 
   --admin-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --admin-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --admin-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
-  --admin-shadow-float: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-  
+  --admin-shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --admin-shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  --admin-shadow-float:
+    0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+
   --admin-radius-sm: 6px;
   --admin-radius-md: 10px;
   --admin-radius-lg: 16px;
   --admin-radius-xl: 24px;
-  
+
   --admin-font-mono: "JetBrains Mono", "SF Mono", monospace;
   --admin-sidebar-width: 260px;
 }
 
 [data-theme="dark"] {
   /* Deliberately Designed Dark Theme */
-  --admin-bg: #0A0A0A;
+  --admin-bg: #0a0a0a;
   --admin-surface: #141414;
   --admin-surface-hover: #262626;
-  --admin-surface-elevated: #1F1F1F;
-  
-  --admin-text-primary: #FAFAFA;
-  --admin-text-secondary: #A3A3A3;
+  --admin-surface-elevated: #1f1f1f;
+
+  --admin-text-primary: #fafafa;
+  --admin-text-secondary: #a3a3a3;
   --admin-text-muted: #525252;
-  
+
   --admin-border: #262626;
-  --admin-border-subtle: #1A1A1A;
-  
-  --admin-accent: #FAFAFA;
-  --admin-accent-hover: #E5E5E5;
-  --admin-accent-text: #0A0A0A;
+  --admin-border-subtle: #1a1a1a;
+
+  --admin-accent: #fafafa;
+  --admin-accent-hover: #e5e5e5;
+  --admin-accent-text: #0a0a0a;
 
   --admin-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-  --admin-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
-  --admin-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
-  --admin-shadow-float: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+  --admin-shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --admin-shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+  --admin-shadow-float:
+    0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
 }
 
 /* Global Shell */
@@ -73,12 +79,17 @@
   background-color: var(--admin-bg);
   color: var(--admin-text-primary);
   font-family: var(--font-sans);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
   overflow-x: hidden;
 }
 
 /* Typography Defaults */
-.admin-layout-wrapper h1, .admin-layout-wrapper h2, .admin-layout-wrapper h3, .admin-layout-wrapper h4 {
+.admin-layout-wrapper h1,
+.admin-layout-wrapper h2,
+.admin-layout-wrapper h3,
+.admin-layout-wrapper h4 {
   color: var(--admin-text-primary);
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -91,15 +102,34 @@
 }
 
 /* Layout Utilities */
-.admin-flex { display: flex; }
-.admin-flex-col { display: flex; flex-direction: column; }
-.admin-items-center { align-items: center; }
-.admin-justify-between { justify-content: space-between; }
-.admin-gap-1 { gap: 0.25rem; }
-.admin-gap-2 { gap: 0.5rem; }
-.admin-gap-3 { gap: 0.75rem; }
-.admin-gap-4 { gap: 1rem; }
-.admin-gap-6 { gap: 1.5rem; }
+.admin-flex {
+  display: flex;
+}
+.admin-flex-col {
+  display: flex;
+  flex-direction: column;
+}
+.admin-items-center {
+  align-items: center;
+}
+.admin-justify-between {
+  justify-content: space-between;
+}
+.admin-gap-1 {
+  gap: 0.25rem;
+}
+.admin-gap-2 {
+  gap: 0.5rem;
+}
+.admin-gap-3 {
+  gap: 0.75rem;
+}
+.admin-gap-4 {
+  gap: 1rem;
+}
+.admin-gap-6 {
+  gap: 1.5rem;
+}
 
 /* Sidebar */
 .admin-sidebar {
@@ -113,7 +143,9 @@
   left: 0;
   height: 100vh;
   z-index: 50;
-  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease;
+  transition:
+    width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.3s ease;
 }
 
 .admin-sidebar.collapsed {
@@ -413,7 +445,9 @@
   border-radius: var(--admin-radius-lg);
   padding: 1.5rem;
   box-shadow: var(--admin-shadow-sm);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 }
 
 .premium-card-hover:hover {
@@ -430,13 +464,21 @@
   content: "";
   position: absolute;
   inset: -1px;
-  background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(0,0,0,0.02));
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(0, 0, 0, 0.02)
+  );
   border-radius: inherit;
   z-index: -1;
   pointer-events: none;
 }
 [data-theme="dark"] .depth-surface::before {
-  background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(0,0,0,0.2));
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(0, 0, 0, 0.2)
+  );
 }
 
 /* Premium Tables */
@@ -487,10 +529,22 @@
   align-items: center;
   gap: 0.35rem;
 }
-.status-badge.success { background: var(--admin-success-bg); color: var(--admin-success); }
-.status-badge.warning { background: var(--admin-warning-bg); color: var(--admin-warning); }
-.status-badge.danger { background: var(--admin-danger-bg); color: var(--admin-danger); }
-.status-badge.info { background: var(--admin-info-bg); color: var(--admin-info); }
+.status-badge.success {
+  background: var(--admin-success-bg);
+  color: var(--admin-success);
+}
+.status-badge.warning {
+  background: var(--admin-warning-bg);
+  color: var(--admin-warning);
+}
+.status-badge.danger {
+  background: var(--admin-danger-bg);
+  color: var(--admin-danger);
+}
+.status-badge.info {
+  background: var(--admin-info-bg);
+  color: var(--admin-info);
+}
 
 /* Custom Scrollbar for Main */
 ::-webkit-scrollbar {

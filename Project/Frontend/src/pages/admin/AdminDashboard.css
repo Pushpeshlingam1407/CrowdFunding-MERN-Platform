@@ -122,8 +122,12 @@
   align-items: center;
   gap: 0.25rem;
 }
-.kpi-change.positive { color: var(--admin-success); }
-.kpi-change.negative { color: var(--admin-danger); }
+.kpi-change.positive {
+  color: var(--admin-success);
+}
+.kpi-change.negative {
+  color: var(--admin-danger);
+}
 
 .kpi-sub {
   font-size: 0.75rem;
@@ -219,15 +223,24 @@
 
 /* Empty State / Loading */
 .premium-skeleton {
-  background: linear-gradient(90deg, var(--admin-surface) 25%, var(--admin-surface-hover) 50%, var(--admin-surface) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--admin-surface) 25%,
+    var(--admin-surface-hover) 50%,
+    var(--admin-surface) 75%
+  );
   background-size: 200% 100%;
   animation: loading-shimmer 1.5s infinite;
   border-radius: var(--admin-radius-sm);
 }
 
 @keyframes loading-shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 @media (max-width: 1024px) {

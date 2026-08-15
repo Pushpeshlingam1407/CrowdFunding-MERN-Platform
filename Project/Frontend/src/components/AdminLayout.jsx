@@ -29,9 +29,11 @@ const AdminLayout = ({
   const location = useLocation();
   const navigate = useNavigate();
   const { adminLogout, adminUser } = useAuthStore();
-  
+
   const [collapsed, setCollapsed] = useState(false);
-  const [theme, setTheme] = useState(localStorage.getItem("adminTheme") || "light");
+  const [theme, setTheme] = useState(
+    localStorage.getItem("adminTheme") || "light",
+  );
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -62,10 +64,12 @@ const AdminLayout = ({
         <div className="admin-sidebar-header">
           <div className="admin-brand">
             <Logo size={28} theme={theme} />
-            <span className="admin-brand-name" style={{ marginLeft: '4px' }}>StartupFund</span>
+            <span className="admin-brand-name" style={{ marginLeft: "4px" }}>
+              StartupFund
+            </span>
           </div>
-          <button 
-            className="admin-sidebar-toggle" 
+          <button
+            className="admin-sidebar-toggle"
             onClick={() => setCollapsed(!collapsed)}
             aria-label="Toggle Sidebar"
           >
@@ -98,7 +102,9 @@ const AdminLayout = ({
               {adminUser?.name?.charAt(0) || "A"}
             </div>
             <div className="admin-user-info">
-              <span className="admin-user-name">{adminUser?.name || "Admin"}</span>
+              <span className="admin-user-name">
+                {adminUser?.name || "Admin"}
+              </span>
               <span className="admin-user-role">Sign Out</span>
             </div>
           </button>
@@ -111,19 +117,37 @@ const AdminLayout = ({
         <header className="admin-top-nav">
           <div className="admin-search">
             <Search size={16} className="text-muted" />
-            <input type="text" placeholder="Search accounts, campaigns, or TxIDs..." />
+            <input
+              type="text"
+              placeholder="Search accounts, campaigns, or TxIDs..."
+            />
           </div>
 
           <div className="admin-top-actions">
-            <div className="admin-search" style={{ width: 'auto', gap: '0.5rem', cursor: 'pointer' }}>
+            <div
+              className="admin-search"
+              style={{ width: "auto", gap: "0.5rem", cursor: "pointer" }}
+            >
               <Calendar size={14} className="text-muted" />
-              <span style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--admin-text-secondary)' }}>Last 30 Days</span>
+              <span
+                style={{
+                  fontSize: "0.85rem",
+                  fontWeight: 500,
+                  color: "var(--admin-text-secondary)",
+                }}
+              >
+                Last 30 Days
+              </span>
             </div>
-            
-            <button className="admin-icon-btn" onClick={toggleTheme} title="Toggle Theme">
+
+            <button
+              className="admin-icon-btn"
+              onClick={toggleTheme}
+              title="Toggle Theme"
+            >
               {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
             </button>
-            
+
             <button className="admin-icon-btn" title="Notifications">
               <Bell size={18} />
               <div className="admin-live-badge" />
@@ -132,9 +156,7 @@ const AdminLayout = ({
         </header>
 
         {/* VIEW CONTAINER */}
-        <div className="admin-view-container">
-          {children}
-        </div>
+        <div className="admin-view-container">{children}</div>
       </main>
     </div>
   );

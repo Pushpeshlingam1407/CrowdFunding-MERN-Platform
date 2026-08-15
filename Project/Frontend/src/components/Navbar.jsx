@@ -39,7 +39,18 @@ const AppNavbar = () => {
   return (
     <Navbar className="app-navbar" expand="lg">
       <Container>
-        <Navbar.Brand as={Link} to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 700, letterSpacing: '-0.02em', color: '#0F172A' }}>
+        <Navbar.Brand
+          as={Link}
+          to="/"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            fontWeight: 700,
+            letterSpacing: "-0.02em",
+            color: "#0F172A",
+          }}
+        >
           <Logo size={28} theme="light" />
           StartupFund
         </Navbar.Brand>
