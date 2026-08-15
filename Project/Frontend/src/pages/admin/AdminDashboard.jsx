@@ -83,88 +83,55 @@ const Sparkline = ({ data, color }) => {
   );
 };
 
-// Realistic Live Activity Generator
-const generateActivity = () => {
-  const events = [
-    { type: 'investment', text: 'invested in Quantum AI Series A', icon: DollarSign, color: '#10B981', bg: 'var(--admin-success-bg)' },
-    { type: 'signup', text: 'created an investor account', icon: UserPlus, color: '#3B82F6', bg: 'var(--admin-info-bg)' },
-    { type: 'campaign', text: 'submitted NeoBio tech for review', icon: Building, color: '#8B5CF6', bg: 'rgba(139,92,246,0.1)' },
-    { type: 'verification', text: 'passed KYC compliance checks', icon: ShieldCheck, color: '#F59E0B', bg: 'var(--admin-warning-bg)' },
-  ];
-  
-  const names = ['Alex Chen', 'Sarah Jenkins', 'Marcus Vance', 'Elena Rostova', 'David Kim', 'Priya Sharma'];
-  const event = events[Math.floor(Math.random() * events.length)];
-  const name = names[Math.floor(Math.random() * names.length)];
-  
-  let amountStr = '';
-  if (event.type === 'investment') {
-    const amount = [10000, 25000, 50000, 100000][Math.floor(Math.random() * 4)];
-    amountStr = ` ₹${(amount/100000).toFixed(1)}L`;
-  }
-
-  return {
-    id: Math.random().toString(36).substr(2, 9),
-    name,
-    text: event.text + amountStr,
-    time: 'Just now',
-    ...event
-  };
-};
-
+// No fake activity generation. Activities are fetched from real investments.
 const AdminDashboard = () => {
   const { adminUser } = useAuthStore();
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activities, setActivities] = useState([]);
 
-  useEffect(() => {
-    // Initial activity population
-    setActivities([
-      { id: '1', name: 'Alex Chen', text: 'invested in Quantum AI Series A ₹2.5L', time: '2m ago', icon: DollarSign, color: '#10B981', bg: 'var(--admin-success-bg)' },
-      { id: '2', name: 'Sarah Jenkins', text: 'created an investor account', time: '12m ago', icon: UserPlus, color: '#3B82F6', bg: 'var(--admin-info-bg)' },
-      { id: '3', name: 'Marcus Vance', text: 'passed KYC compliance checks', time: '28m ago', icon: ShieldCheck, color: '#F59E0B', bg: 'var(--admin-warning-bg)' },
-      { id: '4', name: 'Elena Rostova', text: 'submitted NeoBio tech for review', time: '1h ago', icon: Building, color: '#8B5CF6', bg: 'rgba(139,92,246,0.1)' },
-    ]);
-
-    // Simulated real-time websocket feed
-    const interval = setInterval(() => {
-      setActivities(prev => {
-        const newFeed = [generateActivity(), ...prev];
-        if (newFeed.length > 6) newFeed.pop();
-        return newFeed;
-      });
-    }, 12000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   const getBaseURL = () => import.meta.env.VITE_API_URL || "http://localhost:5000/api";
   const getToken = () => localStorage.getItem("adminToken") || localStorage.getItem("token");
 
   useEffect(() => {
-    const fetchStats = async () => {
+    const fetchDashboardData = async () => {
       try {
-        const res = await fetch(`${getBaseURL()}/admin/dashboard`, {
-          headers: { Authorization: `Bearer ${getToken()}` },
-        });
-        const data = await res.json();
-        if (data.success) {
-          // If real backend has zero data, we inject highly realistic demo base values so the UI doesn't look broken.
-          const isDemo = data.stats.totalUsers < 5;
+        const [statsRes, invRes] = await Promise.all([
+          fetch(`${getBaseURL()}/admin/dashboard`, { headers: { Authorization: `Bearer ${getToken()}` } }),
+          fetch(`${getBaseURL()}/admin/investments`, { headers: { Authorization: `Bearer ${getToken()}` } })
+        ]);
+        
+        const statsData = await statsRes.json();
+        const invData = await invRes.json();
+        
+        if (statsData.success) {
           setStats({
-            users: isDemo ? 12458 : data.stats.totalUsers,
-            revenue: isDemo ? 8450000 : data.stats.totalInvestedAmount,
-            campaigns: isDemo ? 342 : data.stats.totalProjects,
-            conversion: isDemo ? 4.2 : 2.1,
+            users: statsData.stats.totalUsers,
+            revenue: statsData.stats.totalInvestedAmount,
+            campaigns: statsData.stats.totalProjects,
+            conversion: 4.2, // Mocked until backend supports conversion rate
           });
         }
-      } catch {
+        
+        if (invData.success && invData.investments) {
+          const recent = invData.investments.slice(0, 6).map(inv => ({
+            id: inv.id || Math.random().toString(),
+            name: inv.investor?.name || "Investor",
+            text: `invested ₹${inv.amount.toLocaleString()} in ${inv.project?.title || "a campaign"}`,
+            time: new Date(inv.createdAt).toLocaleDateString(),
+            icon: DollarSign,
+            color: '#10B981',
+            bg: 'var(--admin-success-bg)'
+          }));
+          setActivities(recent);
+        }
+      } catch (err) {
         toast.error("Failed to sync live data");
       } finally {
         setLoading(false);
       }
     };
-    fetchStats();
+    fetchDashboardData();
   }, []);
 
   // Believable sparkline data correlating to metrics

@@ -60,8 +60,8 @@ const AdminLayout = ({
       <aside className={`admin-sidebar ${collapsed ? "collapsed" : ""}`}>
         <div className="admin-sidebar-header">
           <div className="admin-brand">
-            <div className="admin-logo">A</div>
-            <span className="admin-brand-name">AntiGravity</span>
+            {/* <div className="admin-logo">A</div> */}
+            <span className="admin-brand-name">Admin Pannel</span>
           </div>
           <button 
             className="admin-sidebar-toggle" 
