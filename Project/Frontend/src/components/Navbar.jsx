@@ -2,6 +2,7 @@ import React from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./Navbar.css";
+import Logo from "./Logo";
 
 import { ShieldCheck } from "lucide-react";
 import useAuthStore from "../store/authStore";
@@ -38,7 +39,8 @@ const AppNavbar = () => {
   return (
     <Navbar className="app-navbar" expand="lg">
       <Container>
-        <Navbar.Brand as={Link} to="/">
+        <Navbar.Brand as={Link} to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 700, letterSpacing: '-0.02em', color: '#0F172A' }}>
+          <Logo size={28} theme="light" />
           StartupFund
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./AdminLayout.css";
 import useAuthStore from "../store/authStore";
+import Logo from "./Logo";
 import {
   LayoutDashboard,
   FileText,
@@ -60,8 +61,8 @@ const AdminLayout = ({
       <aside className={`admin-sidebar ${collapsed ? "collapsed" : ""}`}>
         <div className="admin-sidebar-header">
           <div className="admin-brand">
-            {/* <div className="admin-logo">A</div> */}
-            <span className="admin-brand-name">Admin Pannel</span>
+            <Logo size={28} theme={theme} />
+            <span className="admin-brand-name" style={{ marginLeft: '4px' }}>StartupFund</span>
           </div>
           <button 
             className="admin-sidebar-toggle" 
