@@ -20,14 +20,14 @@ import { toast } from "react-hot-toast";
 import { Button, Card, Container, Flex, Grid } from "../components/ui";
 import InvestmentModal from "../components/InvestmentModal";
 import PaymentModal from "../components/PaymentModal";
-import useAuthStore from "../store/authStore";
+import { useAuth } from "../context/AuthContext";
 import { projectAPI } from "../services/api";
 import "./ProjectDetails.css";
 
 const ProjectDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuthStore();
+  const { user, isAuthenticated } = useAuth();
 
   const [project, setProject] = useState(null);
   const [investments, setInvestments] = useState([]);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./AdminLayout.css";
-import useAuthStore from "../store/authStore";
+import { useAuth } from "../context/AuthContext";
 import Logo from "./Logo";
 import {
   LayoutDashboard,
@@ -28,7 +28,7 @@ const AdminLayout = ({
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { adminLogout, adminUser } = useAuthStore();
+  const { adminLogout, adminUser } = useAuth();
 
   const [collapsed, setCollapsed] = useState(false);
   const [theme, setTheme] = useState(

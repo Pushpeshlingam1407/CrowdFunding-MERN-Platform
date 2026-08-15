@@ -5,7 +5,7 @@ import "./Navbar.css";
 import Logo from "./Logo";
 
 import { ShieldCheck } from "lucide-react";
-import useAuthStore from "../store/authStore";
+import { useAuth } from "../context/AuthContext";
 
 const AppNavbar = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const AppNavbar = () => {
     isAdminMode,
     logout,
     adminLogout,
-  } = useAuthStore();
+  } = useAuth();
 
   const isAdminPage = location.pathname.startsWith("/admin/");
 

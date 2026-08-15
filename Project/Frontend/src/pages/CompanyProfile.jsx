@@ -25,14 +25,14 @@ import { toast } from "react-hot-toast";
 import { Button, Card, Container, Flex, Grid, Input } from "../components/ui";
 import StarRating from "../components/ui/StarRating";
 import ComplaintBox from "../components/ui/ComplaintBox";
-import useAuthStore from "../store/authStore";
+import { useAuth } from "../context/AuthContext";
 import { b2bAPI, userAPI, projectAPI } from "../services/api";
 import "./CompanyProfile.css";
 
 const CompanyProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuthStore();
+  const { user } = useAuth();
   const [profile, setProfile] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [projects, setProjects] = useState([]);

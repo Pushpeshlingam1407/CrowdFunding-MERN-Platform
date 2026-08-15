@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { LogIn, Mail, Lock, AlertCircle, ShieldCheck } from "lucide-react";
 import { Button, Input, Card, Container, Flex } from "../components/ui";
 import { toast } from "react-hot-toast";
-import useAuthStore from "../store/authStore";
+import { useAuth } from "../context/AuthContext";
 import "./Login.css";
 
 const Login = () => {
@@ -21,7 +21,7 @@ const Login = () => {
     error,
     errorField,
     isLoading,
-  } = useAuthStore();
+  } = useAuth();
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   useEffect(() => {

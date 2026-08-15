@@ -1,11 +1,11 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Container, Flex } from "./index";
-import useAuthStore from "../../store/authStore";
+import { useAuth } from "../../context/AuthContext";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const { isAuthenticated, logout, user, adminAuthenticated } = useAuthStore();
+  const { isAuthenticated, logout, user, adminAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {

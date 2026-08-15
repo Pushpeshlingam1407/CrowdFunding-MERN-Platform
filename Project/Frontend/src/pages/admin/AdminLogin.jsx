@@ -5,13 +5,13 @@ import { motion } from "framer-motion";
 import { ShieldCheck, LogIn, ArrowLeft, AlertCircle } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { Button, Input } from "../../components/ui";
-import useAuthStore from "../../store/authStore";
+import { useAuth } from "../../context/AuthContext";
 import "./AdminLogin.css";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
   const { adminLogin, error, errorField, isAuthenticated, user, logout } =
-    useAuthStore();
+    useAuth();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
 

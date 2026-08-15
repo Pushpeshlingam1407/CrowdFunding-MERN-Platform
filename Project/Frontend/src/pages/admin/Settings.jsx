@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { Flex } from "../../components/ui";
-import useAuthStore from "../../store/authStore";
+import { useAuth } from "../../context/AuthContext";
 import AdminLayout from "../../components/AdminLayout";
 import "./Settings.css";
 

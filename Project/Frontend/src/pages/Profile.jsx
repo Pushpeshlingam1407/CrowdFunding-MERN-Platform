@@ -17,12 +17,12 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button, Card, Container, Flex, Grid, Input } from "../components/ui";
-import useAuthStore from "../store/authStore";
+import { useAuth } from "../context/AuthContext";
 import { userAPI, b2bAPI } from "../services/api";
 import "./Profile.css";
 
 const Profile = () => {
-  const { user, updateUser } = useAuthStore();
+  const { user, updateUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: user?.name || "",

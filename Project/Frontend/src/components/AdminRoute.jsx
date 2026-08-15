@@ -1,9 +1,9 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import useAuthStore from "../store/authStore";
+import { useAuth } from "../context/AuthContext";
 
 const AdminRoute = ({ children }) => {
-  const { adminAuthenticated, isLoading } = useAuthStore();
+  const { adminAuthenticated, isLoading } = useAuth();
 
   if (isLoading) {
     return (

@@ -1,8 +1,8 @@
 import { Navigate } from "react-router-dom";
-import useAuthStore from "../store/authStore";
+import { useAuth } from "../context/AuthContext";
 
 const PrivateRoute = ({ children, adminOnly = false }) => {
-  const { user, isAuthenticated, adminAuthenticated } = useAuthStore();
+  const { user, isAuthenticated, adminAuthenticated } = useAuth();
 
   // Allow access if user is authenticated OR admin is authenticated
   if (!isAuthenticated && !adminAuthenticated) {

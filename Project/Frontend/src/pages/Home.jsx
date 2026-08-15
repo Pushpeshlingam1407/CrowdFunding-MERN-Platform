@@ -4,12 +4,12 @@ import { motion } from "framer-motion";
 import { ArrowRight, Zap, Target, Briefcase } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Flex, Grid, Card } from "../components/ui";
-import useAuthStore from "../store/authStore";
+import { useAuth } from "../context/AuthContext";
 import "./Home.css";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { user } = useAuthStore();
+  const { user } = useAuth();
 
   const handleGetStarted = () => {
     if (user) {

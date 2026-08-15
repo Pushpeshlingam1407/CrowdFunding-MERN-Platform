@@ -38,11 +38,12 @@ import CreateProject from "./components/CreateProject";
 import EditProject from "./components/EditProject";
 import Portfolio from "./components/Portfolio";
 
-import useAuthStore from "./store/authStore";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import { AdminDataProvider } from "./context/AdminDataContext";
 
 const AppContent = () => {
   const location = useLocation();
-  const { checkAuth, isAuthenticated } = useAuthStore();
+  const { checkAuth, isAuthenticated } = useAuth();
   const isAdminPage = location.pathname.startsWith("/admin/");
   const [isCheckingAuth, setIsCheckingAuth] = React.useState(true);
 
@@ -228,9 +229,13 @@ const AppContent = () => {
 
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <AuthProvider>
+      <AdminDataProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </AdminDataProvider>
+    </AuthProvider>
   );
 }
 

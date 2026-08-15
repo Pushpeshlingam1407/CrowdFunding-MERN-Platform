@@ -16,7 +16,8 @@ import {
 } from "lucide-react";
 import AdminLayout from "../../components/AdminLayout";
 import "./AdminDashboard.css";
-import useAuthStore from "../../store/authStore";
+import { useAuth } from "../../context/AuthContext";
+import { useAdminData } from "../../context/AdminDataContext";
 import { toast } from "sonner";
 
 // Animated Number Component
@@ -91,66 +92,29 @@ const Sparkline = ({ data, color }) => {
 
 // No fake activity generation. Activities are fetched from real investments.
 const AdminDashboard = () => {
-  const { adminUser } = useAuthStore();
-  const [stats, setStats] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { adminUser } = useAuth();
+  const { stats, investments, loading } = useAdminData();
   const [activities, setActivities] = useState([]);
-
-  const getBaseURL = () =>
-    import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-  const getToken = () =>
-    localStorage.getItem("adminToken") || localStorage.getItem("token");
+  const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        const [statsRes, invRes] = await Promise.all([
-          fetch(`${getBaseURL()}/admin/dashboard`, {
-            headers: { Authorization: `Bearer ${getToken()}` },
-          }),
-          fetch(`${getBaseURL()}/admin/investments`, {
-            headers: { Authorization: `Bearer ${getToken()}` },
-          }),
-        ]);
+    if (investments && investments.length > 0) {
+      // Top transactions (real)
+      const sortedInvs = [...investments].sort((a, b) => b.amount - a.amount);
+      setTransactions(sortedInvs.slice(0, 5));
 
-        const statsData = await statsRes.json();
-        const invData = await invRes.json();
-
-        if (statsData.success) {
-          setStats({
-            users: statsData.stats.totalUsers,
-            revenue: statsData.stats.totalInvestedAmount,
-            campaigns: statsData.stats.totalProjects,
-            totalInvestments: statsData.stats.totalInvestments,
-          });
-        }
-
-        if (invData.success && invData.investments) {
-          // Top transactions (real)
-          const sortedInvs = [...invData.investments].sort(
-            (a, b) => b.amount - a.amount,
-          );
-          setTransactions(sortedInvs.slice(0, 5));
-
-          const recent = invData.investments.slice(0, 6).map((inv) => ({
-            id: inv.id || Math.random().toString(),
-            name: inv.investor?.name || "Investor",
-            text: `invested ₹${inv.amount.toLocaleString()} in ${inv.project?.title || "a campaign"}`,
-            time: new Date(inv.createdAt).toLocaleDateString(),
-            icon: DollarSign,
-            color: "#10B981",
-            bg: "var(--admin-success-bg)",
-          }));
-          setActivities(recent);
-        }
-      } catch (err) {
-        toast.error("Failed to sync live data");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchDashboardData();
-  }, []);
+      const recent = investments.slice(0, 6).map((inv) => ({
+        id: inv.id || Math.random().toString(),
+        name: inv.investor?.name || "Investor",
+        text: `invested ₹${inv.amount.toLocaleString()} in ${inv.project?.title || "a campaign"}`,
+        time: new Date(inv.createdAt).toLocaleDateString(),
+        icon: DollarSign,
+        color: "#10B981",
+        bg: "var(--admin-success-bg)",
+      }));
+      setActivities(recent);
+    }
+  }, [investments]);
 
   const kpiData = stats
     ? [

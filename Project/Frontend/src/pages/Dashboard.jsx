@@ -22,7 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Button, Flex } from "../components/ui";
 import DocumentUpload from "../components/ui/DocumentUpload";
-import useAuthStore from "../store/authStore";
+import { useAuth } from "../context/AuthContext";
 import { projectAPI, investmentAPI } from "../services/api";
 import "./Dashboard.css";
 
@@ -34,7 +34,7 @@ import "./Dashboard.css";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { user, adminAuthenticated, logout } = useAuthStore();
+  const { user, adminAuthenticated, logout } = useAuth();
   const [projects, setProjects] = useState([]);
   const [investments, setInvestments] = useState([]);
   const [receivedInvestments, setReceivedInvestments] = useState([]);
