@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
 import api from "../services/api";
 
 const AuthContext = createContext();
@@ -12,16 +18,26 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")) || null);
-  const [isAuthenticated, setIsAuthenticated] = useState(() => !!localStorage.getItem("token"));
-  const [isAdmin, setIsAdmin] = useState(() => JSON.parse(localStorage.getItem("user"))?.role === "admin" || false);
+  const [user, setUser] = useState(
+    () => JSON.parse(localStorage.getItem("user")) || null,
+  );
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    () => !!localStorage.getItem("token"),
+  );
+  const [isAdmin, setIsAdmin] = useState(
+    () => JSON.parse(localStorage.getItem("user"))?.role === "admin" || false,
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [errorField, setErrorField] = useState(null);
 
   // Admin Session
-  const [adminUser, setAdminUser] = useState(() => JSON.parse(localStorage.getItem("adminUser")) || null);
-  const [adminAuthenticated, setAdminAuthenticated] = useState(() => !!localStorage.getItem("adminToken"));
+  const [adminUser, setAdminUser] = useState(
+    () => JSON.parse(localStorage.getItem("adminUser")) || null,
+  );
+  const [adminAuthenticated, setAdminAuthenticated] = useState(
+    () => !!localStorage.getItem("adminToken"),
+  );
   const [isAdminMode, setIsAdminMode] = useState(false);
 
   const updateUser = useCallback((userData) => {
@@ -41,7 +57,9 @@ export const AuthProvider = ({ children }) => {
       if (!success) throw new Error("Login failed");
 
       if (userData.role === "admin") {
-        throw new Error("Access Denied. Please sign in through the Admin Portal.");
+        throw new Error(
+          "Access Denied. Please sign in through the Admin Portal.",
+        );
       }
 
       localStorage.setItem("token", token);
@@ -53,7 +71,8 @@ export const AuthProvider = ({ children }) => {
       setIsLoading(false);
       return true;
     } catch (err) {
-      const message = err.response?.data?.message || err.message || "Login failed";
+      const message =
+        err.response?.data?.message || err.message || "Login failed";
       const field = err.response?.data?.field || null;
       localStorage.removeItem("token");
       localStorage.removeItem("user");
@@ -90,7 +109,8 @@ export const AuthProvider = ({ children }) => {
       setIsLoading(false);
       return true;
     } catch (err) {
-      const message = err.response?.data?.message || err.message || "Admin login failed";
+      const message =
+        err.response?.data?.message || err.message || "Admin login failed";
       const field = err.response?.data?.field || null;
       localStorage.removeItem("adminToken");
       localStorage.removeItem("adminUser");
