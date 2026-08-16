@@ -270,17 +270,25 @@ const AdminAnalytics = () => {
                           dataKey="name"
                           axisLine={false}
                           tickLine={false}
-                          tick={{ fill: "var(--admin-text-muted)", fontSize: 12 }}
+                          tick={{
+                            fill: "var(--admin-text-muted)",
+                            fontSize: 12,
+                          }}
                           dy={10}
                         />
                         <YAxis
                           axisLine={false}
                           tickLine={false}
                           tickFormatter={formatCompact}
-                          tick={{ fill: "var(--admin-text-muted)", fontSize: 12 }}
+                          tick={{
+                            fill: "var(--admin-text-muted)",
+                            fontSize: 12,
+                          }}
                         />
                         <Tooltip
-                          content={<PremiumTooltip formatter={formatCurrency} />}
+                          content={
+                            <PremiumTooltip formatter={formatCurrency} />
+                          }
                         />
                         <Area
                           type="monotone"
@@ -306,7 +314,10 @@ const AdminAnalytics = () => {
                     <span className="chart-title">User Composition</span>
                     <span className="chart-meta">Current Active</span>
                   </div>
-                  <div className="chart-container" style={{ minHeight: "250px" }}>
+                  <div
+                    className="chart-container"
+                    style={{ minHeight: "250px" }}
+                  >
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
                         <Pie
@@ -417,18 +428,26 @@ const AdminAnalytics = () => {
                           dataKey="name"
                           axisLine={false}
                           tickLine={false}
-                          tick={{ fill: "var(--admin-text-muted)", fontSize: 12 }}
+                          tick={{
+                            fill: "var(--admin-text-muted)",
+                            fontSize: 12,
+                          }}
                           dy={10}
                         />
                         <YAxis
                           axisLine={false}
                           tickLine={false}
                           tickFormatter={formatCompact}
-                          tick={{ fill: "var(--admin-text-muted)", fontSize: 12 }}
+                          tick={{
+                            fill: "var(--admin-text-muted)",
+                            fontSize: 12,
+                          }}
                         />
                         <Tooltip
                           cursor={{ fill: "var(--admin-surface-hover)" }}
-                          content={<PremiumTooltip formatter={formatCurrency} />}
+                          content={
+                            <PremiumTooltip formatter={formatCurrency} />
+                          }
                         />
                         <Bar
                           dataKey="funding"
@@ -515,7 +534,10 @@ const AdminAnalytics = () => {
           )}
 
           {activeTab === "Revenue" && (
-            <div className="premium-card depth-surface chart-card" style={{ height: "500px" }}>
+            <div
+              className="premium-card depth-surface chart-card"
+              style={{ height: "500px" }}
+            >
               <div className="chart-header">
                 <span className="chart-title">Historical Revenue Analysis</span>
                 <span className="chart-meta">Detailed investment tracking</span>
@@ -527,16 +549,56 @@ const AdminAnalytics = () => {
                     margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
                   >
                     <defs>
-                      <linearGradient id="colorRevenueFull" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#10B981" stopOpacity={0.4} />
-                        <stop offset="95%" stopColor="#10B981" stopOpacity={0} />
+                      <linearGradient
+                        id="colorRevenueFull"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="5%"
+                          stopColor="#10B981"
+                          stopOpacity={0.4}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="#10B981"
+                          stopOpacity={0}
+                        />
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--admin-border-subtle)" />
-                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: "var(--admin-text-muted)" }} dy={10} />
-                    <YAxis axisLine={false} tickLine={false} tickFormatter={formatCompact} tick={{ fill: "var(--admin-text-muted)" }} />
-                    <Tooltip content={<PremiumTooltip formatter={formatCurrency} />} />
-                    <Area type="monotone" dataKey="revenue" name="Revenue" stroke="#10B981" strokeWidth={4} fillOpacity={1} fill="url(#colorRevenueFull)" activeDot={{ r: 8, fill: "#10B981", strokeWidth: 0 }} />
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      vertical={false}
+                      stroke="var(--admin-border-subtle)"
+                    />
+                    <XAxis
+                      dataKey="name"
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: "var(--admin-text-muted)" }}
+                      dy={10}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      tickLine={false}
+                      tickFormatter={formatCompact}
+                      tick={{ fill: "var(--admin-text-muted)" }}
+                    />
+                    <Tooltip
+                      content={<PremiumTooltip formatter={formatCurrency} />}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="revenue"
+                      name="Revenue"
+                      stroke="#10B981"
+                      strokeWidth={4}
+                      fillOpacity={1}
+                      fill="url(#colorRevenueFull)"
+                      activeDot={{ r: 8, fill: "#10B981", strokeWidth: 0 }}
+                    />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -545,23 +607,73 @@ const AdminAnalytics = () => {
 
           {activeTab === "Acquisition" && (
             <div className="charts-grid-main">
-              <div className="premium-card depth-surface chart-card" style={{ gridColumn: "span 2" }}>
+              <div
+                className="premium-card depth-surface chart-card"
+                style={{ gridColumn: "span 2" }}
+              >
                 <div className="chart-header">
-                  <span className="chart-title">Onboarding & Conversion Funnel</span>
+                  <span className="chart-title">
+                    Onboarding & Conversion Funnel
+                  </span>
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", padding: "1rem" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1.5rem",
+                    padding: "1rem",
+                  }}
+                >
                   {funnelData.map((step, i) => (
                     <div key={i}>
-                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
-                        <span style={{ color: "var(--admin-text-secondary)", fontWeight: 500, fontSize: "1rem" }}>{step.label}</span>
-                        <span style={{ color: "var(--admin-text-primary)", fontWeight: 600, fontSize: "1rem" }}>{step.count} Users ({step.pct}%)</span>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          marginBottom: "0.5rem",
+                        }}
+                      >
+                        <span
+                          style={{
+                            color: "var(--admin-text-secondary)",
+                            fontWeight: 500,
+                            fontSize: "1rem",
+                          }}
+                        >
+                          {step.label}
+                        </span>
+                        <span
+                          style={{
+                            color: "var(--admin-text-primary)",
+                            fontWeight: 600,
+                            fontSize: "1rem",
+                          }}
+                        >
+                          {step.count} Users ({step.pct}%)
+                        </span>
                       </div>
-                      <div style={{ width: "100%", height: "12px", background: "var(--admin-surface-hover)", borderRadius: "6px", overflow: "hidden" }}>
+                      <div
+                        style={{
+                          width: "100%",
+                          height: "12px",
+                          background: "var(--admin-surface-hover)",
+                          borderRadius: "6px",
+                          overflow: "hidden",
+                        }}
+                      >
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${step.pct}%` }}
-                          transition={{ delay: i * 0.1, duration: 0.8, ease: "easeOut" }}
-                          style={{ height: "100%", background: "#6366F1", borderRadius: "6px" }}
+                          transition={{
+                            delay: i * 0.1,
+                            duration: 0.8,
+                            ease: "easeOut",
+                          }}
+                          style={{
+                            height: "100%",
+                            background: "#6366F1",
+                            borderRadius: "6px",
+                          }}
                         />
                       </div>
                     </div>
@@ -572,12 +684,24 @@ const AdminAnalytics = () => {
           )}
 
           {activeTab === "Cohorts" && (
-            <div className="premium-card depth-surface chart-card" style={{ height: "400px" }}>
+            <div
+              className="premium-card depth-surface chart-card"
+              style={{ height: "400px" }}
+            >
               <div className="chart-header">
                 <span className="chart-title">User Role Distribution</span>
-                <span className="chart-meta">Audience mapping by ecosystem role</span>
+                <span className="chart-meta">
+                  Audience mapping by ecosystem role
+                </span>
               </div>
-              <div className="chart-container" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div
+                className="chart-container"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
@@ -594,17 +718,56 @@ const AdminAnalytics = () => {
                         <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
-                    <Tooltip content={<PremiumTooltip formatter={(val) => `${val}%`} />} />
+                    <Tooltip
+                      content={
+                        <PremiumTooltip formatter={(val) => `${val}%`} />
+                      }
+                    />
                   </PieChart>
                 </ResponsiveContainer>
                 <div style={{ minWidth: "200px", padding: "2rem" }}>
                   {roleData.map((role, i) => (
-                    <div key={i} style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem", fontSize: "1rem" }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                        <div style={{ width: 12, height: 12, borderRadius: "50%", background: role.color }} />
-                        <span style={{ color: "var(--admin-text-secondary)", fontWeight: 500 }}>{role.name}</span>
+                    <div
+                      key={i}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        marginBottom: "1rem",
+                        fontSize: "1rem",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "0.75rem",
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: 12,
+                            height: 12,
+                            borderRadius: "50%",
+                            background: role.color,
+                          }}
+                        />
+                        <span
+                          style={{
+                            color: "var(--admin-text-secondary)",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {role.name}
+                        </span>
                       </div>
-                      <span style={{ fontWeight: 600, color: "var(--admin-text-primary)" }}>{role.value}%</span>
+                      <span
+                        style={{
+                          fontWeight: 600,
+                          color: "var(--admin-text-primary)",
+                        }}
+                      >
+                        {role.value}%
+                      </span>
                     </div>
                   ))}
                 </div>
