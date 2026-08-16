@@ -78,7 +78,7 @@ const ImageUpload = ({
       return URL.createObjectURL(val);
     }
     if (typeof val === "string") {
-      return val.startsWith("http") ? val : `http://localhost:5000${val}`;
+      return val.startsWith("http") ? val : `${import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace("/api", "") : "http://localhost:5000"}${val}`;
     }
     return "";
   };

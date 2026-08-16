@@ -135,7 +135,7 @@ const Campaigns = () => {
                         src={
                           campaign.image?.startsWith("http")
                             ? campaign.image
-                            : `http://localhost:5000${campaign.image}`
+                            : `${import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace("/api", "") : "http://localhost:5000"}${campaign.image}`
                         }
                         alt={campaign.title}
                         onError={(e) => {

@@ -16,6 +16,7 @@ import {
 import { toast } from "sonner";
 import { Flex } from "../../components/ui";
 import { useAuth } from "../../context/AuthContext";
+import { adminAPI } from "../../services/api";
 import AdminLayout from "../../components/AdminLayout";
 import "./Settings.css";
 
@@ -65,22 +66,7 @@ const AdminSettings = () => {
       localStorage.setItem("adminPlatformSettings", JSON.stringify(toSave));
 
       if (settings.adminPassword) {
-        const token =
-          localStorage.getItem("adminToken") || localStorage.getItem("token");
-        const res = await fetch(
-          "http://localhost:5000/api/auth/admin/password",
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ newPassword: settings.adminPassword }),
-          },
-        );
-        const result = await res.json();
-        if (!res.ok)
-          throw new Error(result.message || "Failed to update password");
+        await adminAPI.updatePassword({ newPassword: settings.adminPassword });
         update("adminPassword", "");
       }
 

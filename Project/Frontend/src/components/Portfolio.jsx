@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Button, Card, Container, Flex, Grid } from "./ui";
 import { toast } from "react-hot-toast";
+import { investmentAPI } from "../services/api";
 import "./Portfolio.css";
 
 const Portfolio = () => {
@@ -29,20 +30,9 @@ const Portfolio = () => {
 
   const fetchInvestments = async () => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}/investments/user`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        },
-      );
+      const response = await investmentAPI.getUserInvestments();
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch investments");
-      }
-
-      const data = await response.json();
+      const data = response.data;
       setInvestments(data.success ? data.investments : []);
 
       // Calculate stats
@@ -144,7 +134,7 @@ const Portfolio = () => {
                       src={
                         investment.project?.image?.startsWith("http")
                           ? investment.project.image
-                          : `http://localhost:5000${investment.project?.image}`
+                          : `${import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace("/api", "") : "http://localhost:5000"}${investment.project?.image}`
                       }
                       alt={investment.project?.title}
                       onError={(e) => {

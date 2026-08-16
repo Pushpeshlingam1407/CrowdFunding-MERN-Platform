@@ -58,11 +58,10 @@ const CompanyProfile = () => {
       const merged = { ...companyData.user, ...companyData };
       setProfile(merged);
 
-      // Fetch this creator's approved campaigns
       try {
         const userId = companyData.user?._id || id;
-        const allRes = await fetch(`http://localhost:5000/api/projects`);
-        const allData = await allRes.json();
+        const allRes = await projectAPI.getProjects();
+        const allData = allRes.data;
         const userProjects = Array.isArray(allData)
           ? allData.filter(
               (p) => p.creator?._id === userId || p.creator === userId,
@@ -367,7 +366,7 @@ const CompanyProfile = () => {
                           src={
                             proj.image?.startsWith("http")
                               ? proj.image
-                              : `http://localhost:5000${proj.image}`
+                              : `${import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace("/api", "") : "http://localhost:5000"}${proj.image}`
                           }
                           alt={proj.title}
                           className="campaign-card-img"

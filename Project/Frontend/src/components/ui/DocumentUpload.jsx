@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import { AlertCircle, CheckCircle2, Upload, FileText, X, ShieldCheck } from "lucide-react";
+import { toast } from "sonner";
+import { Button, Flex } from "../index";
+import { documentAPI } from "../../services/api";
 
 /* ─── Component ──────────────────────── */
 const DocumentUpload = ({ onUploadSuccess }) => {
@@ -80,14 +84,8 @@ const DocumentUpload = ({ onUploadSuccess }) => {
     if (projName) form.append("projectName", projName);
 
     try {
-      const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/api/documents/upload", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: form,
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Upload failed");
+      const res = await documentAPI.uploadDocument(form);
+      const data = res.data;
 
       setSuccess(`"${file.name}" uploaded and pending verification.`);
       toast.success("Document uploaded successfully!");

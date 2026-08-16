@@ -21,7 +21,7 @@ import { Button, Card, Container, Flex, Grid } from "../components/ui";
 import InvestmentModal from "../components/InvestmentModal";
 import PaymentModal from "../components/PaymentModal";
 import { useAuth } from "../context/AuthContext";
-import { projectAPI } from "../services/api";
+import { projectAPI, b2bAPI, investmentAPI } from "../services/api";
 import "./ProjectDetails.css";
 
 const ProjectDetails = () => {
@@ -64,18 +64,12 @@ const ProjectDetails = () => {
 
   const fetchInvestments = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const headers = token ? { Authorization: `Bearer ${token}` } : {};
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}/investments/project/${id}`,
-        { headers },
-      );
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      const data = await res.json();
-      if (data.success) {
-        setInvestments(data.investments || []);
+      const res = await investmentAPI.getProjectInvestments(id);
+      if (res.data?.success) {
+        setInvestments(res.data.investments || []);
+      } else {
+        // Fallback if data is raw array
+        setInvestments(Array.isArray(res.data) ? res.data : (res.data?.investments || []));
       }
     } catch (err) {
       console.error("Failed to fetch investments", err);
@@ -153,28 +147,17 @@ const ProjectDetails = () => {
     }
     setReportSubmitting(true);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}/complaints`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify({
-            type: reportData.type,
-            subject: reportData.subject,
-            description: reportData.description,
-            targetCompanyId: project.creator?._id,
-          }),
-        },
-      );
-      if (!res.ok) throw new Error("Failed to submit report");
+      await b2bAPI.postComplaint({
+        type: reportData.type,
+        subject: reportData.subject,
+        description: reportData.description,
+        targetCompanyId: project.creator?._id,
+      });
       toast.success("Report submitted. Our compliance team will review it.");
       setReportOpen(false);
       setReportData({ type: "fraud", subject: "", description: "" });
     } catch (err) {
-      toast.error(err.message || "Failed to submit report");
+      toast.error(err.response?.data?.message || err.message || "Failed to submit report");
     } finally {
       setReportSubmitting(false);
     }
@@ -210,8 +193,12 @@ const ProjectDetails = () => {
     (i) => i.status === "completed",
   );
 
-  const getImgSrc = (img) =>
-    img?.startsWith("http") ? img : `http://localhost:5000${img}`;
+  const getImgSrc = (img) => {
+    if (!img) return fallbackSrc;
+    if (img.startsWith("http")) return img;
+    const baseUrl = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace("/api", "") : "http://localhost:5000";
+    return `${baseUrl}${img}`;
+  };
   const fallbackSrc =
     "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&q=80&w=2070";
 

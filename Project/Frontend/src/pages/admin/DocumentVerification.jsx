@@ -12,6 +12,7 @@ import {
 import { toast } from "sonner";
 import { Flex } from "../../components/ui";
 import AdminLayout from "../../components/AdminLayout";
+import { adminAPI } from "../../services/api";
 import "./DocumentVerification.css";
 
 const AdminDocumentVerification = () => {
@@ -24,15 +25,8 @@ const AdminDocumentVerification = () => {
 
   const fetchVerifications = async () => {
     try {
-      const token = localStorage.getItem("adminToken");
-      const response = await fetch(
-        "http://localhost:5000/api/admin/documents",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
-      const data = await response.json();
-      setVerifications(data);
+      const response = await adminAPI.getDocuments();
+      setVerifications(response.data);
     } catch (error) {
       toast.error("Failed to load KYC documents");
     } finally {
@@ -42,14 +36,7 @@ const AdminDocumentVerification = () => {
 
   const handleVerify = async (userId, docIndex, status) => {
     try {
-      const token = localStorage.getItem("adminToken");
-      await fetch(
-        `http://localhost:5000/api/admin/documents/${userId}/${docIndex}/${status}`,
-        {
-          method: "POST",
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      await adminAPI.verifyDocument(userId, docIndex, status);
       toast.success(`Document ${status}`);
       fetchVerifications();
     } catch (error) {

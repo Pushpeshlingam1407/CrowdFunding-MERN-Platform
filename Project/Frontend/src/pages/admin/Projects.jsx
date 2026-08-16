@@ -336,7 +336,7 @@ const AdminProjects = () => {
                             src={
                               project.image?.startsWith("http")
                                 ? project.image
-                                : `http://localhost:5000${project.image}`
+                                : `${import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace("/api", "") : "http://localhost:5000"}${project.image}`
                             }
                             alt={project.title}
                             className="campaign-img"
