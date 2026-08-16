@@ -727,19 +727,19 @@ const Dashboard = () => {
           {/* Segmented top tab nav bar */}
           <div className="dashboard-segmented-control">
             <button
-              $active={activeTab === "overview"}
+              className={activeTab === "overview" ? "active" : ""}
               onClick={() => setActiveTab("overview")}
             >
               Overview
             </button>
             <button
-              $active={activeTab === "portfolio"}
+              className={activeTab === "portfolio" ? "active" : ""}
               onClick={() => setActiveTab("portfolio")}
             >
               My Portfolio
             </button>
             <button
-              $active={activeTab === "settings"}
+              className={activeTab === "settings" ? "active" : ""}
               onClick={() => setActiveTab("settings")}
             >
               Settings
@@ -794,7 +794,7 @@ const Dashboard = () => {
           {renderSidebarNav().map((nav) => (
             <div
               key={nav.id}
-              $active={activeTab === nav.id}
+              className={`dashboard-sidebar-nav-item ${activeTab === nav.id ? "active" : ""}`}
               onClick={() => setActiveTab(nav.id)}
             >
               <nav.icon

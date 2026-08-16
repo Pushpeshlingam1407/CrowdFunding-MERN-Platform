@@ -64,9 +64,15 @@ const ProjectDetails = () => {
 
   const fetchInvestments = async () => {
     try {
+      const token = localStorage.getItem("token");
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
       const res = await fetch(
         `${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}/investments/project/${id}`,
+        { headers }
       );
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
       const data = await res.json();
       if (data.success) {
         setInvestments(data.investments || []);
@@ -232,9 +238,8 @@ const ProjectDetails = () => {
                     e.target.src = fallbackSrc;
                   }}
                 />
-                <StatusOverlay
-                  locked={project.isLocked}
-                  status={project.status}
+                <div
+                  className={`status-overlay ${project.status === "completed" ? "status-completed" : project.isLocked ? "status-locked" : "status-active"}`}
                 >
                   {project.status === "completed" ? (
                     <ShieldCheck size={16} />
@@ -248,7 +253,7 @@ const ProjectDetails = () => {
                     : project.isLocked
                       ? "EXPIRED"
                       : "ACTIVE"}
-                </StatusOverlay>
+                </div>
               </div>
 
               <div className="project-info">
@@ -477,6 +482,7 @@ const ProjectDetails = () => {
       <AnimatePresence>
         {lightboxIndex !== null && (
           <motion.div
+            key="lightbox-modal"
             className="project-lightbox-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -538,6 +544,7 @@ const ProjectDetails = () => {
       <AnimatePresence>
         {reportOpen && (
           <motion.div
+            key="report-modal"
             className="project-modal-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -636,20 +643,26 @@ const ProjectDetails = () => {
 
       {/* ── Investment Modals ── */}
       <AnimatePresence>
-        <InvestmentModal
-          isOpen={investmentModalOpen}
-          onClose={() => setInvestmentModalOpen(false)}
-          project={project}
-          onProceed={handleInvestmentSubmit}
-        />
-        <PaymentModal
-          isOpen={paymentModalOpen}
-          onClose={() => setPaymentModalOpen(false)}
-          project={project}
-          projectId={id}
-          amount={investmentAmount}
-          onSuccess={handlePaymentSuccess}
-        />
+        {investmentModalOpen && (
+          <InvestmentModal
+            key="investment-modal"
+            isOpen={investmentModalOpen}
+            onClose={() => setInvestmentModalOpen(false)}
+            project={project}
+            onProceed={handleInvestmentSubmit}
+          />
+        )}
+        {paymentModalOpen && (
+          <PaymentModal
+            key="payment-modal"
+            isOpen={paymentModalOpen}
+            onClose={() => setPaymentModalOpen(false)}
+            project={project}
+            projectId={id}
+            amount={investmentAmount}
+            onSuccess={handlePaymentSuccess}
+          />
+        )}
       </AnimatePresence>
     </div>
   );
