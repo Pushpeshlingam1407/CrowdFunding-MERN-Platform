@@ -69,7 +69,9 @@ const ProjectDetails = () => {
         setInvestments(res.data.investments || []);
       } else {
         // Fallback if data is raw array
-        setInvestments(Array.isArray(res.data) ? res.data : (res.data?.investments || []));
+        setInvestments(
+          Array.isArray(res.data) ? res.data : res.data?.investments || [],
+        );
       }
     } catch (err) {
       console.error("Failed to fetch investments", err);
@@ -157,7 +159,9 @@ const ProjectDetails = () => {
       setReportOpen(false);
       setReportData({ type: "fraud", subject: "", description: "" });
     } catch (err) {
-      toast.error(err.response?.data?.message || err.message || "Failed to submit report");
+      toast.error(
+        err.response?.data?.message || err.message || "Failed to submit report",
+      );
     } finally {
       setReportSubmitting(false);
     }
@@ -196,7 +200,9 @@ const ProjectDetails = () => {
   const getImgSrc = (img) => {
     if (!img) return fallbackSrc;
     if (img.startsWith("http")) return img;
-    const baseUrl = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace("/api", "") : "http://localhost:5000";
+    const baseUrl = import.meta.env.VITE_API_URL
+      ? import.meta.env.VITE_API_URL.replace("/api", "")
+      : "http://localhost:5000";
     return `${baseUrl}${img}`;
   };
   const fallbackSrc =

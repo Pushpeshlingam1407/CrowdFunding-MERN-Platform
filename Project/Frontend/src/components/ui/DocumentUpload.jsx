@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { AlertCircle, CheckCircle2, Upload, FileText, X, ShieldCheck } from "lucide-react";
+import {
+  AlertCircle,
+  CheckCircle2,
+  Upload,
+  FileText,
+  X,
+  ShieldCheck,
+} from "lucide-react";
 import { toast } from "sonner";
 import { Button, Flex } from "../index";
 import { documentAPI } from "../../services/api";

@@ -50,9 +50,9 @@ const EditProject = () => {
         });
         if (p.image && typeof p.image === "string") {
           setImagePreview(
-              p.image?.startsWith("http")
-                ? p.image
-                : `${import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace("/api", "") : "http://localhost:5000"}${p.image}`,
+            p.image?.startsWith("http")
+              ? p.image
+              : `${import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace("/api", "") : "http://localhost:5000"}${p.image}`,
           );
         }
       } catch {

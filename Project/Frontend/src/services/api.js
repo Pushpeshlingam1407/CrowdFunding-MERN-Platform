@@ -99,7 +99,8 @@ export const adminAPI = {
   getInvestments: () => api.get("/admin/investments"),
   updatePassword: (data) => api.put("/auth/admin/password", data),
   getDocuments: () => api.get("/admin/documents"),
-  verifyDocument: (userId, docIndex, status) => api.post(`/admin/documents/${userId}/${docIndex}/${status}`),
+  verifyDocument: (userId, docIndex, status) =>
+    api.post(`/admin/documents/${userId}/${docIndex}/${status}`),
 };
 
 export const chatAPI = {
