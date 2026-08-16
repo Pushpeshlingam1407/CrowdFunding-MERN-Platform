@@ -68,7 +68,7 @@ const ProjectDetails = () => {
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
       const res = await fetch(
         `${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}/investments/project/${id}`,
-        { headers }
+        { headers },
       );
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
